@@ -189,16 +189,12 @@ class OpenAPI {
         $req->setNumIid($numIid);
         $resp = $c->execute($req, null);
 
-        $taoapi = D('Taoapi');
-        if ($resp->code == '7') { // accesscontrol.limited-by-app-access-count
-            $taoapi->appKeyFail(session('current_taobao_app_key_id'));
-            Util::changeTaoAppkey($numIid, session('taobao_app_key'));
-            return self::getTaobaoItem($numIid);
-        } else if (isset($resp->item)) {
-            $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
+        if (isset($resp->item)) {
+            //$taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return $resp->item;
         } else {
             echo('<h6 style="color:red;">错误:'.$resp->msg.'</h6>');
+            dump($resp);
         }
     }
 
@@ -215,6 +211,7 @@ class OpenAPI {
             return $resp->item;
         } else {
             echo('<h6 style="color:red;">错误:'.$resp->msg.'</h6>');
+            dump($resp);
         }
     }
 
@@ -231,16 +228,34 @@ class OpenAPI {
         $req->setCids($cid);
         $resp = $c->execute($req, null);
 
-        $taoapi = D('Taoapi');
-        if ($resp->code == '7') { // accesscontrol.limited-by-app-access-count
-            $taoapi->appKeyFail(session('current_taobao_app_key_id'));
-            Util::changeTaoAppkey($numIid, session('taobao_app_key'));
-            return self::getTaobaoItemCat($cid);
-        } else if (isset($resp->item_cats->item_cat)) {
-            $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
+        if (isset($resp->item_cats->item_cat)) {
+            //$taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return Util::extractValue($resp->item_cats->item_cat->name->asXML());
         } else {
             echo('<h6 style="color:red;">错误:'.$resp->msg.'</h6>');
+            dump($resp);
+        }
+    }
+
+    public static function getTaobaoItemProps($cid) {
+        if (self::needVerify()) {
+            return 'verify';
+        }
+
+        $c = new TopClient;
+        $c->appkey = session('taobao_app_key');
+        $c->secretKey = session('taobao_secret_key');
+        $req = new ItempropsGetRequest;
+        $req->setFields("pid,name,must,multi,prop_values");
+        $req->setCid($cid);
+        $resp = $c->execute($req, null);
+
+        if (isset($resp->item_props)) {
+            //$taoapi->appKeySuccess(session('current_taobao_app_key_id'));
+            return $resp->item_props;
+        } else {
+            echo('<h6 style="color:red;">错误:'.$resp->msg.'</h6>');
+            dump($resp);
         }
     }
 
