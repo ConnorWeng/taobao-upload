@@ -1,8 +1,1996 @@
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>51淘上传</title>
+    <!-- from vmcommon -->
+    <link rel="stylesheet" href="http://a.tbcdn.cn/p/header/header-min.css?t=20110506.css" />
+    <link rel="stylesheet" href="http://a.tbcdn.cn/tbsp/tbsp.css?t=20090602.css" />
+
+    <!-- end vmcommon -->
+
+    <link rel="stylesheet" href="http://g.tbcdn.cn/tb/sell/0.25.3/v2/publish/??publish_base-min.css,publish_detail_ke_v2-min.css"/>
+
+    <!--[if lt IE 8]>
+        <link href="http://a.tbcdn.cn/s/kissy/1.2.0/editor/theme/cool/editor-pkg-min.css" rel="stylesheet"/>
+        <![endif]-->
+    <!--[if gte IE 8]><!-->
+        <link href="http://a.tbcdn.cn/s/kissy/1.2.0/editor/theme/cool/editor-pkg-min-datauri.css" rel="stylesheet"/>
+        <!--<![endif]-->
+        <link rel="stylesheet" href="http://g.tbcdn.cn/tb/sell/0.25.3/v2/publish/index-min.css"/>
   </head>
-  <body>
-    This is editItem page.
+  <body class="CurHome"  id="fixed"  data-spm="1000924">
+    <div id="page">
+
+      <!-- from vmcommon -->
+      <div id="header">
+      </div>
+      <!-- end vmcommon x -->
+
+
+      <div id="Content" class="grid-c">
+
+
+        <!-- 错误提醒： -->
+        <!-- feilv 2012-03-05 食品协议签署，该段纯html提取到js template中，换位一个变量输出是否初始化 -->
+
+        <form name="mainform" id="J_MainForm" action="" method="post" encType="multipart/form-data">
+
+          <div id="item-publish" class="box">
+            <span class="rc-tp"><span></span></span>
+            <div class="hd">
+              <h3>填写宝贝基本信息</h3>
+            </div>
+            <div class="bd">
+              <div class="bd-main">
+                <div>
+                  <span>
+                    <h5>
+                      1. 宝贝基本信息
+                    </h5>
+                  </span>
+
+                  <div class="form" data-spm="1000773">
+                    <ul id="J_form">
+                      <li class="hidden">
+                        <label>交易类型：</label>
+                        <span>
+                          <em>*</em>
+                          <ul id="J_trade-type" class="ul-radio">
+                            <li><input type="radio" class="radio"  id="J_trade-type-b" checked /><label for="J_trade-type-b">一口价</label></li>
+                          </ul>
+                        </span>
+                      </li>
+                      <li id="old_new" >
+                        <label>宝贝类型：</label>
+                        <span>
+                          <em>*</em>
+                          <ul class="ul-radio">
+                            <li>
+                              <input type="radio" class="radio"  value="5" name="_fma.pu._0.stu" id="on1"  />
+                              <label  for="on1">全新</label>
+                            </li>
+                            <li class="used-desc">
+                              <input type="radio" class="radio"  value="6" name="_fma.pu._0.stu" id="on6" />
+                              <label for="on6">二手</label>
+                              <i class="J_PopTip poptip-attention">即日起，限制全新和二手宝贝的互转。发布闲置宝贝，请走<a href="http://sell.2.taobao.com/publish/publish.htm">卖闲置</a>简易流程</i>
+                            </li>
+                          </ul>
+                          <input type="hidden" id="nav_stuffStatus" data-feed="err_nav_stuffStatus"/>
+                          <div id="err_nav_stuffStatus" style="display:none"></div>
+                        </span>
+                      </li>
+                      <li id="descTemplateArea" >
+                        <label>页面模板：</label>
+                        <span>
+                          <ul>
+                            <li>
+                              <select id="auctionDescInnerSiteTemplate"  name="_fma.pu._0.auctio" value="642551807">
+                                <option value="642551807"  selected >默认宝贝详情页</option>
+                              </select>
+                            </li>
+                          </ul>
+                        </span>
+                      </li>
+                      <li id="itemproperties" class="spubox clearfix">
+                        <label>宝贝属性：</label>
+                        <span>
+                          <div id="J_module-property" class="module-property module-form "><div class="skin">
+                              <dl class="hint propertymsg"><dd>填错宝贝属性，可能会引起宝贝下架，影响您的正常销售。请认真准确填写</dd></dl>
+                              <ul>
+                                <li  name="keySpus" >
+                                  <label for="prop_13021751" class=" label-title">货号：</label>
+                                  <span >
+                                    <input type="text"  id="prop_13021751"   name="cp_13021751" class="text text-short" value=""/>
+                                    <div id="disableSpu" class="alert alert-error hidden">不能发布或编辑此类宝贝，所属的宝贝模板已被屏蔽</div>
+                                    <input type="hidden" id="nav_spuId" data-feed="err_nav_spuId"/>
+                                    <div id="err_nav_spuId" style="display:none"></div>
+                                  </span>
+                                  <input type="hidden" id="nav_cp_13021751" data-feed="err_NotNull_13021751"/>
+                                  <div id="err_NotNull_13021751"  style="display:none;" ></div>
+                                </li>
+                                <li  name="keySpus" >
+                                  <label for="prop_20000" class=" label-title">品牌：</label>
+                                  <span >
+                                    <ul class="J_ul-single J_is-mainprop ul-select">
+                                      <li>
+                                        <select name="cp_20000" id="prop_20000" class="keyPropClass" data-transtype="combox">
+                                          <option class="J_empty" value=""> </option>
+
+
+                                          <option  value="20000:33691944" >100F1/百分之一</option>
+
+                                          <option  value="20000:27675" >23区</option>
+
+                                          <option  value="20000:28774958" >2K12</option>
+
+                                          <option  value="20000:111432" >鸭鸭</option>
+
+                                          <option  value="20000:174572115" >黛帛</option>
+
+                                          <option  value="20000:170870037" >黛蕙莱娜</option>
+                                          <option value="20000:-1" class="J_other" >其他</option>
+                                        </select>
+                                      </li>
+                                    </ul>
+                                  </span>
+                                  <input type="hidden" id="nav_cp_20000" data-feed="err_NotNull_20000"/>
+                                  <div id="err_NotNull_20000"  style="display:none;" ></div>
+                                </li>
+
+                                <li class="J_spu-property" id="spu_122216586" name="spus">
+                                  <label class="label-title">服装版型：</label>
+                                  <span>
+                                    <ul class="J_ul-single ul-select"><li>
+
+                                        <select name="cp_122216586" id="prop_122216586" data-transtype="dropbox">
+                                          <option value=""> </option>
+
+                                          <option  value="122216586:29947" >直筒</option>
+
+                                          <option  value="122216586:130137" >修身</option>
+
+                                          <option  value="122216586:27295811" >高腰型</option>
+
+                                          <option  value="122216586:27295812" >斗篷型</option>
+
+                                          <option  value="122216586:11292600" >蝙蝠型</option>
+
+                                          <option  value="122216586:27341760" >披肩型</option>
+
+                                          <option  value="122216586:4043538" >宽松</option>
+                                        </select>
+                                    </li></ul>
+                                  </span>
+                                  <input type="hidden" id="nav_cp_122216586" data-feed="err_NotNull_122216586"/>
+                                  <div id="err_NotNull_122216586"  style="display:none;" ></div>
+                                </li>
+
+                                <li class="J_spu-property" id="spu_20418023" name="spus">
+                                  <label class="label-title">主图来源：</label>
+                                  <span>
+                                    <ul class="J_ul-single ul-select"><li>
+
+                                        <select name="cp_20418023" id="prop_20418023" data-transtype="dropbox">
+                                          <option value=""> </option>
+
+                                          <option  value="20418023:157305307" >自主实拍图</option>
+
+                                          <option  value="20418023:157305310" >淘宝分销图</option>
+
+                                          <option  value="20418023:157305309" >其他分销图</option>
+
+                                          <option  value="20418023:3226294" >其他来源</option>
+                                        </select>
+                                    </li></ul>
+                                  </span>
+                                  <input type="hidden" id="nav_cp_20418023" data-feed="err_NotNull_20418023"/>
+                                  <div id="err_NotNull_20418023"  style="display:none;" ></div>
+                                  <input type="hidden"  class="cphelp" id="cphelp_20418023"   name="cphelp_20418023"  value="http://img.taobaocdn.com/imgextra/i1/T1qi6zXaVdXXXXXXXX.help"/>
+                                </li>
+
+                                <li class="J_spu-property" id="spu_122216507" name="spus">
+                                  <label class="label-title">厚薄：</label>
+                                  <span>
+                                    <ul class="J_ul-single ul-select"><li>
+
+                                        <select name="cp_122216507" id="prop_122216507" data-transtype="dropbox">
+                                          <option value=""> </option>
+
+                                          <option  value="122216507:3216783" >薄款</option>
+
+                                          <option  value="122216507:113060" >加厚</option>
+
+                                          <option  value="122216507:3226292" >常规</option>
+
+                                          <option  value="122216507:29430173" >加绒</option>
+                                        </select>
+                                    </li></ul>
+                                  </span>
+                                  <input type="hidden" id="nav_cp_122216507" data-feed="err_NotNull_122216507"/>
+                                  <div id="err_NotNull_122216507"  style="display:none;" ></div>
+                                </li>
+
+                                <li class="J_spu-property" id="spu_10142888" name="spus">
+                                  <label class="label-title">组合形式：</label>
+                                  <span>
+                                    <ul class="J_ul-single ul-select"><li>
+
+                                        <select name="cp_10142888" id="prop_10142888" data-transtype="dropbox">
+                                          <option value=""> </option>
+
+                                          <option  value="10142888:44632" >三件套</option>
+
+                                          <option  value="10142888:3386071" >单件</option>
+
+                                          <option  value="10142888:31605" >两件套</option>
+
+                                          <option  value="10142888:130567" >假两件</option>
+                                        </select>
+                                    </li></ul>
+                                  </span>
+                                  <input type="hidden" id="nav_cp_10142888" data-feed="err_NotNull_10142888"/>
+                                  <div id="err_NotNull_10142888"  style="display:none;" ></div>
+                                </li>
+
+                                <li class="J_spu-property" id="spu_20664" name="spus">
+                                  <label class="label-title">风格：</label>
+                                  <span>
+                                    <ul class="J_ul-single ul-select"><li>
+
+                                        <select name="cp_20664" id="prop_20664" data-transtype="dropbox">
+                                          <option value=""> </option>
+
+                                          <option  value="20664:3223746" >原创设计</option>
+
+                                          <option  value="20664:29921" >百搭</option>
+
+                                          <option  value="20664:20213" >其他</option>
+
+                                          <option class="J_father" value="20664:3267776" >甜美</option>
+
+                                          <option class="J_father" value="20664:6384766" >通勤</option>
+
+                                          <option class="J_father" value="20664:29934" >街头</option>
+                                        </select>
+                                    </li></ul>
+                                  </span>
+                                  <input type="hidden" id="nav_cp_20664" data-feed="err_NotNull_20664"/>
+                                  <div id="err_NotNull_20664"  style="display:none;" ></div>
+                                </li>
+
+                                <li class="J_spu-property" id="spu_122216562" name="spus">
+                                  <label class="label-title">衣长：</label>
+                                  <span>
+                                    <ul class="J_ul-single ul-select"><li>
+
+                                        <select name="cp_122216562" id="prop_122216562" data-transtype="dropbox">
+                                          <option value=""> </option>
+
+                                          <option  value="122216562:6465859" >超短</option>
+
+                                          <option  value="122216562:44597" >中长款</option>
+
+                                          <option  value="122216562:47502" >短款</option>
+
+                                          <option  value="122216562:3226292" >常规</option>
+                                        </select>
+                                    </li></ul>
+                                  </span>
+                                  <input type="hidden" id="nav_cp_122216562" data-feed="err_NotNull_122216562"/>
+                                  <div id="err_NotNull_122216562"  style="display:none;" ></div>
+                                </li>
+
+                                <li class="J_spu-property" id="spu_122216348" name="spus">
+                                  <label class="label-title">袖长：</label>
+                                  <span>
+                                    <ul class="J_ul-single ul-select"><li>
+
+                                        <select name="cp_122216348" id="prop_122216348" data-transtype="dropbox">
+                                          <option value=""> </option>
+
+                                          <option  value="122216348:29444" >长袖</option>
+
+                                          <option  value="122216348:11162412" >九分袖</option>
+
+                                          <option  value="122216348:3216779" >七分袖</option>
+
+                                          <option  value="122216348:14587965" >五分袖</option>
+
+                                          <option  value="122216348:29445" >短袖</option>
+
+                                          <option  value="122216348:29446" >无袖</option>
+                                        </select>
+                                    </li></ul>
+                                  </span>
+                                  <input type="hidden" id="nav_cp_122216348" data-feed="err_NotNull_122216348"/>
+                                  <div id="err_NotNull_122216348"  style="display:none;" ></div>
+                                </li>
+
+                                <li class="J_spu-property" id="spu_20663" name="spus">
+                                  <label class="label-title">领子：</label>
+                                  <span>
+                                    <ul class="J_ul-single ul-select"><li>
+
+                                        <select name="cp_20663" id="prop_20663" data-transtype="dropbox">
+                                          <option value=""> </option>
+
+                                          <option  value="20663:29541" >立领</option>
+
+                                          <option  value="20663:29447" >圆领</option>
+
+                                          <option  value="20663:29448" >V领</option>
+
+                                          <option  value="20663:29917" >一字领</option>
+
+                                          <option  value="20663:29538" >方领</option>
+
+                                          <option  value="20663:27316112" >娃娃领</option>
+
+                                          <option  value="20663:3267193" >可脱卸帽</option>
+
+                                          <option  value="20663:3267194" >双层领</option>
+
+                                          <option  value="20663:7486925" >堆堆领</option>
+
+                                          <option  value="20663:3267189" >西装领</option>
+                                        </select>
+                                    </li></ul>
+                                  </span>
+                                  <input type="hidden" id="nav_cp_20663" data-feed="err_NotNull_20663"/>
+                                  <div id="err_NotNull_20663"  style="display:none;" ></div>
+                                </li>
+
+                                <li class="J_spu-property" id="spu_2917380" name="spus">
+                                  <label class="label-title">袖型：</label>
+                                  <span>
+                                    <ul class="J_ul-single ul-select"><li>
+
+                                        <select name="cp_2917380" id="prop_2917380" data-transtype="dropbox">
+                                          <option value=""> </option>
+
+
+
+
+                                          <option  value="2917380:7576170" >蝙蝠袖</option>
+
+
+
+                                          <option  value="2917380:5618747" >泡泡袖</option>
+
+
+
+                                          <option  value="2917380:7216758" >灯笼袖</option>
+
+
+
+                                          <option  value="2917380:33331631" >牛角袖</option>
+                                        </select>
+                                    </li></ul>
+                                  </span>
+                                  <input type="hidden" id="nav_cp_2917380" data-feed="err_NotNull_2917380"/>
+                                  <div id="err_NotNull_2917380"  style="display:none;" ></div>
+                                </li>
+
+                                <li class="J_spu-property" id="spu_31611" name="spus">
+                                  <label class="label-title">衣门襟：</label>
+                                  <span>
+                                    <ul class="J_ul-single ul-select"><li>
+
+                                        <select name="cp_31611" id="prop_31611" data-transtype="dropbox">
+                                          <option value=""> </option>
+                                          <option  value="31611:103454" >单排扣</option>
+                                          <option  value="31611:103453" >双排扣</option>
+                                          <option  value="31611:3216800" >牛角扣</option>
+                                          <option  value="31611:28102" >系带</option>
+                                          <option  value="31611:20754689" >暗扣</option>
+                                          <option  value="31611:112631" >一粒扣</option>
+                                          <option  value="31611:85462454" >单排两粒扣</option>
+                                          <option  value="31611:112633" >三粒扣</option>
+                                        </select>
+                                    </li></ul>
+                                  </span>
+                                  <input type="hidden" id="nav_cp_31611" data-feed="err_NotNull_31611"/>
+                                  <div id="err_NotNull_31611"  style="display:none;" ></div>
+                                </li>
+
+                                <li class="J_spu-property" id="spu_20603" name="spus">
+                                  <label class="label-title">图案：</label>
+                                  <span>
+                                    <ul class="J_ul-single ul-select"><li>
+
+                                        <select name="cp_20603" id="prop_20603" data-transtype="dropbox">
+                                          <option value=""> </option>
+
+
+
+
+                                          <option  value="20603:46649" >人物</option>
+
+
+
+                                          <option  value="20603:129881" >动物图案</option>
+
+
+
+                                          <option  value="20603:14031880" >卡通动漫</option>
+
+
+
+                                          <option  value="20603:113019" >圆点</option>
+
+
+
+                                          <option  value="20603:45576" >字母</option>
+
+
+
+                                          <option  value="20603:130165" >形状</option>
+
+
+
+                                          <option  value="20603:29455" >手绘</option>
+
+
+
+                                          <option  value="20603:22083606" >抽象图案</option>
+
+
+
+                                          <option  value="20603:29452" >条纹</option>
+
+
+
+                                          <option  value="20603:29453" >格子</option>
+
+
+
+                                          <option  value="20603:29454" >纯色</option>
+
+
+
+                                          <option  value="20603:104170033" >植物花卉</option>
+
+
+
+                                          <option  value="20603:20213" >其他</option>
+
+
+
+                                          <option  value="20603:3255041" >豹纹</option>
+                                        </select>
+                                    </li></ul>
+                                  </span>
+                                  <input type="hidden" id="nav_cp_20603" data-feed="err_NotNull_20603"/>
+                                  <div id="err_NotNull_20603"  style="display:none;" ></div>
+                                </li>
+
+                                <li class="J_spu-property" id="spu_122216588" name="spus">
+                                  <label class="label-title">流行元素/工艺：</label>
+                                  <span>
+                                    <ul class="J_ul-multi ul-checkbox">
+                                      <li><input type="checkbox" name="cp_122216588" value="122216588:115772" id="prop_122216588" class="checkbox" /><label for="prop_122216588_115772">蝴蝶结</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:130316" id="prop_122216588" class="checkbox" /><label for="prop_122216588_130316">荷叶边</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:115777" id="prop_122216588" class="checkbox" /><label for="prop_122216588_115777">流苏</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:115776" id="prop_122216588" class="checkbox" /><label for="prop_122216588_115776">铆钉</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:7573005" id="prop_122216588" class="checkbox" /><label for="prop_122216588_7573005">亮丝</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:3332415" id="prop_122216588" class="checkbox" /><label for="prop_122216588_3332415">镶钻</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:71254299" id="prop_122216588" class="checkbox" /><label for="prop_122216588_71254299">高温定型</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:7600710" id="prop_122216588" class="checkbox" /><label for="prop_122216588_7600710">露背</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:141823124" id="prop_122216588" class="checkbox" /><label for="prop_122216588_141823124">油漆喷溅</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:148585979" id="prop_122216588" class="checkbox" /><label for="prop_122216588_148585979">手工磨破</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:148585983" id="prop_122216588" class="checkbox" /><label for="prop_122216588_148585983">酵磨漂</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:3267932" id="prop_122216588" class="checkbox" /><label for="prop_122216588_3267932">破洞</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:115771" id="prop_122216588" class="checkbox" /><label for="prop_122216588_115771">镂空</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:29957" id="prop_122216588" class="checkbox" /><label for="prop_122216588_29957">绣花</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:4015931" id="prop_122216588" class="checkbox" /><label for="prop_122216588_4015931">链条</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:112602" id="prop_122216588" class="checkbox" /><label for="prop_122216588_112602">褶皱</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:42536" id="prop_122216588" class="checkbox" /><label for="prop_122216588_42536">木耳</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:148585985" id="prop_122216588" class="checkbox" /><label for="prop_122216588_148585985">高锰酸洗</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:148585986" id="prop_122216588" class="checkbox" /><label for="prop_122216588_148585986">勾花镂空</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:3243112" id="prop_122216588" class="checkbox" /><label for="prop_122216588_3243112">口袋</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:28102" id="prop_122216588" class="checkbox" /><label for="prop_122216588_28102">系带</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:8611558" id="prop_122216588" class="checkbox" /><label for="prop_122216588_8611558">螺纹</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:17665110" id="prop_122216588" class="checkbox" /><label for="prop_122216588_17665110">扎花</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:32971735" id="prop_122216588" class="checkbox" /><label for="prop_122216588_32971735">立体装饰</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:7642045" id="prop_122216588" class="checkbox" /><label for="prop_122216588_7642045">不对称</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:3705386" id="prop_122216588" class="checkbox" /><label for="prop_122216588_3705386">绑带</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:5145675" id="prop_122216588" class="checkbox" /><label for="prop_122216588_5145675">扎染</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:29958" id="prop_122216588" class="checkbox" /><label for="prop_122216588_29958">钉珠</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:3424792" id="prop_122216588" class="checkbox" /><label for="prop_122216588_3424792">波浪</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:112597" id="prop_122216588" class="checkbox" /><label for="prop_122216588_112597">做旧</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:29959" id="prop_122216588" class="checkbox" /><label for="prop_122216588_29959">亮片</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:100343" id="prop_122216588" class="checkbox" /><label for="prop_122216588_100343">背带</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:130138" id="prop_122216588" class="checkbox" /><label for="prop_122216588_130138">肩章</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:3693451" id="prop_122216588" class="checkbox" /><label for="prop_122216588_3693451">纽扣</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:26325697" id="prop_122216588" class="checkbox" /><label for="prop_122216588_26325697">纱网</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:115481" id="prop_122216588" class="checkbox" /><label for="prop_122216588_115481">拉链</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:148585996" id="prop_122216588" class="checkbox" /><label for="prop_122216588_148585996">乱针修补</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:148585997" id="prop_122216588" class="checkbox" /><label for="prop_122216588_148585997">锈斑处理</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:148585998" id="prop_122216588" class="checkbox" /><label for="prop_122216588_148585998">树脂固色</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:6061030" id="prop_122216588" class="checkbox" /><label for="prop_122216588_6061030">燕尾</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:8251758" id="prop_122216588" class="checkbox" /><label for="prop_122216588_8251758">毛领</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:9142620" id="prop_122216588" class="checkbox" /><label for="prop_122216588_9142620">拼接</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:129555" id="prop_122216588" class="checkbox" /><label for="prop_122216588_129555">印花</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:3267928" id="prop_122216588" class="checkbox" /><label for="prop_122216588_3267928">植绒</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:3235817" id="prop_122216588" class="checkbox" /><label for="prop_122216588_3235817">3D</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:28386" id="prop_122216588" class="checkbox" /><label for="prop_122216588_28386">蕾丝</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:130845" id="prop_122216588" class="checkbox" /><label for="prop_122216588_130845">贴布</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:27436000" id="prop_122216588" class="checkbox" /><label for="prop_122216588_27436000">明线装饰</label></li>												<li><input type="checkbox" name="cp_122216588" value="122216588:41118856" id="prop_122216588" class="checkbox" /><label for="prop_122216588_41118856">抽褶</label></li>																								<li class="J_other"><input type="checkbox" name="cp_122216588" value="122216588:-1" class="checkbox" /><label class="label-title">其他</label></li>
+                                      <li class="J_other:text none "><input type="text" maxlength="30" name="cpi_122216588" value="" class="text text-short" /></li>
+                                    </ul>
+                                  </span>
+                                  <input type="hidden" id="nav_cp_122216588" data-feed="err_NotNull_122216588"/>
+                                  <div id="err_NotNull_122216588"  style="display:none;" ></div>
+                                </li>
+
+                                <li class="J_spu-property" id="spu_20551" name="spus">
+                                  <label class="label-title">面料：</label>
+                                  <span>
+                                    <ul class="J_ul-single ul-select"><li>
+
+                                        <select name="cp_20551" id="prop_20551" data-transtype="dropbox">
+                                          <option value=""> </option>
+
+
+
+
+                                          <option  value="20551:28352" >羊毛</option>
+
+
+
+                                          <option  value="20551:28398" >羊皮</option>
+
+
+
+                                          <option  value="20551:50941781" >氯纶</option>
+
+
+
+                                          <option  value="20551:112997" >锦纶</option>
+
+
+
+                                          <option  value="20551:28355" >涤纶</option>
+
+
+
+                                          <option  value="20551:28351" >羊绒</option>
+
+
+
+                                          <option  value="20551:128710369" >醋纤</option>
+
+
+
+                                          <option  value="20551:105255" >棉</option>
+
+
+
+                                          <option  value="20551:30078" >PU皮</option>
+
+
+
+                                          <option  value="20551:103124" >莫代尔</option>
+
+
+
+                                          <option  value="20551:39679567" >LYCRA莱卡</option>
+
+
+
+                                          <option  value="20551:130682" >蚕丝</option>
+
+
+
+                                          <option  value="20551:3267653" >麻</option>
+
+
+
+                                          <option  value="20551:16842058" >维纶</option>
+
+
+
+                                          <option  value="20551:20213" >其他</option>
+
+
+
+                                          <option  value="20551:28399" >猪皮</option>
+
+
+
+                                          <option  value="20551:80663" >丙纶</option>
+
+
+
+                                          <option  value="20551:112399" >貂皮</option>
+
+
+
+                                          <option  value="20551:28397" >牛皮</option>
+
+
+
+                                          <option  value="20551:80664" >腈纶</option>
+                                        </select>
+                                    </li></ul>
+                                  </span>
+                                  <input type="hidden" id="nav_cp_20551" data-feed="err_NotNull_20551"/>
+                                  <div id="err_NotNull_20551"  style="display:none;" ></div>
+                                </li>
+
+                                <li class="J_spu-property" id="spu_13328588" name="spus">
+                                  <label class="label-title">成分含量：</label>
+                                  <span>
+                                    <ul class="J_ul-single ul-select"><li>
+
+                                        <select name="cp_13328588" id="prop_13328588" data-transtype="dropbox">
+                                          <option value=""> </option>
+
+
+
+
+                                          <option  value="13328588:492838729" >31%(含)-50%(含)</option>
+
+
+
+                                          <option  value="13328588:145656296" >30%及以下</option>
+
+
+
+                                          <option  value="13328588:145656297" >96%及以上</option>
+
+
+
+                                          <option  value="13328588:492838732" >81%(含)-90%(含)</option>
+
+
+
+                                          <option  value="13328588:493292416" >51%(含)-70%(含)</option>
+
+
+
+                                          <option  value="13328588:492838735" >91%(含)-95%(含)</option>
+
+
+
+                                          <option  value="13328588:492838731" >71%(含)-80%(含)</option>
+                                        </select>
+                                    </li></ul>
+                                  </span>
+                                  <input type="hidden" id="nav_cp_13328588" data-feed="err_NotNull_13328588"/>
+                                  <div id="err_NotNull_13328588"  style="display:none;" ></div>
+                                </li>
+
+                                <li class="J_spu-property" id="spu_20017" name="spus">
+                                  <label class="label-title">适用年龄：</label>
+                                  <span>
+                                    <ul class="J_ul-single ul-select"><li>
+
+                                        <select name="cp_20017" id="prop_20017" data-transtype="dropbox">
+                                          <option value=""> </option>
+
+
+
+
+                                          <option  value="20017:494072162" >30-34周岁</option>
+
+
+
+                                          <option  value="20017:494072164" >35-39周岁</option>
+
+
+
+                                          <option  value="20017:494072160" >25-29周岁</option>
+
+
+
+                                          <option  value="20017:494072158" >18-24周岁</option>
+
+
+
+                                          <option  value="20017:494072166" >40-49周岁</option>
+
+
+
+                                          <option  value="20017:136515180" >17周岁以下</option>
+                                        </select>
+                                    </li></ul>
+                                  </span>
+                                  <input type="hidden" id="nav_cp_20017" data-feed="err_NotNull_20017"/>
+                                  <div id="err_NotNull_20017"  style="display:none;" ></div>
+                                </li>
+
+                                <li class="J_spu-property" id="spu_122216347" name="spus">
+                                  <label class="label-title">年份季节：</label>
+                                  <span>
+                                    <ul class="J_ul-single ul-select"><li>
+
+                                        <select name="cp_122216347" id="prop_122216347" data-transtype="dropbox">
+                                          <option value=""> </option>
+
+
+
+
+                                          <option  value="122216347:379886796" >2014年冬季</option>
+
+
+
+                                          <option  value="122216347:379818839" >2014年夏季</option>
+
+
+
+                                          <option  value="122216347:379930774" >2014年春季</option>
+
+
+
+                                          <option  value="122216347:380120406" >2014年秋季</option>
+
+
+
+                                          <option  value="122216347:96618833" >2011年秋季</option>
+
+
+
+                                          <option  value="122216347:132721297" >2012年夏季</option>
+
+
+
+                                          <option  value="122216347:132721335" >2012年冬季</option>
+
+
+
+                                          <option  value="122216347:132721270" >2012年春季</option>
+
+
+
+                                          <option  value="122216347:96618834" >2011年夏季</option>
+
+
+
+                                          <option  value="122216347:94386424" >2011年春季</option>
+
+
+
+                                          <option  value="122216347:96618832" >2011年冬季</option>
+
+
+
+                                          <option  value="122216347:132721317" >2012年秋季</option>
+
+
+
+                                          <option  value="122216347:186026840" >2013年夏季</option>
+
+
+
+                                          <option  value="122216347:199870733" >2013年春季</option>
+
+
+
+                                          <option  value="122216347:209928863" >2013年冬季</option>
+
+
+
+                                          <option  value="122216347:209928864" >2013年秋季</option>
+
+
+
+                                          <option  value="122216347:373706845" >2014春季</option>
+                                        </select>
+                                    </li></ul>
+                                  </span>
+                                  <input type="hidden" id="nav_cp_122216347" data-feed="err_NotNull_122216347"/>
+                                  <div id="err_NotNull_122216347"  style="display:none;" ></div>
+                                </li>
+
+
+                              </ul>
+                          </div></div>
+                          <!--发布助手-->
+                          <input type="hidden" id="nav_categoryProperty" data-feed="err_nav_categoryProperty"/>
+                          <div id="err_nav_categoryProperty" style="display:none"></div>
+                        </span>
+                      </li>
+
+
+                      <li class="extend-properties">
+                        <label class="extend-name ">运费模板：</label>
+                        <div class="extend-info extend-border">
+                          <div class="extend-box">
+
+                            <div data-child="sub-129" data-type="number" data-range="" class="extend-field">
+                              <label class="" for="field-129">物流体积(立方米)：</label>
+                              <input name="field-129" id="field-129" class="text" type="text" value="">
+                            </div>
+
+
+
+                            <div data-child="sub-128" data-type="number" data-range="" class="extend-field">
+                              <label class="" for="field-128">物流重量(千克)：</label>
+                              <input name="field-128" id="field-128" class="text" type="text" value="">
+                            </div>
+
+
+                          </div>
+                        </div>
+                      </li>
+                      <input type="hidden" id="nav_30" data-feed="err_nav_30"/>
+                      <div id="err_nav_30"  style="display:none"></div>
+
+
+                      <li class="fieldset toggle-customize">
+                        <label class="caption">宝贝定制：</label>
+                        <div class="fields-box">
+                          <div class="support-wrapper">
+                            <input id="J_CustomizeSupport" type="checkbox" name="support_custom_made" value="1" />
+                            <label for="J_CustomizeSupport">支持定制</label>
+                            <a href="http://bangpai.taobao.com/group/thread/301535-282612445.htm" target="_blank">
+                              <i class="poptip-help"></i>
+                            </a>
+                          </div>
+                          <!-- 如果勾选了定制，则不输出style属性和值；如果没勾选，则输出style属性和值。另外这行内容是注释，不需要写到vm里面。。 -->
+                          <div id="J_CustomizeTools" class="hint-popup hint-default" style="display:none;">
+                            <div class="hint-contentbox">
+                              <label class="caption">定制工具：</label>
+                              <div class="fields-box">
+                                <select name="custom_made_types" id="custom_made_types">
+                                  <option value=""></option>
+                                  <option value="1" >图片传输</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="arrow arrow-up">
+                              <i class="outer"></i>
+                              <i class="inner"></i>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div id="itemtitle" class="fieldset">
+                          <label for="TitleID" class="caption required">宝贝标题：</label>
+                          <div class="fields-box">
+                            <span class="add-on" id="ticketTitle" style="display:none">代买：</span>
+                            <span class="add-on" id="J_TitlePlugin" style="display: none;"></span>
+                            <input id="TitleID" data-autoGen="true"  class="text text-long" data-feed="err__fma.pu._0.ti" name="_fma.pu._0.ti" maxLength=60 size=30  value=
+                                   ""
+                                   />
+                            <span id="J_TitleCountDownTip" class="prop-tips countdown-tip">限定在30个汉字内（60个字符）</span>
+                            <input type="hidden" id="nav_title" data-feed="err_nav_title"/>
+                            <div id="err_nav_title" style="display:none"></div>
+
+                          </div>
+                        </div>
+                      </li>
+                      <input type="hidden" name="_fma.pu._0.pay"  value="" />
+                      <input type="hidden" name="_fma.pu._0.payv"  value="1" />
+                      <li id="fixpriceOption2" >
+
+                        <label for="buynow">一口价：</label>
+                        <span>
+                          <em>*</em>
+                          <input type="text" class="text text-short" id="buynow" maxLength="12" size="12" name="_fma.pu._0.m" value="" />
+                          元
+                          <span class="prop-tips hidden" id="J_SpecHintContainer"></span>
+                          <span class="prop-tips" id="catePriceLimit"></span>
+                          <input type="hidden" id="nav_minimumBid" data-feed="err_nav_minimumBid"/>
+                          <div id="err_nav_minimumBid" style="display:none"></div>
+                        </span>
+                      </li>
+
+
+
+
+                      <input type="hidden" id="nav_measure" data-feed="err_nav_measure" />
+                      <div id="err_nav_measure"  style="display:none"></div>
+
+                      <li>
+
+                        <div class="sku-style" id="J_SellProperties">
+                          <label class="sku-title">宝贝规格：</label>
+                          <div class="sku-wrap">
+
+
+                            <div data-caption="颜色分类" data-pid="1627207" class="sku-group " data-features="image edit ">
+                              <label class="sku-label ">颜色分类：</label>
+                              <div class="sku-box  sku-color">
+                                <ul class="sku-list">
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:3232483" id="prop_1627207-3232483"   data-color="5d762a" data-path="" data-thumb="" />
+                                    <label class="color-lump" style="background-color:#5d762a;" for="prop_1627207-3232483"></label>
+                                    <label class="labelname" for="prop_1627207-3232483" title="军绿色">军绿色</label>
+                                    <input id="J_Alias_1627207-3232483" class="editbox text" maxlength="15" type="text" value="军绿色" name="cpva_1627207:3232483">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:3232484" id="prop_1627207-3232484"   data-color="1eddff" data-path="" data-thumb="" />
+                                    <label class="color-lump" style="background-color:#1eddff;" for="prop_1627207-3232484"></label>
+                                    <label class="labelname" for="prop_1627207-3232484" title="天蓝色">天蓝色</label>
+                                    <input id="J_Alias_1627207-3232484" class="editbox text" maxlength="15" type="text" value="天蓝色" name="cpva_1627207:3232484">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:3232481" id="prop_1627207-3232481"   data-color="d2691e" data-path="" data-thumb="" />
+                                    <label class="color-lump" style="background-color:#d2691e;" for="prop_1627207-3232481"></label>
+                                    <label class="labelname" for="prop_1627207-3232481" title="巧克力色">巧克力色</label>
+                                    <input id="J_Alias_1627207-3232481" class="editbox text" maxlength="15" type="text" value="巧克力色" name="cpva_1627207:3232481">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:90554" id="prop_1627207-90554"   data-color="ffa500" data-path="" data-thumb="" />
+                                    <label class="color-lump" style="background-color:#ffa500;" for="prop_1627207-90554"></label>
+                                    <label class="labelname" for="prop_1627207-90554" title="桔色">桔色</label>
+                                    <input id="J_Alias_1627207-90554" class="editbox text" maxlength="15" type="text" value="桔色" name="cpva_1627207:90554">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:28332" id="prop_1627207-28332"   data-color="e4e4e4" data-path="" data-thumb="" />
+                                    <label class="color-lump" style="background-color:#e4e4e4;" for="prop_1627207-28332"></label>
+                                    <label class="labelname" for="prop_1627207-28332" title="浅灰色">浅灰色</label>
+                                    <input id="J_Alias_1627207-28332" class="editbox text" maxlength="15" type="text" value="浅灰色" name="cpva_1627207:28332">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:30156" id="prop_1627207-30156"   data-color="98fb98" data-path="" data-thumb="" />
+                                    <label class="color-lump" style="background-color:#98fb98;" for="prop_1627207-30156"></label>
+                                    <label class="labelname" for="prop_1627207-30156" title="浅绿色">浅绿色</label>
+                                    <input id="J_Alias_1627207-30156" class="editbox text" maxlength="15" type="text" value="浅绿色" name="cpva_1627207:30156">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:60092" id="prop_1627207-60092"   data-color="ffffb1" data-path="" data-thumb="" />
+                                    <label class="color-lump" style="background-color:#ffffb1;" for="prop_1627207-60092"></label>
+                                    <label class="labelname" for="prop_1627207-60092" title="浅黄色">浅黄色</label>
+                                    <input id="J_Alias_1627207-60092" class="editbox text" maxlength="15" type="text" value="浅黄色" name="cpva_1627207:60092">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:3232482" id="prop_1627207-3232482"   data-color="bdb76b" data-path="" data-thumb="" />
+                                    <label class="color-lump" style="background-color:#bdb76b;" for="prop_1627207-3232482"></label>
+                                    <label class="labelname" for="prop_1627207-3232482" title="深卡其布色">深卡其布色</label>
+                                    <input id="J_Alias_1627207-3232482" class="editbox text" maxlength="15" type="text" value="深卡其布色" name="cpva_1627207:3232482">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:3232478" id="prop_1627207-3232478"   data-color="666666" data-path="" data-thumb="" />
+                                    <label class="color-lump" style="background-color:#666666;" for="prop_1627207-3232478"></label>
+                                    <label class="labelname" for="prop_1627207-3232478" title="深灰色">深灰色</label>
+                                    <input id="J_Alias_1627207-3232478" class="editbox text" maxlength="15" type="text" value="深灰色" name="cpva_1627207:3232478">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:3232479" id="prop_1627207-3232479"   data-color="4b0082" data-path="" data-thumb="" />
+                                    <label class="color-lump" style="background-color:#4b0082;" for="prop_1627207-3232479"></label>
+                                    <label class="labelname" for="prop_1627207-3232479" title="深紫色">深紫色</label>
+                                    <input id="J_Alias_1627207-3232479" class="editbox text" maxlength="15" type="text" value="深紫色" name="cpva_1627207:3232479">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:28340" id="prop_1627207-28340"   data-color="041690" data-path="" data-thumb="" />
+                                    <label class="color-lump" style="background-color:#041690;" for="prop_1627207-28340"></label>
+                                    <label class="labelname" for="prop_1627207-28340" title="深蓝色">深蓝色</label>
+                                    <input id="J_Alias_1627207-28340" class="editbox text" maxlength="15" type="text" value="深蓝色" name="cpva_1627207:28340">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:28320" id="prop_1627207-28320"   data-color="ffffff" data-path="" data-thumb="" />
+                                    <label class="color-lump" style="background-color:#ffffff;" for="prop_1627207-28320"></label>
+                                    <label class="labelname" for="prop_1627207-28320" title="白色">白色</label>
+                                    <input id="J_Alias_1627207-28320" class="editbox text" maxlength="15" type="text" value="白色" name="cpva_1627207:28320">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:3232480" id="prop_1627207-3232480"   data-color="ffb6c1" data-path="" data-thumb="" />
+                                    <label class="color-lump" style="background-color:#ffb6c1;" for="prop_1627207-3232480"></label>
+                                    <label class="labelname" for="prop_1627207-3232480" title="粉红色">粉红色</label>
+                                    <input id="J_Alias_1627207-3232480" class="editbox text" maxlength="15" type="text" value="粉红色" name="cpva_1627207:3232480">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:80882" id="prop_1627207-80882"   data-color="dda0dd" data-path="" data-thumb="" />
+                                    <label class="color-lump" style="background-color:#dda0dd;" for="prop_1627207-80882"></label>
+                                    <label class="labelname" for="prop_1627207-80882" title="紫罗兰">紫罗兰</label>
+                                    <input id="J_Alias_1627207-80882" class="editbox text" maxlength="15" type="text" value="紫罗兰" name="cpva_1627207:80882">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:28329" id="prop_1627207-28329"   data-color="800080" data-path="" data-thumb="" />
+                                    <label class="color-lump" style="background-color:#800080;" for="prop_1627207-28329"></label>
+                                    <label class="labelname" for="prop_1627207-28329" title="紫色">紫色</label>
+                                    <input id="J_Alias_1627207-28329" class="editbox text" maxlength="15" type="text" value="紫色" name="cpva_1627207:28329">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:28326" id="prop_1627207-28326"   data-color="ff0000" data-path="" data-thumb="" />
+                                    <label class="color-lump" style="background-color:#ff0000;" for="prop_1627207-28326"></label>
+                                    <label class="labelname" for="prop_1627207-28326" title="红色">红色</label>
+                                    <input id="J_Alias_1627207-28326" class="editbox text" maxlength="15" type="text" value="红色" name="cpva_1627207:28326">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:28335" id="prop_1627207-28335"   data-color="008000" data-path="" data-thumb="" />
+                                    <label class="color-lump" style="background-color:#008000;" for="prop_1627207-28335"></label>
+                                    <label class="labelname" for="prop_1627207-28335" title="绿色">绿色</label>
+                                    <input id="J_Alias_1627207-28335" class="editbox text" maxlength="15" type="text" value="绿色" name="cpva_1627207:28335">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:130164" id="prop_1627207-130164"   data-color="assortment" data-path="" data-thumb="" />
+                                    <label class="color-lump color-assortment" for="prop_1627207-130164"></label>
+                                    <label class="labelname" for="prop_1627207-130164" title="花色">花色</label>
+                                    <input id="J_Alias_1627207-130164" class="editbox text" maxlength="15" type="text" value="花色" name="cpva_1627207:130164">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:28338" id="prop_1627207-28338"   data-color="0000ff" data-path="" data-thumb="" />
+                                    <label class="color-lump" style="background-color:#0000ff;" for="prop_1627207-28338"></label>
+                                    <label class="labelname" for="prop_1627207-28338" title="蓝色">蓝色</label>
+                                    <input id="J_Alias_1627207-28338" class="editbox text" maxlength="15" type="text" value="蓝色" name="cpva_1627207:28338">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:132069" id="prop_1627207-132069"   data-color="855b00" data-path="" data-thumb="" />
+                                    <label class="color-lump" style="background-color:#855b00;" for="prop_1627207-132069"></label>
+                                    <label class="labelname" for="prop_1627207-132069" title="褐色">褐色</label>
+                                    <input id="J_Alias_1627207-132069" class="editbox text" maxlength="15" type="text" value="褐色" name="cpva_1627207:132069">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:107121" id="prop_1627207-107121"   data-color="transparent" data-path="" data-thumb="" />
+                                    <label class="color-lump color-transparent" for="prop_1627207-107121"></label>
+                                    <label class="labelname" for="prop_1627207-107121" title="透明">透明</label>
+                                    <input id="J_Alias_1627207-107121" class="editbox text" maxlength="15" type="text" value="透明" name="cpva_1627207:107121">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:28327" id="prop_1627207-28327"   data-color="990000" data-path="" data-thumb="" />
+                                    <label class="color-lump" style="background-color:#990000;" for="prop_1627207-28327"></label>
+                                    <label class="labelname" for="prop_1627207-28327" title="酒红色">酒红色</label>
+                                    <input id="J_Alias_1627207-28327" class="editbox text" maxlength="15" type="text" value="酒红色" name="cpva_1627207:28327">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:28324" id="prop_1627207-28324"   data-color="ffff00" data-path="" data-thumb="" />
+                                    <label class="color-lump" style="background-color:#ffff00;" for="prop_1627207-28324"></label>
+                                    <label class="labelname" for="prop_1627207-28324" title="黄色">黄色</label>
+                                    <input id="J_Alias_1627207-28324" class="editbox text" maxlength="15" type="text" value="黄色" name="cpva_1627207:28324">
+                                  </li>
+                                  <li class="sku-item  ">
+                                    <input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:28341" id="prop_1627207-28341"   data-color="000000" data-path="" data-thumb="" />
+                                    <label class="color-lump" style="background-color:#000000;" for="prop_1627207-28341"></label>
+                                    <label class="labelname" for="prop_1627207-28341" title="黑色">黑色</label>
+                                    <input id="J_Alias_1627207-28341" class="editbox text" maxlength="15" type="text" value="黑色" name="cpva_1627207:28341">
+                                  </li>
+                                  <li>
+                                    <input type="checkbox" id="chkall-c" class="J_CheckAll">
+                                    <label class="sku-all" for="chkall-c">全选</label>
+
+                                  </li>
+                                </ul>
+                              </div>
+                              <input type="hidden" id="nav_cp_1627207" data-feed="err_NotNull_1627207"/>
+                              <div id="err_NotNull_1627207"  style="display:none;" ></div>
+                            </div>
+
+
+                            <div data-caption="尺码" data-pid="20509" class="sku-switchable sku-group " data-features=" edit ">
+                              <label class="sku-label ">尺码：</label>
+                              <div class="sku-box  ">
+                                <div class="graywrap">
+                                  <ul class="sku-list">
+                                    <li class="sku-item  ">
+                                      <input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:28381" id="prop_20509-28381"  />
+                                      <label class="labelname" for="prop_20509-28381" title="XXS">XXS</label>
+                                      <input id="J_Alias_20509-28381" class="editbox text" maxlength="15" type="text" value="XXS" name="cpva_20509:28381">
+                                    </li>
+                                    <li class="sku-item  ">
+                                      <input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:28313" id="prop_20509-28313"  />
+                                      <label class="labelname" for="prop_20509-28313" title="XS">XS</label>
+                                      <input id="J_Alias_20509-28313" class="editbox text" maxlength="15" type="text" value="XS" name="cpva_20509:28313">
+                                    </li>
+                                    <li class="sku-item  ">
+                                      <input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:28314" id="prop_20509-28314"  />
+                                      <label class="labelname" for="prop_20509-28314" title="S">S</label>
+                                      <input id="J_Alias_20509-28314" class="editbox text" maxlength="15" type="text" value="S" name="cpva_20509:28314">
+                                    </li>
+                                    <li class="sku-item  ">
+                                      <input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:28315" id="prop_20509-28315"  />
+                                      <label class="labelname" for="prop_20509-28315" title="M">M</label>
+                                      <input id="J_Alias_20509-28315" class="editbox text" maxlength="15" type="text" value="M" name="cpva_20509:28315">
+                                    </li>
+                                    <li class="sku-item  ">
+                                      <input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:28316" id="prop_20509-28316"  />
+                                      <label class="labelname" for="prop_20509-28316" title="L">L</label>
+                                      <input id="J_Alias_20509-28316" class="editbox text" maxlength="15" type="text" value="L" name="cpva_20509:28316">
+                                    </li>
+                                    <li class="sku-item  ">
+                                      <input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:28317" id="prop_20509-28317"  />
+                                      <label class="labelname" for="prop_20509-28317" title="XL">XL</label>
+                                      <input id="J_Alias_20509-28317" class="editbox text" maxlength="15" type="text" value="XL" name="cpva_20509:28317">
+                                    </li>
+                                    <li class="sku-item  ">
+                                      <input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:28318" id="prop_20509-28318"  />
+                                      <label class="labelname" for="prop_20509-28318" title="XXL">XXL</label>
+                                      <input id="J_Alias_20509-28318" class="editbox text" maxlength="15" type="text" value="XXL" name="cpva_20509:28318">
+                                    </li>
+                                    <li class="sku-item  ">
+                                      <input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:28319" id="prop_20509-28319"  />
+                                      <label class="labelname" for="prop_20509-28319" title="XXXL">XXXL</label>
+                                      <input id="J_Alias_20509-28319" class="editbox text" maxlength="15" type="text" value="XXXL" name="cpva_20509:28319">
+                                    </li>
+                                    <li class="sku-item  ">
+                                      <input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:28383" id="prop_20509-28383"  />
+                                      <label class="labelname" for="prop_20509-28383" title="均码">均码</label>
+                                      <input id="J_Alias_20509-28383" class="editbox text" maxlength="15" type="text" value="均码" name="cpva_20509:28383">
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                              <div id="size-template" class="fieldset simselect-template">
+                                <label class="caption">尺码推荐：</label>
+                                <div class="fields-box">
+                                  <div class="controls">
+                                    <select id="J_SizeTempList" name="sizeTemplateId">
+                                      <option value="0">不使用尺码推荐</option>
+                                    </select>
+                                    <a class="btn-jump" href="http://size.taobao.com/template/templateList.htm?type=1&selectTemplateId=0" target="_blank">管理尺码模板</a>
+                                    <a href="http://bangpai.taobao.com/group/thread/1074986-275063579.htm" target="_blank"><i class="icon icon-help"></i> 使用说明</a>
+                                  </div>
+                                  <div class="size-notice-area">
+                                    <div class="msg-attention">
+                                      <i class="icon icon-attention"></i>
+                                      系统暂时无法链接到尺码模板库，请稍后再试。
+                                    </div>
+                                    <div class="size-point-hint hint-overlay">
+                                      <div class="hint-content">已有1000多万买家填写尺码数据，正等待您使用尺码推荐功能 </div>
+                                      <a tabindex="0" href='javascript:void("关闭")' role="button" class="hint-ext-close">
+                                        <span class="hint-ext-close-x">关闭</span>
+                                      </a>
+                                      <i class="overlay-arrow arrow-up"></i>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <input type="hidden" id="nav_cp_20509" data-feed="err_NotNull_20509"/>
+                              <div id="err_NotNull_20509"  style="display:none;" ></div>
+                            </div>
+                            <input type="hidden" id="nav_propPictureError" data-feed="err_nav_propPictureError"/>
+                            <div id="err_nav_propPictureError" style="display:none"></div>
+                            <input type="hidden" id="nav_sku" data-feed="err_nav_sku"/>
+                            <div id="err_nav_sku" style="display:none"></div>
+                          </div>
+                          <div id="J_SKUColorWrapper" class="sku-wrapper" style="display:none;"></div>
+
+                          <div class="sku-wrapper" style="display: none;">
+                            <div class="sku-map" id="J_SKUMapContainer"></div>
+                          </div>
+
+                          <input type="hidden" id="nav_skuTable" data-feed="err_nav_skuTable"/>
+                          <div id="err_nav_skuTable" style="display:none"></div>
+                          <div id="J_SKUTableWrapper">
+
+                          </div>
+                          <input type="hidden" id="J_PropTableData" name="J_PropTableData"/>
+
+                          <input type="hidden" id="J_SKUTableData" name="J_SKUTableData"/>
+                          <input type="hidden" id="J_TreeChecked" name="J_TreeChecked"/>
+                          <input type="hidden" id="J_AvailableCustomCPV" name="J_AvailableCustomCPV"/>
+                          <input type="hidden" id="J_HiddenSKUAtpanel" name="J_HiddenSKUAtpanel"/>
+                        </div>
+                      </li>
+
+                      <li id="quantity" class="fieldset" >
+                        <label  class="caption required" for="quantityId">宝贝数量：</label>
+                        <div class="fields-box">
+                          <div class="text-quantity">1</div>
+                          <input type="text" class="text text-shorter J_Quantity"  name="_fma.pu._0.q" value="1"
+                                 id="quantityId" />
+                          件
+                          <i class="J_PopTip poptip-attention" >
+                            (请如实填写，买家付款后72小时内未发货，根据
+                            <a href="http://a.taobao.com/detail/2011/01/18/437642/1.php" target="_blank">淘宝规则</a>
+                            您可能被投诉和扣分，并赔偿金额给买家)
+                          </i>
+                          <input type="hidden" id="nav_quantity" data-feed="err_nav_quantity"/>
+                          <div id="err_nav_quantity" style="display:none"></div>
+                        </div>
+                      </li>
+                      <!--offerPreOrder : $offerPreOrder-->
+                      <!--offerPreOrder : $offerPreOrder-->
+                      <li id="preorderInfoDiv" style="display:none">
+                        <label for="preorderOnline">在线预约：</label>
+                        <span>
+                          <input type="checkbox" class="checkbox" name="offerPreOrder" id="preorderOnline"  value="1" />
+                          <label for="preorderOnline" style="float:none;text-align:left;">提供在线预约</label>
+                          <span class="prop-tips">勾选后再宝贝详情页将出现“免费预约”按钮，可以记录预约情况</span>
+                        </span>
+                      </li>
+                      <li id="preorderAmountCon" class="fenlei-info-preorder" style="display:none">
+
+                        <label for="preorderAmountIpt">预约名额：</label>
+                        <span id="preorderAmountIptCon">
+                          <em>*</em>
+                          <input type="text" class="text text-short J_Quantity" disable="disable" id="preorderAmountIpt" maxlength="12" size="12"
+                                 name="_fma.pu._0.q" value="1" /> 人
+                          <input type="hidden" id="nav_ofr_quantity" data-feed="err_nav_ofr_quantity"/>
+                          <div id="err_nav_ofr_quantity" style="display:none"></div>
+                          <input type="hidden" id="nav_quantity" data-feed="err_nav_quantity"/>
+                          <div id="err_nav_quantity" style="display:none"></div>
+                        </span>
+                      </li>
+
+
+                      <li id="stock-addr">
+                        <div class="fieldset">
+                          <label class="caption">采购地：</label>
+                          <div class="fields-box">
+                            <div class="chktab">
+                              <label>
+                                <input type="radio" id="J_Internal" checked="true" name="is_global_stock" value="false"/>
+                                国内
+                              </label>
+                              <label>
+                                <input type="radio" id="J_Abroad"  name="is_global_stock" value="true"/>
+                                海外及港澳台
+                              </label>
+                              <i class="J_PopTip poptip-help">勾选即承诺商品采购于“海外及港澳台”，
+                                <a href="http://bangpai.taobao.com/group/thread/70135-285839829.htm" target="_blank">
+                                  将有机会进入全球购市场
+                                </a>。
+                              </i>
+                            </div>
+                            <div id="J_AbroadStock" class="hint-popup hint-default block-box" style="display:none;">
+                              <div class="fieldset">
+                                <label class="caption required">地区/国家：</label>
+                                <div class="fields-box">
+                                  <select name="gs_country" id="">
+                                    <option value="">--请选择地区/国家--</option>
+                                    <option value="美国" >美国</option>
+                                    <option value="香港" >香港</option>
+                                    <option value="日本" >日本</option>
+                                    <option value="英国" >英国</option>
+                                    <option value="新西兰" >新西兰</option>
+                                    <option value="德国" >德国</option>
+                                    <option value="韩国" >韩国</option>
+                                    <option value="荷兰" >荷兰</option>
+                                    <option value="澳洲" >澳洲</option>
+                                    <option value="法国" >法国</option>
+                                    <option value="意大利" >意大利</option>
+                                    <option value="台湾" >台湾</option>
+                                    <option value="澳门" >澳门</option>
+                                    <option value="加拿大" >加拿大</option>
+                                    <option value="瑞士" >瑞士</option>
+                                    <option value="西班牙" >西班牙</option>
+                                    <option value="泰国" >泰国</option>
+                                    <option value="新加坡" >新加坡</option>
+                                    <option value="马来西亚" >马来西亚</option>
+                                    <option value="菲律宾" >菲律宾</option>
+                                    <option value="其他" >其他</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="fieldset">
+                                <label class="caption required">库存类型：</label>
+                                <div class="fields-box">
+                                  <label>
+                                    <input type="radio" name="gs_type"  value="1"/>
+                                    现货<span class="muted">（可快速发货）</span>
+                                  </label>
+                                  <label>
+                                    <input type="radio" name="gs_type" checked="true" value="2"/>
+                                    海外代购<span class="muted">（无现货，需采购）</span>
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="arrow arrow-up">
+                                <i class="outer"></i>
+                                <i class="inner"></i>
+                              </div>
+                            </div>
+                          </div>
+                          <input type="hidden" id="nav_global_stock_module" data-feed="err_nav_global_stock_module"/>
+                          <div id="err_nav_global_stock_module"  style="display:none"></div>
+                        </div>
+                      </li>
+
+
+                      <li id="outerDiv" class="fieldset">
+                        <label class="caption" for="outerIdId">商家编码：</label>
+                        <div class="fields-box">
+                          <div class="text-outerid"></div>
+                          <input type="text" class="text text-short" maxLength="30" id="outerIdId" name="_fma.pu._0.o" value=""/>
+                          <input type="hidden" id="nav_outerId" data-feed="err_nav_outerId"/>
+                          <div id="err_nav_outerId" style="display:none"></div>
+                        </div>
+                      </li>
+                      <li id="barcode" class="fieldset">
+                        <label class="caption" for="barcode">商品条形码：</label>
+                        <div class="fields-box">
+                          <input type="text" class="text text-short" maxLength="30" id="itemBarCode" name="itemBarCode" value=""/>
+                          <i class="J_PopTip poptip-help poptip-help-active" >条码添加可使用手机千牛扫条码插件/淘宝助理/ERP批量，也在此手填。</i>
+                          <span class="prop-tips" id="J_AfterSaleTips">有码商品，搜索或加权，<a href="http://bbs.taobao.com/catalog/thread/1328096-266494914-1.htm" target="_blank">查看教程添加</a>！</span>
+                          <input type="hidden" id="nav_item_barcode" data-feed="err_nav_item_barcode"/>
+                          <div id="err_nav_item_barcode" style="display:none"></div>
+                        </div>
+                      </li>
+
+
+
+                      <li id="nav_item_pic">
+                        <div id="J_Multimage" class="fieldset multimage">
+                          <label class="caption ">宝贝图片：</label>
+                          <div class="fields-box">
+                            <div class="multimage-wrapper">
+                              <div class="multimage-tabs">
+                                <div data-type="local" class="tab actived">本地上传</div>                <div data-type="remote-image" class="tab">图片空间</div>
+                                <div data-type="remote-video" class="tab">视频中心</div>
+                                <a href="http://bbs.taobao.com/catalog/thread/514518-265670701.htm" target="_blank">图片空间超大容量全免费！</a>
+                              </div>
+                              <div class="multimage-panels">
+                                <div class="panel local-panel">
+                                  <div class="upload-field">
+                                    <label for="J_MultimageField">选择本地图片：</label>
+                                    <a href="javascript:void(0);" class="btn btn-default">
+                                      <span class="btn-txt">文件上传</span>
+                                      <input type="file" name="multimagefile" id="J_MultimageField"/>
+                                    </a>
+                                  </div>
+
+                                  <div class="multimage-tips">
+                                    <div class="tip-title">提示：</div>
+                                    <ol>
+                                      <li>本地上传图片大小不能超过<strong class="bright">500K</strong>。</li>
+                                      <li>本类目下您最多可以上传<strong class="bright"> 6 </strong>张图片。</li>															<li>背景图是淘宝提供的范例，请尽量参照范例选图，发布后范例不会显示。</li>
+                                      <li>若不上传<strong class="bright">竖图</strong>，搜索列表、市场活动等页面的竖图模式将无法展示宝贝。</li>
+                                    </ol>
+                                  </div>
+                                </div>
+                                <div class="panel remote-panel remote-image">
+                                </div>
+                                <div class="panel remote-panel remote-video">
+                                </div>
+                              </div>
+                              <div class="multimage-info ">
+                                <div class="info-wrapper">
+                                  <div class="msg">
+                                    <span class="bright">700*700</span>
+                                    以上的图片可以在宝贝详情页主图提供图片放大功能
+                                  </div>
+                                  <div class="multimage-gallery">
+                                    <ul>
+                                      <li class="video" data-index="0">
+                                        <div class="preview">
+                                          <input type="hidden" class="hideimageurl" name="videoAsPicThum" value=""/>
+                                          <input type="hidden" class="hidevideoid" name="videoAsPicId" value=""/>
+                                          <input type="hidden" class="hidevideoduration" name="videoAsPicDuration" value=""/>
+                                          <input type="hidden" name="pisAsVideoStatus" value=""/>
+                                        </div>
+                                        <div class="info">主图视频</div>
+                                        <div class="examp">
+                                          <div class="desc">
+                                            视频长度<em class="bright">9秒</em>内
+                                          </div>
+                                        </div>
+                                        <div class="operate">
+                                          <span class="ph-tip">00:00</span>
+                                          <i class="del">删除</i>
+                                        </div>
+                                      </li>
+                                      <li class=" primary " data-index="1">
+                                        <input name="image_pos" type="hidden" value="1" />
+                                        <div class="preview">
+                                          <input type="hidden" class="hideimageurl" name="picUrl1" value=""/>
+                                        </div>
+                                        <div class="info">
+                                          <span class="bright">*</span> 主图
+                                        </div>
+                                        <div class="examp">
+                                          <img src="http://img.taobaocdn.com/imgextra/T145yxXd4EXXb1upjX_100x100.jpg" height="90" alt="" />
+                                          <div class="mask"></div>
+                                          <div class="desc">
+                                            请上传<br />
+                                            商品正面图
+                                          </div>
+                                        </div>
+                                        <div class="operate">
+                                          <i class="toleft">左移</i>
+                                          <i class="toright">右移</i>
+                                          <i class="del">删除</i>
+                                        </div>
+                                      </li>
+                                      <li class="" data-index="2">
+                                        <input name="image_pos" type="hidden" value="2" />
+                                        <div class="preview">
+                                          <input type="hidden" class="hideimageurl" name="picUrl2" value=""/>
+                                        </div>
+                                        <div class="examp">
+                                          <img src="http://img.taobaocdn.com/imgextra/T15iCxXoxDXXb1upjX_100x100.jpg" height="90" alt="" />
+                                          <div class="mask"></div>
+                                          <div class="desc">
+                                            请上传<br />
+                                            商品背面图
+                                          </div>
+                                        </div>
+                                        <div class="operate">
+                                          <i class="toleft">左移</i>
+                                          <i class="toright">右移</i>
+                                          <i class="del">删除</i>
+                                        </div>
+                                      </li>
+                                      <li class="" data-index="3">
+                                        <input name="image_pos" type="hidden" value="3" />
+                                        <div class="preview">
+                                          <input type="hidden" class="hideimageurl" name="picUrl3" value=""/>
+                                        </div>
+                                        <div class="examp">
+                                          <img src="http://img.taobaocdn.com/imgextra/T1_5KxXbNDXXb1upjX_100x100.jpg" height="90" alt="" />
+                                          <div class="mask"></div>
+                                          <div class="desc">
+                                            请上传<br />
+                                            做工细节图
+                                          </div>
+                                        </div>
+                                        <div class="operate">
+                                          <i class="toleft">左移</i>
+                                          <i class="toright">右移</i>
+                                          <i class="del">删除</i>
+                                        </div>
+                                      </li>
+                                      <li class="" data-index="4">
+                                        <input name="image_pos" type="hidden" value="4" />
+                                        <div class="preview">
+                                          <input type="hidden" class="hideimageurl" name="picUrl4" value=""/>
+                                        </div>
+                                        <div class="examp">
+                                          <img src="http://img.taobaocdn.com/imgextra/T1agOxXXRRXXb1upjX_100x100.jpg" height="90" alt="" />
+                                          <div class="mask"></div>
+                                          <div class="desc">
+                                            请上传<br />
+                                            款式细节图
+                                          </div>
+                                        </div>
+                                        <div class="operate">
+                                          <i class="toleft">左移</i>
+                                          <i class="toright">右移</i>
+                                          <i class="del">删除</i>
+                                        </div>
+                                      </li>
+                                      <li class="" data-index="5">
+                                        <input name="image_pos" type="hidden" value="5" />
+                                        <div class="preview">
+                                          <input type="hidden" class="hideimageurl" name="picUrl5" value=""/>
+                                        </div>
+                                        <div class="examp">
+                                          <img src="http://img.taobaocdn.com/imgextra/T1uyWxXdpCXXb1upjX_100x100.jpg" height="90" alt="" />
+                                          <div class="mask"></div>
+                                          <div class="desc">
+                                            请上传<br />
+                                            辅料细节图
+                                          </div>
+                                        </div>
+                                        <div class="operate">
+                                          <i class="toleft">左移</i>
+                                          <i class="toright">右移</i>
+                                          <i class="del">删除</i>
+                                        </div>
+                                      </li>
+                                      <li class=""  data-index="6">
+                                        <input name="image_pos" type="hidden" value="6" />
+                                        <div class="preview">
+                                          <input type="hidden" class="hideimageurl" name="picUrl6" value=""/>
+                                        </div>
+                                        <div class="info">
+                                          800 * 1200
+                                        </div>
+                                        <div class="examp">
+                                          <div class="mask"></div>
+                                          <div class="desc">
+                                            建议传<br />
+                                            模特正面图
+                                          </div>
+                                        </div>
+                                        <div class="operate">
+                                          <i class="toleft">左移</i>
+                                          <i class="toright">右移</i>
+                                          <i class="del">删除</i>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--食品类目下才输出这个提示内容-->
+                            <div class="multimage-msg" id="J_TipFood" style="display: none;">
+                              <div class="msg-attention">
+                                <i class="icon icon-attention"></i>
+                                <p class="msg">请在宝贝图片栏第1张或第2张位置上传该食品带QS标记的外观图片。</p>
+                              </div>
+                            </div>
+                          </div>
+                          <input type="hidden" id="nav_multiPicError" data-feed="err_nav_multiPicError"/>
+                          <div id="err_nav_multiPicError" style="display:none"></div>
+                        </div>
+                      </li>
+                      <input type="hidden" name="_fma.pu._0.is" value="" />
+                      <input type="hidden" name="_fma.pu._0.it" value="" />
+                      <li>
+                        <label>宝贝视频：</label>
+                        <span>
+                          <div id="J_UploadVideo" class="upload-manager upload-video ">
+                            <div class="main">
+                              <input type="hidden" name="_fma.pu._0.v" value="" class="J_VideoId" />
+                              <span class="preview"></span>
+                              <span class="upload">选择视频</span>
+                              <span class="act">
+                                <span class="del">删除</span>
+                              </span>
+                            </div>
+                          </div>
+                        </span>
+                        <input type="hidden" id="nav_videoId" data-feed="err_nav_videoId"/>
+                        <div id="err_nav_videoId" style="display:none"></div>
+                      </li>
+                      <input type="hidden" name="_fma.pu._0.s" id="switchEditor" value="" />
+                      <!-- @feilv 宝贝描述 模块化 -->
+                      <input type="hidden" id="handleAuctionModule" name="handleAuctionModule" value="false" />
+                      <input type="hidden" id="modularizedArea" name="modularizedArea" value=""/>
+                      <li id="desc" class="fieldset">
+                        <label class="caption">宝贝描述：</label>
+                        <div class="fields-box" id="J_DescEditor">
+
+                          <ul class="tab tab-nav">
+                            <li><a href="#J_ItemEditor" class="pc" data-spm-click="gostr=/tbsell;locaid=d201312051539">电脑端</a></li>
+                            <li><a href="#J_MobileEditor" class="mobile" id="J_MobileTab" data-spm-click="gostr=/tbsell;locaid=d201312051540">手机端<i class="new"></i></a></li>
+                          </ul>
+                          <div class="tab-content">
+                            <div class="give-tip">立即设置手机版宝贝详情页，即可获得：流量倾斜/搜索加权/优先展示，点击“手机端”操作吧！<a class="give-close"></a></div>
+                            <div id="J_ItemEditor" class="tab-pannel itemEditor editor desc-wrap">
+                              <div class="msg-attention">
+                                <i class="icon icon-attention"></i>
+                                为了保证图片展示的质量，淘宝网将不允许新增使用外链图片。<a href="http://bbs.taobao.com/catalog/thread/514518-265836286.htm" target="_blank">若继续发布使用将会对图片进行屏蔽处理！</a>。
+                              </div>
+                              <div  class="editor"  id='newEditorContainer'>
+                                <textarea id="J_ItemDescTextarea_newer" name="_fma.pu._0.d" data-feed="err__fma.pu._0.d" style="width:638px;height:350px" data-template="false"></textarea>
+                                <div id="J_EditorTemplateTip" class="ke-guid-required-tip" style="display:none;">有标题下未输入内容，宝贝发布后，空白标题将被自动删除。请补充内容，若无需补充，请忽略本提示继续发布。</div>
+                                <input type="hidden" id="nav_description" data-feed="err_nav_description"/>
+                                <div id="err_nav_description" style="display:none"></div>
+                              </div>
+                              <br>
+                              <input type="hidden" name="state" value=""/>
+                              <textarea id="J_OfficialTemplate" style="display:none;" data-uri="/auction/publish/downloadModuleContent.do?filePath=&param=guide&guideCatId="></textarea>
+                            </div>
+                            <div id="J_MobileEditor" class="tab-pannel mobileEditor" style="display:none;">
+                              <div class="pannel">
+                                <p class="size-tip" id="J_SizeTip"></p>
+                                <div class="control-panel"></div>
+                                <div class="add-btn" id="J_AddBtn">
+                                  <div class="jia">添加</div>
+                                  <ul class="btn-wrap none">
+                                    <li class="audio" title="点击添加音频，一个宝贝只能上传一个音频"><div class="btn-text"><i></i><p>音频</p></div><div class="overlay none">一个宝贝只能上传<b>1</b>个音频</div></li>
+                                    <li class="shortDesc" title="点击添加摘要，一个宝贝只能添加一段摘要"><div class="btn-text"><i></i><p>摘要</p></div><div class="overlay none">一个宝贝只能添加<b>1</b>段摘要</div></li>
+                                    <li class="image" title="点击添加图片"><div class="btn-text"><i></i><p>图片</p></div></li>
+                                    <li class="text" title="点击添加文字"><div class="btn-text"><i></i><p>文字</p></div></li>
+                                  </ul>
+                                </div>
+                                <textarea id="J_MobileDetail" name="_fma.pu._0.w" style="display:none;"></textarea>
+                                <input type="hidden" id="nav_wirelessDescription" data-feed="err_nav_wirelessDescription"/>
+                                <div id="err_nav_wirelessDescription" style="display:none"></div>
+                              </div>
+                              <div class="explain">
+                                <dl>
+                                  <dt>新手指导</dt>
+                                  <dd><a href="http://bbs.taobao.com/catalog/thread/16029511-265422657.htm?spm=1.7053857.a214b4e.1&scm=1212.13.3.303" target="_blank">一分钟教你快速发布手机详情</a></dd>
+                                  <dd><a href="http://bbs.taobao.com/catalog/thread/16029511-265428184.htm?spm=1.7053857.a214b4e.2&scm=1010.13.3.304" target="_blank">3句话打造宝贝音频导购</a></dd>
+
+                                </dl>
+
+
+                                <dl class="case">
+                                  <dt>优秀案例</dt>
+                                  <dd><a href="http://bbs.taobao.com/catalog/thread/16029511-265410205.htm?spm=1.7053857.a214b4e.3&scm=1212.13.3.301" target="_blank">美妆类卖家如何做好手机版详情</a></dd>
+                                  <dd><a href="http://bbs.taobao.com/catalog/thread/16029511-265414572.htm?spm=1.7053857.a214b4e.4&scm=1212.13.3.302" target="_blank">箱包类卖家如何做好手机详情</a></dd>
+
+                                </dl>
+                              </div>
+                              <div class="edit-area" id="J_EditArea"></div>
+
+                            </div>
+                          </div>
+                          <div class="tip"><a href="http://bbs.taobao.com/catalog/thread/16029511-266711791.htm?spm=1.7075121.a214ba5.1" target="_blank">详情页跨店合作，分分钟有流量！</a></div>
+                        </div>
+
+                      </li>
+                      <!-- @feilv 宝贝描述 模块化 -->
+                      <li id="autoDiv1" class="hidden">
+                        <ul>
+                          <li>
+                            <label>自动发售：</label>
+                            <span>
+                              <div>
+                                <ul class="ul-radio">
+                                  <li style="display:none">
+                                    <input type="radio" class="radio"   value="true" name="_fma.pu._0.aut" id="autoCC1" />
+                                    <label for="autoCC1">系统自动发售</label>
+                                  </li>
+                                  <li style="display:none">
+                                    <input type="radio" class="radio"   checked="checked"  value="false" name="_fma.pu._0.aut" id="autoCC2" />
+                                    <label for="autoCC2">不采用系统自动发售</label>
+                                  </li>
+                                </ul>
+                                <span style="font-size:12px; color:#F00;" id="checkHint">
+                                  提示：请按照正确格式正确填写密码和卡号。
+                                </span>
+                                <div style="position:relative;zoom:1">
+                                  <b>输入方式</b>
+                                  <br/>
+                                  <span>
+                                    1.请按照卡号+密码（即“卡号【空格】密码“）的格式正确填写，每行只能填入一条信息
+                                    <a href="http://service.taobao.com/support/knowledge-1119683.htm#1119683c">查看演示</a>
+                                  </span>
+                                  <span>
+                                    2.卡号和密码不允许输入任何中文和其他特殊字符
+                                  </span>
+                                </div>
+                                <span style="font-size:12px; color:#F00;">
+                                </span>
+                                <div style="position:relative;zoom:1">
+                                  <textarea id="autoArea" name="_fma.pu._0.auto" style="width:360px;height:240px"></textarea>
+                                  <i class="J_PopTip poptip-attention">
+                                    <b>提示信息：</b>
+                                    <br/>
+                                    <span>1.请不要随意使用非淘宝认可的第三方软件进行任何自动发货的相关操作，如有使用该类第三方软件引起卡密丢失或被盗，淘宝不承担任何责任。</span>
+                                    <br>
+                                    <span>2.为了避免突发事件给您带来的不必要损失，请您在输入卡密时做好相关卡密备份工作。如由您未及时备份造成的卡密意外损失，淘宝将概不负责!</span>
+                                  </i>
+                                </div>
+                                <input type="button" id="autoCheck" name="autoCheck" value="校验格式" >
+                                <br />
+                              </div>
+                              <input type="hidden" id="nav_autoArea" data-feed="err_nav_autoArea"/>
+                              <div id="err_nav_autoArea" style="display:none"></div>
+                            </span>
+                          </li>
+                          <li>
+                            <!--增加自动发货充值地址一栏-->
+                            <label for="autoConsignmentUrl">充值地址：</label>
+                            <span>
+                              <em>*</em>
+                              <div>
+                                <input id="autoConsignmentUrl" name="_fma.pu._0.autoc" value="" size="70" type="text" class="text"/>
+                                <span class="prop-tips">150字符以内</span>
+                              </div>
+                              <input type="hidden" id="nav_autoConsignmentUrl" data-feed="err_nav_autoConsignmentUrl"/>
+                              <div id="err_nav_autoConsignmentUrl" style="display:none"></div>
+                            </span>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                  <h5 id="logisticsTit" >2. 宝贝物流信息</h5>
+                  <div data-spm="1000771" id="logisticsDiv" class="form" >
+                    <ul>
+                      <li id="transport" class="fieldset">
+                        <label class="caption required"> 运费：</label>
+                        <div class="fields-box">
+                          <div class="transport-item logis" id="J_Logistics">
+
+                            <select id="J_deliverTemplate" name="_fma.pu._0.po">
+                            </select>
+                            <a href="#test-link" class="btn btn-default" id="J_ManageLogisTpl">
+                              <span class="btn-txt">新建运费模板</span>
+                            </a>
+                            <i class="J_PopTip poptip-attention">若无法成功新增运费模板，请您到卖家中心左侧物流工具设置新增运费模板后，再到该页面重新设置新增运费模板即可。</i>
+                            <i class="J_PopTip poptip-help">为了让消费者更好的购物体验，淘宝将要求全网商品设置运费模板，运费模板使用<a href="http://www.alibado.com/learning/study/detail-8977.htm" target="_blank">教程</a></i>
+                            <div id="J_Freight"  class="hint-popup">
+                              <div class="hint-contentbox  hint-default">
+                                <div class="logis-switch">
+                                </div>
+                                <div class="logis-content">
+                                </div>
+                              </div>
+                              <div class="deliver-warn">
+                              </div>
+                            </div>
+                            <input type="hidden" id="nav_postageid" data-feed="err_nav_postageid"/>
+                            <div id="err_nav_postageid" style="display:none"></div>
+                            <div class="alert alert-error">运费模板已进行升级，您的“宝贝所在地”、“卖家承担运费”等设置需要在运费模板中进行操作，<a href="http://bangpai.taobao.com/group/thread/15618809-289247776.htm" target="_blank">查看详情</a></div>
+                          </div>
+                          <input type="hidden" id="nav_deliveryWay" data-feed="err_nav_deliveryWay"/>
+                          <div id="err_nav_deliveryWay" style="display:none"></div>
+                        </div>
+                      </li>
+
+
+                    </ul>
+                  </div>                                                                                                                                                                                                                                                                                                                                <h5 id="saleServiceTit" >3. 售后保障信息</h5>
+                  <div id="saleServicediv" class="form J_DetectTrigger" name="nav_afterSale" data-detect="afterSale" >
+
+
+                    <li id="inv">
+                      <label>发票：</label>
+                      <span>
+                        <ul class="ul-radio">
+                          <li><input type="radio" class="radio"  class="radio"  checked="checked"  value="0" name="_fma.pu._0.ha" id="invoiceN"> <label for="invoiceN">无</label></li>
+                          <li><input type="radio" class="radio"  class="radio"  value="1" name="_fma.pu._0.ha" id="invoiceY"> <label for="invoiceY">有</label></li>
+                        </ul>
+                        <input type="hidden" id="nav_haveInvoice" data-feed="err_nav_haveInvoice"/>
+                        <div id="err_nav_haveInvoice" style="display:none"></div>
+                      </span>
+                    </li>
+                    <li id="wy">
+                      <label>保修：</label>
+                      <span>
+                        <ul class="ul-radio">
+                          <div class="">
+                            <li><input type="radio" class="radio"   checked="checked"  value="0" name="_fma.pu._0.hav" id="warrantyN"> <label for="warrantyN">无</label></li>
+                          </div>
+                          <li><input type="radio" class="radio"   value="1" name="_fma.pu._0.hav" id="warrantyY">
+                            <label for="warrantyY">有</label>
+                          </li>
+                        </ul>
+                        <input type="hidden" id="nav_haveGuarantee" data-feed="err_nav_haveGuarantee"/>
+                        <div id="err_nav_haveGuarantee" style="display:none"></div>
+                      </span>
+                    </li>
+                    <li id="mjcn">
+                      <label for="J_sellPromise">退换货承诺：</label>
+                      <span>
+                        <input id="J_sellPromise" value="1" name="_fma.pu._0.sel" type="checkbox" class="checkbox"  checked  />
+                        凡使用支付宝服务付款购买本店商品，若存在质量问题或与描述不符，本店将主动提供退换货服务并承担来回邮费!
+                      </span>
+                    </li>
+                    <li id="serviceAssurance">
+                      <label>服务保障：</label>
+                      <span>
+                        <input type="checkbox" id="J_serviceCheckbox" class="checkbox"  checked="true" disabled="true" />
+                        <input type="hidden" id="J_newPrepayTag" name="new_prepay_tag" value="0"/>
+                        <small>
+                          该商品品类须支持“七天退货”服务；承诺更好服务可通过<a href="http://xiaobao.taobao.com/contract/item_contract.htm?crtId=2" target="_blank">交易合约</a>设置
+                        </small>
+                      </span>
+                    </li>
+                    <li id="shsm">
+                      <input type="hidden" name="isVirtualCat" value="false" />
+                      <label>售后说明：</label>
+                      <span>
+                        <div id="J_AfterSale" style="word-wrap:break-word;">
+
+                        </div>
+                        <input id="J_AfterSale_Bak" type="hidden" value="" name="_fma.pu._0.aft" />
+                        <input type="hidden" id="J_AfterSaleId" value="" name="_fma.pu._0.af" />
+                        <button id="J_SelectAfterSale" type="button"> 添加说明 </button>
+                        <button id="J_SelectAfterSaleClear" type="button"  class="hidden" >取消说明</button>
+                        <span class="prop-tips" id="J_AfterSaleTips" class="hidden">填写售后说明，让买家更清楚售后保障，减少纠纷</span>
+                      </span>
+                    </li>
+                  </div>
+                  <h5 id="otherinfoTitle1"  style="display:none">3. 其他信息</h5>
+                  <h5 id="otherinfoTitle0" >4. 其他信息</h5>
+                  <div data-spm="1000772" class="form J_DetectTrigger" id="nav_otherInfo"  data-detect="otherInfo">
+                    <ul>
+                      <!-- xinpin: "" open-->
+                      <!-- "false" "false" ""-->
+                      <li id="auctionPromoted2"  style="display:none" >
+                        <label>会员打折：</label>
+                        <span>
+                          <ul class="ul-radio">
+                            <li><input type="radio" class="radio"  id="notAutoPromoted"  checked="checked" value="false" name="_fma.pu._0.isop"/><label for="notAutoPromoted">不参与会员打折</label></li>
+                            <li><input type="radio" class="radio"  id="isAutoPromoted"  value="true" name="_fma.pu._0.isop"/><label for="isAutoPromoted">参与会员打折</label></li>
+                          </ul>
+                        </span>
+                      </li>
+                      <li id="subStockAtBuyDiv" >
+                        <label>库存计数：</label>
+                        <span>
+                          <ul class="ul-radio ul-radio-vertical">
+                            <li><input type="radio" class="radio"  name="_fma.pu._0.su" id="subStockAtBuy1" value="1"  /><label for="subStockAtBuy1">拍下减库存</label>
+                              <i class="J_PopTip poptip-help">买家拍下商品即减少库存，存在<a target="blank" href="http://service.taobao.com/support/knowledge-5104445.htm?spm=0.0.0.122.83ee7e">恶拍</a>风险。秒杀、超低价等热销商品，如需避免超卖可选此方式</i>
+                            </li>
+                            <li><input type="radio" class="radio"  name="_fma.pu._0.su" id="subStockAtBuy0" value="0"  checked="checked" /><label for="subStockAtBuy0">付款减库存</label>
+                              <i class="J_PopTip poptip-help"> 买家拍下并完成付款方减少库存，存在<a target="blank" href="http://service.taobao.com/support/knowledge-1110945.htm?spm=a220z.1000885.0.103.c88ca1">超卖</a>风险。如需减少恶拍、提高回款效率，可选此方式</i>
+                            </li>
+                          </ul>
+                          <input type="hidden" id="nav_subStockAtBuy" data-feed="err_nav_subStockAtBuy"/>
+                          <div id="err_nav_subStockAtBuy" style="display:none"></div>
+                        </span>
+                      </li>
+                      <li id="J_AuctionExpiry">
+                        <label>有效期：</label>
+                        <span>
+                          <ul class="ul-radio">
+                            <li><input type="radio" class="radio" id="durationId7" name="_fma.pu._0.du" value="7" checked="checked"/><label for="durationId7">7天</label></li>
+                            <li>
+                              <span class="msg"  style="display:inline-block;">
+                                <span class="tips">即日起全网一口价宝贝的有效期统一为7天</span>
+                              </span>
+                            </li>
+                          </ul>
+                          <input type="hidden" id="nav_duration" data-feed="err_nav_duration"/>
+                          <div id="err_nav_duration" style="display:none"></div>
+                        </span>
+                      </li>
+                      <li>
+                        <label>开始时间：</label>
+                        <span id="J_publish-date">
+                          <input type="hidden" name="_fma.pu._0.sta" id="J_StartDate" value="" />
+                          <input type="hidden" name="_fma.pu._0.auct" id="J_ItemStatus" value="0"/>
+                          <ul class="ul-radio ul-radio-vertical">
+                            <li><input type="radio" class="radio" name="_now" value="0" id="_now0"  checked="checked"  /><label for="_now0">立刻</label></li>
+                            <li>
+                              <input type="radio" class="radio"  name="_now" value="1" id="_now1"  />
+                              <label for="_now1">设定</label>
+                              <select name="_date"  disabled="disabled" ></select>
+                              <select name="_hour"  disabled="disabled" ></select>
+                              时
+                              <select name="_minute"  disabled="disabled" ></select>
+                              分
+                              <i class="J_PopTip poptip-help" id="durainfo">您可以设定宝贝的正式开始销售时间</i>
+
+                            </li>
+                            <li><input type="radio" class="radio"  name="_now" value="2" id="inStock"    /><label for="inStock">放入仓库</label></li>
+                          </ul>
+                          <input type="hidden" id="nav_startStr" data-feed="err_nav_startStr"/>
+                          <div id="err_nav_startStr" style="display:none"></div>
+                          <input type="hidden" id="nav_auctionStatus" data-feed="err_nav_auctionStatus"/>
+                          <div id="err_nav_auctionStatus" style="display:none"></div>
+                        </span>
+                      </li>
+                      <li id="secKillDiv" >
+                        <label>秒杀商品：</label>
+                        <span>
+                          <ul class="ul-radio">
+                            <li><input type="checkbox" class="checkbox"  name="_fma.pu._0.se" value="web" id="secKillWeb" /><label for="secKillWeb">电脑用户</label></li>
+                            <li><input type="checkbox" class="checkbox"  name="_fma.pu._0.se" value="wap" id="secKillWap" /><label for="secKillWap">手机用户</label></li>
+                            <li>
+                              <span class="msg" id="secKillTipTrue"   style="display:none;"  >
+                                <span class="tips">勾选后商品详情页将不出现“加入购物车”按钮，并且单次购买数量不得超过一件</span>
+                              </span>
+                              <span class="msg" id="secKillTipFalse"  style="display:inline-block;"  >
+                                <i class="J_PopTip poptip-attention">若此商品参加秒杀活动，在此期间内必须设为秒杀商品，以防止作弊</i>
+                              </span>
+                            </li>
+                          </ul>
+                          <input type="hidden" id="nav_secKill" data-feed="err_nav_secKill"/>
+                          <div id="err_nav_secKill" style="display:none"></div>
+                        </span>
+                      </li>
+                      <li >
+                        <label>橱窗推荐：</label>
+                        <span>
+                          <ul class="ul-checkbox">
+                            <li>
+                              <input type="checkbox" class="checkbox" disabled="disabled" />
+                              <label for="promoted">否</label>
+                            </li>
+                            <li>
+                              <span class="msg"><span class="tips promoted-tip">您只有15个橱窗位，当前已经推荐15个，不能再推荐了哦</span></span>
+                            </li>
+                          </ul>
+                          <input type="hidden" id="nav_promotedStatus" data-feed="err_nav_promotedStatus"/>
+                          <div id="err_nav_promotedStatus" style="display:none"></div>
+                        </span>
+                      </li>
+                      <!-- 无名良品卖家设置支付宝的积分宝返点比例 -->
+
+
+
+                    </ul>
+                  </div>
+                  <div class="submit">
+                    <div class="float-submitbar">
+                      <button type="submit" data-name="event_submit_do_publish" name="event_submit_do_publish" class="J_Submit btn btn-main-primary btn-submit" id="event_submit_do_publish" value="发布" >
+                        <span class="btn-txt">发布</span>
+                      </button>
+                      <input type="hidden" id="J_EventHandler" value="anything" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ft">
+              <p class="form-tip"><em>*</em> 表示该项必填</p>
+            </div>
+            <span class="rc-bt"><span></span></span>
+
+          </div>
+        </form>
+
+        <div class="HackBox"></div>
+        <!-- from vmcommon -->
+        <style>
+          .g_foot{
+          width: 960px;
+          margin: 0 auto;
+          font: 12px/1.5 tahoma,arial,宋体b8b\4f53;
+          padding: 7px 0 9px;
+          color: #b0b0b0;
+          text-align: left !important;
+          position: relative;
+          clear:both;
+          }
+          .g_foot a{
+          margin: 0 2px;
+          color: #3e3e3e;
+          text-decoration:none;
+          }
+          .g_foot a:hover{
+          color: #F60;
+          text-decoration: underline;
+
+          }
+          .g_foot-ali{
+          margin-right: 100px;
+          padding-left: 0;
+          border-bottom: 1px solid #D3D3D3;
+          padding-bottom: 8px;
+          height: 18px;
+          }
+          .g_foot-nohover{
+          cursor: default;
+          }
+          .g_foot-nohover:hover{
+          color:#3e3e3e !important;
+          text-decoration:none !important;
+          }
+          .g_foot-ali a,.g_foot-ali b{
+          float: left;
+
+          }
+          .g_foot-ali b {
+          margin: 0 2px;
+          color:#d3d3d3;
+          font-weight: normal;
+          *margin-top:-1px;
+          margin-top:-1px \0/;
+          }
+          .g_foot-nav{
+          margin-top: 8px;
+          line-height: 20px;
+          }
+          .g_foot-nav span{
+          margin-left: 50px;
+          }
+          .g_foot-toy{
+          position: absolute;
+          background: url(http://img01.taobaocdn.com/tps/i1/T1MMPaXkNjXXaXezbh-48-70.png) no-repeat;
+          _background: url(http://img01.taobaocdn.com/tps/i1/T1XgzaXX0kXXaXezbh-48-70.png) no-repeat;
+          width: 69px;
+          height: 100px;
+          display: block;
+          right: 0px;
+          top:0px;
+          }
+          /* IE9 only */
+          :root .g_foot-toy {
+          right:-20px\9;
+          }
+          .g_foot-line{
+          display: none;
+          position: absolute;
+          background: url(http://img01.taobaocdn.com/tps/i1/T1I_56Xl0wXXXXXXXX-104-1.png) no-repeat;
+          width: 104px;
+          height: 1px;
+          right: 45px;
+          top:33px;
+          }
+
+          .footer-more {
+          cursor: pointer;
+          z-index: 1;
+          position: relative;
+          padding-top: 1px;
+          width: 82px;
+          float: left;
+          *top:-1px;
+          top:-2px \0/;
+
+          }
+          .footer-more-trigger {
+          position: absolute;
+
+          padding: 6px 11px 4px 14px;
+          width: 37px;
+          line-height: 1.3;
+          border: 1px solid #fff;
+          left:-12px;
+          top:-5px;
+          }
+
+          .footer-more-trigger .arrow{
+          position: absolute;
+          display: inline-block;
+          font-size: 0;
+          line-height: 0;
+          width: 0;
+          height: 0;
+          border: dashed 4px;
+          }
+          .footer-more-trigger .arrow-d {
+          border-color: #666 transparent transparent transparent;
+          border-top-style: solid;
+          right: 12px;
+          top: 11px;
+          }
+          .footer-more-panel {
+          text-align: left;
+          position: absolute;
+          right: 26px;
+          bottom: -90px;
+          padding: 7px 3px 2px 2px;
+          border: 1px solid #C5C5C5;
+          width: 57px;
+          background:
+          white;
+          line-height: 1.9;
+          display: none;
+          }
+          .footer-more-panel a {
+          float: none;
+          margin-right: 3px;
+          }
+          .footer-more-hover .footer-more-trigger,.footer-more:hover .footer-more-trigger {
+          border-color: #c5c5c5;
+          background: #fff;
+          border-bottom: 0;
+          }
+          .footer-more-hover .footer-more-panel,.footer-more:hover .footer-more-panel  {
+          display: block;
+          }
+
+          .footer-more-hover .footer-more-trigger .arrow-d,.footer-more:hover .footer-more-trigger .arrow-d {
+          -moz-transform: rotate(180deg);
+          -moz-transform-origin: 50% 30%;
+          -o-transform: rotate(180deg);
+          -o-transform-origin: 50% 30%;
+          -webkit-transform: rotate(180deg);
+          -webkit-transform-origin: 50% 30%;
+          transform: rotate(180deg);
+          transform-origin: 50% 30%;
+          filter: progid:DXImageTransform.Microsoft.BasicImage(rotation = 2);
+          *top: 8px;
+          top:8px \0/;
+          }
+        </style>
+        <div id="server-num">sell010096042058.cm3</div>
+      </div>
+      <!-- end vmcommon -->
+
+    </div>
   </body>
 </html>
