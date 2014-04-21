@@ -2776,60 +2776,9 @@
                         </span>
                       </li>
 
-
-                      <li class="extend-properties">
-                        <label class="extend-name ">运费模板：</label>
-                        <div class="extend-info extend-border">
-                          <div class="extend-box">
-
-                            <div data-child="sub-129" data-type="number" data-range="" class="extend-field">
-                              <label class="" for="field-129">物流体积(立方米)：</label>
-                              <input name="field-129" id="field-129" class="text" type="text" value="">
-                            </div>
-
-
-
-                            <div data-child="sub-128" data-type="number" data-range="" class="extend-field">
-                              <label class="" for="field-128">物流重量(千克)：</label>
-                              <input name="field-128" id="field-128" class="text" type="text" value="">
-                            </div>
-
-
-                          </div>
-                        </div>
-                      </li>
                       <input type="hidden" id="nav_30" data-feed="err_nav_30"/>
                       <div id="err_nav_30"  style="display:none"></div>
 
-
-                      <li class="fieldset toggle-customize">
-                        <label class="caption">宝贝定制：</label>
-                        <div class="fields-box">
-                          <div class="support-wrapper">
-                            <input id="J_CustomizeSupport" type="checkbox" name="support_custom_made" value="1" />
-                            <label for="J_CustomizeSupport">支持定制</label>
-                            <a href="http://bangpai.taobao.com/group/thread/301535-282612445.htm" target="_blank">
-                              <i class="poptip-help"></i>
-                            </a>
-                          </div>
-                          <!-- 如果勾选了定制，则不输出style属性和值；如果没勾选，则输出style属性和值。另外这行内容是注释，不需要写到vm里面。。 -->
-                          <div id="J_CustomizeTools" class="hint-popup hint-default" style="display:none;">
-                            <div class="hint-contentbox">
-                              <label class="caption">定制工具：</label>
-                              <div class="fields-box">
-                                <select name="custom_made_types" id="custom_made_types">
-                                  <option value=""></option>
-                                  <option value="1" >图片传输</option>
-                                </select>
-                              </div>
-                            </div>
-                            <div class="arrow arrow-up">
-                              <i class="outer"></i>
-                              <i class="inner"></i>
-                            </div>
-                          </div>
-                        </div>
-                      </li>
                       <li>
                         <div id="itemtitle" class="fieldset">
                           <label for="TitleID" class="caption required">宝贝标题：</label>
@@ -3095,31 +3044,6 @@
                                   </ul>
                                 </div>
                               </div>
-                              <div id="size-template" class="fieldset simselect-template">
-                                <label class="caption">尺码推荐：</label>
-                                <div class="fields-box">
-                                  <div class="controls">
-                                    <select id="J_SizeTempList" name="sizeTemplateId">
-                                      <option value="0">不使用尺码推荐</option>
-                                    </select>
-                                    <a class="btn-jump" href="http://size.taobao.com/template/templateList.htm?type=1&selectTemplateId=0" target="_blank">管理尺码模板</a>
-                                    <a href="http://bangpai.taobao.com/group/thread/1074986-275063579.htm" target="_blank"><i class="icon icon-help"></i> 使用说明</a>
-                                  </div>
-                                  <div class="size-notice-area">
-                                    <div class="msg-attention">
-                                      <i class="icon icon-attention"></i>
-                                      系统暂时无法链接到尺码模板库，请稍后再试。
-                                    </div>
-                                    <div class="size-point-hint hint-overlay">
-                                      <div class="hint-content">已有1000多万买家填写尺码数据，正等待您使用尺码推荐功能 </div>
-                                      <a tabindex="0" href='javascript:void("关闭")' role="button" class="hint-ext-close">
-                                        <span class="hint-ext-close-x">关闭</span>
-                                      </a>
-                                      <i class="overlay-arrow arrow-up"></i>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
                               <input type="hidden" id="nav_cp_20509" data-feed="err_NotNull_20509"/>
                               <div id="err_NotNull_20509"  style="display:none;" ></div>
                             </div>
@@ -3188,81 +3112,6 @@
                         </span>
                       </li>
 
-
-                      <li id="stock-addr">
-                        <div class="fieldset">
-                          <label class="caption">采购地：</label>
-                          <div class="fields-box">
-                            <div class="chktab">
-                              <label>
-                                <input type="radio" id="J_Internal" checked="true" name="is_global_stock" value="false"/>
-                                国内
-                              </label>
-                              <label>
-                                <input type="radio" id="J_Abroad"  name="is_global_stock" value="true"/>
-                                海外及港澳台
-                              </label>
-                              <i class="J_PopTip poptip-help">勾选即承诺商品采购于“海外及港澳台”，
-                                <a href="http://bangpai.taobao.com/group/thread/70135-285839829.htm" target="_blank">
-                                  将有机会进入全球购市场
-                                </a>。
-                              </i>
-                            </div>
-                            <div id="J_AbroadStock" class="hint-popup hint-default block-box" style="display:none;">
-                              <div class="fieldset">
-                                <label class="caption required">地区/国家：</label>
-                                <div class="fields-box">
-                                  <select name="gs_country" id="">
-                                    <option value="">--请选择地区/国家--</option>
-                                    <option value="美国" >美国</option>
-                                    <option value="香港" >香港</option>
-                                    <option value="日本" >日本</option>
-                                    <option value="英国" >英国</option>
-                                    <option value="新西兰" >新西兰</option>
-                                    <option value="德国" >德国</option>
-                                    <option value="韩国" >韩国</option>
-                                    <option value="荷兰" >荷兰</option>
-                                    <option value="澳洲" >澳洲</option>
-                                    <option value="法国" >法国</option>
-                                    <option value="意大利" >意大利</option>
-                                    <option value="台湾" >台湾</option>
-                                    <option value="澳门" >澳门</option>
-                                    <option value="加拿大" >加拿大</option>
-                                    <option value="瑞士" >瑞士</option>
-                                    <option value="西班牙" >西班牙</option>
-                                    <option value="泰国" >泰国</option>
-                                    <option value="新加坡" >新加坡</option>
-                                    <option value="马来西亚" >马来西亚</option>
-                                    <option value="菲律宾" >菲律宾</option>
-                                    <option value="其他" >其他</option>
-                                  </select>
-                                </div>
-                              </div>
-                              <div class="fieldset">
-                                <label class="caption required">库存类型：</label>
-                                <div class="fields-box">
-                                  <label>
-                                    <input type="radio" name="gs_type"  value="1"/>
-                                    现货<span class="muted">（可快速发货）</span>
-                                  </label>
-                                  <label>
-                                    <input type="radio" name="gs_type" checked="true" value="2"/>
-                                    海外代购<span class="muted">（无现货，需采购）</span>
-                                  </label>
-                                </div>
-                              </div>
-                              <div class="arrow arrow-up">
-                                <i class="outer"></i>
-                                <i class="inner"></i>
-                              </div>
-                            </div>
-                          </div>
-                          <input type="hidden" id="nav_global_stock_module" data-feed="err_nav_global_stock_module"/>
-                          <div id="err_nav_global_stock_module"  style="display:none"></div>
-                        </div>
-                      </li>
-
-
                       <li id="outerDiv" class="fieldset">
                         <label class="caption" for="outerIdId">商家编码：</label>
                         <div class="fields-box">
@@ -3272,18 +3121,6 @@
                           <div id="err_nav_outerId" style="display:none"></div>
                         </div>
                       </li>
-                      <li id="barcode" class="fieldset">
-                        <label class="caption" for="barcode">商品条形码：</label>
-                        <div class="fields-box">
-                          <input type="text" class="text text-short" maxLength="30" id="itemBarCode" name="itemBarCode" value=""/>
-                          <i class="J_PopTip poptip-help poptip-help-active" >条码添加可使用手机千牛扫条码插件/淘宝助理/ERP批量，也在此手填。</i>
-                          <span class="prop-tips" id="J_AfterSaleTips">有码商品，搜索或加权，<a href="http://bbs.taobao.com/catalog/thread/1328096-266494914-1.htm" target="_blank">查看教程添加</a>！</span>
-                          <input type="hidden" id="nav_item_barcode" data-feed="err_nav_item_barcode"/>
-                          <div id="err_nav_item_barcode" style="display:none"></div>
-                        </div>
-                      </li>
-
-
 
                       <li id="nav_item_pic">
                         <div id="J_Multimage" class="fieldset multimage">
@@ -3483,23 +3320,6 @@
                       </li>
                       <input type="hidden" name="_fma.pu._0.is" value="" />
                       <input type="hidden" name="_fma.pu._0.it" value="" />
-                      <li>
-                        <label>宝贝视频：</label>
-                        <span>
-                          <div id="J_UploadVideo" class="upload-manager upload-video ">
-                            <div class="main">
-                              <input type="hidden" name="_fma.pu._0.v" value="" class="J_VideoId" />
-                              <span class="preview"></span>
-                              <span class="upload">选择视频</span>
-                              <span class="act">
-                                <span class="del">删除</span>
-                              </span>
-                            </div>
-                          </div>
-                        </span>
-                        <input type="hidden" id="nav_videoId" data-feed="err_nav_videoId"/>
-                        <div id="err_nav_videoId" style="display:none"></div>
-                      </li>
                       <input type="hidden" name="_fma.pu._0.s" id="switchEditor" value="" />
                       <!-- @feilv 宝贝描述 模块化 -->
                       <input type="hidden" id="handleAuctionModule" name="handleAuctionModule" value="false" />
