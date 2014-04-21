@@ -3272,37 +3272,92 @@
                   <div data-spm="1000771" id="logisticsDiv" class="form" >
                     <ul>
                       <li id="transport" class="fieldset">
+                        <label class="caption required"> 所在地：</label>
+                        <div class="fields-box">
+                          <div class="transport-item logis">
+                            <select id="place" name="_fma.pu._0.po_place">
+                              <OPTION value="">----请选择省份----</OPTION>
+                              <OPTION value=安徽>安徽</OPTION>
+                              <OPTION value=北京>北京</OPTION>
+                              <OPTION value=重庆>重庆</OPTION>
+                              <OPTION value=福建>福建</OPTION>
+                              <OPTION value=甘肃>甘肃</OPTION>
+                              <OPTION selected value=广东>广东</OPTION>
+                              <OPTION value=广西>广西</OPTION>
+                              <OPTION value=贵州>贵州</OPTION>
+                              <OPTION value=海南>海南</OPTION>
+                              <OPTION value=河北>河北</OPTION>
+                              <OPTION value=黑龙江>黑龙江</OPTION>
+                              <OPTION value=河南>河南</OPTION>
+                              <OPTION value=湖北>湖北</OPTION>
+                              <OPTION value=湖南>湖南</OPTION>
+                              <OPTION value=江苏>江苏</OPTION>
+                              <OPTION value=江西>江西</OPTION>
+                              <OPTION value=吉林>吉林</OPTION>
+                              <OPTION value=辽宁>辽宁</OPTION>
+                              <OPTION value=内蒙古>内蒙古</OPTION>
+                              <OPTION value=宁夏>宁夏</OPTION>
+                              <OPTION value=青海>青海</OPTION>
+                              <OPTION value=山东>山东</OPTION>
+                              <OPTION value=上海>上海</OPTION>
+                              <OPTION value=山西>山西</OPTION>
+                              <OPTION value=陕西>陕西</OPTION>
+                              <OPTION value=四川>四川</OPTION>
+                              <OPTION value=天津>天津</OPTION>
+                              <OPTION value=新疆>新疆</OPTION>
+                              <OPTION value=西藏>西藏</OPTION>
+                              <OPTION value=云南>云南</OPTION>
+                              <OPTION value=浙江>浙江</OPTION>
+                              <OPTION value=香港>香港</OPTION>
+                              <OPTION value=澳门>澳门</OPTION>
+                              <OPTION value=台湾>台湾</OPTION>
+                              <OPTION value=海外>海外</OPTION>
+                            </select>
+                          </div>
+                        </div>
+                        <label class="caption required"> 城市：</label>
+                        <div class="fields-box">
+                          <div class="transport-item logis">
+                            <select id="city" name="_fma.pu._0.po_city">
+                              <OPTION value="">----请选择城市----</OPTION>
+                              <OPTION value="广州" selected>广州</OPTION>
+                            </select>
+                          </div>
+                        </div>
+                      </li>
+                      <li id="transport" class="fieldset">
                         <label class="caption required"> 运费：</label>
                         <div class="fields-box">
                           <div class="transport-item logis" id="J_Logistics">
 
-                            <select id="J_deliverTemplate" name="_fma.pu._0.po">
-                            </select>
-                            <a href="#test-link" class="btn btn-default" id="J_ManageLogisTpl">
-                              <span class="btn-txt">新建运费模板</span>
-                            </a>
-                            <i class="J_PopTip poptip-attention">若无法成功新增运费模板，请您到卖家中心左侧物流工具设置新增运费模板后，再到该页面重新设置新增运费模板即可。</i>
-                            <i class="J_PopTip poptip-help">为了让消费者更好的购物体验，淘宝将要求全网商品设置运费模板，运费模板使用<a href="http://www.alibado.com/learning/study/detail-8977.htm" target="_blank">教程</a></i>
-                            <div id="J_Freight"  class="hint-popup">
-                              <div class="hint-contentbox  hint-default">
-                                <div class="logis-switch">
-                                </div>
-                                <div class="logis-content">
-                                </div>
-                              </div>
-                              <div class="deliver-warn">
-                              </div>
-                            </div>
-                            <input type="hidden" id="nav_postageid" data-feed="err_nav_postageid"/>
-                            <div id="err_nav_postageid" style="display:none"></div>
-                            <div class="alert alert-error">运费模板已进行升级，您的“宝贝所在地”、“卖家承担运费”等设置需要在运费模板中进行操作，<a href="http://bangpai.taobao.com/group/thread/15618809-289247776.htm" target="_blank">查看详情</a></div>
+                            <DIV class="freight">
+                              <UL>
+                                <LI><LABEL><INPUT id="postage1" value="seller" type="radio" name="postages">卖家承担运费</LABEL></LI>
+                                <LI><LABEL><INPUT id="postage2" value="buyer" type="radio" name="postages">买家承担运费</LABEL></LI>
+                                <LI>
+                                  <DIV style="DISPLAY: none" id="Postages">
+                                    <UL>
+                                      <LI>普通交易运费</LI>
+                                      <LI>
+                                        <LABEL><INPUT id="post1" value="1" type="radio" name="post">使用运费模板</LABEL>
+                                      </LI>
+                                      <LI>
+                                        <LABEL><INPUT id="post2" value="2" type="radio" name="post">平邮：</LABEL>
+                                        <INPUT class="postagetext" type="text"  value="" name="post_fee">快递：
+                                        <INPUT class="postagetext" type="text" value="" name="express_fee"> EMS：
+                                        <INPUT class="postagetext" type="text"  value="" name="ems_fee">
+                                      </LI>
+                                    </UL>
+                                  </DIV>
+                                </LI>
+                              </UL>
+                            </DIV>
+
                           </div>
                           <input type="hidden" id="nav_deliveryWay" data-feed="err_nav_deliveryWay"/>
                           <div id="err_nav_deliveryWay" style="display:none"></div>
                         </div>
                       </li>
-
-
                     </ul>
                   </div>                                                                                                                                                                                                                                                                                                                          <h5 id="saleServiceTit" >3. 售后保障信息</h5>
                   <div id="saleServicediv" class="form J_DetectTrigger" name="nav_afterSale" data-detect="afterSale" >
