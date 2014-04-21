@@ -17,6 +17,7 @@ class UploadAction extends CommonAction {
             'taobaoItemTitle' => $taobaoItem->title,
             'propsHtml' => $propsHtml,
             'price' => $taobaoItem->price,
+            'desc' => $taobaoItem->desc,
         ));
         $this->display();
     }
