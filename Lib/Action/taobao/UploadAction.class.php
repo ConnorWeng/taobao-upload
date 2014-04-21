@@ -12,7 +12,7 @@ class UploadAction extends CommonAction {
         $taobaoItemId = I('taobaoItemId');
         Util::changeTaoAppkey($taobaoItemId);
         $taobaoItem = $this->checkApiResponse(OpenAPI::getTaobaoItem($taobaoItemId));
-        $propsHtml = $this->makePropsHtml($taobaoItem->cid);
+        $propsHtml = $this->makePropsHtml($taobaoItem->cid, $taobaoItem->props_name);
         $this->assign(array(
             'taobaoItemTitle' => $taobaoItem->title,
             'propsHtml' => $propsHtml,
@@ -20,7 +20,7 @@ class UploadAction extends CommonAction {
         $this->display();
     }
 
-    private function makePropsHtml($cid) {
+    private function makePropsHtml($cid, $propsName) {
         $props = $this->checkApiResponse(OpenAPI::getTaobaoItemProps($cid));
         $count = count($props->item_prop);
         $html = '';
@@ -35,7 +35,13 @@ class UploadAction extends CommonAction {
                 $valueCount = count($prop->prop_values->prop_value);
                 for ($j = 0; $j < $valueCount; $j++) {
                     $value = $prop->prop_values->prop_value[$j];
-                    $html .= '<option value="'.$prop->pid.':'.$value->vid.'">'.$value->name.'</option>';
+                    $optionValue = $prop->pid.':'.$value->vid;
+                    if (strpos($propsName, $optionValue)) {
+                        $selected = 'selected';
+                    } else {
+                        $selected = '';
+                    }
+                    $html .= '<option value="'.$optionValue.'" '.$selected.'>'.$value->name.'</option>';
                 }
             }
             $html .= '</select>';
