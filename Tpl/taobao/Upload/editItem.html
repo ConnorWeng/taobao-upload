@@ -184,11 +184,11 @@
                           <em>*</em>
                           <ul class="ul-radio">
                             <li>
-                              <input type="radio" class="radio"  value="5" name="_fma.pu._0.stu" id="on1"  />
+                              <input type="radio" class="radio"  value="5" name="_fma.pu._0.stu" id="on1" checked/>
                               <label  for="on1">全新</label>
                             </li>
                             <li class="used-desc">
-                              <input type="radio" class="radio"  value="6" name="_fma.pu._0.stu" id="on6" />
+                              <input type="radio" class="radio"  value="6" name="_fma.pu._0.stu" id="on6" disabled/>
                               <label for="on6">二手</label>
                               <i class="J_PopTip poptip-attention">即日起，限制全新和二手宝贝的互转。发布闲置宝贝，请走<a href="http://sell.2.taobao.com/publish/publish.htm">卖闲置</a>简易流程</i>
                             </li>
@@ -3062,35 +3062,6 @@
                           <label class="caption ">宝贝图片：</label>
                           <div class="fields-box">
                             <div class="multimage-wrapper">
-                              <div class="multimage-tabs">
-                                <div data-type="local" class="tab actived">本地上传</div>                <div data-type="remote-image" class="tab">图片空间</div>
-                                <div data-type="remote-video" class="tab">视频中心</div>
-                                <a href="http://bbs.taobao.com/catalog/thread/514518-265670701.htm" target="_blank">图片空间超大容量全免费！</a>
-                              </div>
-                              <div class="multimage-panels">
-                                <div class="panel local-panel">
-                                  <div class="upload-field">
-                                    <label for="J_MultimageField">选择本地图片：</label>
-                                    <a href="javascript:void(0);" class="btn btn-default">
-                                      <span class="btn-txt">文件上传</span>
-                                      <input type="file" name="multimagefile" id="J_MultimageField"/>
-                                    </a>
-                                  </div>
-
-                                  <div class="multimage-tips">
-                                    <div class="tip-title">提示：</div>
-                                    <ol>
-                                      <li>本地上传图片大小不能超过<strong class="bright">500K</strong>。</li>
-                                      <li>本类目下您最多可以上传<strong class="bright"> 6 </strong>张图片。</li>															<li>背景图是淘宝提供的范例，请尽量参照范例选图，发布后范例不会显示。</li>
-                                      <li>若不上传<strong class="bright">竖图</strong>，搜索列表、市场活动等页面的竖图模式将无法展示宝贝。</li>
-                                    </ol>
-                                  </div>
-                                </div>
-                                <div class="panel remote-panel remote-image">
-                                </div>
-                                <div class="panel remote-panel remote-video">
-                                </div>
-                              </div>
                               <div class="multimage-info ">
                                 <div class="info-wrapper">
                                   <div class="msg">
@@ -3099,24 +3070,6 @@
                                   </div>
                                   <div class="multimage-gallery">
                                     <ul>
-                                      <li class="video" data-index="0">
-                                        <div class="preview">
-                                          <input type="hidden" class="hideimageurl" name="videoAsPicThum" value=""/>
-                                          <input type="hidden" class="hidevideoid" name="videoAsPicId" value=""/>
-                                          <input type="hidden" class="hidevideoduration" name="videoAsPicDuration" value=""/>
-                                          <input type="hidden" name="pisAsVideoStatus" value=""/>
-                                        </div>
-                                        <div class="info">主图视频</div>
-                                        <div class="examp">
-                                          <div class="desc">
-                                            视频长度<em class="bright">9秒</em>内
-                                          </div>
-                                        </div>
-                                        <div class="operate">
-                                          <span class="ph-tip">00:00</span>
-                                          <i class="del">删除</i>
-                                        </div>
-                                      </li>
                                       <li class=" primary " data-index="1">
                                         <input name="image_pos" type="hidden" value="1" />
                                         <div class="preview">
@@ -3452,42 +3405,11 @@
                         <div id="err_nav_haveGuarantee" style="display:none"></div>
                       </span>
                     </li>
-                    <li id="mjcn">
-                      <label for="J_sellPromise">退换货承诺：</label>
-                      <span>
-                        <input id="J_sellPromise" value="1" name="_fma.pu._0.sel" type="checkbox" class="checkbox"  checked  />
-                        凡使用支付宝服务付款购买本店商品，若存在质量问题或与描述不符，本店将主动提供退换货服务并承担来回邮费!
-                      </span>
-                    </li>
-                    <li id="serviceAssurance">
-                      <label>服务保障：</label>
-                      <span>
-                        <input type="checkbox" id="J_serviceCheckbox" class="checkbox"  checked="true" disabled="true" />
-                        <input type="hidden" id="J_newPrepayTag" name="new_prepay_tag" value="0"/>
-                        <small>
-                          该商品品类须支持“七天退货”服务；承诺更好服务可通过<a href="http://xiaobao.taobao.com/contract/item_contract.htm?crtId=2" target="_blank">交易合约</a>设置
-                        </small>
-                      </span>
-                    </li>
                     <script type="text/javascript">
                       Sell.Config.set("serviceAssurance", {
                       link:  "http://xiaobao.taobao.com/contract/item_contract.htm?crtId=2"
                       });
                     </script>
-                    <li id="shsm">
-                      <input type="hidden" name="isVirtualCat" value="false" />
-                      <label>售后说明：</label>
-                      <span>
-                        <div id="J_AfterSale" style="word-wrap:break-word;">
-
-                        </div>
-                        <input id="J_AfterSale_Bak" type="hidden" value="" name="_fma.pu._0.aft" />
-                        <input type="hidden" id="J_AfterSaleId" value="" name="_fma.pu._0.af" />
-                        <button id="J_SelectAfterSale" type="button"> 添加说明 </button>
-                        <button id="J_SelectAfterSaleClear" type="button"  class="hidden" >取消说明</button>
-                        <span class="prop-tips" id="J_AfterSaleTips" class="hidden">填写售后说明，让买家更清楚售后保障，减少纠纷</span>
-                      </span>
-                    </li>
                   </div>
                   <h5 id="otherinfoTitle1"  style="display:none">3. 其他信息</h5>
                   <h5 id="otherinfoTitle0" >4. 其他信息</h5>
@@ -3558,25 +3480,6 @@
                           <div id="err_nav_startStr" style="display:none"></div>
                           <input type="hidden" id="nav_auctionStatus" data-feed="err_nav_auctionStatus"/>
                           <div id="err_nav_auctionStatus" style="display:none"></div>
-                        </span>
-                      </li>
-                      <li id="secKillDiv" >
-                        <label>秒杀商品：</label>
-                        <span>
-                          <ul class="ul-radio">
-                            <li><input type="checkbox" class="checkbox"  name="_fma.pu._0.se" value="web" id="secKillWeb" /><label for="secKillWeb">电脑用户</label></li>
-                            <li><input type="checkbox" class="checkbox"  name="_fma.pu._0.se" value="wap" id="secKillWap" /><label for="secKillWap">手机用户</label></li>
-                            <li>
-                              <span class="msg" id="secKillTipTrue"   style="display:none;"  >
-                                <span class="tips">勾选后商品详情页将不出现“加入购物车”按钮，并且单次购买数量不得超过一件</span>
-                              </span>
-                              <span class="msg" id="secKillTipFalse"  style="display:inline-block;"  >
-                                <i class="J_PopTip poptip-attention">若此商品参加秒杀活动，在此期间内必须设为秒杀商品，以防止作弊</i>
-                              </span>
-                            </li>
-                          </ul>
-                          <input type="hidden" id="nav_secKill" data-feed="err_nav_secKill"/>
-                          <div id="err_nav_secKill" style="display:none"></div>
                         </span>
                       </li>
                       <li >
