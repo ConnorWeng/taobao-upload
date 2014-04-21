@@ -16,6 +16,7 @@ class UploadAction extends CommonAction {
         $this->assign(array(
             'taobaoItemTitle' => $taobaoItem->title,
             'propsHtml' => $propsHtml,
+            'price' => $taobaoItem->price,
         ));
         $this->display();
     }
@@ -26,6 +27,7 @@ class UploadAction extends CommonAction {
         $html = '';
         for ($i = 0; $i < $count; $i++) {
             $prop = $props->item_prop[$i];
+            if ($this->isSpecProp($prop)) continue;
             $html .= '<li class="J_spu-property" id="spu_'.$prop->pid.'">';
             $html .= '<label class="label-title">'.$prop->name.':</label>';
             $html .= '<span><ul class="J_ul-single ul-select"><li>';
@@ -49,5 +51,11 @@ class UploadAction extends CommonAction {
             $html .= '</li>';
         }
         return $html;
+    }
+
+    private function isSpecProp($prop) {
+        if ($prop->pid == '1627207') return true;
+        if ($prop->pid == '20509') return true;
+        return false;
     }
 }
