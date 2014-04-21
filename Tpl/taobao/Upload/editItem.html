@@ -6,8 +6,10 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>
-      淘宝网 - 淘!我喜欢
+      51淘上传
     </title>
+    <script type="text/javascript" src="http://libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+    <import type="js" file="js.CLEditor1_4_4.cleditor" basepath="./Public"/>
     <script type="text/javascript">
       window.g_config={startTime:+new Date,appId:1021};
     </script>
@@ -2689,73 +2691,6 @@
 
                                 {$propsHtml}
 
-                                <li class="J_spu-property" id="spu_18067093" name="spus">
-                                  <label class="label-title">图案文化：</label>
-                                  <span>
-                                    <ul class="J_ul-single ul-select"><li>
-
-                                        <select name="cp_18067093" id="prop_18067093" data-transtype="dropbox">
-                                          <option value=""> </option>
-
-                                          <option  value="18067093:3383664" >创意</option>
-
-
-                                          <option  value="18067093:8883924" >科幻</option>
-
-
-
-                                          <option  value="18067093:3240637" >电影</option>
-
-
-
-                                          <option  value="18067093:3232417" >搞怪</option>
-
-
-
-                                          <option  value="18067093:27780" >爱情</option>
-
-
-
-                                          <option  value="18067093:125202522" >亲情</option>
-
-
-
-                                          <option  value="18067093:3255435" >经典</option>
-
-
-
-                                          <option  value="18067093:3336789" >青春</option>
-
-
-
-                                          <option  value="18067093:12571527" >文艺</option>
-
-
-
-                                          <option  value="18067093:3234740" >魔幻</option>
-
-
-
-                                          <option  value="18067093:20346280" >幽默</option>
-
-
-
-                                          <option  value="18067093:46726" >童话</option>
-
-
-
-                                          <option  value="18067093:37110066" >节庆</option>
-
-
-
-                                          <option  value="18067093:20213" >其他</option>
-                                        </select>
-                                    </li></ul>
-                                  </span>
-                                  <input type="hidden" id="nav_cp_18067093" data-feed="err_NotNull_18067093"/>
-                                  <div id="err_NotNull_18067093"  style="display:none;" ></div>
-                                </li>
-
                                 <li class="J_spu-property" id="spu_33243" name="spus">
                                   <label class="label-title">流行元素：</label>
                                   <span>
@@ -3330,18 +3265,12 @@
 
                           <ul class="tab tab-nav">
                             <li><a href="#J_ItemEditor" class="pc" data-spm-click="gostr=/tbsell;locaid=d201312051539">电脑端</a></li>
-                            <li><a href="#J_MobileEditor" class="mobile" id="J_MobileTab" data-spm-click="gostr=/tbsell;locaid=d201312051540">手机端<i class="new"></i></a></li>
+                            <!--li><a href="#J_MobileEditor" class="mobile" id="J_MobileTab" data-spm-click="gostr=/tbsell;locaid=d201312051540">手机端<i class="new"></i></a></li-->
                           </ul>
                           <div class="tab-content">
-                            <div class="give-tip">立即设置手机版宝贝详情页，即可获得：流量倾斜/搜索加权/优先展示，点击“手机端”操作吧！<a class="give-close"></a></div>
                             <div id="J_ItemEditor" class="tab-pannel itemEditor editor desc-wrap">
-                              <div class="msg-attention">
-                                <i class="icon icon-attention"></i>
-                                为了保证图片展示的质量，淘宝网将不允许新增使用外链图片。<a href="http://bbs.taobao.com/catalog/thread/514518-265836286.htm" target="_blank">若继续发布使用将会对图片进行屏蔽处理！</a>。
-                              </div>
                               <div  class="editor"  id='newEditorContainer'>
                                 <textarea id="J_ItemDescTextarea_newer" name="_fma.pu._0.d" data-feed="err__fma.pu._0.d" style="width:638px;height:350px" data-template="false">{$desc}</textarea>
-                                <div id="J_EditorTemplateTip" class="ke-guid-required-tip" style="display:none;">有标题下未输入内容，宝贝发布后，空白标题将被自动删除。请补充内容，若无需补充，请忽略本提示继续发布。</div>
                                 <input type="hidden" id="nav_description" data-feed="err_nav_description"/>
                                 <div id="err_nav_description" style="display:none"></div>
                               </div>
@@ -3706,177 +3635,182 @@
                                 </script>
                                 <script src="http://assets.taobaocdn.com/apps/delivery/jstorage/jstorage-pkg-min.js"></script>
                                 <script type="text/javascript">
-                                  Sell.Config.set('SPU', {
-                                  'url': '/auction/publish/sub_properties.htm',
-                                  'relationURL': '/auction/publish/get_spu.htm',
-                                  'extendURL': "/auction/publish/sub_properties.htm",
-                                  'fuzzyQueryURL':"/auction/json/fuzzy_association.htm?cid=50000671",
-                                  'checkedTheatre':['20000:115338'],
-                                  'isNowEdit': 'false',
-                                  'editDisable' : false,
-                                  'simData': {'20000':['20000:115338']}    });
-                                  Sell.Config.set('ItemProperties', {
-                                  checklist: {
-                                  20000: "/auction/json/asyn_brand_check.htm?catId=50000671"
-                                  },
-                                  eCard: {
-                                  elECard: '#',
-                                  eCardPV: ''
-                                  },
-                                  autoSaleList: [
-                                  ],
-                                  limitCredentialList: {}
-                                  });
-                                  Sell.Config.set('pictort', {
-                                  picSPURL: 'http://tadget.taobao.com/picsafety/about.htm',
-                                  reportTortURL: 'http://support.taobao.com/myservice/reportpicture/pictureReportCreate.htm?beReportId=&beReportNick=&beReportTfsName=&beReportCopyrightId=&reportTfsName=&reportSource=2',
-                                  genuinePicURL:'http://taobaocdn.com/imgextra',
-                                  tortPicURL: 'http://taobaocdn.com/imgextra'
-                                  });
-                                  Sell.Config.set('AfterSale', {
-                                  defList: {
-                                  },
-                                  url: "listAfterSale.htm"
-                                  });
-                                  Sell.Config.set('ItemType', {
-                                  "priceLimit": {
-                                  "a-6": ["1.0", "0.0"]
-                                  ,                    "b-5": ["5.0", "0.0"]
-                                  }
-                                  });
-                                  Sell.Config.set('ItemTitle', {
-                                  autoTitleCats : [
-                                  "211104",//奶粉
-                                  "1101",//笔记本电脑
-                                  "1512",//手机
-                                  "1403",//普通数码相机
-                                  "50003773",//专业数码单反
-                                  "1402",//数码摄像机
-                                  "110502",//品牌液晶显示器
-                                  "110202",//内存
-                                  "110203",//cpu
-                                  "110207",//硬盘
-                                  "110201",//主板
-                                  "110206",//显卡
-                                  "110507"//移动硬盘
-                                  ],
-                                  pinpaiId : "prop_20000",
-                                  ticketCat : "50009060",
-                                  ticketPid : "31737",
-                                  ticketPro : "31737:105351"
-                                  });
+    Sell.Config.set('SPU', {
+        'url': '/auction/publish/sub_properties.htm',
+        'relationURL': '/auction/publish/get_spu.htm',
+        'extendURL': "/auction/publish/sub_properties.htm",
+        'fuzzyQueryURL':"/auction/json/fuzzy_association.htm?cid=50000671",
+        'checkedTheatre':['20000:115338'],
+        'isNowEdit': 'false',
+        'editDisable' : false,
+        'simData': {'20000':['20000:115338']}
+    });
+
+Sell.Config.set('ItemProperties', {
+    checklist: {
+        20000: "/auction/json/asyn_brand_check.htm?catId=50000671"
+    },
+    eCard: {
+        elECard: '#',
+        eCardPV: ''
+    },
+    autoSaleList: [
+    ],
+    limitCredentialList: {}
+});
+Sell.Config.set('pictort', {
+    picSPURL: 'http://tadget.taobao.com/picsafety/about.htm',
+    reportTortURL: 'http://support.taobao.com/myservice/reportpicture/pictureReportCreate.htm?beReportId=&beReportNick=&beReportTfsName=&beReportCopyrightId=&reportTfsName=&reportSource=2',
+    genuinePicURL:'http://taobaocdn.com/imgextra',
+    tortPicURL: 'http://taobaocdn.com/imgextra'
+});
+Sell.Config.set('AfterSale', {
+    defList: {
+    },
+    url: "listAfterSale.htm"
+});
+Sell.Config.set('ItemType', {
+    "priceLimit": {
+        "a-6": ["1.0", "0.0"]
+        ,                    "b-5": ["5.0", "0.0"]
+    }
+});
+Sell.Config.set('ItemTitle', {
+    autoTitleCats : [
+        "211104",//奶粉
+        "1101",//笔记本电脑
+        "1512",//手机
+        "1403",//普通数码相机
+        "50003773",//专业数码单反
+        "1402",//数码摄像机
+        "110502",//品牌液晶显示器
+        "110202",//内存
+        "110203",//cpu
+        "110207",//硬盘
+        "110201",//主板
+        "110206",//显卡
+        "110507"//移动硬盘
+    ],
+    pinpaiId : "prop_20000",
+    ticketCat : "50009060",
+    ticketPid : "31737",
+    ticketPro : "31737:105351"
+});
 
 
-                                  Sell.Config.set('SKU', {
-                                  "storage":{},
-                                  "treeGroups":[],
-                                  "customGroups":[],
+Sell.Config.set('SKU', {
+    "storage":{},
+    "treeGroups":[],
+    "customGroups":[],
 
 
-                                  "config":{
-                                  "showPrice": true,
-                                  "suitable": true,
-                                  "isSupply": false,
-                                  "barcode": true ,
-                                  "batch": true,
-                                  "less": false,
-                                  "lesshelp": "http://service.taobao.com/support/knowledge-5425552.htm",
-                                  "MAX_PID":  -1,
-                                  "MAX_VID":  -1,
-                                  "treeLeafLimit": {
-                                  "count": 150
-                                  },
-                                  "api": {
-                                  getGroup: "./sub_sale_properties.htm",
-                                  search: "./sale_properties_search.htm",
-                                  download: "./download_sku_template.do",
-                                  upload: "../json/upload_sku_template.htm"
-                                  }
-                                  }
-                                  });			Sell.Config.set('Multimages', {
-                                  remoteImageURL: "http://tadget.taobao.com/redaction/quickInsert.htm?showUpload=0&catid=50000671&small&no-tab&area-only&single-select&pageSize=10",
-                                  uploadURL: "/auction/publish/uploadSingleImage.do",
-                                  proxyImageURL: "http://upload.taobao.com/auction/publish/multi_proxy.htm",
-                                  remoteCheckURL: "/auction/publish/checkSingleImage.do",
-                                  remoteVideoURL:"http://ugc.taobao.com/sell/mainPicVideo.htm?from=sell",
-                                  proxyVideoURL:"http://upload.taobao.com/auction/publish/multi_proxy.htm?",
-                                  actived: "local",
-                                  version: "v1"
-                                  });
+    "config":{
+        "showPrice": true,
+        "suitable": true,
+        "isSupply": false,
+        "barcode": true ,
+        "batch": true,
+        "less": false,
+        "lesshelp": "http://service.taobao.com/support/knowledge-5425552.htm",
+        "MAX_PID":  -1,
+        "MAX_VID":  -1,
+        "treeLeafLimit": {
+            "count": 150
+        },
+        "api": {
+            getGroup: "./sub_sale_properties.htm",
+            search: "./sale_properties_search.htm",
+            download: "./download_sku_template.do",
+            upload: "../json/upload_sku_template.htm"
+        }
+    }
+});
 
+Sell.Config.set('Multimages', {
+    remoteImageURL: "http://tadget.taobao.com/redaction/quickInsert.htm?showUpload=0&catid=50000671&small&no-tab&area-only&single-select&pageSize=10",
+    uploadURL: "/auction/publish/uploadSingleImage.do",
+    proxyImageURL: "http://upload.taobao.com/auction/publish/multi_proxy.htm",
+    remoteCheckURL: "/auction/publish/checkSingleImage.do",
+    remoteVideoURL:"http://ugc.taobao.com/sell/mainPicVideo.htm?from=sell",
+    proxyVideoURL:"http://upload.taobao.com/auction/publish/multi_proxy.htm?",
+    actived: "local",
+    version: "v1"
+});
 
-                                  Sell.Config.set('Measurement', {
-                                  specDetails:  null ,
-                                  oldSpecValue:  null ,
-                                  selectedIndex:  null     });
-                                  Sell.Config.set('SaleTime', {
-                                  server: "1398010981773",
-                                  maxDate: 14
-                                  });
+Sell.Config.set('Measurement', {
+    specDetails:  null ,
+    oldSpecValue:  null ,
+    selectedIndex:  null     });
+Sell.Config.set('SaleTime', {
+    server: "1398010981773",
+    maxDate: 14
+});
 
-                                  Sell.Config.set('Logistics', {
-                                  templateURL: "http://delivery.taobao.com/detail/getTemplateByIdAndUserId.do?user_id=2000128480",
-                                  viewURL: "http://wuliu.taobao.com/user/logis_tools.htm?tabSource=carriageTemplate&fromType=fromPublishNew&categoryid=50000671",
-                                  manageURL: "http://wuliu.taobao.com/user/logis_tools.htm?tabSource=carriageTemplate&fromType=fromPublishNew&categoryid=50000671&forceSellerPay= false",
-                                  listURL: "http://upload.taobao.com/auction/json/listDeliveryTemplates.htm?catId=50000671&aucType= fixed"
-                                  });
+/*
+Sell.Config.set('Logistics', {
+    templateURL: "http://delivery.taobao.com/detail/getTemplateByIdAndUserId.do?user_id=2000128480",
+    viewURL: "http://wuliu.taobao.com/user/logis_tools.htm?tabSource=carriageTemplate&fromType=fromPublishNew&categoryid=50000671",
+    manageURL: "http://wuliu.taobao.com/user/logis_tools.htm?tabSource=carriageTemplate&fromType=fromPublishNew&categoryid=50000671&forceSellerPay= false",
+    listURL: "http://upload.taobao.com/auction/json/listDeliveryTemplates.htm?catId=50000671&aucType=fixed"
+});
+*/
 
-                                  Sell.Config.set('Location', {
-                                  province:  "" ,
-                                  city: ""
-                                  });
-                                  Sell.Config.set('size-template', {
-                                  url: "http://size.taobao.com/json/template_names.htm?type=1&userId=2000128480",
-                                  tpId: "0",
-                                  createURL: 'http://size.taobao.com/template/templateList.htm?type=1'
-                                  });
-                                  Sell.Config.set('offline-template', {
-                                  url: "http://offlinepay.taobao.com/manager/AgentRelationListForSell.do",
-                                  tpId: ""
-                                  });
-                                  Sell.Config.set('book-isbn', {
-                                  checkAPI: "../json/isbn_check.htm?cid=50000671",
-                                  addAPI: "../json/isbn_addition.htm?cid=50000671",
-                                  token:"a4yUGjpDn"
-                                  });
-                                  Sell.Config.set('CustomProp', {
-                                  apiDel: "../json/delete_property_template.htm",
-                                  apiSave: "../json/save_property_template.htm",
-                                  token: "a4yUGjpDn",
-                                  items: [],
-                                  templs:[]	});
+Sell.Config.set('Location', {
+    province:  "" ,
+    city: ""
+});
+Sell.Config.set('size-template', {
+    url: "http://size.taobao.com/json/template_names.htm?type=1&userId=2000128480",
+    tpId: "0",
+    createURL: 'http://size.taobao.com/template/templateList.htm?type=1'
+});
+Sell.Config.set('offline-template', {
+    url: "http://offlinepay.taobao.com/manager/AgentRelationListForSell.do",
+    tpId: ""
+});
+Sell.Config.set('book-isbn', {
+    checkAPI: "../json/isbn_check.htm?cid=50000671",
+    addAPI: "../json/isbn_addition.htm?cid=50000671",
+    token:"a4yUGjpDn"
+});
+Sell.Config.set('CustomProp', {
+    apiDel: "../json/delete_property_template.htm",
+    apiSave: "../json/save_property_template.htm",
+    token: "a4yUGjpDn",
+    items: [],
+    templs:[]	});
 
-                                  Sell.Config.set('Helper', {
-                                  isPublish:  true ,
-                                  qaURL:  "http://service.taobao.com/support/minerva/beta_robot_main.htm?sourceId=1323101045" ,
-                                  nav: {"items":[{"id":["old_new"],"text":"宝贝类型","detail":"宝贝类型","isExist":true,"showType":0},{"id":["itemproperties"],"text":"宝贝属性","detail":"宝贝属性","isExist":true,"showType":0},{"id":["TitleID"],"text":"宝贝标题","detail":"宝贝标题","isExist":true,"showType":0},{"id":["fixpriceOption2"],"text":"一口价","detail":"一口价","isExist":true,"showType":0},{"id":["J_SellProperties"],"text":"宝贝规格","detail":"宝贝规格","isExist":true,"showType":0},{"id":["quantity"],"text":"宝贝数量","detail":"宝贝数量","isExist":true,"showType":0},{"id":["nav_item_pic"],"text":"宝贝图片","detail":"宝贝图片","isExist":true,"showType":0},{"id":["desc"],"text":"宝贝描述","detail":"宝贝描述","isExist":true,"showType":0},{"id":["logisticsDiv"],"text":"物流信息","detail":"物流信息","isExist":true,"showType":0},{"id":["saleServicediv"],"text":"售后保障","detail":"售后保障","isExist":true,"showType":0},{"id":["nav_otherInfo"],"text":"其他信息","detail":"其他信息","isExist":true,"showType":0}],"name":"页面导航","showType":1,"type":"nav"} ,
-                                  "groups": []        });
-                                  Sell.Config.set('crossimage', {
-                                  msg: "以下外链图片将会被屏蔽，请在编辑器中修改。若图片较多，请使用淘宝助理进行搬家！"
-                                  });
+Sell.Config.set('Helper', {
+    isPublish:  true ,
+    qaURL:  "http://service.taobao.com/support/minerva/beta_robot_main.htm?sourceId=1323101045" ,
+    nav: {"items":[{"id":["old_new"],"text":"宝贝类型","detail":"宝贝类型","isExist":true,"showType":0},{"id":["itemproperties"],"text":"宝贝属性","detail":"宝贝属性","isExist":true,"showType":0},{"id":["TitleID"],"text":"宝贝标题","detail":"宝贝标题","isExist":true,"showType":0},{"id":["fixpriceOption2"],"text":"一口价","detail":"一口价","isExist":true,"showType":0},{"id":["J_SellProperties"],"text":"宝贝规格","detail":"宝贝规格","isExist":true,"showType":0},{"id":["quantity"],"text":"宝贝数量","detail":"宝贝数量","isExist":true,"showType":0},{"id":["nav_item_pic"],"text":"宝贝图片","detail":"宝贝图片","isExist":true,"showType":0},{"id":["desc"],"text":"宝贝描述","detail":"宝贝描述","isExist":true,"showType":0},{"id":["logisticsDiv"],"text":"物流信息","detail":"物流信息","isExist":true,"showType":0},{"id":["saleServicediv"],"text":"售后保障","detail":"售后保障","isExist":true,"showType":0},{"id":["nav_otherInfo"],"text":"其他信息","detail":"其他信息","isExist":true,"showType":0}],"name":"页面导航","showType":1,"type":"nav"} ,
+    "groups": []        });
+Sell.Config.set('crossimage', {
+    msg: "以下外链图片将会被屏蔽，请在编辑器中修改。若图片较多，请使用淘宝助理进行搬家！"
+});
                                 </script>
 
                                 <script>
-                                  Sell.Config.set('desc',{
-                                  guider: {
-                                  items: [
-                                  {name: '品质保障', id: '37124'},                                                                                        {name: '实拍图', id: '35331'},                                                                                  {name: '穿着效果', id: '35336'},                                                                                        {name: '搭配效果', id: '35332'},                                                                                        {name: '尺寸信息', id: '1'},                                                                                    {name: '促销推荐', id: '35333'},                                                                                        {name: '宝贝基本信息', id: '4'},                                                                                        {name: '做工细节', id: '3'},                                                                                    {name: '品牌说明', id: '6'},                                                                                    {name: '购物保障须知', id: '7'}                                                         ],
-                                  helpURL:"http://pro.taobao.com/wtsy/xxjd.htm?spm=0.0.0.68.BTQQbp&id=1957"
-                                  },
-                                  count:{url:'../json/get_desc_length.htm',interval:2000,max:200000},
-                                  showMobileDesc: false ,
-                                  modules: {
-                                  "APIModule": "/auction/json/insert_desc_module.htm",
-                                  "APIModules": "/auction/json/get_desc_modules.htm",
-                                  "pageAddModule": "/auction/descModule/descModuleOpt.htm?isApply=1",
-                                  "pageModuleList": "/auction/descModule/desc_module_in_use.htm",
-                                  "tutorial": {
-                                  msg: '<span class="bright">原有描述导航改为详情模块</span>，<br />您可以建立自己的模块，重复使用！<br /><a href="http://bbs.taobao.com/catalog/thread/16029511-264841862.htm " target="_blank">查看使用帮助&gt;</a>'
-                                  },
-                                  "listPageSize":10
-                                  },
-                                  help: "http://service.taobao.com/support/knowledge-5751397.htm"
-                                  });
+    Sell.Config.set('desc',{
+        guider: {
+            items: [
+                {name: '品质保障', id: '37124'},                                                                                        {name: '实拍图', id: '35331'},                                                                                  {name: '穿着效果', id: '35336'},                                                                                        {name: '搭配效果', id: '35332'},                                                                                        {name: '尺寸信息', id: '1'},                                                                                    {name: '促销推荐', id: '35333'},                                                                                        {name: '宝贝基本信息', id: '4'},                                                                                        {name: '做工细节', id: '3'},                                                                                    {name: '品牌说明', id: '6'},                                                                                    {name: '购物保障须知', id: '7'}                                                         ],
+            helpURL:"http://pro.taobao.com/wtsy/xxjd.htm?spm=0.0.0.68.BTQQbp&id=1957"
+        },
+        count:{url:'../json/get_desc_length.htm',interval:2000,max:200000},
+        showMobileDesc: false ,
+        modules: {
+            "APIModule": "/auction/json/insert_desc_module.htm",
+            "APIModules": "/auction/json/get_desc_modules.htm",
+            "pageAddModule": "/auction/descModule/descModuleOpt.htm?isApply=1",
+            "pageModuleList": "/auction/descModule/desc_module_in_use.htm",
+            "tutorial": {
+                msg: '<span class="bright">原有描述导航改为详情模块</span>，<br />您可以建立自己的模块，重复使用！<br /><a href="http://bbs.taobao.com/catalog/thread/16029511-264841862.htm " target="_blank">查看使用帮助&gt;</a>'
+            },
+            "listPageSize":10
+        },
+        help: "http://service.taobao.com/support/knowledge-5751397.htm"
+    });
                                 </script>
 
                                 <script>
@@ -3885,7 +3819,6 @@
                                   'ele_certificate': ''
                                   });
                                 </script>
-
 
 
       </div>
@@ -4051,5 +3984,10 @@
       <!-- end vmcommon -->
 
     </div>
+    <script>
+    $(function () {
+      $('#J_ItemDescTextarea_newer').cleditor();
+    });
+    </script>
   </body>
 </html>
