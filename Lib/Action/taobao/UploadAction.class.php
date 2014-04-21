@@ -12,14 +12,29 @@ class UploadAction extends CommonAction {
         $taobaoItemId = I('taobaoItemId');
         Util::changeTaoAppkey($taobaoItemId);
         $taobaoItem = $this->checkApiResponse(OpenAPI::getTaobaoItem($taobaoItemId));
+        $images = $this->makeImages($taobaoItem->item_imgs);
         $propsHtml = $this->makePropsHtml($taobaoItem->cid, $taobaoItem->props_name);
         $this->assign(array(
             'taobaoItemTitle' => $taobaoItem->title,
             'propsHtml' => $propsHtml,
             'price' => $taobaoItem->price,
             'desc' => $taobaoItem->desc,
+            'picUrl' => $taobaoItem->pic_url,
+            'image0' => $images[0],
+            'image1' => $images[1],
+            'image2' => $images[2],
+            'image3' => $images[3],
+            'image4' => $images[4],
         ));
         $this->display();
+    }
+
+    private function makeImages($itemImgs) {
+        $images = array(null, null, null, null, null);
+        for ($i = 0; $i < count($itemImgs->item_img); $i++) {
+            $images[$i] = $itemImgs->item_img[$i]->url;
+        }
+        return $images;
     }
 
     private function makePropsHtml($cid, $propsName) {
