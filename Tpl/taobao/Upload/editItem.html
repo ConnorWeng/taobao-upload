@@ -59,7 +59,7 @@
         <!-- 错误提醒： -->
         <!-- feilv 2012-03-05 食品协议签署，该段纯html提取到js template中，换位一个变量输出是否初始化 -->
 
-        <form name="mainform" id="J_MainForm" action="" method="post" encType="multipart/form-data">
+        <form name="mainform" id="J_MainForm" action="{:U('taobao/Upload/uploadItem')}" method="post" encType="multipart/form-data">
           <input name='_tb_token_' type='hidden' value='a4yUGjpDn'>
           <input type="hidden" name="action" value="upload/uploadAction" />
           <input type="hidden" name="isMImageUser" value="true" />
@@ -3071,54 +3071,48 @@
                                   <div class="multimage-gallery">
                                     <ul>
                                       <li class=" primary " data-index="1">
-                                        <input name="image_pos" type="hidden" value="1" />
                                         <div class="preview">
-                                          <input type="hidden" class="hideimageurl" name="picUrl1" value=""/>
+                                          <input type="hidden" class="hideimageurl" name="picUrl1" value="{$picUrl}"/>
                                         </div>
                                         <div class="examp">
                                           <img src="{$picUrl}" height="90" alt="" />
                                         </div>
                                       </li>
                                       <li class="" data-index="2">
-                                        <input name="image_pos" type="hidden" value="2" />
                                         <div class="preview">
-                                          <input type="hidden" class="hideimageurl" name="picUrl2" value=""/>
+                                          <input type="hidden" class="hideimageurl" name="picUrl2" value="{$image0}"/>
                                         </div>
                                         <div class="examp">
                                           <img src="{$image0}" height="90" alt="" />
                                         </div>
                                       </li>
                                       <li class="" data-index="3">
-                                        <input name="image_pos" type="hidden" value="3" />
                                         <div class="preview">
-                                          <input type="hidden" class="hideimageurl" name="picUrl3" value=""/>
+                                          <input type="hidden" class="hideimageurl" name="picUrl3" value="{$image1}"/>
                                         </div>
                                         <div class="examp">
                                           <img src="{$image1}" height="90" alt="" />
                                         </div>
                                       </li>
                                       <li class="" data-index="4">
-                                        <input name="image_pos" type="hidden" value="4" />
                                         <div class="preview">
-                                          <input type="hidden" class="hideimageurl" name="picUrl4" value=""/>
+                                          <input type="hidden" class="hideimageurl" name="picUrl4" value="{$image2}"/>
                                         </div>
                                         <div class="examp">
                                           <img src="{$image2}" height="90" alt="" />
                                         </div>
                                       </li>
                                       <li class="" data-index="5">
-                                        <input name="image_pos" type="hidden" value="5" />
                                         <div class="preview">
-                                          <input type="hidden" class="hideimageurl" name="picUrl5" value=""/>
+                                          <input type="hidden" class="hideimageurl" name="picUrl5" value="{$image3}"/>
                                         </div>
                                         <div class="examp">
                                           <img src="{$image3}" height="90" alt="" />
                                         </div>
                                       </li>
                                       <li class=""  data-index="6">
-                                        <input name="image_pos" type="hidden" value="6" />
                                         <div class="preview">
-                                          <input type="hidden" class="hideimageurl" name="picUrl6" value=""/>
+                                          <input type="hidden" class="hideimageurl" name="picUrl6" value="{$image4}"/>
                                         </div>
                                         <div class="examp">
                                           <img src="{$image4}" height="90" alt="" />

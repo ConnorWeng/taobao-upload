@@ -29,6 +29,11 @@ class UploadAction extends CommonAction {
         $this->display();
     }
 
+    public function uploadItem() {
+        header("Content-type:text/html;charset=utf-8");
+        dump($_REQUEST);
+    }
+
     private function makeImages($itemImgs) {
         $images = array(null, null, null, null, null);
         for ($i = 0; $i < count($itemImgs->item_img); $i++) {
