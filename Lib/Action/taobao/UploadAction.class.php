@@ -31,7 +31,43 @@ class UploadAction extends CommonAction {
 
     public function uploadItem() {
         header("Content-type:text/html;charset=utf-8");
-        dump($_REQUEST);
+        //dump($_REQUEST);
+        $item = array(
+            'num' => '30',
+            'price' => '200.07',
+            'type' => 'fixed',
+            'stuffStatus' => 'new',
+            'title' => '沙箱测试Nokia N97全新行货',
+            'desc' => '这是一个好商品',
+            'locationState' => '浙江',
+            'locationCity' => '杭州',
+            'cid' => '50000671',
+            'approveStatus' => null,
+            'props' => null,
+            'freightPayer' => null,
+            'validThru' => null,
+            'hasInvoice' => null,
+            'hasWarranty' => null,
+            'hasShowcase' => null,
+            'sellerCids' => null,
+            'hasDiscount' => null,
+            'postFee' => null,
+            'expressFee' => null,
+            'emsFee' => null,
+            'listTime' => null,
+            'image' => null,
+            'postageId' => null,
+            'propertyAlias' => null,
+            'inputStr' => null,
+            'inputPids' => null,
+            'skuProperties' => null,
+            'skuQuantities' => null,
+            'skuPrices' => null,
+            'skuOuterIds' => null,
+            'outerId' => null,
+        );
+        $uploadedItem = $this->checkApiResponse(OpenAPI::addTaobaoItem($item));
+        dump($uploadedItem);
     }
 
     private function makeImages($itemImgs) {
