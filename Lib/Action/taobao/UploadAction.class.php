@@ -19,6 +19,7 @@ class UploadAction extends CommonAction {
             'propsHtml' => $propsHtml,
             'price' => $taobaoItem->price,
             'desc' => $taobaoItem->desc,
+            'cid' => $taobaoItem->cid,
             'picUrl' => $taobaoItem->pic_url,
             'image0' => $images[0],
             'image1' => $images[1],
@@ -31,29 +32,29 @@ class UploadAction extends CommonAction {
 
     public function uploadItem() {
         header("Content-type:text/html;charset=utf-8");
-        //dump($_REQUEST);
+        dump($_REQUEST);
         $item = array(
             'num' => '30',
-            'price' => '200.07',
+            'price' => I('_fma_pu__0_m'),
             'type' => 'fixed',
             'stuffStatus' => 'new',
-            'title' => '沙箱测试Nokia N97全新行货',
-            'desc' => '这是一个好商品',
-            'locationState' => '浙江',
-            'locationCity' => '杭州',
-            'cid' => '50000671',
-            'approveStatus' => null,
-            'props' => null,
-            'freightPayer' => null,
-            'validThru' => null,
-            'hasInvoice' => null,
-            'hasWarranty' => null,
-            'hasShowcase' => null,
+            'title' => I('_fma_pu__0_ti'),
+            'desc' => I('_fma_pu__0_d'),
+            'locationState' => I('_fma_pu__0_po_place'),
+            'locationCity' => I('_fma_pu__0_po_city'),
+            'cid' => I('cid'),
+            'approveStatus' => 'onsale',
+            'props' => $this->makeProps($_REQUEST),
+            'freightPayer' => 'seller',
+            'validThru' => '14',
+            'hasInvoice' => 'true',
+            'hasWarranty' => 'true',
+            'hasShowcase' => 'false',
             'sellerCids' => null,
-            'hasDiscount' => null,
-            'postFee' => null,
-            'expressFee' => null,
-            'emsFee' => null,
+            'hasDiscount' => 'false',
+            'postFee' => '5.07',
+            'expressFee' => '15.07',
+            'emsFee' => '25.07',
             'listTime' => null,
             'image' => null,
             'postageId' => null,
@@ -68,6 +69,17 @@ class UploadAction extends CommonAction {
         );
         $uploadedItem = $this->checkApiResponse(OpenAPI::addTaobaoItem($item));
         dump($uploadedItem);
+    }
+
+    private function makeProps($request) {
+        $propsArray = array();
+        foreach ($request as $key => $value) {
+            if (strpos($key, 'cp_') !== false && $value !== '') {
+                array_push($propsArray, $value);
+            }
+        }
+        dump($propsArray);
+        return implode(';', $propsArray);
     }
 
     private function makeImages($itemImgs) {
@@ -95,7 +107,7 @@ class UploadAction extends CommonAction {
                 for ($j = 0; $j < $valueCount; $j++) {
                     $value = $prop->prop_values->prop_value[$j];
                     $optionValue = $prop->pid.':'.$value->vid;
-                    if (strpos($propsName, $optionValue)) {
+                    if (strpos($propsName, $optionValue) !== false) {
                         $selected = 'selected';
                     } else {
                         $selected = '';
