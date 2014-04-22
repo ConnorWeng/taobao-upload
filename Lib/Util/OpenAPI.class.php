@@ -267,40 +267,11 @@ class OpenAPI {
         $c->appkey = session('taobao_app_key');
         $c->secretKey = session('taobao_secret_key');
         $req = new ItemAddRequest;
-        $req->setNum($item['num']);
-        $req->setPrice($item['price']);
-        $req->setType($item['type']);
-        $req->setStuffStatus($item['stuffStatus']);
-        $req->setTitle($item['title']);
-        $req->setDesc($item['desc']);
-        $req->setLocationState($item['locationState']);
-        $req->setLocationCity($item['locationCity']);
-        $req->setCid($item['cid']);
-        /*
-        $req->setApproveStatus($item['approveStatus']);
-        $req->setProps($item['props']);
-        $req->setFreightPayer($item['freightPayer']);
-        $req->setValidThru($item['validThru']);
-        $req->setHasInvoice($item['hasInvoice']);
-        $req->setHasWarranty($item['hasWarranty']);
-        $req->setHasShowcase($item['hasShowcase']);
-        $req->setSellerCids($item['sellerCids']);
-        $req->setHasDiscount($item['hasDiscount']);
-        $req->setPostFee($item['postFee']);
-        $req->setExpressFee($item['expressFee']);
-        $req->setEmsFee($item['emsFee']);
-        $req->setListTime($item['listTime']);
-        $req->setImage($item['image']);
-        $req->setPostageId($item['postageId']);
-        $req->setPropertyAlias($item['propertyAlias']);
-        $req->setInputStr($item['inputStr']);
-        $req->setInputPids($item['inputPids']);
-        $req->setSkuProperties($item['skuProperties']);
-        $req->setSkuQuantities($item['skuQuantities']);
-        $req->setSkuPrices($item['skuPrices']);
-        $req->setSkuOuterIds($item['skuOuterIds']);
-        $req->setOuterId($item['outerId']);
-        */
+        foreach ($item as $key => $value) {
+            if ($value !== null) {
+                call_user_method('set'.$key, $req, $value);
+            }
+        }
         $resp = $c->execute($req, session('taobao_access_token'));
         return $resp;
     }

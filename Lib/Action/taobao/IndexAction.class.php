@@ -9,13 +9,13 @@ class IndexAction extends Action {
     public function auth() {
         $taobaoItemId = I('taobaoItemId');
         Util::changeTaoAppkey($taobaoItemId);
-        header('location: https://oauth.tbsandbox.com/authorize?response_type=code&client_id='.session('taobao_app_key').'&redirect_uri=http://localhost'.urlencode(U('taobao/Index/authBack')).'&state='.$taobaoItemId.'&view=web');
+        header('location: https://'.C('oauth_uri').'/authorize?response_type=code&client_id='.session('taobao_app_key').'&redirect_uri=http://'.C('redirect_host').urlencode(U('taobao/Index/authBack')).'&state='.$taobaoItemId.'&view=web');
     }
 
     public function authBack() {
         $code = I('code');
         $taobaoItemId = I('state');
-        $url = 'https://oauth.tbsandbox.com/token';
+        $url = 'https://'.C('oauth_uri').'/token';
         $params = array(
             'client_id' => session('taobao_app_key'),
             'client_secret' => session('taobao_secret_key'),
