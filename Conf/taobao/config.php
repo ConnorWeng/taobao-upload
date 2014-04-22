@@ -8,6 +8,6 @@ return array(
     'DB_PORT' => 3306,
     'DB_PREFIX' => 'ecm_',
 
-    'taobao_app_key' => 'test',
-    'taobao_secret_key' => 'test',
+    'taobao_app_key' => '1021774925',
+    'taobao_secret_key' => 'sandbox30c7d20fc406dd18b5c28430c',
 );
