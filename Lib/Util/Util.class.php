@@ -109,6 +109,12 @@ class Util {
         session('access_token', null);
     }
 
+    public static function downloadImage($picUrl) {
+        $tmpFile = APP_PATH.'Upload/'.uniqid().'.jpg';
+        $content = file_get_contents($picUrl);
+        file_put_contents($tmpFile, $content);
+        return $tmpFile;
+    }
 }
 
 ?>

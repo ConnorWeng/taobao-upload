@@ -32,7 +32,7 @@ class UploadAction extends CommonAction {
 
     public function uploadItem() {
         header("Content-type:text/html;charset=utf-8");
-        dump($_REQUEST);
+        $image = '@'.Util::downloadImage(I('picUrl1'));
         $item = array(
             'Num' => '30',
             'Price' => I('_fma_pu__0_m'),
@@ -56,7 +56,7 @@ class UploadAction extends CommonAction {
             'ExpressFee' => null,
             'EmsFee' => null,
             'ListTime' => null,
-            'Image' => null,
+            'Image' => $image,
             'PostageId' => null,
             'PropertyAlias' => null,
             'InputStr' => null,
@@ -78,7 +78,6 @@ class UploadAction extends CommonAction {
                 array_push($propsArray, $value);
             }
         }
-        dump($propsArray);
         return implode(';', $propsArray);
     }
 

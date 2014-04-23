@@ -74,14 +74,6 @@ class OpenAPI {
         return self::callOpenAPI($api, array('memberId' => session('member_id')), false);
     }
 
-    public static function downloadImage($picUrl) {
-        $tmpFile = APP_PATH.'Upload/'.uniqid().'.jpg';
-        $content = file_get_contents($picUrl);
-        file_put_contents($tmpFile, $content);
-
-        return $tmpFile;
-    }
-
     private static function callOpenAPI($api, $params, $urlencode) {
         if (!session('?access_token')) {
             return 'timeout';
@@ -193,7 +185,7 @@ class OpenAPI {
             //$taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return $resp->item;
         } else {
-            echo('<h6 style="color:red;">错误:'.$resp->msg.'</h6>');
+            echo('<h6 style="color:red;">error:'.$resp->msg.'</h6>');
             dump($resp);
         }
     }
@@ -210,7 +202,7 @@ class OpenAPI {
         if (isset($resp->item)) {
             return $resp->item;
         } else {
-            echo('<h6 style="color:red;">错误:'.$resp->msg.'</h6>');
+            echo('<h6 style="color:red;">error:'.$resp->msg.'</h6>');
             dump($resp);
         }
     }
@@ -232,7 +224,7 @@ class OpenAPI {
             //$taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return Util::extractValue($resp->item_cats->item_cat->name->asXML());
         } else {
-            echo('<h6 style="color:red;">错误:'.$resp->msg.'</h6>');
+            echo('<h6 style="color:red;">error:'.$resp->msg.'</h6>');
             dump($resp);
         }
     }
@@ -254,7 +246,7 @@ class OpenAPI {
             //$taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return $resp->item_props;
         } else {
-            echo('<h6 style="color:red;">错误:'.$resp->msg.'</h6>');
+            echo('<h6 style="color:red;">error:'.$resp->msg.'</h6>');
             dump($resp);
         }
     }
