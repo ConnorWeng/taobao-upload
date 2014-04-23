@@ -32,7 +32,9 @@ class UploadAction extends CommonAction {
 
     public function uploadItem() {
         header("Content-type:text/html;charset=utf-8");
+        dump($_REQUEST);
         $image = '@'.Util::downloadImage(I('picUrl1'));
+        $skuTableData = json_decode($_REQUEST['J_SKUTableData']);
         $item = array(
             'Num' => '30',
             'Price' => I('_fma_pu__0_m'),
@@ -61,14 +63,37 @@ class UploadAction extends CommonAction {
             'PropertyAlias' => null,
             'InputStr' => null,
             'InputPids' => null,
-            'SkuProperties' => null,
-            'SkuQuantities' => null,
-            'SkuPrices' => null,
-            'SkuOuterIds' => null,
+            'SkuProperties' => $this->makeSkuProperties($skuTableData),
+            'SkuQuantities' => $this->makeSkuQuantities($skuTableData),
+            'SkuPrices' => $this->makeSkuPrices($skuTableData),
             'OuterId' => null,
         );
         $uploadedItem = $this->checkApiResponse(OpenAPI::addTaobaoItem($item));
         dump($uploadedItem);
+    }
+
+    private function makeSkuProperties($skuTableData) {
+        $skuProperties = '';
+        foreach ($skuTableData as $key => $value) {
+            $skuProperties .= str_replace('_', ';', str_replace('-', ':', $key)).',';
+        }
+        return $skuProperties = substr($skuProperties, 0, strlen($skuProperties) - 1);
+    }
+
+    private function makeSkuQuantities($skuTableData) {
+        $skuQuantities = '';
+        foreach ($skuTableData as $key => $value) {
+            $skuQuantities .= $value->quantity.',';
+        }
+        return $skuQuantities = substr($skuQuantities, 0, strlen($skuQuantities) - 1);
+    }
+
+    private function makeSkuPrices($skuTableData) {
+        $skuPrices = '';
+        foreach ($skuTableData as $key => $value) {
+            $skuPrices .= $value->price.',';
+        }
+        return $skuPrices = substr($skuPrices, 0, strlen($skuPrices) - 1);
     }
 
     private function makeProps($request) {
