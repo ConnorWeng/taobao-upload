@@ -238,7 +238,7 @@ class OpenAPI {
         $c->appkey = session('taobao_app_key');
         $c->secretKey = session('taobao_secret_key');
         $req = new ItempropsGetRequest;
-        $req->setFields("pid,name,must,multi,prop_values");
+        $req->setFields("pid,name,must,multi,prop_values,is_key_prop,is_sale_prop");
         $req->setCid($cid);
         $resp = $c->execute($req, null);
 
