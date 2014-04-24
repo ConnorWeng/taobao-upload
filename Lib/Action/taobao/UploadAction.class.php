@@ -50,7 +50,7 @@ class UploadAction extends CommonAction {
             'LocationCity' => I('_fma_pu__0_po_city'),
             'Cid' => I('cid'),
             'ApproveStatus' => 'onsale',
-            'Props' => $this->makeProps($_REQUEST),
+            'Props' => $this->makeProps($_REQUEST, $skuTableData, I('sizeType')),
             'FreightPayer' => I('postages'),
             'ValidThru' => '14',
             'HasInvoice' => 'true',
@@ -75,6 +75,7 @@ class UploadAction extends CommonAction {
             'SkuOuterIds' => $this->makeSkuOuterIds($skuTableData),
             'OuterId' => null,
         );
+        dump($item);
         $uploadedItem = $this->checkApiResponse(OpenAPI::addTaobaoItem($item));
         dump($uploadedItem);
     }
@@ -111,14 +112,29 @@ class UploadAction extends CommonAction {
         return $skuOuterIds = substr($skuOuterIds, 0, strlen($skuOuterIds) - 1);
     }
 
-    private function makeProps($request) {
+    private function makeProps($request, $skuTableData, $sizeType) {
         $propsArray = array();
         foreach ($request as $key => $value) {
-            if (strpos($key, 'cp_') !== false && $value !== '') {
+            if (strpos($key, 'cp_') !== false && $value !== ''
+                && strpos($key, '1627207') === false
+                && strpos($key, '20509') === false
+                && strpos($key, '20518') === false) {
                 array_push($propsArray, $value);
             }
         }
-        return implode(';', $propsArray);
+        $colorArray = array();
+        $sizeArray = array();
+        foreach ($skuTableData as $key => $value) {
+            $color = split('-', split('_', $key)[0])[1];
+            array_push($colorArray, $color);
+            $size = split('-', split('_', $key)[1])[1];
+            array_push($sizeArray, $size);
+        }
+        $colorProp = '1627207:';
+        $colorPropStr = $colorProp.implode(',', array_unique($colorArray));
+        $sizeProp = $sizeType == 0 ? '20509:' : '20518:';
+        $sizePropStr = $sizeProp.implode(',', array_unique($sizeArray));
+        return implode(';', $propsArray).';'.$colorPropStr.';'.$sizePropStr;
     }
 
     private function makeImages($itemImgs) {
@@ -162,7 +178,6 @@ class UploadAction extends CommonAction {
 
     /* 0:20509 ³ßÂë, 1:20518 ³ß´ç */
     private function makeSizeType($props) {
-        dump($props);
         $count = count($props->item_prop);
         for ($i = 0; $i < $count; $i++) {
             $prop = $props->item_prop[$i];

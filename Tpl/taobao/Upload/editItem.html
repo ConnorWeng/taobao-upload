@@ -61,6 +61,7 @@
 
         <form name="mainform" id="J_MainForm" action="{:U('taobao/Upload/uploadItem')}" method="post" encType="multipart/form-data">
           <input type="hidden" name="cid" value="{$cid}"/>
+          <input type="hidden" name="sizeType" value="{$sizeType}"/>
           <input name='_tb_token_' type='hidden' value='a4yUGjpDn'>
           <input type="hidden" name="action" value="upload/uploadAction" />
           <input type="hidden" name="isMImageUser" value="true" />
