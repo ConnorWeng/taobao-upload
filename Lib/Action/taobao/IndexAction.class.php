@@ -21,7 +21,7 @@ class IndexAction extends Action {
             'client_secret' => session('taobao_secret_key'),
             'grant_type' => 'authorization_code',
             'code' => $code,
-            'redirect_uri' => 'http://localhost/php/taobao-upload',
+            'redirect_uri' => 'http://'.C('redirect_host').'/php/taobao-upload',
         );
         foreach($params as $key=>$value) { $params_string .= $key.'='.$value.'&'; }
         rtrim($params_string, '&');

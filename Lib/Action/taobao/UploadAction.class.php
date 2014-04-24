@@ -13,7 +13,9 @@ class UploadAction extends CommonAction {
         Util::changeTaoAppkey($taobaoItemId);
         $taobaoItem = $this->checkApiResponse(OpenAPI::getTaobaoItem($taobaoItemId));
         $images = $this->makeImages($taobaoItem->item_imgs);
-        $propsHtml = $this->makePropsHtml($taobaoItem->cid, $taobaoItem->props_name);
+        $props = $this->checkApiResponse(OpenAPI::getTaobaoItemProps($taobaoItem->cid));
+        $propsHtml = $this->makePropsHtml($props, $taobaoItem->props_name);
+        $sizeType = $this->makeSizeType($props);
         $this->assign(array(
             'taobaoItemTitle' => $taobaoItem->title,
             'propsHtml' => $propsHtml,
@@ -26,6 +28,7 @@ class UploadAction extends CommonAction {
             'image2' => $images[2],
             'image3' => $images[3],
             'image4' => $images[4],
+            'sizeType' => $sizeType,
         ));
         $this->display();
     }
@@ -69,6 +72,7 @@ class UploadAction extends CommonAction {
             'SkuProperties' => $this->makeSkuProperties($skuTableData),
             'SkuQuantities' => $this->makeSkuQuantities($skuTableData),
             'SkuPrices' => $this->makeSkuPrices($skuTableData),
+            'SkuOuterIds' => $this->makeSkuOuterIds($skuTableData),
             'OuterId' => null,
         );
         $uploadedItem = $this->checkApiResponse(OpenAPI::addTaobaoItem($item));
@@ -99,6 +103,14 @@ class UploadAction extends CommonAction {
         return $skuPrices = substr($skuPrices, 0, strlen($skuPrices) - 1);
     }
 
+    private function makeSkuOuterIds($skuTableData) {
+        $skuOuterIds = '';
+        foreach ($skuTableData as $key => $value) {
+            $skuOuterIds .= ',';
+        }
+        return $skuOuterIds = substr($skuOuterIds, 0, strlen($skuOuterIds) - 1);
+    }
+
     private function makeProps($request) {
         $propsArray = array();
         foreach ($request as $key => $value) {
@@ -117,8 +129,7 @@ class UploadAction extends CommonAction {
         return $images;
     }
 
-    private function makePropsHtml($cid, $propsName) {
-        $props = $this->checkApiResponse(OpenAPI::getTaobaoItemProps($cid));
+    private function makePropsHtml($props, $propsName) {
         $count = count($props->item_prop);
         $html = '';
         for ($i = 0; $i < $count; $i++) {
@@ -147,6 +158,23 @@ class UploadAction extends CommonAction {
             $html .= '</li>';
         }
         return $html;
+    }
+
+    /* 0:20509 ³ßÂë, 1:20518 ³ß´ç */
+    private function makeSizeType($props) {
+        dump($props);
+        $count = count($props->item_prop);
+        for ($i = 0; $i < $count; $i++) {
+            $prop = $props->item_prop[$i];
+            if ($this->isSaleProp($prop)) {
+                if (''.$prop->pid == '20509') {
+                    return 0;
+                } else if (''.$prop->pid == '20518') {
+                    return 1;
+                }
+            }
+        }
+        return 0;
     }
 
     private function isSaleProp($prop) {
