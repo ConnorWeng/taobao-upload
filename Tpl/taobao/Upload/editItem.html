@@ -3333,20 +3333,20 @@
 
                             <DIV class="freight">
                               <UL>
-                                <LI><LABEL><INPUT id="postage1" value="seller" type="radio" name="postages">卖家承担运费</LABEL></LI>
-                                <LI><LABEL><INPUT id="postage2" value="buyer" type="radio" name="postages">买家承担运费</LABEL></LI>
+                                <LI><LABEL><INPUT id="postage1" value="seller" type="radio" name="postages" onclick="javascript:$('#Postages').css('display', 'none');" checked>卖家承担运费</LABEL></LI>
+                                <LI><LABEL><INPUT id="postage2" value="buyer" type="radio" name="postages" onclick="javascript:$('#Postages').css('display', 'block');">买家承担运费</LABEL></LI>
                                 <LI>
-                                  <DIV style="DISPLAY: none" id="Postages">
+                                  <DIV style="DISPLAY: none; margin-left: 30px" id="Postages">
                                     <UL>
                                       <LI>普通交易运费</LI>
                                       <LI>
-                                        <LABEL><INPUT id="post1" value="1" type="radio" name="post">使用运费模板</LABEL>
+                                        <LABEL><INPUT id="post1" value="1" type="radio" name="post" disabled>使用运费模板</LABEL>
                                       </LI>
                                       <LI>
-                                        <LABEL><INPUT id="post2" value="2" type="radio" name="post">平邮：</LABEL>
-                                        <INPUT class="postagetext" type="text"  value="" name="post_fee">快递：
-                                        <INPUT class="postagetext" type="text" value="" name="express_fee"> EMS：
-                                        <INPUT class="postagetext" type="text"  value="" name="ems_fee">
+                                        <LABEL><INPUT id="post2" value="2" type="radio" name="post" checked>平邮：</LABEL>
+                                        <INPUT style="color:black;" class="postagetext" type="text"  value="15" name="post_fee">快递：
+                                        <INPUT style="color:black;" class="postagetext" type="text" value="15" name="express_fee"> EMS：
+                                        <INPUT style="color:black;" class="postagetext" type="text"  value="15" name="ems_fee">
                                       </LI>
                                     </UL>
                                   </DIV>

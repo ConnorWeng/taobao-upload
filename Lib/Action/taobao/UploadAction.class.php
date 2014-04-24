@@ -33,6 +33,7 @@ class UploadAction extends CommonAction {
     public function uploadItem() {
         header("Content-type:text/html;charset=utf-8");
         dump($_REQUEST);
+        dump(session('taobao_access_token'));
         $image = '@'.Util::downloadImage(I('picUrl1'));
         $skuTableData = json_decode($_REQUEST['J_SKUTableData']);
         $item = array(
@@ -47,7 +48,7 @@ class UploadAction extends CommonAction {
             'Cid' => I('cid'),
             'ApproveStatus' => 'onsale',
             'Props' => $this->makeProps($_REQUEST),
-            'FreightPayer' => 'seller',
+            'FreightPayer' => I('postages'),
             'ValidThru' => '14',
             'HasInvoice' => 'true',
             'HasWarranty' => 'true',
@@ -59,7 +60,9 @@ class UploadAction extends CommonAction {
             'EmsFee' => null,
             'ListTime' => null,
             'Image' => $image,
-            'PostageId' => null,
+            'PostFee' => I('post_fee'),
+            'ExpressFee' => I('express_fee'),
+            'EmsFee' => I('ems_fee'),
             'PropertyAlias' => null,
             'InputStr' => null,
             'InputPids' => null,
