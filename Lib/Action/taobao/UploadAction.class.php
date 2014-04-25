@@ -17,12 +17,13 @@ class UploadAction extends CommonAction {
         $propsHtml = $this->makePropsHtml($props, $taobaoItem->props_name);
         $sizeType = $this->makeSizeType($props);
         $title = $this->makeTitle($taobaoItem->title);
-        /* $storeInfo = $this->getStoreInfo($taobaoItem->nick); */
-        /* $outerId = $this->makeOuterId($taobaoItem->title, $storeInfo['see_price']); */
+        $storeInfo = $this->getStoreInfo($taobaoItem->nick);
+        $price = $this->makePrice($taobaoItem->price, $storeInfo['see_price']);
+        /* $outerId = $this->makeOuterId($taobaoItem->title, $storeInfo); */
         $this->assign(array(
             'taobaoItemTitle' => $title,
             'propsHtml' => $propsHtml,
-            'price' => $taobaoItem->price,
+            'price' => $price,
             'desc' => $taobaoItem->desc,
             'cid' => $taobaoItem->cid,
             'picUrl' => $taobaoItem->pic_url,
@@ -205,7 +206,8 @@ class UploadAction extends CommonAction {
         return $storeInfo = $store->where('im_ww="'.$im_ww.'"')->find();
     }
 
-    private function makeOuterId($title, $seePrice) {
+    private function makeOuterId($title, $storeInfo) {
+        $seller = $storeInfo['shop_mall'].$storeInfo['address'];
 
     }
 
@@ -216,6 +218,23 @@ class UploadAction extends CommonAction {
                                             str_replace('#', '',
                                                         str_replace($huoHao, '', $title))));
         return trim($newTitle);
+    }
+
+    private function makePrice($rawPrice, $seePrice) {
+        $localSeePrice = str_replace("减","",$seePrice);
+        $price = $rawPrice;
+        if($localSeePrice == "半") {
+            $price = $rawPrice >> 1;
+        } else if ($localSeePrice == "P") {
+            //get price from title
+            $pprice='/P(\d+)/';
+            //进行正则搜索
+            preg_match($pprice,$respitem->item->title,$pric);
+            $price  = $pric[1];
+        } else {
+            $price = $price - $localSeePrice;
+        }
+        return $price;
     }
 
     private function getHuoHao($title) {
