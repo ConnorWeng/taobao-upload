@@ -16,8 +16,11 @@ class UploadAction extends CommonAction {
         $props = $this->checkApiResponse(OpenAPI::getTaobaoItemProps($taobaoItem->cid));
         $propsHtml = $this->makePropsHtml($props, $taobaoItem->props_name);
         $sizeType = $this->makeSizeType($props);
+        $title = $this->makeTitle($taobaoItem->title);
+        /* $storeInfo = $this->getStoreInfo($taobaoItem->nick); */
+        /* $outerId = $this->makeOuterId($taobaoItem->title, $storeInfo['see_price']); */
         $this->assign(array(
-            'taobaoItemTitle' => $taobaoItem->title,
+            'taobaoItemTitle' => $title,
             'propsHtml' => $propsHtml,
             'price' => $taobaoItem->price,
             'desc' => $taobaoItem->desc,
@@ -195,5 +198,38 @@ class UploadAction extends CommonAction {
     private function isSaleProp($prop) {
         if (''.$prop->is_sale_prop === 'true') return true;
         return false;
+    }
+
+    private function getStoreInfo($im_ww) {
+        $store = M('store');
+        return $storeInfo = $store->where('im_ww="'.$im_ww.'"')->find();
+    }
+
+    private function makeOuterId($title, $seePrice) {
+
+    }
+
+    private function makeTitle($title) {
+        $huoHao = $this->getHuoHao($title);
+        $newTitle = str_replace('¿îºÅ', '',
+                                str_replace('*', '',
+                                            str_replace('#', '',
+                                                        str_replace($huoHao, '', $title))));
+        return trim($newTitle);
+    }
+
+    private function getHuoHao($title) {
+        $kuanHaoRegex='/[A-Z]?\d+/';
+        preg_match_all($kuanHaoRegex,$title,$kuanHao);
+        $pKhnum=count($kuanHao[0]);
+        if($pKhnum>0) {
+            for($i=0;$i < $pKhnum;$i++) {
+                if(strlen($kuanHao[0][$i])==3 || (strlen($kuanHao[0][$i])==4 && substr($kuanHao[0][$i], 0,3)!= "201")) {
+                    $huoHao = $kuanHao[0][$i];
+                    break;
+                }
+            }
+        }
+        return $huoHao;
     }
 }
