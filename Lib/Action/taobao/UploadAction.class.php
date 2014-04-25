@@ -19,7 +19,7 @@ class UploadAction extends CommonAction {
         $title = $this->makeTitle($taobaoItem->title);
         $storeInfo = $this->getStoreInfo($taobaoItem->nick);
         $price = $this->makePrice($taobaoItem->price, $storeInfo['see_price']);
-        /* $outerId = $this->makeOuterId($taobaoItem->title, $storeInfo); */
+        $outerId = $this->makeOuterId($taobaoItem->title, $taobaoItem->price, $storeInfo);
         $this->assign(array(
             'taobaoItemTitle' => $title,
             'propsHtml' => $propsHtml,
@@ -33,6 +33,7 @@ class UploadAction extends CommonAction {
             'image3' => $images[3],
             'image4' => $images[4],
             'sizeType' => $sizeType,
+            'outerId' => $outerId,
         ));
         $this->display();
     }
@@ -206,9 +207,11 @@ class UploadAction extends CommonAction {
         return $storeInfo = $store->where('im_ww="'.$im_ww.'"')->find();
     }
 
-    private function makeOuterId($title, $storeInfo) {
+    private function makeOuterId($title, $rawPrice, $storeInfo) {
         $seller = $storeInfo['shop_mall'].$storeInfo['address'];
-
+        $price = $this->makePrice($rawPrice, $storeInfo['see_price']);
+        $huoHao = $this->getHuoHao($title);
+        return $outerId = $seller.'_P'.$price.'_'.$huoHao.'#';
     }
 
     private function makeTitle($title) {
