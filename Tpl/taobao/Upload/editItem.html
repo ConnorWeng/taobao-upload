@@ -4009,7 +4009,21 @@ Sell.Config.set('crossimage', {
     </div>
     <script>
     $(function () {
-      $('#J_ItemDescTextarea_newer').cleditor();
+        //$('#J_ItemDescTextarea_newer').cleditor();
+        $('li.has-img').live('click', function (event) {
+            var $li = $(event.currentTarget),
+                $pic = $li.find('img').eq(1),
+                result = window.showModalDialog('picdemo1/propic.php',
+                                                ['{$taobaoItemTitle}', $pic.attr('src'), {$imgsInDesc}],
+                                                'center:yes;resizable:no;dialogHeight:600px;dialogWidth:1080px');
+            if (result == null) {
+                alert("您没有更改主图!若点击下一页不出现图片，请等待图片下载完成后再次点击更改主图按钮");
+            } else {
+                $pic.attr('src', result[2].toString());
+                $li.find('img').eq(0).attr('src', result[2].toString());
+                $li.find('input').val(result[2].toString());
+            }
+        });
     });
     </script>
   </body>

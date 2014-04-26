@@ -38,6 +38,7 @@ class UploadAction extends CommonAction {
             'outerId' => $outerId,
             'nick' => $nick,
             'huoHao' => $this->getHuoHao($taobaoItem->title),
+            'imgsInDesc' => $this->parseDescImages($taobaoItem->desc),
         ));
         $this->display();
     }
@@ -185,7 +186,7 @@ class UploadAction extends CommonAction {
         return $html;
     }
 
-    /* 0:20509 ≥ﬂ¬Î, 1:20518 ≥ﬂ¥Á */
+    /* 0:20509 ¬≥√ü√Ç√´, 1:20518 ¬≥√ü¬¥√ß */
     private function makeSizeType($props) {
         $count = count($props->item_prop);
         for ($i = 0; $i < $count; $i++) {
@@ -220,7 +221,7 @@ class UploadAction extends CommonAction {
 
     private function makeTitle($title) {
         $huoHao = $this->getHuoHao($title);
-        $newTitle = str_replace('øÓ∫≈', '',
+        $newTitle = str_replace('¬ø√Æ¬∫√Ö', '',
                                 str_replace('*', '',
                                             str_replace('#', '',
                                                         str_replace($huoHao, '', $title))));
@@ -228,14 +229,14 @@ class UploadAction extends CommonAction {
     }
 
     private function makePrice($rawPrice, $seePrice) {
-        $localSeePrice = str_replace("ºı","",$seePrice);
+        $localSeePrice = str_replace("¬º√µ","",$seePrice);
         $price = $rawPrice;
-        if($localSeePrice == "∞Î") {
+        if($localSeePrice == "¬∞√´") {
             $price = $rawPrice >> 1;
         } else if ($localSeePrice == "P") {
             //get price from title
             $pprice='/P(\d+)/';
-            //Ω¯––’˝‘ÚÀ—À˜
+            //¬Ω√∏√ê√ê√ï√Ω√î√≤√ã√ë√ã√∑
             preg_match($pprice,$respitem->item->title,$pric);
             $price  = $pric[1];
         } else {
@@ -257,5 +258,11 @@ class UploadAction extends CommonAction {
             }
         }
         return $huoHao;
+    }
+
+    private function parseDescImages($desc) {
+        $pattern="/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.jpg]))[\'|\"].*?[\/]?>/";
+        preg_match_all($pattern, $desc, $matches);//Â∏¶ÂºïÂè∑
+        return json_encode($matches[1]);
     }
 }
