@@ -12,6 +12,9 @@ class UploadAction extends CommonAction {
         $taobaoItemId = I('taobaoItemId');
         Util::changeTaoAppkey($taobaoItemId);
         $taobaoItem = $this->checkApiResponse(OpenAPI::getTaobaoItem($taobaoItemId));
+        $nick = $this->checkApiResponse(OpenAPI::getTaobaoUserBuyer())->user->nick;
+        $userdataConfig = M('UserdataConfig');
+        $userdata = $userdataConfig->where("nick='".$nick."'")->find();
         $images = $this->makeImages($taobaoItem->item_imgs);
         $props = $this->checkApiResponse(OpenAPI::getTaobaoItemProps($taobaoItem->cid));
         $propsHtml = $this->makePropsHtml($props, $taobaoItem->props_name);
@@ -19,13 +22,13 @@ class UploadAction extends CommonAction {
         $title = $this->makeTitle($taobaoItem->title);
         $storeInfo = $this->getStoreInfo($taobaoItem->nick);
         $price = $this->makePrice($taobaoItem->price, $storeInfo['see_price']);
+        $caculatedPrice = $this->caculatePrice($price, $userdata['profit0'], $userdata['profit']);
         $outerId = $this->makeOuterId($taobaoItem->title, $taobaoItem->price, $storeInfo);
-        $nick = $this->checkApiResponse(OpenAPI::getTaobaoUserBuyer())->user->nick;
         $this->assign(array(
             'taobaoItemTitle' => $title,
             'taobaoItemId' => $taobaoItemId,
             'propsHtml' => $propsHtml,
-            'price' => $price,
+            'price' => $caculatedPrice,
             'desc' => $taobaoItem->desc,
             'cid' => $taobaoItem->cid,
             'picUrl' => $taobaoItem->pic_url,
@@ -39,6 +42,8 @@ class UploadAction extends CommonAction {
             'nick' => $nick,
             'huoHao' => $this->getHuoHao($taobaoItem->title),
             'imgsInDesc' => $this->parseDescImages($taobaoItem->desc),
+            'percent' => $userdata['profit0'],
+            'profit' => $userdata['profit'],
         ));
         $this->display();
     }
@@ -88,6 +93,15 @@ class UploadAction extends CommonAction {
         dump($item);
         $uploadedItem = $this->checkApiResponse(OpenAPI::addTaobaoItem($item));
         dump($uploadedItem);
+    }
+
+    public function saveConfig() {
+        $data = array(
+            'profit0' => I('percent'),
+            'profit' => I('profit'),
+        );
+        $userdataConfig = M('UserdataConfig');
+        $userdataConfig->where("nick='".I('nick')."'")->setField($data);
     }
 
     private function makeSkuProperties($skuTableData) {
@@ -186,7 +200,7 @@ class UploadAction extends CommonAction {
         return $html;
     }
 
-    /* 0:20509 ³ßÂë, 1:20518 ³ß´ç */
+    /* 0:20509 尺码, 1:20518 尺寸 */
     private function makeSizeType($props) {
         $count = count($props->item_prop);
         for ($i = 0; $i < $count; $i++) {
@@ -221,7 +235,7 @@ class UploadAction extends CommonAction {
 
     private function makeTitle($title) {
         $huoHao = $this->getHuoHao($title);
-        $newTitle = str_replace('¿îºÅ', '',
+        $newTitle = str_replace('款号', '',
                                 str_replace('*', '',
                                             str_replace('#', '',
                                                         str_replace($huoHao, '', $title))));
@@ -229,20 +243,23 @@ class UploadAction extends CommonAction {
     }
 
     private function makePrice($rawPrice, $seePrice) {
-        $localSeePrice = str_replace("¼õ","",$seePrice);
+        $localSeePrice = str_replace("减","",$seePrice);
         $price = $rawPrice;
-        if($localSeePrice == "°ë") {
+        if($localSeePrice == "半") {
             $price = $rawPrice >> 1;
         } else if ($localSeePrice == "P") {
             //get price from title
             $pprice='/P(\d+)/';
-            //½øÐÐÕýÔòËÑË÷
             preg_match($pprice,$respitem->item->title,$pric);
             $price  = $pric[1];
         } else {
             $price = $price - $localSeePrice;
         }
         return $price;
+    }
+
+    private function caculatePrice($price, $percent, $profit) {
+        return floatval($price) * (floatval($percent) / 100.00) + floatval($profit);
     }
 
     private function getHuoHao($title) {

@@ -145,7 +145,7 @@
             <div class="bd">
               <div class="bd-sub" data-spm="1000773">
                 <div id="product-info">
-                  <h5>产品信息</h5>
+                  <h5>产品信息:</h5>
                   <div class="detail">
                     <ul>
                       <li>类目：&#22899;&#35013;/&#22899;&#22763;&#31934;&#21697;&gt;&gt;T&#24676; <input id="J_ReCategory" type="submit" data-nocheck="true" data-name="event_submit_do_re_select_category" name="event_submit_do_re_select_category" value="编辑类目"  class="J_DetectTrigger" data-detect="reEditCat"/></li>
@@ -154,6 +154,22 @@
                   <div class="detail" id="J_product-info">
                     <ul>
                       <li></li>
+                    </ul>
+                  </div>
+
+                  <!-- 利润加价 -->
+                  <h5>设置利润与销售价格:</h5>
+                  <div class="detail">
+                    <ul>
+                      <li>默认价格 = </li>
+                      <li>批发价 x <input id="percent" type="text" name="percent" style="width:30px" value="{$percent}"/>% + <input id="profit" type="text" name="profit" style="width:30px" value="{$profit}"/>元</li>
+                    </ul>
+                  </div>
+                  <!-- 利润加价END -->
+
+                  <div class="detail">
+                    <ul>
+                      <li><input type="button" class="saveAndEffect" value="保存并生效" style="width:175px"/></li>
                     </ul>
                   </div>
                 </div>
@@ -4023,6 +4039,20 @@ Sell.Config.set('crossimage', {
                 $li.find('img').eq(0).attr('src', result[2].toString());
                 $li.find('input').val(result[2].toString());
             }
+        });
+
+        $('.saveAndEffect').on('click', function () {
+            $.ajax({
+                url: "{:U('Taobao/Upload/saveConfig')}",
+                data: {
+                    'nick': '{$nick}',
+                    'percent': $('#percent').val(),
+                    'profit': $('#profit').val()
+                },
+                success: function () {
+                    location.href = location.href;
+                }
+            });
         });
     });
     </script>
