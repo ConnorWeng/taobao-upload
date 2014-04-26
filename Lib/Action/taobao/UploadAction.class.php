@@ -37,6 +37,7 @@ class UploadAction extends CommonAction {
             'sizeType' => $sizeType,
             'outerId' => $outerId,
             'nick' => $nick,
+            'huoHao' => $this->getHuoHao($taobaoItem->title),
         ));
         $this->display();
     }
