@@ -44,6 +44,7 @@ class UploadAction extends CommonAction {
             'imgsInDesc' => $this->parseDescImages($taobaoItem->desc),
             'percent' => $userdata['profit0'],
             'profit' => $userdata['profit'],
+            'autoOffWarn' => $userdata['autoOffWarn'] == 1 ? 'checked' : '',
         ));
         $this->display();
     }
@@ -54,13 +55,15 @@ class UploadAction extends CommonAction {
         dump(session('taobao_access_token'));
         $image = '@'.Util::downloadImage(I('picUrl1'));
         $skuTableData = json_decode($_REQUEST['J_SKUTableData']);
+        $autoOffWarn = I('autoOffWarn') == 'on' ? true : false;
+        $desc = $this->makeDesc($_REQUEST['_fma_pu__0_d'], I('taobaoItemId'), $autoOffWarn);
         $item = array(
             'Num' => '30',
             'Price' => I('_fma_pu__0_m'),
             'Type' => 'fixed',
             'StuffStatus' => 'new',
             'Title' => I('_fma_pu__0_ti'),
-            'Desc' => $_REQUEST['_fma_pu__0_d'],
+            'Desc' => $desc,
             'LocationState' => I('_fma_pu__0_po_place'),
             'LocationCity' => I('_fma_pu__0_po_city'),
             'Cid' => I('cid'),
@@ -99,9 +102,10 @@ class UploadAction extends CommonAction {
         $data = array(
             'profit0' => I('percent'),
             'profit' => I('profit'),
+            'autoOffWarn' => I('autoOffWarn') == 'checked' ? 1 : 0,
         );
         $userdataConfig = M('UserdataConfig');
-        $userdataConfig->where("nick='".I('nick')."'")->setField($data);
+        $this->ajaxReturn($userdataConfig->where("nick='".I('nick')."'")->setField($data));
     }
 
     private function makeSkuProperties($skuTableData) {
@@ -281,5 +285,21 @@ class UploadAction extends CommonAction {
         $pattern="/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.jpg]))[\'|\"].*?[\/]?>/";
         preg_match_all($pattern, $desc, $matches);//带引号
         return json_encode($matches[1]);
+    }
+
+    private function makeDesc($desc, $taobaoItemId, $autoOffWarn) {
+        $newDesc = $desc;
+        if ($autoOffWarn) {
+            $encNumIid = '51chk'.base64_encode($taobaoItemId);
+            $autoOffJpg = 'http://51wangpi.com/'.$encNumIid.'.jpg';
+            $autoOffWarnHtml = '<img align="middle" src="'.$autoOffJpg.'"/><br/>';
+            if (get_magic_quotes_gpc() == 0) {
+                $autoOffWarnHtml = addslashes(addslashes($autoOffWarnHtml));
+            } else {
+                $autoOffWarnHtml = addslashes($autoOffWarnHtml);
+            }
+            $newDesc = $autoOffWarnHtml.$newDesc;
+        }
+        return $newDesc;
     }
 }

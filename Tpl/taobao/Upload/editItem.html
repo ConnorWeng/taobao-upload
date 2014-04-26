@@ -62,6 +62,7 @@
         <form name="mainform" id="J_MainForm" action="{:U('taobao/Upload/uploadItem')}" method="post" encType="multipart/form-data">
           <input type="hidden" name="cid" value="{$cid}"/>
           <input type="hidden" name="sizeType" value="{$sizeType}"/>
+          <input type="hidden" name="taobaoItemId" value="{$taobaoItemId}"/>
           <input name='_tb_token_' type='hidden' value='a4yUGjpDn'>
           <input type="hidden" name="action" value="upload/uploadAction" />
           <input type="hidden" name="isMImageUser" value="true" />
@@ -166,6 +167,15 @@
                     </ul>
                   </div>
                   <!-- 利润加价END -->
+
+                  <!-- 自动下架提醒 -->
+                  <h5>自动下架提醒:</h5>
+                  <div class="detail">
+                    <ul>
+                      <li>开启<input type="checkbox" id="autoOffWarn" name="autoOffWarn" {$autoOffWarn}/></li>
+                    </ul>
+                  </div>
+                  <!-- 自动下架提醒END -->
 
                   <div class="detail">
                     <ul>
@@ -4047,9 +4057,10 @@ Sell.Config.set('crossimage', {
                 data: {
                     'nick': '{$nick}',
                     'percent': $('#percent').val(),
-                    'profit': $('#profit').val()
+                    'profit': $('#profit').val(),
+                    'autoOffWarn': $('#autoOffWarn').attr('checked')
                 },
-                success: function () {
+                success: function (data) {
                     location.href = location.href;
                 }
             });
