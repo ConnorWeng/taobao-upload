@@ -268,6 +268,19 @@ class OpenAPI {
         return $resp;
     }
 
+    public static function getTaobaoUserBuyer() {
+        if (self::needVerify()) {
+            return 'verify';
+        }
+        $c = new TopClient;
+        $c->appkey = session('taobao_app_key');
+        $c->secretKey = session('taobao_secret_key');
+        $req = new UserBuyerGetRequest;
+        $req->setFields("nick");
+        $resp = $c->execute($req, session('taobao_access_token'));
+        return $resp;
+    }
+
     private static function needVerify() {
         $date = getdate();
         $minutes = $date['minutes'];

@@ -20,8 +20,10 @@ class UploadAction extends CommonAction {
         $storeInfo = $this->getStoreInfo($taobaoItem->nick);
         $price = $this->makePrice($taobaoItem->price, $storeInfo['see_price']);
         $outerId = $this->makeOuterId($taobaoItem->title, $taobaoItem->price, $storeInfo);
+        $nick = $this->checkApiResponse(OpenAPI::getTaobaoUserBuyer())->user->nick;
         $this->assign(array(
             'taobaoItemTitle' => $title,
+            'taobaoItemId' => $taobaoItemId,
             'propsHtml' => $propsHtml,
             'price' => $price,
             'desc' => $taobaoItem->desc,
@@ -34,6 +36,7 @@ class UploadAction extends CommonAction {
             'image4' => $images[4],
             'sizeType' => $sizeType,
             'outerId' => $outerId,
+            'nick' => $nick,
         ));
         $this->display();
     }

@@ -36,4 +36,10 @@ class IndexAction extends Action {
         session('taobao_access_token', json_decode($data)->access_token);
         U('taobao/Upload/editItem', array('taobaoItemId'=>$taobaoItemId), true, true, false);
     }
+
+    public function signOut() {
+        $taobaoItemId = I('taobaoItemId');
+        session(null);
+        U('Taobao/Index/auth', array('taobaoItemId' => $taobaoItemId), true, true, false);
+    }
 }
