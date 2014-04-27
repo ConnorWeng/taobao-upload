@@ -1,7 +1,7 @@
 <?php
 return array(
     'max_try_api_times' => 10,
-    'max_api_times_per_minute' => 30,
+    'max_api_times_per_minute' => 300000,
 
     'DB_NAME' => 'wangpi51',
     'DB_TYPE' => 'mysql',

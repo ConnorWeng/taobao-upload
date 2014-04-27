@@ -12,7 +12,7 @@ class UploadAction extends CommonAction {
         $taobaoItemId = I('taobaoItemId');
         Util::changeTaoAppkey($taobaoItemId);
         $taobaoItem = $this->checkApiResponse(OpenAPI::getTaobaoItem($taobaoItemId));
-        $nick = $this->checkApiResponse(OpenAPI::getTaobaoUserBuyer())->user->nick;
+        $nick = $this->checkApiResponse(OpenAPI::getTaobaoUserBuyer())->nick;
         $userdataConfig = M('UserdataConfig');
         $userdata = $userdataConfig->where("nick='".$nick."'")->find();
         $images = $this->makeImages($taobaoItem->item_imgs);

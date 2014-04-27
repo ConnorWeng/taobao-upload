@@ -174,15 +174,14 @@ class OpenAPI {
         }
 
         $c = new TopClient;
-        $c->appkey = session('taobao_app_key');
-        $c->secretKey = session('taobao_secret_key');
+        $c->appkey = C('taobao_app_key');
+        $c->secretKey = C('taobao_secret_key');
         $req = new ItemGetRequest;
         $req->setFields("title,desc,pic_url,sku,item_weight,property_alias,price,item_img.url,cid,nick,props_name");
         $req->setNumIid($numIid);
         $resp = $c->execute($req, null);
 
         if (isset($resp->item)) {
-            //$taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return $resp->item;
         } else {
             echo('<h6 style="color:red;">error:'.$resp->msg.'</h6>');
@@ -192,8 +191,8 @@ class OpenAPI {
 
     public static function getTaobaoItemWithoutVerify($numIid) {
         $c = new TopClient;
-        $c->appkey = session('taobao_app_key');
-        $c->secretKey = session('taobao_secret_key');
+        $c->appkey = C('taobao_app_key');
+        $c->secretKey = C('taobao_secret_key');
         $req = new ItemGetRequest;
         $req->setFields("title,desc,pic_url,sku,item_weight,property_alias,price,item_img.url,cid,nick");
         $req->setNumIid($numIid);
@@ -213,15 +212,14 @@ class OpenAPI {
         }
 
         $c = new TopClient;
-        $c->appkey = session('taobao_app_key');
-        $c->secretKey = session('taobao_secret_key');
+        $c->appkey = C('taobao_app_key');
+        $c->secretKey = C('taobao_secret_key');
         $req = new ItemcatsGetRequest;
         $req->setFields("name");
         $req->setCids($cid);
         $resp = $c->execute($req, null);
 
         if (isset($resp->item_cats->item_cat)) {
-            //$taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return Util::extractValue($resp->item_cats->item_cat->name->asXML());
         } else {
             echo('<h6 style="color:red;">error:'.$resp->msg.'</h6>');
@@ -235,15 +233,14 @@ class OpenAPI {
         }
 
         $c = new TopClient;
-        $c->appkey = session('taobao_app_key');
-        $c->secretKey = session('taobao_secret_key');
+        $c->appkey = C('taobao_app_key');
+        $c->secretKey = C('taobao_secret_key');
         $req = new ItempropsGetRequest;
         $req->setFields("pid,name,must,multi,prop_values,is_key_prop,is_sale_prop");
         $req->setCid($cid);
         $resp = $c->execute($req, null);
 
         if (isset($resp->item_props)) {
-            //$taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return $resp->item_props;
         } else {
             echo('<h6 style="color:red;">error:'.$resp->msg.'</h6>');
@@ -265,7 +262,14 @@ class OpenAPI {
             }
         }
         $resp = $c->execute($req, session('taobao_access_token'));
-        return $resp;
+        if (isset($resp->item)) {
+            $taoapi = D('Taoapi');
+            $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
+            return $resp->item;
+        } else {
+            echo('<h6 style="color:red;">error:'.$resp->msg.$resp->sub_msg.'</h6>');
+            dump($resp);
+        }
     }
 
     public static function getTaobaoUserBuyer() {
@@ -278,7 +282,14 @@ class OpenAPI {
         $req = new UserBuyerGetRequest;
         $req->setFields("nick");
         $resp = $c->execute($req, session('taobao_access_token'));
-        return $resp;
+        if (isset($resp->user)) {
+            $taoapi = D('Taoapi');
+            $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
+            return $resp->user;
+        } else {
+            echo('<h6 style="color:red;">error:'.$resp->msg.$resp->sub_msg.'</h6>');
+            dump($resp);
+        }
     }
 
     private static function needVerify() {
