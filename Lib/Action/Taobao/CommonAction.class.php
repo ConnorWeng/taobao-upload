@@ -10,9 +10,9 @@ class CommonAction extends Action {
             Util::changeAliAppkey($taobaoItemId, session('alibaba_app_key'));
             $this->ajaxReturn($response.'::'.Util::getAlibabaAuthUrl($taobaoItemId), 'JSON');
         } else if ($response == 'timeout') {
-            $this->ajaxReturn($response.'::'.U('Index/signOut'), 'JSON');
+            $this->ajaxReturn($response.'::'.U('Taobao/Index/signOut'), 'JSON');
         } else if ($response == 'verify') {
-            $this->ajaxReturn($response.'::'.U('Index/verifyCode'), 'JSON');
+            $this->ajaxReturn($response.'::'.U('Taobao/Index/verifyCode'), 'JSON');
         } else {
             return $response;
         }
@@ -32,7 +32,7 @@ class CommonAction extends Action {
             ));
             $this->error('抱歉，会话已超时，请重新登录，谢谢!', U('Index/signOut'));
         } else if ($response == 'verify') {
-            U('Index/verifyCode', '', true, true, false);
+            U('Taobao/Index/verifyCode', '', true, true, false);
         } else {
             return $response;
         }

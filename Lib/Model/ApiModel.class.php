@@ -10,8 +10,8 @@ class ApiModel extends Model {
         $times++;
         if ($times > C('max_try_api_times')) {
             session('try_api_times', null);
-            U('Index/showError', array('msg' => urlencode('抱歉，尝试获取接口失败，请稍后再试!'),
-                                       'url' => urlencode(U('Index/signOut'))), true, true, false);
+            U('Taobao/Index/showError', array('msg' => urlencode('抱歉，尝试获取接口失败，请稍后再试!'),
+                                       'url' => urlencode(U('Taobao/Index/signOut'))), true, true, false);
         }
         session('try_api_times', $times);
 
@@ -47,7 +47,7 @@ class ApiModel extends Model {
     protected function getFirstId($taobaoItemId) {
         $len = strlen($taobaoItemId);
         $id = substr($taobaoItemId, $len-2, $len);
-        $id = floor(($id) / 5);
+        $id = $id % C('taoapi_count') + 1;
         return $id;
     }
 

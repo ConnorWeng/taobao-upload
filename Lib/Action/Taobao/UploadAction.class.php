@@ -9,8 +9,7 @@ class UploadAction extends CommonAction {
 
     public function editItem() {
         header("Content-type:text/html;charset=utf-8");
-        $taobaoItemId = I('taobaoItemId');
-        Util::changeTaoAppkey($taobaoItemId);
+        $taobaoItemId = session('current_taobao_item_id');
         $taobaoItem = $this->checkApiResponse(OpenAPI::getTaobaoItem($taobaoItemId));
         $nick = $this->checkApiResponse(OpenAPI::getTaobaoUserBuyer())->nick;
         $userdataConfig = M('UserdataConfig');
@@ -57,7 +56,7 @@ class UploadAction extends CommonAction {
         $image = '@'.Util::downloadImage(I('picUrl1'));
         $skuTableData = json_decode($_REQUEST['J_SKUTableData']);
         $autoOffWarn = I('autoOffWarn') == 'on' ? true : false;
-        $desc = $this->makeDesc($_REQUEST['_fma_pu__0_d'], I('taobaoItemId'), $autoOffWarn);
+        $desc = $this->makeDesc($_REQUEST['_fma_pu__0_d'], session('current_taobao_item_id'), $autoOffWarn);
         $item = array(
             'Num' => '30',
             'Price' => I('_fma_pu__0_m'),
