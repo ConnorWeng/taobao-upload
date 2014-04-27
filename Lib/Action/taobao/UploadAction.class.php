@@ -45,6 +45,7 @@ class UploadAction extends CommonAction {
             'percent' => $userdata['profit0'],
             'profit' => $userdata['profit'],
             'autoOffWarn' => $userdata['autoOffWarn'] == 1 ? 'checked' : '',
+            'initSkus' => json_encode(Util::parseSkus($taobaoItem->skus->sku)),
         ));
         $this->display();
     }

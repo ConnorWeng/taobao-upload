@@ -4065,6 +4065,19 @@ Sell.Config.set('crossimage', {
                 }
             });
         });
+
+        /* init sku */
+        var initSkus = {$initSkus};
+        for (var i in initSkus) {
+            var sku = initSkus[i],
+                propertiesParts = sku.propertiesName.split(';');
+            for (var i in propertiesParts) {
+                var propertiesMoreParts = propertiesParts[i].split(':'),
+                    prop = propertiesMoreParts[0] + ':' + propertiesMoreParts[1];
+                $('input[value="'+prop+'"]').attr('checked', 'true');
+            }
+        }
+        /* init sku end */
     });
     </script>
   </body>
