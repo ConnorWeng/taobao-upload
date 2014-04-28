@@ -292,6 +292,28 @@ class OpenAPI {
         }
     }
 
+    public static function uploadTaobaoItemImg($numIid, $image, $position) {
+        if (self::needVerify()) {
+            return 'verify';
+        }
+        $c = new TopClient;
+        $c->appkey = session('taobao_app_key');
+        $c->secretKey = session('taobao_secret_key');
+        $req = new ItemImgUploadRequest;
+        $req->setNumIid($numIid);
+        $req->setImage($image);
+        $req->setPosition($position);
+        $resp = $c->execute($req, session('taobao_access_token'));
+        if (isset($resp->item_img)) {
+            $taoapi = D('Taoapi');
+            $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
+            return $resp->item_img;
+        } else {
+            echo('<h6 style="color:red;">error:'.$resp->msg.$resp->sub_msg.'</h6>');
+            dump($resp);
+        }
+    }
+
     private static function needVerify() {
         $date = getdate();
         $minutes = $date['minutes'];

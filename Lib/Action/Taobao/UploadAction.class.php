@@ -31,11 +31,10 @@ class UploadAction extends CommonAction {
             'desc' => $taobaoItem->desc,
             'cid' => $taobaoItem->cid,
             'picUrl' => $taobaoItem->pic_url,
-            'image0' => $images[0],
-            'image1' => $images[1],
-            'image2' => $images[2],
-            'image3' => $images[3],
-            'image4' => $images[4],
+            'image0' => $images[1],
+            'image1' => $images[2],
+            'image2' => $images[3],
+            'image3' => $images[4],
             'sizeType' => $sizeType,
             'outerId' => $outerId,
             'nick' => $nick,
@@ -95,6 +94,9 @@ class UploadAction extends CommonAction {
         );
         dump($item);
         $uploadedItem = $this->checkApiResponse(OpenAPI::addTaobaoItem($item));
+        if (isset($uploadedItem->num_iid)) {
+            $this->uploadItemImages((float)$uploadedItem->num_iid, $_REQUEST);
+        }
         dump($uploadedItem);
     }
 
@@ -301,5 +303,17 @@ class UploadAction extends CommonAction {
             $newDesc = $autoOffWarnHtml.$newDesc;
         }
         return $newDesc;
+    }
+
+    private function uploadItemImages($numIid, $request) {
+        for ($i = 2; $i <= 5; $i++) {
+            $picUrl = $request['picUrl'.$i];
+            if ($picUrl != '') {
+                $picPath = Util::downloadImage($picUrl);
+                $pic = '@'.$picPath;
+                $itemImg = $this->checkApiResponse(OpenAPI::uploadTaobaoItemImg($numIid, $pic, $i - 1));
+                unlink($picPath);
+            }
+        }
     }
 }
