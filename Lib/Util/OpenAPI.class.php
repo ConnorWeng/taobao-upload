@@ -172,27 +172,21 @@ class OpenAPI {
         if (self::needVerify()) {
             return 'verify';
         }
-
-        $c = new TopClient;
-        $c->appkey = C('taobao_app_key');
-        $c->secretKey = C('taobao_secret_key');
+        $c = self::initTopClient();
         $req = new ItemGetRequest;
-        $req->setFields("title,desc,pic_url,sku,item_weight,property_alias,price,item_img.url,cid,nick,props_name");
+        $req->setFields("title,desc,pic_url,sku,item_weight,property_alias,price,item_img.url,cid,nick,props_name,prop_imgs");
         $req->setNumIid($numIid);
         $resp = $c->execute($req, null);
 
         if (isset($resp->item)) {
             return $resp->item;
         } else {
-            echo('<h6 style="color:red;">error:'.$resp->msg.'</h6>');
-            dump($resp);
+            self::dumpTaobaoApiError($resp);
         }
     }
 
     public static function getTaobaoItemWithoutVerify($numIid) {
-        $c = new TopClient;
-        $c->appkey = C('taobao_app_key');
-        $c->secretKey = C('taobao_secret_key');
+        $c = self::initTopClient();
         $req = new ItemGetRequest;
         $req->setFields("title,desc,pic_url,sku,item_weight,property_alias,price,item_img.url,cid,nick");
         $req->setNumIid($numIid);
@@ -201,8 +195,7 @@ class OpenAPI {
         if (isset($resp->item)) {
             return $resp->item;
         } else {
-            echo('<h6 style="color:red;">error:'.$resp->msg.'</h6>');
-            dump($resp);
+            self::dumpTaobaoApiError($resp);
         }
     }
 
@@ -210,10 +203,7 @@ class OpenAPI {
         if (self::needVerify()) {
             return 'verify';
         }
-
-        $c = new TopClient;
-        $c->appkey = C('taobao_app_key');
-        $c->secretKey = C('taobao_secret_key');
+        $c = self::initTopClient();
         $req = new ItemcatsGetRequest;
         $req->setFields("name");
         $req->setCids($cid);
@@ -222,8 +212,7 @@ class OpenAPI {
         if (isset($resp->item_cats->item_cat)) {
             return Util::extractValue($resp->item_cats->item_cat->name->asXML());
         } else {
-            echo('<h6 style="color:red;">error:'.$resp->msg.'</h6>');
-            dump($resp);
+            self::dumpTaobaoApiError($resp);
         }
     }
 
@@ -231,10 +220,7 @@ class OpenAPI {
         if (self::needVerify()) {
             return 'verify';
         }
-
-        $c = new TopClient;
-        $c->appkey = C('taobao_app_key');
-        $c->secretKey = C('taobao_secret_key');
+        $c = self::initTopClient();
         $req = new ItempropsGetRequest;
         $req->setFields("pid,name,must,multi,prop_values,is_key_prop,is_sale_prop");
         $req->setCid($cid);
@@ -243,8 +229,7 @@ class OpenAPI {
         if (isset($resp->item_props)) {
             return $resp->item_props;
         } else {
-            echo('<h6 style="color:red;">error:'.$resp->msg.'</h6>');
-            dump($resp);
+            self::dumpTaobaoApiError($resp);
         }
     }
 
@@ -252,9 +237,7 @@ class OpenAPI {
         if (self::needVerify()) {
             return 'verify';
         }
-        $c = new TopClient;
-        $c->appkey = session('taobao_app_key');
-        $c->secretKey = session('taobao_secret_key');
+        $c = self::initTopClient();
         $req = new ItemAddRequest;
         foreach ($item as $key => $value) {
             if ($value !== null) {
@@ -268,7 +251,7 @@ class OpenAPI {
             return $resp->item;
         } else {
             echo('<h6 style="color:red;">error:'.$resp->msg.$resp->sub_msg.'</h6>');
-            dump($resp);
+            self::dumpTaobaoApiError($resp);
         }
     }
 
@@ -276,9 +259,7 @@ class OpenAPI {
         if (self::needVerify()) {
             return 'verify';
         }
-        $c = new TopClient;
-        $c->appkey = session('taobao_app_key');
-        $c->secretKey = session('taobao_secret_key');
+        $c = self::initTopClient();
         $req = new UserBuyerGetRequest;
         $req->setFields("nick");
         $resp = $c->execute($req, session('taobao_access_token'));
@@ -288,7 +269,7 @@ class OpenAPI {
             return $resp->user;
         } else {
             echo('<h6 style="color:red;">error:'.$resp->msg.$resp->sub_msg.'</h6>');
-            dump($resp);
+            self::dumpTaobaoApiError($resp);
         }
     }
 
@@ -296,9 +277,7 @@ class OpenAPI {
         if (self::needVerify()) {
             return 'verify';
         }
-        $c = new TopClient;
-        $c->appkey = session('taobao_app_key');
-        $c->secretKey = session('taobao_secret_key');
+        $c = self::initTopClient();
         $req = new ItemImgUploadRequest;
         $req->setNumIid($numIid);
         $req->setImage($image);
@@ -309,9 +288,27 @@ class OpenAPI {
             $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return $resp->item_img;
         } else {
-            echo('<h6 style="color:red;">error:'.$resp->msg.$resp->sub_msg.'</h6>');
-            dump($resp);
+            self::dumpTaobaoApiError($resp);
         }
+    }
+
+    public static function uploadTaobaoItemPropImg() {
+        if (self::needVerify()) {
+            return 'verify';
+        }
+        $c = self::initTopClient();
+    }
+
+    public static function dumpTaobaoApiError($resp) {
+        echo('<h6 style="color:red;">error:'.$resp->msg.$resp->sub_msg.'</h6>');
+        dump($resp);
+    }
+
+    private static function initTopClient() {
+        $c = new TopClient;
+        $c->appkey = session('taobao_app_key');
+        $c->secretKey = session('taobao_secret_key');
+        return $c;
     }
 
     private static function needVerify() {
