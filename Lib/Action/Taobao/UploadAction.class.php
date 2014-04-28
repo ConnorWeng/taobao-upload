@@ -52,7 +52,8 @@ class UploadAction extends CommonAction {
         header("Content-type:text/html;charset=utf-8");
         dump($_REQUEST);
         dump(session('taobao_access_token'));
-        $image = '@'.Util::downloadImage(I('picUrl1'));
+        $imagePath = Util::downloadImage(I('picUrl1'));
+        $image = '@'.$imagePath;
         $skuTableData = json_decode($_REQUEST['J_SKUTableData']);
         $autoOffWarn = I('autoOffWarn') == 'on' ? true : false;
         $desc = $this->makeDesc($_REQUEST['_fma_pu__0_d'], session('current_taobao_item_id'), $autoOffWarn);
@@ -94,6 +95,7 @@ class UploadAction extends CommonAction {
         );
         dump($item);
         $uploadedItem = $this->checkApiResponse(OpenAPI::addTaobaoItem($item));
+        unlink($imagePath);
         if (isset($uploadedItem->num_iid)) {
             $this->uploadItemImages((float)$uploadedItem->num_iid, $_REQUEST);
         }
