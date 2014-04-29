@@ -23,6 +23,7 @@ class UploadAction extends CommonAction {
         $price = $this->makePrice($taobaoItem->price, $storeInfo['see_price']);
         $caculatedPrice = $this->caculatePrice($price, $userdata['profit0'], $userdata['profit']);
         $outerId = $this->makeOuterId($taobaoItem->title, $taobaoItem->price, $storeInfo);
+        $propImgs = urlencode($this->makePropImgs($taobaoItem->prop_imgs->prop_img));
         $this->assign(array(
             'taobaoItemTitle' => $title,
             'taobaoItemId' => $taobaoItemId,
@@ -44,6 +45,7 @@ class UploadAction extends CommonAction {
             'profit' => $userdata['profit'],
             'autoOffWarn' => $userdata['autoOffWarn'] == 1 ? 'checked' : '',
             'initSkus' => json_encode(Util::parseSkus($taobaoItem->skus->sku)),
+            'propImgs' => $propImgs,
         ));
         $this->display();
     }
@@ -98,6 +100,7 @@ class UploadAction extends CommonAction {
         unlink($imagePath);
         if (isset($uploadedItem->num_iid)) {
             $this->uploadItemImages((float)$uploadedItem->num_iid, $_REQUEST);
+            $this->uploadPropImages((float)$uploadedItem->num_iid, json_decode(urldecode(I('propImgs'))));
         }
         dump($uploadedItem);
     }
@@ -317,5 +320,27 @@ class UploadAction extends CommonAction {
                 unlink($picPath);
             }
         }
+    }
+
+    private function uploadPropImages($numIid, $propImgs) {
+        foreach ($propImgs as $propImg) {
+            $imagePath = Util::downloadImage($propImg->url);
+            $image = '@'.$imagePath;
+            $this->checkApiResponse(OpenAPI::uploadTaobaoItemPropImg($numIid, $propImg->properties, $image, $propImg->position));
+            unlink($imagePath);
+        }
+    }
+
+    private function makePropImgs($propImgs) {
+        $result = '[';
+        $count = count($propImgs);
+        for ($i = 0; $i < $count; $i++) {
+            $result .= json_encode($propImgs[$i]).',';
+        }
+        if (strlen($result) > 1) {
+            $result = substr($result, 0, strlen($result) - 1);
+        }
+        $result .= ']';
+        return $result;
     }
 }

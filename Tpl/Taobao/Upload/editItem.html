@@ -65,6 +65,7 @@
         <!-- feilv 2012-03-05 食品协议签署，该段纯html提取到js template中，换位一个变量输出是否初始化 -->
 
         <form name="mainform" id="J_MainForm" action="{:U('taobao/Upload/uploadItem')}" method="post" encType="multipart/form-data">
+          <input type="hidden" name="propImgs" value="{$propImgs}"/>
           <input type="hidden" name="cid" value="{$cid}"/>
           <input type="hidden" name="sizeType" value="{$sizeType}"/>
           <input type="hidden" name="taobaoItemId" value="{$taobaoItemId}"/>

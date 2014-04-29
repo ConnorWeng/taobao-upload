@@ -174,7 +174,7 @@ class OpenAPI {
         }
         $c = self::initTopClient();
         $req = new ItemGetRequest;
-        $req->setFields("title,desc,pic_url,sku,item_weight,property_alias,price,item_img.url,cid,nick,props_name,prop_imgs");
+        $req->setFields("title,desc,pic_url,sku,item_weight,property_alias,price,item_img.url,cid,nick,props_name,prop_img");
         $req->setNumIid($numIid);
         $resp = $c->execute($req, null);
 
@@ -292,11 +292,24 @@ class OpenAPI {
         }
     }
 
-    public static function uploadTaobaoItemPropImg() {
+    public static function uploadTaobaoItemPropImg($numIid, $prop, $image, $position) {
         if (self::needVerify()) {
             return 'verify';
         }
         $c = self::initTopClient();
+        $req = new ItemPropimgUploadRequest;
+        $req->setNumIid($numIid);
+        $req->setProperties($prop);
+        $req->setImage($image);
+        $req->setPosition($position);
+        $resp = $c->execute($req, session('taobao_access_token'));
+        if ($resp->prop_img) {
+            $taoapi = D('Taoapi');
+            $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
+            return $resp->prop_img;
+        } else {
+            self::dumpTaobaoApiError($resp);
+        }
     }
 
     public static function dumpTaobaoApiError($resp) {
