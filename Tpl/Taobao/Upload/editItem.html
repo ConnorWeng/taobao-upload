@@ -142,6 +142,13 @@
 
           <div class="above-item-publish" style="height: 30px; line-height: 30px;">
             Hi, {$nick} <a href="{:U('Taobao/Index/signOut')}&taobaoItemId={$taobaoItemId}">退出(切换店铺)</a>
+            <span style="margin-left:20px;">
+              <if condition="$isUploadedBefore">
+                <i style="color:red;">当前商品您已发布过</i>
+              <else/>
+                <i>当前商品您没有发布过,可以放心搬家</i>
+              </if>
+            </span>
           </div>
 
           <div id="item-publish" class="box">

@@ -312,6 +312,24 @@ class OpenAPI {
         }
     }
 
+    public static function getTaobaoCustomItems($outerId) {
+        if (self::needVerify()) {
+            return 'verify';
+        }
+        $c = self::initTopClient();
+        $req = new ItemsCustomGetRequest;
+        $req->setOuterId($outerId);
+        $req->setFields("num_iid");
+        $resp = $c->execute($req, session('taobao_access_token'));
+        if (isset($resp->items) || count($resp) == 0) {
+            $taoapi = D('Taoapi');
+            $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
+            return $resp->items;
+        } else {
+            self::dumpTaobaoApiError($resp);
+        }
+    }
+
     public static function dumpTaobaoApiError($resp) {
         echo('<h6 style="color:red;">error:'.$resp->msg.$resp->sub_msg.'</h6>');
         dump($resp);

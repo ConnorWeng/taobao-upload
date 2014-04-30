@@ -23,6 +23,7 @@ class UploadAction extends CommonAction {
         $price = $this->makePrice($taobaoItem->price, $storeInfo['see_price']);
         $caculatedPrice = $this->caculatePrice($price, $userdata['profit0'], $userdata['profit']);
         $outerId = $this->makeOuterId($taobaoItem->title, $taobaoItem->price, $storeInfo);
+        $isUploadedBefore = $this->makeIsUploadedBefore($outerId);
         $propImgs = urlencode($this->makePropImgs($taobaoItem->prop_imgs->prop_img));
         $this->assign(array(
             'taobaoItemTitle' => $title,
@@ -46,6 +47,7 @@ class UploadAction extends CommonAction {
             'autoOffWarn' => $userdata['autoOffWarn'] == 1 ? 'checked' : '',
             'initSkus' => json_encode(Util::parseSkus($taobaoItem->skus->sku)),
             'propImgs' => $propImgs,
+            'isUploadedBefore' => $isUploadedBefore,
         ));
         $this->display();
     }
@@ -342,5 +344,14 @@ class UploadAction extends CommonAction {
         }
         $result .= ']';
         return $result;
+    }
+
+    private function makeIsUploadedBefore($outerId) {
+        $items = $this->checkApiResponse(OpenAPI::getTaobaoCustomItems($outerId));
+        if (count($items->item) > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
