@@ -54,7 +54,6 @@ class UploadAction extends CommonAction {
 
     public function uploadItem() {
         header("Content-type:text/html;charset=utf-8");
-        dump($_REQUEST);
         dump(session('taobao_access_token'));
         $imagePath = Util::downloadImage(I('picUrl1'));
         $image = '@'.$imagePath;
@@ -97,14 +96,27 @@ class UploadAction extends CommonAction {
             'SkuOuterIds' => $this->makeSkuOuterIds($skuTableData),
             'OuterId' => null,
         );
-        dump($item);
         $uploadedItem = $this->checkApiResponse(OpenAPI::addTaobaoItem($item));
         unlink($imagePath);
         if (isset($uploadedItem->num_iid)) {
             $this->uploadItemImages((float)$uploadedItem->num_iid, $_REQUEST);
             $this->uploadPropImages((float)$uploadedItem->num_iid, json_decode(urldecode(I('propImgs'))));
+            $itemUrl = 'http://item.taobao.com/item.htm?id='.$uploadedItem->num_iid;
+            $this->assign(array(
+                'result' => '发布成功啦！',
+                'message' => '宝贝已经顺利上架哦！亲，感谢你对51网的大力支持！',
+                'itemUrl' => '<li><a href="'.$itemUrl.'">来看看刚上架的宝贝吧！</a></li>',
+                'error' => 'false',
+            ));
+        } else {
+            $this->assign(array(
+                'result' => '发布失败！',
+                'message' => '宝贝没有顺利上架，请不要泄气哦，换个宝贝试试吧！祝生意欣荣，财源广进！',
+                'itemUrl' => '',
+                'error' => 'true',
+            ));
         }
-        dump($uploadedItem);
+        $this->display();
     }
 
     public function saveConfig() {
