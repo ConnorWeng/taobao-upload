@@ -77,31 +77,36 @@ class UploadAction extends CommonAction {
             'HasInvoice' => 'true',
             'HasWarranty' => 'true',
             'HasShowcase' => 'false',
-            'SellerCids' => null,
+            'SellerCids' => '',
             'HasDiscount' => 'false',
-            'PostFee' => null,
-            'ExpressFee' => null,
-            'EmsFee' => null,
-            'ListTime' => null,
+            'PostFee' => '',
+            'ExpressFee' => '',
+            'EmsFee' => '',
+            'ListTime' => '',
             'Image' => $image,
             'PostFee' => I('post_fee'),
             'ExpressFee' => I('express_fee'),
             'EmsFee' => I('ems_fee'),
-            'PropertyAlias' => null,
-            'InputStr' => null,
-            'InputPids' => null,
+            'PropertyAlias' => '',
+            'InputStr' => '',
+            'InputPids' => '',
             'SkuProperties' => $this->makeSkuProperties($skuTableData),
             'SkuQuantities' => $this->makeSkuQuantities($skuTableData),
             'SkuPrices' => $this->makeSkuPrices($skuTableData),
             'SkuOuterIds' => $this->makeSkuOuterIds($skuTableData),
-            'OuterId' => null,
+            'OuterId' => '',
         );
-        $uploadedItem = $this->checkApiResponse(OpenAPI::addTaobaoItem($item));
+        if (I('movePic') == 'on') {
+            $numIid = $this->checkApiResponse(OpenAPI::addTaobaoItemWithMovePic($item));
+        } else {
+            $uploadedItem = $this->checkApiResponse(OpenAPI::addTaobaoItem($item));
+            $numIid = $uploadedItem->num_iid;
+        }
         unlink($imagePath);
-        if (isset($uploadedItem->num_iid)) {
-            $this->uploadItemImages((float)$uploadedItem->num_iid, $_REQUEST);
-            $this->uploadPropImages((float)$uploadedItem->num_iid, json_decode(urldecode(I('propImgs'))));
-            $itemUrl = 'http://item.taobao.com/item.htm?id='.$uploadedItem->num_iid;
+        if (isset($numIid)) {
+            $this->uploadItemImages((float)$numIid, $_REQUEST);
+            $this->uploadPropImages((float)$numIid, json_decode(urldecode(I('propImgs'))));
+            $itemUrl = 'http://item.taobao.com/item.htm?id='.$numIid;
             $this->assign(array(
                 'result' => '发布成功啦！',
                 'message' => '宝贝已经顺利上架哦！亲，感谢你对51网的大力支持！',

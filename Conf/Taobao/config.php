@@ -9,6 +9,8 @@ return array(
     'DB_PORT' => 3306,
     'DB_PREFIX' => 'ecm_',
 
+    'servletUri' => 'http://121.196.142.10:30001/duapp/yjscServlet',
+
     //* sandbox
     'DB_HOST' => 'localhost',
     'DB_USER' => 'root',

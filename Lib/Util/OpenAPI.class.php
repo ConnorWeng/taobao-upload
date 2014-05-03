@@ -240,7 +240,7 @@ class OpenAPI {
         $c = self::initTopClient();
         $req = new ItemAddRequest;
         foreach ($item as $key => $value) {
-            if ($value !== null) {
+            if ($value !== '') {
                 call_user_method('set'.$key, $req, $value);
             }
         }
@@ -251,6 +251,54 @@ class OpenAPI {
             return $resp->item;
         } else {
             echo('<h6 style="color:red;">error:'.$resp->msg.$resp->sub_msg.'</h6>');
+            self::dumpTaobaoApiError($resp);
+        }
+    }
+
+    public static function addTaobaoItemWithMovePic($item) {
+        $params = "WebType=51wp_yjsc_dist".
+                  "&appKey=".session('taobao_app_key').
+                  "&appSecret=".session('taobao_secret_key').
+                  "&numIID=".session('current_taobao_item_id').
+                  "&sessionID=".session('taobao_access_token').
+                  "&Num=".urlencode($item['Num']).
+                  "&Price=".urlencode($item['Price']).
+                  "&Type=".urlencode($item['Type']).
+                  "&StuffStatus=".urlencode($item['StuffStatus']).
+                  "&Title=".urlencode($item['Title']).
+                  "&Desc=".urlencode($item['Desc']).
+                  "&LocationState=".urlencode($item['LocationState']).
+                  "&LocationCity=".urlencode($item['LocationCity']).
+                  "&Cid=".urlencode($item['Cid']).
+                  "&ApproveStatus=".urlencode($item['ApproveStatus']).
+                  "&Props=".urlencode($item['Props']).
+                  "&FreightPayer=".urlencode($item['FreightPayer']).
+                  "&ValidThru=".urlencode($item['ValidThru']).
+                  "&HasInvoice=true&HasWarranty=true&HasShowcase=".urlencode($item['HasShowcase']).
+                  "&SellerCids=".urlencode($item['SellerCids']).
+                  "&HasDiscount=".urlencode($item['HasDiscount']).
+                  "&PostFee=".urlencode($item['PostFee']).
+                  "&ExpressFee=".urlencode($item['ExpressFee']).
+                  "&EmsFee=".urlencode($item['EmsFee']).
+                  "&ListTime=".urlencode($item['ListTime']).
+                  "&PostageId=".urlencode('').
+                  "&PropertyAlias=".urlencode($item['PropertyAlias']).
+                  "&InputStr=".urlencode($item['InputStr']).
+                  "&InputPids=".urlencode($item['InputPids']).
+                  "&SkuProperties=".urlencode($item['SkuProperties']).
+                  "&SkuQuantities=".urlencode($item['SkuQuantities']).
+                  "&SkuPrices=".urlencode($item['SkuPrices']).
+                  "&SkuOuterIds=".urlencode($item['SkuOuterIds']).
+                  "&Outer_id=".urlencode($item['OuterId']).
+                  "&mainpic=".urlencode('').
+                  "&checklic=".md5(session('current_taobao_item_id').'51');
+        $resp = self::sendRequestWithShortUrl(C('servletUri'), $params);
+        if (is_numeric($resp)) {
+            $taoapi = D('Taoapi');
+            $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
+            return $resp;
+        } else {
+            echo('<h6 style="color:red;">error:'.$resp.'</h6>');
             self::dumpTaobaoApiError($resp);
         }
     }
