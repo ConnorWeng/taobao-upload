@@ -245,8 +245,12 @@ class OpenAPI {
             }
         }
         $resp = $c->execute($req, session('taobao_access_token'));
-        if (isset($resp->item)) {
-            $taoapi = D('Taoapi');
+        $taoapi = D('Taoapi');
+        if ($resp->code == '7') { // accesscontrol.limited-by-app-access-count
+            $taoapi->appKeyFail(session('current_taobao_app_key_id'));
+            Util::changeTaoAppkey(session('current_taobao_item_id'), session('taobao_app_key'));
+            return self::addTaobaoItem($item);
+        } else if (isset($resp->item)) {
             $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return $resp->item;
         } else {
@@ -311,8 +315,12 @@ class OpenAPI {
         $req = new UserBuyerGetRequest;
         $req->setFields("nick");
         $resp = $c->execute($req, session('taobao_access_token'));
-        if (isset($resp->user)) {
-            $taoapi = D('Taoapi');
+        $taoapi = D('Taoapi');
+        if ($resp->code == '7') { // accesscontrol.limited-by-app-access-count
+            $taoapi->appKeyFail(session('current_taobao_app_key_id'));
+            Util::changeTaoAppkey(session('current_taobao_item_id'), session('taobao_app_key'));
+            return self::getTaobaoUserBuyer();
+        } else if (isset($resp->user)) {
             $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return $resp->user;
         } else {
@@ -331,8 +339,12 @@ class OpenAPI {
         $req->setImage($image);
         $req->setPosition($position);
         $resp = $c->execute($req, session('taobao_access_token'));
-        if (isset($resp->item_img)) {
-            $taoapi = D('Taoapi');
+        $taoapi = D('Taoapi');
+        if ($resp->code == '7') { // accesscontrol.limited-by-app-access-count
+            $taoapi->appKeyFail(session('current_taobao_app_key_id'));
+            Util::changeTaoAppkey(session('current_taobao_item_id'), session('taobao_app_key'));
+            return self::uploadTaobaoItemImg($numIid, $image, $position);
+        } else if (isset($resp->item_img)) {
             $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return $resp->item_img;
         } else {
@@ -351,8 +363,12 @@ class OpenAPI {
         $req->setImage($image);
         $req->setPosition($position);
         $resp = $c->execute($req, session('taobao_access_token'));
-        if ($resp->prop_img) {
-            $taoapi = D('Taoapi');
+        $taoapi = D('Taoapi');
+        if ($resp->code == '7') { // accesscontrol.limited-by-app-access-count
+            $taoapi->appKeyFail(session('current_taobao_app_key_id'));
+            Util::changeTaoAppkey(session('current_taobao_item_id'), session('taobao_app_key'));
+            return self::uploadTaobaoItemPropImg($numIid, $prop, $image, $position);
+        } else if ($resp->prop_img) {
             $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return $resp->prop_img;
         } else {
@@ -369,8 +385,12 @@ class OpenAPI {
         $req->setOuterId($outerId);
         $req->setFields("num_iid");
         $resp = $c->execute($req, session('taobao_access_token'));
-        if (isset($resp->items) || count($resp) == 0) {
-            $taoapi = D('Taoapi');
+        $taoapi = D('Taoapi');
+        if ($resp->code == '7') { // accesscontrol.limited-by-app-access-count
+            $taoapi->appKeyFail(session('current_taobao_app_key_id'));
+            Util::changeTaoAppkey(session('current_taobao_item_id'), session('taobao_app_key'));
+            return self::getTaobaoCustomItems($outerId);
+        } else if (isset($resp->items) || count($resp) == 0) {
             $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return $resp->items;
         } else {
