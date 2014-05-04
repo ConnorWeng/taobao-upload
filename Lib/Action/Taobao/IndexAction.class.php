@@ -11,7 +11,7 @@ class IndexAction extends Action {
         session('current_taobao_item_id', $taobaoItemId);
         if (!session('?taobao_access_token')) {
             Util::changeTaoAppkey($taobaoItemId);
-            header('location: https://'.C('oauth_uri').'/authorize?response_type=code&client_id='.session('taobao_app_key').'&redirect_uri=http://'.C('redirect_host').urlencode(U('taobao/Index/authBack')).'&state='.$taobaoItemId.'&view=web');
+            header('location: https://'.C('oauth_uri').'/authorize?response_type=code&client_id='.session('taobao_app_key').'&redirect_uri=http://'.C('redirect_host').urlencode(U('Taobao/Index/authBack')).'&state='.$taobaoItemId.'&view=web');
         } else {
             U('Taobao/Index/authBack', null, true, true, false);
         }
@@ -41,7 +41,7 @@ class IndexAction extends Action {
             curl_close($ch);
             session('taobao_access_token', json_decode($data)->access_token);
         }
-        U('taobao/Upload/editItem', array('taobaoItemId'=>$taobaoItemId), true, true, false);
+        U('Taobao/Upload/editItem', array('taobaoItemId'=>$taobaoItemId), true, true, false);
     }
 
     public function signOut() {
