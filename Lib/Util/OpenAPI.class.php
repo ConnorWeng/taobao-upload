@@ -181,7 +181,7 @@ class OpenAPI {
         if (isset($resp->item)) {
             return $resp->item;
         } else {
-            self::dumpTaobaoApiError($resp);
+            self::dumpTaobaoApiError('getTaobaoItem', $resp);
         }
     }
 
@@ -195,7 +195,7 @@ class OpenAPI {
         if (isset($resp->item)) {
             return $resp->item;
         } else {
-            self::dumpTaobaoApiError($resp);
+            self::dumpTaobaoApiError('getTaobaoItemWithoutVerify', $resp);
         }
     }
 
@@ -212,7 +212,7 @@ class OpenAPI {
         if (isset($resp->item_cats->item_cat)) {
             return Util::extractValue($resp->item_cats->item_cat->name->asXML());
         } else {
-            self::dumpTaobaoApiError($resp);
+            self::dumpTaobaoApiError('getTaobaoItemCat', $resp);
         }
     }
 
@@ -229,7 +229,7 @@ class OpenAPI {
         if (isset($resp->item_props)) {
             return $resp->item_props;
         } else {
-            self::dumpTaobaoApiError($resp);
+            self::dumpTaobaoApiError('getTaobaoItemProps', $resp);
         }
     }
 
@@ -255,7 +255,7 @@ class OpenAPI {
             return $resp->item;
         } else {
             echo('<h6 style="color:red;">error:'.$resp->msg.$resp->sub_msg.'</h6>');
-            self::dumpTaobaoApiError($resp);
+            self::dumpTaobaoApiError('addTaobaoItem', $resp);
         }
     }
 
@@ -303,7 +303,7 @@ class OpenAPI {
             return $resp;
         } else {
             echo('<h6 style="color:red;">error:'.$resp.'</h6>');
-            self::dumpTaobaoApiError($resp);
+            self::dumpTaobaoApiError('addTaobaoItemWithMovePic', $resp);
         }
     }
 
@@ -325,7 +325,7 @@ class OpenAPI {
             return $resp->user;
         } else {
             echo('<h6 style="color:red;">error:'.$resp->msg.$resp->sub_msg.'</h6>');
-            self::dumpTaobaoApiError($resp);
+            self::dumpTaobaoApiError('getTaobaoUserBuyer', $resp);
         }
     }
 
@@ -348,7 +348,7 @@ class OpenAPI {
             $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return $resp->item_img;
         } else {
-            self::dumpTaobaoApiError($resp);
+            self::dumpTaobaoApiError('uploadTaobaoItemImg', $resp);
         }
     }
 
@@ -372,7 +372,7 @@ class OpenAPI {
             $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return $resp->prop_img;
         } else {
-            self::dumpTaobaoApiError($resp);
+            self::dumpTaobaoApiError('uploadTaobaoItemPropImg', $resp);
         }
     }
 
@@ -394,12 +394,12 @@ class OpenAPI {
             $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return $resp->items;
         } else {
-            self::dumpTaobaoApiError($resp);
+            self::dumpTaobaoApiError('getTaobaoCustomItems', $resp);
         }
     }
 
-    public static function dumpTaobaoApiError($resp) {
-        echo('<h6 style="color:red;">error:'.$resp->msg.$resp->sub_msg.'</h6>');
+    public static function dumpTaobaoApiError($apiName, $resp) {
+        echo('<h6 style="color:red;">'.$apiName.' error:'.$resp->msg.$resp->sub_msg.'</h6>');
         dump($resp);
     }
 
