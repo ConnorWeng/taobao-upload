@@ -48,6 +48,7 @@ class UploadAction extends CommonAction {
             'initSkus' => json_encode(Util::parseSkus($taobaoItem->skus->sku)),
             'propImgs' => $propImgs,
             'isUploadedBefore' => $isUploadedBefore,
+            'propAlias' => $taobaoItem->property_alias,
         ));
         $this->display();
     }
@@ -87,7 +88,7 @@ class UploadAction extends CommonAction {
             'PostFee' => I('post_fee'),
             'ExpressFee' => I('express_fee'),
             'EmsFee' => I('ems_fee'),
-            'PropertyAlias' => '',
+            'PropertyAlias' => $this->makePropertyAlias($skuTableData, $_REQUEST),
             'InputStr' => '',
             'InputPids' => '',
             'SkuProperties' => $this->makeSkuProperties($skuTableData),
@@ -132,6 +133,18 @@ class UploadAction extends CommonAction {
         );
         $userdataConfig = M('UserdataConfig');
         $this->ajaxReturn($userdataConfig->where("nick='".I('nick')."'")->setField($data));
+    }
+
+    private function makePropertyAlias($skuTableData, $request) {
+        $propertyAlias = '';
+        foreach ($skuTableData as $key => $value) {
+            $skuProperties = str_replace('_', ';', str_replace('-', ':', $key));
+            $skuProps = split(';', $skuProperties);
+            foreach ($skuProps as $prop) {
+                $propertyAlias .= $prop.':'.$request['cpva_'.$prop].';';
+            }
+        }
+        return $propertyAlias = substr($propertyAlias, 0, strlen($propertyAlias) - 1);
     }
 
     private function makeSkuProperties($skuTableData) {
