@@ -4080,6 +4080,12 @@ Sell.Config.set('crossimage', {
             });
         });
 
+        $('.sku-wrap').on('click', function () {
+            setTimeout(function () {
+                $('input.J_MapQuantity').val(100);
+            }, 1000);
+        });
+
         /* init sku */
         var initSkus = {$initSkus};
         var propAlias = '{$propAlias}';
