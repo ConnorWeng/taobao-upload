@@ -4104,9 +4104,12 @@ Sell.Config.set('crossimage', {
                 propertiesParts = sku.propertiesName.split(';');
             for (var i in propertiesParts) {
                 var propertiesMoreParts = propertiesParts[i].split(':'),
-                    prop = propertiesMoreParts[0] + ':' + propertiesMoreParts[1];
-                $('input[value="'+prop+'"]').siblings('input[type=text]').val(getPropAlias(propertiesMoreParts[1], propertiesMoreParts[3]));
-                $('input[value="'+prop+'"]').click();
+                    prop = propertiesMoreParts[0] + ':' + propertiesMoreParts[1],
+                    $checkbox = $('input[value="'+prop+'"]');
+                $checkbox.siblings('input[type=text]').val(getPropAlias(propertiesMoreParts[1], propertiesMoreParts[3]));
+                if (typeof($checkbox.attr('checked')) === 'undefined') {
+                    $checkbox.click();
+                }
             }
         }
         /* init sku end */
