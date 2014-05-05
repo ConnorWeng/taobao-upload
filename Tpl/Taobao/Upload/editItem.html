@@ -4083,6 +4083,7 @@ Sell.Config.set('crossimage', {
         $('.sku-wrap').on('click', function () {
             setTimeout(function () {
                 $('input.J_MapQuantity').val(100);
+                $('input.J_MapQuantity').focus().blur();
             }, 1000);
         });
 
