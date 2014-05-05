@@ -43,7 +43,9 @@ class IndexAction extends Action {
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             $data = curl_exec($ch);
             curl_close($ch);
-            session('taobao_access_token', json_decode($data)->access_token);
+            $dataObject = json_decode($data);
+            session('taobao_access_token', $dataObject->access_token);
+            session('taobao_user_nick', urldecode($dataObject->taobao_user_nick));
         }
         U('Taobao/Upload/editItem', array('taobaoItemId'=>$taobaoItemId), true, true, false);
     }
