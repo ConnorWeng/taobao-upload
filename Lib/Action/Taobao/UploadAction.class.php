@@ -54,7 +54,6 @@ class UploadAction extends CommonAction {
 
     public function uploadItem() {
         header("Content-type:text/html;charset=utf-8");
-        dump(session('taobao_access_token'));
         $imagePath = Util::downloadImage(I('picUrl1'));
         $image = '@'.$imagePath;
         $skuTableData = json_decode($_REQUEST['J_SKUTableData']);
