@@ -11,7 +11,7 @@ class UploadAction extends CommonAction {
         header("Content-type:text/html;charset=utf-8");
         $taobaoItemId = session('current_taobao_item_id');
         $taobaoItem = $this->checkApiResponse(OpenAPI::getTaobaoItem($taobaoItemId));
-        $nick = $this->checkApiResponse(OpenAPI::getTaobaoUserBuyer())->nick;
+        $nick = $taobaoItem->nick;
         $userdataConfig = M('UserdataConfig');
         $userdata = $userdataConfig->where("nick='".$nick."'")->find();
         $images = $this->makeImages($taobaoItem->item_imgs);
