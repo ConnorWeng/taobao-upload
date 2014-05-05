@@ -172,7 +172,9 @@ class OpenAPI {
         if (self::needVerify()) {
             return 'verify';
         }
-        $c = self::initTopClient();
+        $c = new TopClient;
+        $c->appkey = C('taobao_app_key');
+        $c->secretKey = C('taobao_secret_key');
         $req = new ItemGetRequest;
         $req->setFields("title,desc,pic_url,sku,item_weight,property_alias,price,item_img.url,cid,nick,props_name,prop_img");
         $req->setNumIid($numIid);
@@ -186,7 +188,9 @@ class OpenAPI {
     }
 
     public static function getTaobaoItemWithoutVerify($numIid) {
-        $c = self::initTopClient();
+        $c = new TopClient;
+        $c->appkey = C('taobao_app_key');
+        $c->secretKey = C('taobao_secret_key');
         $req = new ItemGetRequest;
         $req->setFields("title,desc,pic_url,sku,item_weight,property_alias,price,item_img.url,cid,nick");
         $req->setNumIid($numIid);
@@ -203,7 +207,9 @@ class OpenAPI {
         if (self::needVerify()) {
             return 'verify';
         }
-        $c = self::initTopClient();
+        $c = new TopClient;
+        $c->appkey = C('taobao_app_key');
+        $c->secretKey = C('taobao_secret_key');
         $req = new ItemcatsGetRequest;
         $req->setFields("name");
         $req->setCids($cid);
@@ -220,7 +226,9 @@ class OpenAPI {
         if (self::needVerify()) {
             return 'verify';
         }
-        $c = self::initTopClient();
+        $c = new TopClient;
+        $c->appkey = C('taobao_app_key');
+        $c->secretKey = C('taobao_secret_key');
         $req = new ItempropsGetRequest;
         $req->setFields("pid,name,must,multi,prop_values,is_key_prop,is_sale_prop");
         $req->setCid($cid);
