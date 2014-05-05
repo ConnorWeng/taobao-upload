@@ -11,9 +11,8 @@ class UploadAction extends CommonAction {
         header("Content-type:text/html;charset=utf-8");
         $taobaoItemId = session('current_taobao_item_id');
         $taobaoItem = $this->checkApiResponse(OpenAPI::getTaobaoItem($taobaoItemId));
-        $nick = $taobaoItem->nick;
-        $userdataConfig = M('UserdataConfig');
-        $userdata = $userdataConfig->where("nick='".$nick."'")->find();
+        $nick = ''.$taobaoItem->nick;
+        $userdata = $this->makeUserdata($nick);
         $images = $this->makeImages($taobaoItem->item_imgs);
         $props = $this->checkApiResponse(OpenAPI::getTaobaoItemProps($taobaoItem->cid));
         $propsHtml = $this->makePropsHtml($props, $taobaoItem->props_name);
@@ -202,6 +201,21 @@ class UploadAction extends CommonAction {
         $sizeProp = $sizeType == 0 ? '20509:' : '20518:';
         $sizePropStr = $sizeProp.implode(',', array_unique($sizeArray));
         return implode(';', $propsArray).';'.$colorPropStr.';'.$sizePropStr;
+    }
+
+    private function makeUserdata($nick) {
+        $userdataConfig = M('UserdataConfig');
+        $userdata = $userdataConfig->where("nick='".$nick."'")->find();
+        if (count($userdata) == 0) {
+            $userdataConfig = M('UserdataConfig');
+            $data['profit0'] = '100.00';
+            $data['profit'] = '0.00';
+            $data['autoOffWarn'] = '1';
+            $data['nick'] = $nick;
+            $userdataConfig->add($data);
+            $userdata = $data;
+        }
+        return $userdata;
     }
 
     private function makeImages($itemImgs) {
