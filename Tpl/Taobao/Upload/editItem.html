@@ -3520,7 +3520,10 @@
                                     <UL>
                                       <LI>普通交易运费</LI>
                                       <LI>
-                                        <LABEL><INPUT id="post1" value="1" type="radio" name="post" disabled>使用运费模板</LABEL>
+                                        <LABEL><INPUT id="post1" value="1" type="radio" name="post">使用运费模板</LABEL>
+                                        <ul style="margin-left: 30px; color: black;">
+                                          {$deliveryTemplateHtml}
+                                        </ul>
                                       </LI>
                                       <LI>
                                         <LABEL><INPUT id="post2" value="2" type="radio" name="post" checked>平邮：</LABEL>

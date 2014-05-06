@@ -401,6 +401,26 @@ class OpenAPI {
         }
     }
 
+    public static function getTaobaoDeliveryTemplates() {
+        if (self::needVerify()) {
+            return 'verify';
+        }
+        $c = self::initTopClient();
+        $req = new DeliveryTemplatesGetRequest;
+        $req->setFields("template_id,template_name");
+        $resp = $c->execute($req, session('taobao_access_token'));
+        $taoapi = D('Taoapi');
+        if ($resp->code == '7') { // accesscontrol.limited-by-app-access-count
+            $taoapi->appKeyFail(session('current_taobao_app_key_id'));
+            self::authWithNewAppKey();
+        } else if (isset($resp->delivery_templates)) {
+            $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
+            return $resp->delivery_templates;
+        } else {
+            self::dumpTaobaoApiError('getTaobaoDeliveryTemplates', $resp);
+        }
+    }
+
     public static function dumpTaobaoApiError($apiName, $resp) {
         echo('<h6 style="color:red;">'.$apiName.' error:'.$resp->msg.$resp->sub_msg.'</h6>');
         dump($resp);

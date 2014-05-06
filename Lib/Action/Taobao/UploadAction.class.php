@@ -24,6 +24,7 @@ class UploadAction extends CommonAction {
         $outerId = $this->makeOuterId($taobaoItem->title, $taobaoItem->price, $storeInfo);
         $isUploadedBefore = $this->makeIsUploadedBefore($outerId);
         $propImgs = urlencode($this->makePropImgs($taobaoItem->prop_imgs->prop_img));
+        $deliveryTemplateHtml = $this->makeDeliveryTemplateHtml();
         $this->assign(array(
             'taobaoItemTitle' => $title,
             'taobaoItemId' => $taobaoItemId,
@@ -54,6 +55,7 @@ class UploadAction extends CommonAction {
             'emsFee' => $userdata['emsFee'],
             'sellerFreight' => $userdata['buyerFreight'] == '0' ? 'checked' : '',
             'buyerFreight' => $userdata['buyerFreight'] == '1' ? 'checked' : '',
+            'deliveryTemplateHtml' => $deliveryTemplateHtml,
         ));
         $this->display();
     }
@@ -398,6 +400,17 @@ class UploadAction extends CommonAction {
         }
         $result .= ']';
         return $result;
+    }
+
+    private function makeDeliveryTemplateHtml() {
+        $deliveryTemplates = OpenAPI::getTaobaoDeliveryTemplates();
+        $count = count($deliveryTemplates->delivery_template);
+        $deliveryTemplateHtml = '';
+        for ($i = 0; $i < $count; $i++) {
+            $template = $deliveryTemplates->delivery_template[$i];
+            $deliveryTemplateHtml .= '<li><lable><input name="template_id" id="template'.$i.'" value="'.$template->template_id.'" type="radio"/>'.$template->name.'</lable></li>';
+        }
+        return $deliveryTemplateHtml;
     }
 
     private function makeIsUploadedBefore($outerId) {
