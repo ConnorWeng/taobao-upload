@@ -181,6 +181,17 @@
                   </div>
                   <!-- 利润加价END -->
 
+                  <!-- 邮费设置 -->
+                  <h5>设置邮费:</h5>
+                  <div class="detail">
+                    <ul>
+                      <li>平邮:<input style="width: 60px;" id="postFee" name="postFee" type="text" value="{$postFee}"/>元</li>
+                      <li>快递:<input style="width: 60px;" id="expressFee" name="expressFee" type="text" value="{$expressFee}"/>元</li>
+                      <li>EMS:<input style="width: 60px;" id="emsFee" name="emsFee" type="text" value="{$emsFee}"/>元</li>
+                    </ul>
+                  </div>
+                  <!-- 邮费设置END -->
+
                   <!-- 自动下架提醒 -->
                   <h5>自动下架提醒:</h5>
                   <div class="detail">
@@ -3519,9 +3530,9 @@
                                       </LI>
                                       <LI>
                                         <LABEL><INPUT id="post2" value="2" type="radio" name="post" checked>平邮：</LABEL>
-                                        <INPUT style="color:black;" class="postagetext" type="text"  value="15" name="post_fee">快递：
-                                        <INPUT style="color:black;" class="postagetext" type="text" value="15" name="express_fee"> EMS：
-                                        <INPUT style="color:black;" class="postagetext" type="text"  value="15" name="ems_fee">
+                                        <INPUT style="color:black;" class="postagetext" type="text"  value="{$postFee}" name="post_fee">快递：
+                                        <INPUT style="color:black;" class="postagetext" type="text" value="{$expressFee}" name="express_fee"> EMS：
+                                        <INPUT style="color:black;" class="postagetext" type="text"  value="{$emsFee}" name="ems_fee">
                                       </LI>
                                     </UL>
                                   </DIV>
@@ -4072,7 +4083,10 @@ Sell.Config.set('crossimage', {
                     'nick': '{$nick}',
                     'percent': $('#percent').val(),
                     'profit': $('#profit').val(),
-                    'autoOffWarn': $('#autoOffWarn').attr('checked')
+                    'autoOffWarn': $('#autoOffWarn').attr('checked'),
+                    'postFee': $('#postFee').val(),
+                    'expressFee': $('#expressFee').val(),
+                    'emsFee': $('#emsFee').val()
                 },
                 success: function (data) {
                     location.href = location.href;

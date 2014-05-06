@@ -48,6 +48,9 @@ class UploadAction extends CommonAction {
             'propImgs' => $propImgs,
             'isUploadedBefore' => $isUploadedBefore,
             'propAlias' => $taobaoItem->property_alias,
+            'postFee' => $userdata['postFee'],
+            'expressFee' => $userdata['expressFee'],
+            'emsFee' => $userdata['emsFee'],
         ));
         $this->display();
     }
@@ -78,9 +81,6 @@ class UploadAction extends CommonAction {
             'HasShowcase' => 'false',
             'SellerCids' => '',
             'HasDiscount' => 'false',
-            'PostFee' => '',
-            'ExpressFee' => '',
-            'EmsFee' => '',
             'ListTime' => '',
             'Image' => $image,
             'PostFee' => I('post_fee'),
@@ -128,6 +128,9 @@ class UploadAction extends CommonAction {
             'profit0' => I('percent'),
             'profit' => I('profit'),
             'autoOffWarn' => I('autoOffWarn') == 'checked' ? 1 : 0,
+            'postFee' => I('postFee'),
+            'expressFee' => I('expressFee'),
+            'emsFee' => I('emsFee')
         );
         $userdataConfig = M('UserdataConfig');
         $this->ajaxReturn($userdataConfig->where("nick='".I('nick')."'")->setField($data));
@@ -210,6 +213,9 @@ class UploadAction extends CommonAction {
             $data['profit0'] = '100.00';
             $data['profit'] = '0.00';
             $data['autoOffWarn'] = '1';
+            $data['postFee'] = '15.00';
+            $data['expressFee'] = '15.00';
+            $data['emsFee'] = '15.00';
             $data['nick'] = $nick;
             $userdataConfig->add($data);
             $userdata = $data;
