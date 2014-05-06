@@ -203,15 +203,6 @@
                   </div>
                   <!-- 自动下架提醒END -->
 
-                  <!-- 图片搬家 -->
-                  <h5>图片搬家:</h5>
-                  <div class="detail">
-                    <ul>
-                      <li>开启<input type="checkbox" id="movePic" name="movePic" checked/></li>
-                    </ul>
-                  </div>
-                  <!-- 图片搬家END -->
-
                   <div class="detail">
                     <ul>
                       <li><input type="button" class="saveAndEffect" value="保存并生效" style="width:175px"/></li>
@@ -3656,25 +3647,23 @@
                           <div id="err_nav_auctionStatus" style="display:none"></div>
                         </span>
                       </li>
+
+                      <!-- 无名良品卖家设置支付宝的积分宝返点比例 -->
+
                       <li >
-                        <label>橱窗推荐：</label>
+                        <label>图片搬家：</label>
                         <span>
                           <ul class="ul-checkbox">
                             <li>
-                              <input type="checkbox" class="checkbox" disabled="disabled" />
-                              <label for="promoted">否</label>
+                              <input id="movePic" name="movePic" type="checkbox" class="checkbox"/>
+                              <label for="promoted">是</label>
                             </li>
-                            <li>
-                              <span class="msg"><span class="tips promoted-tip">您只有15个橱窗位，当前已经推荐15个，不能再推荐了哦</span></span>
+                              <span class="msg"><span class="tips">上传成功后,图片会在1-2分钟内更新完成,您无需等待即可上传下一个宝贝</span></span>
                             </li>
                           </ul>
-                          <input type="hidden" id="nav_promotedStatus" data-feed="err_nav_promotedStatus"/>
                           <div id="err_nav_promotedStatus" style="display:none"></div>
                         </span>
                       </li>
-                      <!-- 无名良品卖家设置支付宝的积分宝返点比例 -->
-
-
 
                     </ul>
                   </div>
