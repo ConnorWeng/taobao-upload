@@ -51,6 +51,8 @@ class UploadAction extends CommonAction {
             'postFee' => $userdata['postFee'],
             'expressFee' => $userdata['expressFee'],
             'emsFee' => $userdata['emsFee'],
+            'sellerFreight' => $userdata['buyerFreight'] == '0' ? 'checked' : '',
+            'buyerFreight' => $userdata['buyerFreight'] == '1' ? 'checked' : '',
         ));
         $this->display();
     }
@@ -130,7 +132,8 @@ class UploadAction extends CommonAction {
             'autoOffWarn' => I('autoOffWarn') == 'checked' ? 1 : 0,
             'postFee' => I('postFee'),
             'expressFee' => I('expressFee'),
-            'emsFee' => I('emsFee')
+            'emsFee' => I('emsFee'),
+            'buyerFreight' => I('buyerFreight')
         );
         $userdataConfig = M('UserdataConfig');
         $this->ajaxReturn($userdataConfig->where("nick='".I('nick')."'")->setField($data));
@@ -217,6 +220,7 @@ class UploadAction extends CommonAction {
             $data['expressFee'] = '15.00';
             $data['emsFee'] = '15.00';
             $data['nick'] = $nick;
+            $data['buyerFreight'] = '1';
             $userdataConfig->add($data);
             $userdata = $data;
         }
