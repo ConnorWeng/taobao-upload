@@ -83,6 +83,7 @@ class UploadAction extends CommonAction {
             'ApproveStatus' => 'onsale',
             'Props' => $this->makeProps($_REQUEST, $skuTableData, I('sizeType')),
             'FreightPayer' => I('postages'),
+            'PostageId' => I('template_id'),
             'ValidThru' => '14',
             'HasInvoice' => 'true',
             'HasWarranty' => 'true',

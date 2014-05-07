@@ -413,7 +413,7 @@ class OpenAPI {
         if ($resp->code == '7') { // accesscontrol.limited-by-app-access-count
             $taoapi->appKeyFail(session('current_taobao_app_key_id'));
             self::authWithNewAppKey();
-        } else if (isset($resp->delivery_templates)) {
+        } else if (isset($resp->delivery_templates) || ''.$resp->total_results == '0') {
             $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return $resp->delivery_templates;
         } else {
