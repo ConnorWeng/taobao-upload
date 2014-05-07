@@ -187,9 +187,17 @@
                     <ul>
                       <li><label><input id="sellerFreight" type="radio" name="freight" {$sellerFreight}>卖家承担运费</label></li>
                       <li><label><input id="buyerFreight" type="radio" name="freight" {$buyerFreight}>买家承担运费</label></li>
-                      <li>平邮:<input style="width: 60px;" id="postFee" name="postFee" type="text" value="{$postFee}"/>元</li>
-                      <li>快递:<input style="width: 60px;" id="expressFee" name="expressFee" type="text" value="{$expressFee}"/>元</li>
-                      <li>EMS:<input style="width: 60px;" id="emsFee" name="emsFee" type="text" value="{$emsFee}"/>元</li>
+                      <li style="margin-left:20px;">
+                        <label><input id="useModuFreight" type="radio" name="moduFreight" {$useModuFreight}>使用运费模板</label>
+                        <select id="templateId" name="templateId">
+                          {$deliveryTemplateHtml}
+                        </select>
+                      </li>
+                      <li style="margin-left:20px;">
+                        <label><input type="radio" name="moduFreight" {$postFreight}>运费</label>
+                      <li style="margin-left:20px;">平邮:<input style="width: 60px;" id="postFee" name="postFee" type="text" value="{$postFee}"/>元</li>
+                      <li style="margin-left:20px;">快递:<input style="width: 60px;" id="expressFee" name="expressFee" type="text" value="{$expressFee}"/>元</li>
+                      <li style="margin-left:20px;">EMS:<input style="width: 60px;" id="emsFee" name="emsFee" type="text" value="{$emsFee}"/>元</li>
                     </ul>
                   </div>
                   <!-- 邮费设置END -->
@@ -3520,13 +3528,13 @@
                                     <UL>
                                       <LI>普通交易运费</LI>
                                       <LI>
-                                        <LABEL><INPUT id="post1" value="1" type="radio" name="post">使用运费模板</LABEL>
-                                        <ul style="margin-left: 30px; color: black;">
+                                        <LABEL><INPUT id="post1" value="1" type="radio" name="post" {$useModuFreight}>使用运费模板</LABEL>
+                                        <select name="template_id">
                                           {$deliveryTemplateHtml}
-                                        </ul>
+                                        </select>
                                       </LI>
                                       <LI>
-                                        <LABEL><INPUT id="post2" value="2" type="radio" name="post" checked>平邮：</LABEL>
+                                        <LABEL><INPUT id="post2" value="2" type="radio" name="post" {$postFreight}>平邮：</LABEL>
                                         <INPUT style="color:black;" class="postagetext" type="text"  value="{$postFee}" name="post_fee">快递：
                                         <INPUT style="color:black;" class="postagetext" type="text" value="{$expressFee}" name="express_fee"> EMS：
                                         <INPUT style="color:black;" class="postagetext" type="text"  value="{$emsFee}" name="ems_fee">
@@ -4082,7 +4090,8 @@ Sell.Config.set('crossimage', {
                     'postFee': $('#postFee').val(),
                     'expressFee': $('#expressFee').val(),
                     'emsFee': $('#emsFee').val(),
-                    'buyerFreight': $('#buyerFreight').attr('checked') ? '1' : '0'
+                    'buyerFreight': $('#buyerFreight').attr('checked') ? '1' : '0',
+                    'usePostModu': $('#useModuFreight').attr('checked') && $('#buyerFreight').attr('checked') ? $('#templateId').val() : '999'
                 },
                 success: function (data) {
                     location.href = location.href;

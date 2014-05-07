@@ -10,11 +10,12 @@ class UploadAction extends CommonAction {
     public function editItem() {
         header("Content-type:text/html;charset=utf-8");
         $taobaoItemId = session('current_taobao_item_id');
-        $taobaoItem = $this->checkApiResponse(OpenAPI::getTaobaoItem($taobaoItemId));
         $nick = session('taobao_user_nick');
-        $userdata = $this->makeUserdata($nick);
-        $images = $this->makeImages($taobaoItem->item_imgs);
+        $taobaoItem = $this->checkApiResponse(OpenAPI::getTaobaoItem($taobaoItemId));
         $props = $this->checkApiResponse(OpenAPI::getTaobaoItemProps($taobaoItem->cid));
+        $deliveryTemplates = $this->checkApiResponse(OpenAPI::getTaobaoDeliveryTemplates());
+        $userdata = $this->makeUserdata($nick, $deliveryTemplates);
+        $images = $this->makeImages($taobaoItem->item_imgs);
         $propsHtml = $this->makePropsHtml($props, $taobaoItem->props_name);
         $sizeType = $this->makeSizeType($props);
         $title = $this->makeTitle($taobaoItem->title);
@@ -24,7 +25,7 @@ class UploadAction extends CommonAction {
         $outerId = $this->makeOuterId($taobaoItem->title, $taobaoItem->price, $storeInfo);
         $isUploadedBefore = $this->makeIsUploadedBefore($outerId);
         $propImgs = urlencode($this->makePropImgs($taobaoItem->prop_imgs->prop_img));
-        $deliveryTemplateHtml = $this->makeDeliveryTemplateHtml();
+        $deliveryTemplateHtml = $this->makeDeliveryTemplateHtml($deliveryTemplates, $userdata['usePostModu']);
         $this->assign(array(
             'taobaoItemTitle' => $title,
             'taobaoItemId' => $taobaoItemId,
@@ -55,6 +56,8 @@ class UploadAction extends CommonAction {
             'emsFee' => $userdata['emsFee'],
             'sellerFreight' => $userdata['buyerFreight'] == '0' ? 'checked' : '',
             'buyerFreight' => $userdata['buyerFreight'] == '1' ? 'checked' : '',
+            'useModuFreight' => $userdata['usePostModu'] == '999' ? '' : 'checked',
+            'postFreight' => $userdata['buyerFreight'] == '1' && $userdata['usePostModu'] == '999' ? 'checked' : '',
             'deliveryTemplateHtml' => $deliveryTemplateHtml,
         ));
         $this->display();
@@ -136,7 +139,8 @@ class UploadAction extends CommonAction {
             'postFee' => I('postFee'),
             'expressFee' => I('expressFee'),
             'emsFee' => I('emsFee'),
-            'buyerFreight' => I('buyerFreight')
+            'buyerFreight' => I('buyerFreight'),
+            'usePostModu' => I('usePostModu'),
         );
         $userdataConfig = M('UserdataConfig');
         $this->ajaxReturn($userdataConfig->where("nick='".I('nick')."'")->setField($data));
@@ -211,7 +215,7 @@ class UploadAction extends CommonAction {
         return implode(';', $propsArray).';'.$colorPropStr.';'.$sizePropStr;
     }
 
-    private function makeUserdata($nick) {
+    private function makeUserdata($nick, $deliveryTemplates) {
         $userdataConfig = M('UserdataConfig');
         $userdata = $userdataConfig->where("nick='".$nick."'")->find();
         if (count($userdata) == 0) {
@@ -224,6 +228,11 @@ class UploadAction extends CommonAction {
             $data['emsFee'] = '15.00';
             $data['nick'] = $nick;
             $data['buyerFreight'] = '1';
+            if (count($deliveryTemplates->delivery_template) > 0) {
+                $data['usePostModu'] = ''.$deliveryTemplates->delivery_template[0]->template_id;
+            } else {
+                $data['usePostModu'] = '999';
+            }
             $userdataConfig->add($data);
             $userdata = $data;
         }
@@ -402,13 +411,16 @@ class UploadAction extends CommonAction {
         return $result;
     }
 
-    private function makeDeliveryTemplateHtml() {
-        $deliveryTemplates = OpenAPI::getTaobaoDeliveryTemplates();
+    private function makeDeliveryTemplateHtml($deliveryTemplates, $usePostModu) {
         $count = count($deliveryTemplates->delivery_template);
         $deliveryTemplateHtml = '';
         for ($i = 0; $i < $count; $i++) {
             $template = $deliveryTemplates->delivery_template[$i];
-            $deliveryTemplateHtml .= '<li><lable><input name="template_id" id="template'.$i.'" value="'.$template->template_id.'" type="radio"/>'.$template->name.'</lable></li>';
+            if ($usePostModu != 999 && $usePostModu == $template->template_id) {
+                $deliveryTemplateHtml .= '<option value="'.$template->template_id.'" selected>'.$template->name.'</option>';
+            } else {
+                $deliveryTemplateHtml .= '<option value="'.$template->template_id.'">'.$template->name.'</option>';
+            }
         }
         return $deliveryTemplateHtml;
     }
