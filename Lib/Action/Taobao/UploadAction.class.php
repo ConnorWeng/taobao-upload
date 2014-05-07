@@ -114,7 +114,7 @@ class UploadAction extends CommonAction {
         if (isset($numIid)) {
             $this->uploadItemImages((float)$numIid, $_REQUEST);
             $this->uploadPropImages((float)$numIid, json_decode(urldecode(I('propImgs'))));
-            $itemUrl = 'http://item.taobao.com/item.htm?id='.$numIid;
+            $itemUrl = 'http://item.taobao.com/item.htm?spm=686.1000925.1000774.13.2LiblY&id='.$numIid;
             $this->assign(array(
                 'result' => '发布成功啦！',
                 'message' => '宝贝已经顺利上架哦！亲，感谢你对51网的大力支持！',
