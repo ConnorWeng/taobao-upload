@@ -421,6 +421,23 @@ class OpenAPI {
         }
     }
 
+    public static function getTaobaoSellercatsList($nick) {
+        if (self::needVerify()) {
+            return 'verify';
+        }
+        $c = new TopClient;
+        $c->appkey = C('taobao_app_key');
+        $c->secretKey = C('taobao_secret_key');
+        $req = new SellercatsListGetRequest;
+        $req->setNick($nick);
+        $resp = $c->execute($req);
+        if (isset($resp->seller_cats)) {
+            return $resp->seller_cats;
+        } else {
+            self::dumpTaobaoApiError('getTaobaoItem', $resp);
+        }
+    }
+
     public static function dumpTaobaoApiError($apiName, $resp) {
         echo('<h6 style="color:red;">'.$apiName.' error:'.$resp->msg.$resp->sub_msg.'</h6>');
         dump($resp);

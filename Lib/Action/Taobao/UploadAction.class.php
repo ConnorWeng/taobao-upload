@@ -13,6 +13,7 @@ class UploadAction extends CommonAction {
         $nick = session('taobao_user_nick');
         $taobaoItem = $this->checkApiResponse(OpenAPI::getTaobaoItem($taobaoItemId));
         $props = $this->checkApiResponse(OpenAPI::getTaobaoItemProps($taobaoItem->cid));
+        $cname = $this->checkApiResponse(OpenAPI::getTaobaoItemCat($taobaoItem->cid));
         $deliveryTemplates = $this->checkApiResponse(OpenAPI::getTaobaoDeliveryTemplates());
         $userdata = $this->makeUserdata($nick, $deliveryTemplates);
         $images = $this->makeImages($taobaoItem->item_imgs);
@@ -26,6 +27,7 @@ class UploadAction extends CommonAction {
         $isUploadedBefore = $this->makeIsUploadedBefore($outerId);
         $propImgs = urlencode($this->makePropImgs($taobaoItem->prop_imgs->prop_img));
         $deliveryTemplateHtml = $this->makeDeliveryTemplateHtml($deliveryTemplates, $userdata['usePostModu']);
+        $sellerCatsHtml = $this->makeSellerCatsHtml($cname);
         $this->assign(array(
             'taobaoItemTitle' => $title,
             'taobaoItemId' => $taobaoItemId,
@@ -59,6 +61,7 @@ class UploadAction extends CommonAction {
             'useModuFreight' => $userdata['usePostModu'] == '999' ? '' : 'checked',
             'postFreight' => $userdata['buyerFreight'] == '1' && $userdata['usePostModu'] == '999' ? 'checked' : '',
             'deliveryTemplateHtml' => $deliveryTemplateHtml,
+            'sellerCatsHtml' => $sellerCatsHtml,
         ));
         $this->display();
     }
@@ -88,7 +91,7 @@ class UploadAction extends CommonAction {
             'HasInvoice' => 'true',
             'HasWarranty' => 'true',
             'HasShowcase' => 'false',
-            'SellerCids' => '',
+            'SellerCids' => I('sellerCats'),
             'HasDiscount' => 'false',
             'ListTime' => '',
             'Image' => $image,
@@ -424,6 +427,55 @@ class UploadAction extends CommonAction {
             }
         }
         return $deliveryTemplateHtml;
+    }
+
+    private function makeSellerCatsHtml($cname) {
+        $sellerCatsHtml = '';
+        $sellerCats = OpenAPI::getTaobaoSellercatsList(session('taobao_user_nick'));
+        $count = count($sellerCats->seller_cat);
+        for ($i = 0; $i < $count; $i++) {
+            $sellerCat = $sellerCats->seller_cat[$i];
+            if ($sellerCat->parent_cid == '0') {
+                if ($this->matchCat($cname, $sellerCat->name)) {
+                    $sellerCatsHtml .= '<option value="'.$sellerCat->cid.'" selected>'.$sellerCat->name.'</option>';
+                } else {
+                    $sellerCatsHtml .= '<option value="'.$sellerCat->cid.'">'.$sellerCat->name.'</option>';
+                }
+            }
+        }
+        return $sellerCatsHtml;
+    }
+
+    /* 类目处理：如果有/则先拆分，去掉其中的"小" "毛针织衫变成针织衫"  "休闲套装变成套装" "短外套与毛呢外套变成外套"  ,然后逐一匹配,碰到一个则停止 */
+    /* T恤  连衣裙 衬衫   牛仔裤  半身裙   小背心/小吊带  马夹   蕾丝衫/雪纺衫    毛针织衫  短外套 西装 卫衣/绒衫   毛衣  风衣 毛呢外套   棉衣/棉服 羽绒服 皮衣 皮草 中老年服装 大码女装  */
+    /* 短裤/热裤  九分裤/七分裤  中裤/五分裤  棉裤/羽绒裤  打底裤 休闲裤  西装裤/正装裤 */
+    /* 休闲套装  婚纱 旗袍 礼服/晚装 名族服装/舞台装 唐装/中式服装 裙子 裤子 上衣 */
+    private function matchCat($cname, $sname) {
+        $isMatch = false;
+        if(strpos($cname,"外套") !== false) {
+            $cname = "外套";
+        }
+        $cname = str_replace("小",'',$cname);
+        if($cname == "毛针织衫") {
+            $cname = "针织衫";
+        }
+        if(strpos($cname,"/") !== false) {
+            $carray = explode("/",$cname);
+            $catcnt = 2;
+        } else {
+            $carray[0] = $cname;
+            $catcnt = 1;
+        }
+        for($index = 0; $index < $catcnt; $index++) {
+            $pcat = '/'.$carray[$index].'/';
+            preg_match($pcat, $sname, $pcatInfo);
+            $pInfonum = count($pcatInfo[0]);
+            if($pInfonum > 0) {
+                $isMatch = true;
+                break;
+            }
+        }
+        return $isMatch;
     }
 
     private function makeIsUploadedBefore($outerId) {
