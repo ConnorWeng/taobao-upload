@@ -19,6 +19,7 @@ class UploadAction extends CommonAction {
         $images = $this->makeImages($taobaoItem->item_imgs);
         $propsHtml = $this->makePropsHtml($props, $taobaoItem->props_name);
         $sizeType = $this->makeSizeType($props);
+        $sizePropHtml = $this->makeSizePropHtml($props);
         $title = $this->makeTitle($taobaoItem->title);
         $storeInfo = $this->getStoreInfo($taobaoItem->nick);
         $price = $this->makePrice($taobaoItem->price, $storeInfo['see_price']);
@@ -62,6 +63,7 @@ class UploadAction extends CommonAction {
             'postFreight' => $userdata['buyerFreight'] == '1' && $userdata['usePostModu'] == '999' ? 'checked' : '',
             'deliveryTemplateHtml' => $deliveryTemplateHtml,
             'sellerCatsHtml' => $sellerCatsHtml,
+            'sizePropHtml' => $sizePropHtml,
         ));
         $this->display();
     }
@@ -280,6 +282,26 @@ class UploadAction extends CommonAction {
             $html .= '</li>';
         }
         return $html;
+    }
+
+    private function makeSizePropHtml($props) {
+        $sizePropHtml = '';
+        $count = count($props->item_prop);
+        for ($i = 0; $i < $count; $i++) {
+            $prop = $props->item_prop[$i];
+            if ($this->isSaleProp($prop) && (''.$prop->name == '尺码' || ''.$prop->name == '尺寸')) {
+                $valueCount = count($prop->prop_values->prop_value);
+                for ($j = 0; $j < $valueCount; $j++) {
+                    $value = $prop->prop_values->prop_value[$j];
+                    $sizePropHtml .= '<li class="sku-item">';
+                    $sizePropHtml .= '<input type="checkbox" class="J_Checkbox" name="cp_'.$prop->pid.'" value="'.$prop->pid.':'.$value->vid.'" id="prop_'.$prop->pid.'-'.$value->vid.'">';
+                    $sizePropHtml .= '<label class="labelname" for="prop_'.$prop->pid.'-'.$value->vid.'" title="'.$value->name.'">'.$value->name.'</label>';
+                    $sizePropHtml .= '<input id="J_Alias_'.$prop->pid.'-'.$value->vid.'" class="editbox text" maxlength="15" type="text" value="'.$value->name.'" name="cpva_'.$prop->pid.':'.$value->vid.'">';
+                    $sizePropHtml .= '</li>';
+                }
+            }
+        }
+        return $sizePropHtml;
     }
 
     /* 0:20509 尺码, 1:20518 尺寸 */
