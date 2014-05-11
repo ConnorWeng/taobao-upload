@@ -432,10 +432,11 @@ class UploadAction extends CommonAction {
     private function makeSellerCatsHtml($cname) {
         $sellerCatsHtml = '';
         $sellerCats = OpenAPI::getTaobaoSellercatsList(session('taobao_user_nick'));
+        $parentCids = $this->getAllParentCids($sellerCats);
         $count = count($sellerCats->seller_cat);
         for ($i = 0; $i < $count; $i++) {
             $sellerCat = $sellerCats->seller_cat[$i];
-            if ($sellerCat->parent_cid == '0') {
+            if (!in_array(''.$sellerCat->cid, $parentCids)) {
                 if ($this->matchCat($cname, $sellerCat->name)) {
                     $sellerCatsHtml .= '<option value="'.$sellerCat->cid.'" selected>'.$sellerCat->name.'</option>';
                 } else {
@@ -444,6 +445,18 @@ class UploadAction extends CommonAction {
             }
         }
         return $sellerCatsHtml;
+    }
+
+    private function getAllParentCids($sellerCats) {
+        $parentCids = array();
+        $count = count($sellerCats->seller_cat);
+        for ($i = 0; $i < $count; $i++) {
+            $sellerCat = $sellerCats->seller_cat[$i];
+            if (''.$sellerCat->parent_cid !== '0') {
+                array_push($parentCids, ''.$sellerCat->parent_cid);
+            }
+        }
+        return $parentCids;
     }
 
     /* 类目处理：如果有/则先拆分，去掉其中的"小" "毛针织衫变成针织衫"  "休闲套装变成套装" "短外套与毛呢外套变成外套"  ,然后逐一匹配,碰到一个则停止 */
