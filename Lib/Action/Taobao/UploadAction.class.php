@@ -20,6 +20,7 @@ class UploadAction extends CommonAction {
         $propsHtml = $this->makePropsHtml($props, $taobaoItem->props_name);
         $sizeType = $this->makeSizeType($props);
         $sizePropHtml = $this->makeSizePropHtml($props);
+        $salePropsObject = $this->makeSalePropsObject($props);
         $title = $this->makeTitle($taobaoItem->title);
         $storeInfo = $this->getStoreInfo($taobaoItem->nick);
         $price = $this->makePrice($taobaoItem->price, $storeInfo['see_price']);
@@ -64,6 +65,7 @@ class UploadAction extends CommonAction {
             'deliveryTemplateHtml' => $deliveryTemplateHtml,
             'sellerCatsHtml' => $sellerCatsHtml,
             'sizePropHtml' => $sizePropHtml,
+            'salePropsObject' => urlencode(json_encode($salePropsObject)),
         ));
         $this->display();
     }
@@ -73,6 +75,7 @@ class UploadAction extends CommonAction {
         $imagePath = Util::downloadImage(I('picUrl1'));
         $image = '@'.$imagePath;
         $skuTableData = json_decode($_REQUEST['J_SKUTableData']);
+        $salePropsObject = json_decode(urldecode($_REQUEST['salePropsObject']));
         $autoOffWarn = I('autoOffWarn') == 'on' ? true : false;
         $desc = $this->makeDesc($_REQUEST['_fma_pu__0_d'], session('current_taobao_item_id'), $autoOffWarn);
         $item = array(
@@ -100,7 +103,7 @@ class UploadAction extends CommonAction {
             'PostFee' => I('post_fee'),
             'ExpressFee' => I('express_fee'),
             'EmsFee' => I('ems_fee'),
-            'PropertyAlias' => $this->makePropertyAlias($skuTableData, $_REQUEST),
+            'PropertyAlias' => $this->makePropertyAlias($skuTableData, $_REQUEST, $salePropsObject),
             'InputStr' => '',
             'InputPids' => '',
             'SkuProperties' => $this->makeSkuProperties($skuTableData),
@@ -152,13 +155,18 @@ class UploadAction extends CommonAction {
         $this->ajaxReturn($userdataConfig->where("nick='".I('nick')."'")->setField($data));
     }
 
-    private function makePropertyAlias($skuTableData, $request) {
+    private function makePropertyAlias($skuTableData, $request, $salePropsObject) {
+        $salePropsArray = get_object_vars($salePropsObject);
         $propertyAlias = '';
         foreach ($skuTableData as $key => $value) {
             $skuProperties = str_replace('_', ';', str_replace('-', ':', $key));
             $skuProps = split(';', $skuProperties);
             foreach ($skuProps as $prop) {
-                $propertyAlias .= $prop.':'.$request['cpva_'.$prop].';';
+                $originValueName = get_object_vars($salePropsArray[$prop])['0'];
+                $alias = $request['cpva_'.$prop];
+                if ($originValueName != $alias) {
+                    $propertyAlias .= $prop.':'.$alias.';';
+                }
             }
         }
         return $propertyAlias = substr($propertyAlias, 0, strlen($propertyAlias) - 1);
@@ -302,6 +310,21 @@ class UploadAction extends CommonAction {
             }
         }
         return $sizePropHtml;
+    }
+
+    private function makeSalePropsObject($props) {
+        $count = count($props->item_prop);
+        for ($i = 0; $i < $count; $i++) {
+            $prop = $props->item_prop[$i];
+            if ($this->isSaleProp($prop)) {
+                $valueCount = count($prop->prop_values->prop_value);
+                for ($j = 0; $j < $valueCount; $j++) {
+                    $value = $prop->prop_values->prop_value[$j];
+                    $salePropsObject[$prop->pid.':'.$value->vid] = $value->name;
+                }
+            }
+        }
+        return $salePropsObject;
     }
 
     /* 0:20509 尺码, 1:20518 尺寸 */
