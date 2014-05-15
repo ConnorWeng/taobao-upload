@@ -3552,7 +3552,7 @@
                   </div>
                   <div class="submit">
                     <div class="float-submitbar">
-                      <button type="submit" data-name="event_submit_do_publish" name="event_submit_do_publish" class="J_Submit btn btn-main-primary btn-submit" id="event_submit_do_publish" value="发布" >
+                      <button type="submit" data-name="event_submit_do_publish" name="event_submit_do_publish" class="J_Submit btn btn-main-primary btn-submit" id="event_submit_do_publish_2" value="发布" >
                         <span class="btn-txt">发布</span>
                       </button>
                       <input type="hidden" id="J_EventHandler" value="anything" />
@@ -3976,6 +3976,10 @@ Sell.Config.set('crossimage', {
                 $('input.J_MapQuantity').val(10);
                 $('input.J_MapQuantity').focus().blur();
             }, 1000);
+        });
+
+        $('#event_submit_do_publish_2').on('click', function () {
+            $('#event_submit_do_publish').click();
         });
 
         /* init sku */
