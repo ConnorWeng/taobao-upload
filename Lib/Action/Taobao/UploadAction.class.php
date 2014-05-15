@@ -30,6 +30,7 @@ class UploadAction extends CommonAction {
         $propImgs = urlencode($this->makePropImgs($taobaoItem->prop_imgs->prop_img));
         $deliveryTemplateHtml = $this->makeDeliveryTemplateHtml($deliveryTemplates, $userdata['usePostModu']);
         $sellerCatsHtml = $this->makeSellerCatsHtml($cname);
+        $movePic = $this->makeMovePic($taobaoItem->desc);
         $this->assign(array(
             'taobaoItemTitle' => $title,
             'taobaoItemId' => $taobaoItemId,
@@ -66,6 +67,7 @@ class UploadAction extends CommonAction {
             'sellerCatsHtml' => $sellerCatsHtml,
             'sizePropHtml' => $sizePropHtml,
             'salePropsObject' => urlencode(json_encode($salePropsObject)),
+            'movePic' => $movePic,
         ));
         $this->display();
     }
@@ -490,6 +492,14 @@ class UploadAction extends CommonAction {
             }
         }
         return $sellerCatsHtml;
+    }
+
+    private function makeMovePic($desc) {
+        if (strpos($desc, "taobaocdn.com") !== false) {
+            return 'checked';
+        } else {
+            return '';
+        }
     }
 
     private function getAllParentCids($sellerCats) {
