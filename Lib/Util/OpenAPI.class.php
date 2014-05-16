@@ -261,7 +261,6 @@ class OpenAPI {
             $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return $resp->item;
         } else {
-            echo('<h6 style="color:red;">error:'.$resp->msg.$resp->sub_msg.'</h6>');
             self::dumpTaobaoApiError('addTaobaoItem', $resp);
         }
     }
@@ -309,7 +308,6 @@ class OpenAPI {
             $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return $resp;
         } else {
-            echo('<h6 style="color:red;">error:'.$resp.'</h6>');
             self::dumpTaobaoApiError('addTaobaoItemWithMovePic', $resp);
         }
     }
@@ -330,7 +328,6 @@ class OpenAPI {
             $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return $resp->user;
         } else {
-            echo('<h6 style="color:red;">error:'.$resp->msg.$resp->sub_msg.'</h6>');
             self::dumpTaobaoApiError('getTaobaoUserBuyer', $resp);
         }
     }
@@ -439,6 +436,19 @@ class OpenAPI {
     }
 
     public static function dumpTaobaoApiError($apiName, $resp) {
+        $appKey = session('taobao_app_key');
+        $appSecret = session('taobao_secret_key');
+        $sessionKey = session('taobao_access_token');
+        $numIid = session('current_taobao_item_id');
+        $nick = session('taobao_user_nick');
+        $code = $resp->code;
+        if (strpos($apiName, 'MovePic') !== false) {
+            $msg = $resp;
+        } else {
+            $msg = $resp->msg.$resp->sub_msg;
+        }
+        $errorMsg = "[ taobao_api_error ] apiName:{$apiName} appKey:{$appkey} appSecret:{$appSecret} sessionKey:{$sessionKey} numIid:{$numIid} nick:{$nick} code:{$code} msg:{$msg}";
+        Log::write($errorMsg, Log::ERR);
         echo('<h6 style="color:red;">'.$apiName.' error:'.$resp->msg.$resp->sub_msg.'</h6>');
         dump($resp);
     }
