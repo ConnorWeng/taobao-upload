@@ -119,11 +119,13 @@ class UploadAction extends CommonAction {
         } else {
             $uploadedItem = $this->checkApiResponse(OpenAPI::addTaobaoItem($item));
             $numIid = $uploadedItem->num_iid;
+            if (isset($numIid)) {
+                $this->uploadItemImages((float)$numIid, $_REQUEST);
+                $this->uploadPropImages((float)$numIid, json_decode(urldecode(I('propImgs'))));
+            }
         }
         unlink($imagePath);
         if (isset($numIid)) {
-            $this->uploadItemImages((float)$numIid, $_REQUEST);
-            $this->uploadPropImages((float)$numIid, json_decode(urldecode(I('propImgs'))));
             $itemUrl = 'http://item.taobao.com/item.htm?spm=686.1000925.1000774.13.Odmgnd&id='.$numIid;
             $this->assign(array(
                 'result' => '发布成功啦！',
