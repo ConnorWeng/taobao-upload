@@ -15,7 +15,7 @@ class IndexAction extends Action {
             } else {
                 Util::changeTaoAppkey($taobaoItemId);
             }
-            header('location: https://'.C('oauth_uri').'/authorize?response_type=code&client_id='.session('taobao_app_key').'&redirect_uri=http://'.C('redirect_host').urlencode(U('Taobao/Index/authBack')).'&state='.$taobaoItemId.'&view=web');
+            header('location: https://'.C('oauth_uri').'/authorize?response_type=code&client_id='.session('taobao_app_key').'&redirect_uri=http://'.C('redirect_host').urlencode(C('redirect_path')).'&state='.$taobaoItemId.'&view=web');
         } else {
             U('Taobao/Index/authBack', null, true, true, false);
         }
@@ -31,7 +31,7 @@ class IndexAction extends Action {
                 'client_secret' => session('taobao_secret_key'),
                 'grant_type' => 'authorization_code',
                 'code' => $code,
-                'redirect_uri' => 'http://'.C('redirect_host').'/php/taobao-upload',
+                'redirect_uri' => 'http://'.C('redirect_host').'/taobao-upload',
                             );
             foreach($params as $key=>$value) { $params_string .= $key.'='.$value.'&'; }
             rtrim($params_string, '&');

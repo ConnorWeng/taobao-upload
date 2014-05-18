@@ -16,11 +16,10 @@ class ApiModel extends Model {
         session('try_api_times', $times);
 
         if ($oldAppKey == null) {
-            // $where['id'] = $this->getFirstId($taobaoItemId);
-            $where['lastdate'] = 1;
-            $rs = $this->where($where)->select();
+            $where['id'] = $this->getFirstId($taobaoItemId);
+            $rs = $this->where($where)->limit(1)->select();
         } else {
-            $sql = 'SELECT * from '.C('DB_PREFIX').$this->tableName.' where overflow = 0 and lastdate = 1 ORDER BY RAND() LIMIT 1';
+            $sql = 'SELECT * from '.C('DB_PREFIX').$this->tableName.' where overflow = 0 ORDER BY RAND() LIMIT 1';
             $rs = $this->query($sql);
         }
 
