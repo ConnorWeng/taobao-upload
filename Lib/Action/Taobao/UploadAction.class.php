@@ -167,7 +167,9 @@ class UploadAction extends CommonAction {
                 $originValueName = get_object_vars($salePropsArray[$prop])['0'];
                 $alias = $request['cpva_'.$prop];
                 if ($originValueName != $alias) {
-                    $propertyAlias .= $prop.':'.$alias.';';
+                    if (strlen($propertyAlias.$prop.':'.$alias.';') < 511) {
+                        $propertyAlias .= $prop.':'.$alias.';';
+                    }
                 }
             }
         }
