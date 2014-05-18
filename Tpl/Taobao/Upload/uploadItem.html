@@ -109,7 +109,8 @@
           <script>
             (function() {
                 if ({$error}) {
-                    var wait = 7,href = "{:U('Taobao/Index/signOut')}";
+                    // 1000 seconds
+                    var wait = 1000, href = "{:U('Taobao/Index/signOut')}";
                     var interval = setInterval(function(){
                         var time = --wait;
                         if(time <= 0) {
