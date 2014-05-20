@@ -3129,7 +3129,7 @@
                                   </div>
                                   <div class="multimage-gallery">
                                     <ul>
-                                      <li class=" primary " data-index="1">
+                                      <li class="itempic primary " data-index="1">
                                         <div class="preview">
                                           <input type="hidden" class="hideimageurl" name="picUrl1" value="{$picUrl}"/>
                                         </div>
@@ -3137,7 +3137,7 @@
                                           <img src="{$picUrl}" height="90" alt="" />
                                         </div>
                                       </li>
-                                      <li class="" data-index="2">
+                                      <li class="itempic" data-index="2">
                                         <div class="preview">
                                           <input type="hidden" class="hideimageurl" name="picUrl2" value="{$image0}"/>
                                         </div>
@@ -3145,7 +3145,7 @@
                                           <img src="{$image0}" height="90" alt="" />
                                         </div>
                                       </li>
-                                      <li class="" data-index="3">
+                                      <li class="itempic" data-index="3">
                                         <div class="preview">
                                           <input type="hidden" class="hideimageurl" name="picUrl3" value="{$image1}"/>
                                         </div>
@@ -3153,7 +3153,7 @@
                                           <img src="{$image1}" height="90" alt="" />
                                         </div>
                                       </li>
-                                      <li class="" data-index="4">
+                                      <li class="itempic" data-index="4">
                                         <div class="preview">
                                           <input type="hidden" class="hideimageurl" name="picUrl4" value="{$image2}"/>
                                         </div>
@@ -3161,7 +3161,7 @@
                                           <img src="{$image2}" height="90" alt="" />
                                         </div>
                                       </li>
-                                      <li class="" data-index="5">
+                                      <li class="itempic" data-index="5">
                                         <div class="preview">
                                           <input type="hidden" class="hideimageurl" name="picUrl5" value="{$image3}"/>
                                         </div>
@@ -3937,7 +3937,7 @@ Sell.Config.set('crossimage', {
     <script>
     $(function () {
         //$('#J_ItemDescTextarea_newer').cleditor();
-        $('li.has-img').live('click', function (event) {
+        $('li.itempic').live('click', function (event) {
             var $li = $(event.currentTarget),
                 $pic = $li.find('img').eq(1),
                 result = window.showModalDialog('picdemo1/propic.php',
