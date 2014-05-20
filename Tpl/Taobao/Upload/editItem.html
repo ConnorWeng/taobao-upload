@@ -3984,6 +3984,19 @@ Sell.Config.set('crossimage', {
             $('#event_submit_do_publish').click();
         });
 
+        var disableSubmitButton = function($button) {
+            var height = parseInt($('body').css('height')) - 100;
+            $('body').append('<div style="width:100%;height:'+height+'px;background:none;left:0px;top:10px;position:absolute;z-index:9999"></div>');
+            $button.find('span').text('发布中...');
+        };
+
+        $('#event_submit_do_publish').on('click', function () {
+            var $mainButton = $('#event_submit_do_publish'),
+                $secondButton = $('#event_submit_do_publish_2');
+            disableSubmitButton($mainButton);
+            disableSubmitButton($secondButton);
+        });
+
         /* init sku */
         var initSkus = {$initSkus};
         var propAlias = '{$propAlias}';
