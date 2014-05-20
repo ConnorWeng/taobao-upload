@@ -300,7 +300,7 @@ class OpenAPI {
                   "&SkuPrices=".urlencode($item['SkuPrices']).
                   "&SkuOuterIds=".urlencode($item['SkuOuterIds']).
                   "&Outer_id=".urlencode($item['OuterId']).
-                  "&mainpic=".urlencode('').
+                  "&mainpic=".urlencode($item['mainpic']).
                   "&checklic=".md5(session('current_taobao_item_id').'51');
         $resp = self::sendRequestWithShortUrl(C('servletUri'), $params);
         if (is_numeric($resp)) {
