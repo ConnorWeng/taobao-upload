@@ -565,7 +565,7 @@ class UploadAction extends CommonAction {
 
     private function makeIsUploadedBefore($outerId) {
         $items = $this->checkApiResponse(OpenAPI::getTaobaoCustomItems($outerId));
-        if (count($items->item) > 0) {
+        if (count($items->item) > 0 || $this->isCurrentTaobaoItemIdInSession()) {
             return true;
         } else {
             return false;
