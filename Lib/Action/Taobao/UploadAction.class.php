@@ -31,6 +31,7 @@ class UploadAction extends CommonAction {
         $deliveryTemplateHtml = $this->makeDeliveryTemplateHtml($deliveryTemplates, $userdata['usePostModu']);
         $sellerCatsHtml = $this->makeSellerCatsHtml($cname);
         $movePic = $this->makeMovePic($taobaoItem->desc);
+        $isCurrentTaobaoItemIdInSession = $this->isCurrentTaobaoItemIdInSession();
         $this->assign(array(
             'taobaoItemTitle' => $title,
             'taobaoItemId' => $taobaoItemId,
@@ -55,6 +56,7 @@ class UploadAction extends CommonAction {
             'initSkus' => json_encode(Util::parseSkus($taobaoItem->skus->sku)),
             'propImgs' => $propImgs,
             'isUploadedBefore' => $isUploadedBefore,
+            'isCurrentTaobaoItemIdInSession' => $isCurrentTaobaoItemIdInSession,
             'propAlias' => $taobaoItem->property_alias,
             'postFee' => $userdata['postFee'],
             'expressFee' => $userdata['expressFee'],
@@ -134,6 +136,7 @@ class UploadAction extends CommonAction {
                 'itemUrl' => '<li><a href="'.$itemUrl.'">来看看刚上架的宝贝吧！</a></li>',
                 'error' => 'false',
             ));
+            $this->recordTaobaoItemIdToSession(session('current_taobao_item_id'));
         } else {
             $this->assign(array(
                 'result' => '发布失败！',
@@ -143,6 +146,15 @@ class UploadAction extends CommonAction {
             ));
         }
         $this->display();
+    }
+
+    private function recordTaobaoItemIdToSession($taobaoItemId) {
+        if (session('?uploaded_taobao_item_ids')) {
+            $uploadedTaobaoItemIds = session('uploaded_taobao_item_ids');
+            array_push($uploadedTaobaoItemIds, $taobaoItemId);
+        } else {
+            session('uploaded_taobao_item_ids', array($taobaoItemId));
+        }
     }
 
     public function saveConfig() {
@@ -558,5 +570,15 @@ class UploadAction extends CommonAction {
         } else {
             return false;
         }
+    }
+
+    private function isCurrentTaobaoItemIdInSession() {
+        if (session('?uploaded_taobao_item_ids')) {
+            $uploadedTaobaoItemIds = session('uploaded_taobao_item_ids');
+            if (in_array(session('current_taobao_item_id'), $uploadedTaobaoItemIds)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

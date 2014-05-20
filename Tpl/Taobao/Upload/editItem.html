@@ -3936,6 +3936,11 @@ Sell.Config.set('crossimage', {
     </div>
     <script>
     $(function () {
+        var isCurrentTaobaoItemIdInSession = {$isCurrentTaobaoItemIdInSession|default="false"};
+        if (isCurrentTaobaoItemIdInSession) {
+            alert('亲，当前商品刚刚已经上传过了哟！');
+        }
+
         //$('#J_ItemDescTextarea_newer').cleditor();
         $('li.itempic').live('click', function (event) {
             var $li = $(event.currentTarget),
