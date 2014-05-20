@@ -309,7 +309,7 @@ class OpenAPI {
             return $resp;
         } else {
             self::dumpTaobaoApiError('addTaobaoItemWithMovePic', $resp);
-            if (strpos($resp, 'ban') !== false) {
+            if (strpos($resp, 'ban') !== false || strpos($resp, 'limited-by-api-access-count') !== false || strpos($resp, 'belong app and user') !== false) {
                 self::authWithNewAppKey();
             }
         }
