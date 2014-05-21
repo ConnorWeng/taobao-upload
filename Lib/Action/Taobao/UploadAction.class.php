@@ -11,6 +11,13 @@ class UploadAction extends CommonAction {
         header("Content-type:text/html;charset=utf-8");
         $taobaoItemId = session('current_taobao_item_id');
         $nick = session('taobao_user_nick');
+        $isCurrentTaobaoItemIdInSession = $this->isCurrentTaobaoItemIdInSession();
+
+        if ($isCurrentTaobaoItemIdInSession) {
+            $this->assign(array('isCurrentTaobaoItemIdInSession' => $isCurrentTaobaoItemIdInSession));
+            return $this->display();
+        }
+
         $taobaoItem = $this->checkApiResponse(OpenAPI::getTaobaoItem($taobaoItemId));
         $props = $this->checkApiResponse(OpenAPI::getTaobaoItemProps($taobaoItem->cid));
         $cname = $this->checkApiResponse(OpenAPI::getTaobaoItemCat($taobaoItem->cid));
@@ -31,7 +38,6 @@ class UploadAction extends CommonAction {
         $deliveryTemplateHtml = $this->makeDeliveryTemplateHtml($deliveryTemplates, $userdata['usePostModu']);
         $sellerCatsHtml = $this->makeSellerCatsHtml($cname);
         $movePic = $this->makeMovePic($taobaoItem->desc);
-        $isCurrentTaobaoItemIdInSession = $this->isCurrentTaobaoItemIdInSession();
         $this->assign(array(
             'taobaoItemTitle' => $title,
             'taobaoItemId' => $taobaoItemId,
