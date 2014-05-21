@@ -120,7 +120,7 @@ class UploadAction extends CommonAction {
             'SkuQuantities' => $this->makeSkuQuantities($skuTableData),
             'SkuPrices' => $this->makeSkuPrices($skuTableData),
             'SkuOuterIds' => $this->makeSkuOuterIds($skuTableData),
-            'OuterId' => '',
+            'OuterId' => I('_fma_pu__0_o'),
             'mainpic' => 'http://yjsc.51zwd.com/taobao-upload/'.$_REQUEST['picUrl1'],
         );
         if (I('movePic') == 'on') {
