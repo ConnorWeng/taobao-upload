@@ -443,11 +443,6 @@ class UploadAction extends CommonAction {
             $encNumIid = '51chk'.base64_encode($taobaoItemId);
             $autoOffJpg = 'http://51wangpi.com/'.$encNumIid.'.jpg';
             $autoOffWarnHtml = '<img align="middle" src="'.$autoOffJpg.'"/><br/>';
-            if (get_magic_quotes_gpc() == 0) {
-                $autoOffWarnHtml = addslashes(addslashes($autoOffWarnHtml));
-            } else {
-                $autoOffWarnHtml = addslashes($autoOffWarnHtml);
-            }
             $newDesc = $autoOffWarnHtml.$newDesc;
         }
         return $newDesc;
