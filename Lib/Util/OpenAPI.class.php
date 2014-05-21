@@ -342,7 +342,7 @@ class OpenAPI {
         $c = self::initTopClient();
         $req = new ItemImgUploadRequest;
         $req->setNumIid($numIid);
-        $req->setImage($image);
+        $req->setImage('@'.$image);
         $req->setPosition($position);
         $resp = $c->execute($req, session('taobao_access_token'));
         $taoapi = D('Taoapi');

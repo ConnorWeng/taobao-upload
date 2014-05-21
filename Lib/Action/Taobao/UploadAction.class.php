@@ -452,12 +452,17 @@ class UploadAction extends CommonAction {
     }
 
     private function uploadItemImages($numIid, $request) {
+        $jumpImgCount = 0;
         for ($i = 2; $i <= 5; $i++) {
             $picUrl = $request['picUrl'.$i];
             if ($picUrl != '') {
                 $picPath = Util::downloadImage($picUrl);
-                $pic = '@'.$picPath;
-                $itemImg = $this->checkApiResponse(OpenAPI::uploadTaobaoItemImg($numIid, $pic, $i - 1));
+                $filesize = filesize($picPath);
+                if ($filesize !== false && $filesize > 10240) {
+                    $itemImg = $this->checkApiResponse(OpenAPI::uploadTaobaoItemImg($numIid, $picPath, $i - 1 - $jumpImgCount));
+                } else {
+                    $jumpImgCount += 1;
+                }
                 unlink($picPath);
             }
         }
