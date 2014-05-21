@@ -297,13 +297,15 @@ class UploadAction extends CommonAction {
             $html .= '<span><ul class="J_ul-single ul-select"><li>';
             $html .= '<select name="cp_'.$prop->pid.'" id="prop_'.$prop->pid.'">';
             $html .= '<option value=""></option>';
+            $hasSelected = false;
             if (isset($prop->prop_values)) {
                 $valueCount = count($prop->prop_values->prop_value);
                 for ($j = 0; $j < $valueCount; $j++) {
                     $value = $prop->prop_values->prop_value[$j];
                     $optionValue = $prop->pid.':'.$value->vid;
-                    if (strpos($propsName, $optionValue) !== false) {
+                    if (strpos($propsName, $optionValue) !== false || ($j == $valueCount - 1 && !$hasSelected && ''.$prop->must == 'true')) {
                         $selected = 'selected';
+                        $hasSelected = true;
                     } else {
                         $selected = '';
                     }
