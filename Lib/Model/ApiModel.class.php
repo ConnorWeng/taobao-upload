@@ -15,23 +15,9 @@ class ApiModel extends Model {
         }
         session('try_api_times', $times);
 
-        if ($oldAppKey == null) {
-            $where['id'] = $this->getFirstId($taobaoItemId);
-            $rs = $this->where($where)->limit(1)->select();
-        } else {
-            $sql = 'SELECT * from '.C('DB_PREFIX').$this->tableName.' where overflow = 0 ORDER BY RAND() LIMIT 1';
-            $rs = $this->query($sql);
-        }
-
-        if (count($rs) > 0) {
-            return array('appkey' => $rs[0]['appkey'],
-                         'appsecret' => $rs[0]['appscret'],
-                         'id' => $rs[0]['id']);
-        } else {
-            return array('appkey' => C('taobao_app_key'),
-                         'appsecret' => C('taobao_secret_key'),
-                         'id' => '');
-        }
+        return array('appkey' => C('stable_taobao_app_key'),
+                     'appsecret' => C('stable_taobao_secret_key'),
+                     'id' => '');
     }
 
     public function appKeyFail($id) {
