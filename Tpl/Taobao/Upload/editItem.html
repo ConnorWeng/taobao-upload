@@ -3981,11 +3981,15 @@ Sell.Config.set('crossimage', {
             });
         });
 
+        var isInit = true;
         $('.sku-wrap').on('click', function () {
             $('input.J_MapQuantity').val(10);
             setTimeout(function () {
                 $('input.J_MapQuantity').val(10);
                 $('input.J_MapQuantity').focus().blur();
+                if (isInit) {
+                    window.scrollTo(0);
+                }
             }, 1000);
         });
 
@@ -4031,6 +4035,7 @@ Sell.Config.set('crossimage', {
                 }
             }
         }
+        setTimeout(function () {isInit = false;}, 1000);
         /* init sku end */
     });
     </script>
