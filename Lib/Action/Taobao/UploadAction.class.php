@@ -208,7 +208,7 @@ class UploadAction extends CommonAction {
     private function makeSkuQuantities($skuTableData) {
         $skuQuantities = '';
         foreach ($skuTableData as $key => $value) {
-            $skuQuantities .= $value->quantity.',';
+            $skuQuantities .= '10,';    /* hard code to avoid empty */
         }
         return $skuQuantities = substr($skuQuantities, 0, strlen($skuQuantities) - 1);
     }
