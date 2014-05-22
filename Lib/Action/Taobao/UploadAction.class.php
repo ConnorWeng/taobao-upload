@@ -520,7 +520,7 @@ class UploadAction extends CommonAction {
     }
 
     private function makeMovePic($desc) {
-        if (strpos($desc, "taobaocdn.com") !== false) {
+        if (strpos($desc, "!!") !== false) {
             return 'checked';
         } else {
             return '';
