@@ -125,7 +125,7 @@ class UploadAction extends CommonAction {
             'OuterId' => I('_fma_pu__0_o'),
             'mainpic' => strpos($_REQUEST['picUrl1'], 'http://') === false ? 'http://yjsc.51zwd.com/taobao-upload/'.$_REQUEST['picUrl1'] : $_REQUEST['picUrl1'],
         );
-        if (I('movePic') == 'on') {
+        if (I('movePic') == 'on' || $this->makeMovePic($desc) == 'checked') {
             $numIid = $this->checkApiResponse(OpenAPI::addTaobaoItemWithMovePic($item));
         } else {
             $uploadedItem = $this->checkApiResponse(OpenAPI::addTaobaoItem($item));
