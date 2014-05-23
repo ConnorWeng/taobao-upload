@@ -450,7 +450,7 @@ class OpenAPI {
         } else {
             $msg = $resp->msg.$resp->sub_msg;
         }
-        $errorMsg = "[ taobao_api_error ] apiName:{$apiName} appKey:{$appkey} appSecret:{$appSecret} sessionKey:{$sessionKey} numIid:{$numIid} nick:{$nick} code:{$code} msg:{$msg}";
+        $errorMsg = "[ taobao_api_error ] apiName:{$apiName} appKey:{$appKey} appSecret:{$appSecret} sessionKey:{$sessionKey} numIid:{$numIid} nick:{$nick} code:{$code} msg:{$msg}";
         Log::write($errorMsg, Log::ERR);
         echo('<h6 style="color:red;">'.$apiName.' error:'.$resp->msg.$resp->sub_msg.'</h6>');
         dump($resp);
