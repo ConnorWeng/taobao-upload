@@ -445,6 +445,7 @@ class UploadAction extends CommonAction {
             $autoOffWarnHtml = '<img align="middle" src="'.$autoOffJpg.'"/><br/>';
             $newDesc = $autoOffWarnHtml.$newDesc;
         }
+        $newDesc .= '<font color="white">welcome to my store!</font>';
         return $newDesc;
     }
 
