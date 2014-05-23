@@ -95,7 +95,7 @@ class UploadAction extends CommonAction {
             'Price' => I('_fma_pu__0_m'),
             'Type' => 'fixed',
             'StuffStatus' => 'new',
-            'Title' => I('_fma_pu__0_ti'),
+            'Title' => substr(I('_fma_pu__0_ti'), 0, 60),
             'Desc' => $desc,
             'LocationState' => I('_fma_pu__0_po_place'),
             'LocationCity' => I('_fma_pu__0_po_city'),
