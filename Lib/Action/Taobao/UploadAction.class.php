@@ -13,9 +13,11 @@ class UploadAction extends CommonAction {
         $nick = session('taobao_user_nick');
         $isCurrentTaobaoItemIdInSession = $this->isCurrentTaobaoItemIdInSession();
 
-        if ($isCurrentTaobaoItemIdInSession) {
+        if ($isCurrentTaobaoItemIdInSession && I('continue') == '') {
             $this->assign(array('isCurrentTaobaoItemIdInSession' => $isCurrentTaobaoItemIdInSession));
             return $this->display();
+        } else {
+            $isCurrentTaobaoItemIdInSession = false;
         }
 
         $taobaoItem = $this->checkApiResponse(OpenAPI::getTaobaoItem($taobaoItemId));

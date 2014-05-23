@@ -3941,8 +3941,13 @@ Sell.Config.set('crossimage', {
     $(function () {
         var isCurrentTaobaoItemIdInSession = {$isCurrentTaobaoItemIdInSession|default="false"};
         if (isCurrentTaobaoItemIdInSession) {
-            alert('亲，当前商品刚刚已经上传过了哟！选择其他宝贝上传吧！');
-            window.location = 'http://www.51zwd.com';
+            if (confirm('亲，当前商品刚刚已经上传过了哟！确认继续上传吗？')) {
+                window.location = 'http://' + window.location.host + "{:U('Taobao/Upload/editItem')}" + '&continue=true';
+            } else {
+                window.opener = null;
+                window.open('', '_self');
+                window.close();
+            }
         }
 
         //$('#J_ItemDescTextarea_newer').cleditor();
