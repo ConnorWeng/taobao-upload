@@ -172,6 +172,9 @@ class OpenAPI {
         if (self::needVerify()) {
             return 'verify';
         }
+        if (!session('?taobao_access_token')) {
+            return 'timeout';
+        }
         $c = new TopClient;
         $c->appkey = C('taobao_app_key');
         $c->secretKey = C('taobao_secret_key');
@@ -207,6 +210,9 @@ class OpenAPI {
         if (self::needVerify()) {
             return 'verify';
         }
+        if (!session('?taobao_access_token')) {
+            return 'timeout';
+        }
         $c = new TopClient;
         $c->appkey = C('taobao_app_key');
         $c->secretKey = C('taobao_secret_key');
@@ -226,6 +232,9 @@ class OpenAPI {
         if (self::needVerify()) {
             return 'verify';
         }
+        if (!session('?taobao_access_token')) {
+            return 'timeout';
+        }
         $c = new TopClient;
         $c->appkey = C('taobao_app_key');
         $c->secretKey = C('taobao_secret_key');
@@ -244,6 +253,9 @@ class OpenAPI {
     public static function addTaobaoItem($item) {
         if (self::needVerify()) {
             return 'verify';
+        }
+        if (!session('?taobao_access_token')) {
+            return 'timeout';
         }
         $c = self::initTopClient();
         $req = new ItemAddRequest;
@@ -266,6 +278,12 @@ class OpenAPI {
     }
 
     public static function addTaobaoItemWithMovePic($item) {
+        if (self::needVerify()) {
+            return 'verify';
+        }
+        if (!session('?taobao_access_token')) {
+            return 'timeout';
+        }
         $params = "WebType=51wp_yjsc_dist".
                   "&appKey=".session('taobao_app_key').
                   "&appSecret=".session('taobao_secret_key').
@@ -319,6 +337,9 @@ class OpenAPI {
         if (self::needVerify()) {
             return 'verify';
         }
+        if (!session('?taobao_access_token')) {
+            return 'timeout';
+        }
         $c = self::initTopClient();
         $req = new UserBuyerGetRequest;
         $req->setFields("nick");
@@ -338,6 +359,9 @@ class OpenAPI {
     public static function uploadTaobaoItemImg($numIid, $image, $position) {
         if (self::needVerify()) {
             return 'verify';
+        }
+        if (!session('?taobao_access_token')) {
+            return 'timeout';
         }
         $c = self::initTopClient();
         $req = new ItemImgUploadRequest;
@@ -360,6 +384,9 @@ class OpenAPI {
     public static function uploadTaobaoItemPropImg($numIid, $prop, $image, $position) {
         if (self::needVerify()) {
             return 'verify';
+        }
+        if (!session('?taobao_access_token')) {
+            return 'timeout';
         }
         $c = self::initTopClient();
         $req = new ItemPropimgUploadRequest;
@@ -384,6 +411,9 @@ class OpenAPI {
         if (self::needVerify()) {
             return 'verify';
         }
+        if (!session('?taobao_access_token')) {
+            return 'timeout';
+        }
         $c = self::initTopClient();
         $req = new ItemsCustomGetRequest;
         $req->setOuterId($outerId);
@@ -405,6 +435,9 @@ class OpenAPI {
         if (self::needVerify()) {
             return 'verify';
         }
+        if (!session('?taobao_access_token')) {
+            return 'timeout';
+        }
         $c = self::initTopClient();
         $req = new DeliveryTemplatesGetRequest;
         $req->setFields("template_id,template_name");
@@ -424,6 +457,9 @@ class OpenAPI {
     public static function getTaobaoSellercatsList($nick) {
         if (self::needVerify()) {
             return 'verify';
+        }
+        if (!session('?taobao_access_token')) {
+            return 'timeout';
         }
         $c = new TopClient;
         $c->appkey = C('taobao_app_key');
