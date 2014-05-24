@@ -4043,9 +4043,10 @@ Sell.Config.set('crossimage', {
         setTimeout(function () {isInit = false;}, 1000);
         /* init sku end */
 
-        $('#buynow').on('change', function () {
+        $('#buynow').on('blur', function () {
             var $buynow = $(this);
             $('input.J_MapPrice').val($buynow.val());
+            $('input.J_MapPrice').focus().blur();
         });
     });
     </script>
