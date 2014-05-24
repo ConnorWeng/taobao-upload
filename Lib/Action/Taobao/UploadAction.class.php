@@ -293,7 +293,7 @@ class UploadAction extends CommonAction {
         $html = '';
         for ($i = 0; $i < $count; $i++) {
             $prop = $props->item_prop[$i];
-            if ($this->isSaleProp($prop)) continue;
+            if ($this->isSaleProp($prop) || ''.$prop->pid == '13021751') continue;
             $html .= '<li class="J_spu-property" id="spu_'.$prop->pid.'">';
             $html .= '<label class="label-title">'.$prop->name.':</label>';
             $html .= '<span><ul class="J_ul-single ul-select"><li>';
