@@ -146,7 +146,12 @@
           <input type="hidden" name="wapDescEnable" value=""/>
 
           <div class="above-item-publish" style="height: 30px; line-height: 30px;">
-            Hi, {$nick} <a href="{:U('Taobao/Index/signOut')}&taobaoItemId={$taobaoItemId}">退出(切换店铺)</a>
+            主店铺: {$nick} <a href="{:U('Taobao/Index/signOut')}&taobaoItemId={$taobaoItemId}">退出所有店铺</a>
+            <foreach name="otherStoreSessions" item="store">
+              | 副店铺{$key + 1}: {$store.nick}
+              <a href="{:U('Taobao/Index/deleteStoreSession')}&nick={$store.nick}">退出</a>
+            </foreach>
+            <a id="add-store" href="#" style="color: red">+店铺</a>
             <span style="margin-left:20px;">
               <if condition="$isUploadedBefore">
                 <i style="color:red;">当前商品您已发布过!</i>
@@ -4040,6 +4045,10 @@ Sell.Config.set('crossimage', {
         });
 
         $('#prop_20418023').val('20418023:157305309');
+
+        $('#add-store').on('click', function () {
+            window.location = "{:U('Taobao/Index/auth')}" + '&taobaoItemId={$taobaoItemId}&newStore=newStore';
+        });
     });
     </script>
   </body>

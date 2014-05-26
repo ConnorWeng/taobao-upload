@@ -1,6 +1,7 @@
 <?php
 import('@.Util.Util');
 import('@.Util.OpenAPI');
+import('@.Model.StoreSession');
 
 class UploadAction extends CommonAction {
     public function selectCategory() {
@@ -40,6 +41,7 @@ class UploadAction extends CommonAction {
         $deliveryTemplateHtml = $this->makeDeliveryTemplateHtml($deliveryTemplates, $userdata['usePostModu']);
         $sellerCatsHtml = $this->makeSellerCatsHtml($cname);
         $movePic = $this->makeMovePic($taobaoItem->desc);
+        $storeSession = new StoreSession(null, null);
         $this->assign(array(
             'taobaoItemTitle' => $title,
             'taobaoItemId' => $taobaoItemId,
@@ -77,6 +79,7 @@ class UploadAction extends CommonAction {
             'sizePropHtml' => $sizePropHtml,
             'salePropsObject' => urlencode(json_encode($salePropsObject)),
             'movePic' => $movePic,
+            'otherStoreSessions' => $storeSession->getAllStoreSessionsArray(),
         ));
         $this->display();
     }

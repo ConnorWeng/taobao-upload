@@ -1,5 +1,6 @@
 <?php
 import('@.Util.Util');
+import('@.Model.StoreSession');
 
 class IndexAction extends Action {
     public function index() {
@@ -9,20 +10,20 @@ class IndexAction extends Action {
     public function auth() {
         $taobaoItemId = I('taobaoItemId');
         session('current_taobao_item_id', $taobaoItemId);
-        if (!session('?taobao_access_token')) {
+        if (!session('?taobao_access_token') || I('newStore') == 'newStore') {
             if (I('taobaoAppKey') != '') {
                 Util::changeTaoAppkey($taobaoItemId, I('taobaoAppKey'));
             } else {
                 Util::changeTaoAppkey($taobaoItemId);
             }
-            header('location: https://'.C('oauth_uri').'/authorize?response_type=code&client_id='.session('taobao_app_key').'&redirect_uri=http://'.C('redirect_host').urlencode(C('redirect_path')).'&state='.$taobaoItemId.'&view=web');
+            header('location: https://'.C('oauth_uri').'/authorize?response_type=code&client_id='.session('taobao_app_key').'&redirect_uri=http://'.C('redirect_host').urlencode(C('redirect_path')).'&state='.I('newStore').'&view=web');
         } else {
             U('Taobao/Index/authBack', null, true, true, false);
         }
     }
 
     public function authBack() {
-        if (!session('?taobao_access_token')) {
+        if (!session('?taobao_access_token') || I('state') == 'newStore') {
             $code = I('code');
             $taobaoItemId = session('current_taobao_item_id');
             $url = 'https://'.C('oauth_uri').'/token';
@@ -44,8 +45,12 @@ class IndexAction extends Action {
             $data = curl_exec($ch);
             curl_close($ch);
             $dataObject = json_decode($data);
-            session('taobao_access_token', $dataObject->access_token);
-            session('taobao_user_nick', urldecode($dataObject->taobao_user_nick));
+            if (I('state') == 'newStore') {
+                $this->addStoreSession($dataObject);
+            } else {
+                session('taobao_access_token', $dataObject->access_token);
+                session('taobao_user_nick', urldecode($dataObject->taobao_user_nick));
+            }
         }
         U('Taobao/Upload/editItem', array('taobaoItemId'=>$taobaoItemId), true, true, false);
     }
@@ -59,7 +64,6 @@ class IndexAction extends Action {
     public function verifyCode() {
         $this->assign(array(
             'message' => '抱歉，您操作过于频繁，请输入验证码',
-            'state' => session('current_taobao_item_id'),
         ));
         $this->display();
     }
@@ -83,5 +87,17 @@ class IndexAction extends Action {
         $msg = I('msg');
         $url = I('url');
         $this->error($msg, $url);
+    }
+
+    public function deleteStoreSession() {
+        $nick = I('nick');
+        $storeSession = new StoreSession($nick);
+        $storeSession->deleteStoreSession();
+        U('Taobao/Upload/editItem', null, true, true, false);
+    }
+
+    private function addStoreSession($data) {
+        $storeSession = new StoreSession($data->taobao_user_nick, $data->access_token);
+        $storeSession->addStoreSession();
     }
 }
