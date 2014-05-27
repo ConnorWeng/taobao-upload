@@ -105,7 +105,7 @@ class UploadAction extends CommonAction {
             'ListTime' => I('_fma_pu__0_sta'),
             'Props' => $this->makeProps($_REQUEST, $skuTableData, I('sizeType')),
             'FreightPayer' => I('postages'),
-            'PostageId' => I('template_id'),
+            'PostageId' => I('postages') == 'buyer' ? I('template_id') : '',
             'ValidThru' => '14',
             'HasInvoice' => 'true',
             'HasWarranty' => 'true',
@@ -127,8 +127,15 @@ class UploadAction extends CommonAction {
             'OuterId' => I('_fma_pu__0_o'),
             'mainpic' => strpos($_REQUEST['picUrl1'], 'http://') === false ? 'http://yjsc.51zwd.com/taobao-upload/'.$_REQUEST['picUrl1'] : $_REQUEST['picUrl1'],
         );
+        $storeSession = new StoreSession(null, null);
+        $otherStoreSessions = $storeSession->getAllStoreSessionsArray();
+        $others = array();
         if (I('movePic') == 'on' || $this->makeMovePic($desc) == 'checked') {
             $numIid = $this->checkApiResponse(OpenAPI::addTaobaoItemWithMovePic($item));
+            foreach ($otherStoreSessions as $store) {
+                $otherNumIid = $this->checkApiResponse(OpenAPI::addTaobaoItemWithMovePic($item, $store['accessToken']));
+                array_push($others, $otherNumIid);
+            }
         } else {
             $uploadedItem = $this->checkApiResponse(OpenAPI::addTaobaoItem($item));
             $numIid = $uploadedItem->num_iid;
@@ -136,25 +143,46 @@ class UploadAction extends CommonAction {
                 $this->uploadItemImages((float)$numIid, $_REQUEST);
                 $this->uploadPropImages((float)$numIid, json_decode(urldecode(I('propImgs'))));
             }
+            foreach ($otherStoreSessions as $store) {
+                $otherItem = $this->checkApiResponse(OpenAPI::addTaobaoItem($item, $store['accessToken']));
+                $otherNumIid = $otherItem->num_iid;
+                if (isset($otherNumIid)) {
+                    $this->uploadItemImages((float)$otherNumIid, $_REQUEST, $store['accessToken']);
+                    $this->uploadPropImages((float)$otherNumIid, json_decode(urldecode(I('propImgs'))), $store['accessToken']);
+                }
+                array_push($others, $otherNumIid);
+            }
         }
         unlink($imagePath);
+        $itemUrls = '';
+        $error = false;
         if (isset($numIid)) {
+            $result = session('taobao_user_nick').'发布成功！';
             $itemUrl = 'http://item.taobao.com/item.htm?spm=686.1000925.1000774.13.Odmgnd&id='.$numIid;
-            $this->assign(array(
-                'result' => '发布成功啦！',
-                'message' => '宝贝已经顺利上架哦！亲，感谢你对51网的大力支持！',
-                'itemUrl' => '<li><a href="'.$itemUrl.'">来看看刚上架的宝贝吧！</a></li>',
-                'error' => 'false',
-            ));
+            $itemUrls = '<li><a href="'.$itemUrl.'">查看'.session('taobao_user_nick').'中的宝贝</a></li>';
             $this->recordTaobaoItemIdToSession(session('current_taobao_item_id'));
         } else {
-            $this->assign(array(
-                'result' => '发布失败！',
-                'message' => '宝贝没有顺利上架，请不要泄气哦，换个宝贝试试吧！祝生意欣荣，财源广进！',
-                'itemUrl' => '',
-                'error' => 'true',
-            ));
+            $result = session('taobao_user_nick').'发布失败！';
+            $error = true;
         }
+        for ($i = 0; $i < count($otherStoreSessions); $i++) {
+            $otherNumIid = $others[$i];
+            $store = $otherStoreSessions[$i];
+            if (isset($otherNumIid)) {
+                $result .= $store['nick'].'发布成功!';
+                $itemUrl = 'http://item.taobao.com/item.htm?spm=686.1000925.1000774.13.Odmgnd&id='.$otherNumIid;
+                $itemUrls .= '<li><a href="'.$itemUrl.'">查看'.$store['nick'].'中的宝贝</a></li>';
+            } else {
+                $result .= $store['nick'].'发布失败!';
+                $error = true;
+            }
+        }
+        $this->assign(array(
+            'result' => $result,
+            'message' => $error ? '宝贝没有顺利上架，请不要泄气哦！祝生意欣荣，财源广进！' : '宝贝已经顺利上架哦！亲，感谢你对51网的大力支持！',
+            'itemUrl' => $itemUrls,
+            'error' => $error,
+        ));
         $this->display();
     }
 
@@ -445,7 +473,7 @@ class UploadAction extends CommonAction {
         return $newDesc;
     }
 
-    private function uploadItemImages($numIid, $request) {
+    private function uploadItemImages($numIid, $request, $sessionKey = null) {
         $jumpImgCount = 0;
         for ($i = 2; $i <= 5; $i++) {
             $picUrl = $request['picUrl'.$i];
@@ -453,7 +481,7 @@ class UploadAction extends CommonAction {
                 $picPath = Util::downloadImage($picUrl);
                 $filesize = filesize($picPath);
                 if ($filesize !== false && $filesize > 10240) {
-                    $itemImg = $this->checkApiResponse(OpenAPI::uploadTaobaoItemImg($numIid, $picPath, $i - 1 - $jumpImgCount));
+                    $itemImg = $this->checkApiResponse(OpenAPI::uploadTaobaoItemImg($numIid, $picPath, $i - 1 - $jumpImgCount, $sessionKey));
                 } else {
                     $jumpImgCount += 1;
                 }
@@ -462,11 +490,11 @@ class UploadAction extends CommonAction {
         }
     }
 
-    private function uploadPropImages($numIid, $propImgs) {
+    private function uploadPropImages($numIid, $propImgs, $sessionKey = null) {
         foreach ($propImgs as $propImg) {
             $imagePath = Util::downloadImage($propImg->url);
             $image = '@'.$imagePath;
-            $this->checkApiResponse(OpenAPI::uploadTaobaoItemPropImg($numIid, $propImg->properties, $image, $propImg->position));
+            $this->checkApiResponse(OpenAPI::uploadTaobaoItemPropImg($numIid, $propImg->properties, $image, $propImg->position, $sessionKey));
             unlink($imagePath);
         }
     }

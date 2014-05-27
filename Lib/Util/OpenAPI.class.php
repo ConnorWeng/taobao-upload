@@ -1,6 +1,7 @@
 <?php
 
 import('@.Util.Util');
+import('@.Model.StoreSession');
 vendor('taobao-sdk.TopSdk');
 
 class OpenAPI {
@@ -250,12 +251,15 @@ class OpenAPI {
         }
     }
 
-    public static function addTaobaoItem($item) {
+    public static function addTaobaoItem($item, $sessionKey = null) {
         if (self::needVerify()) {
             return 'verify';
         }
         if (!session('?taobao_access_token')) {
             return 'timeout';
+        }
+        if ($sessionKey == null) {
+            $sessionKey = session('taobao_access_token');
         }
         $c = self::initTopClient();
         $req = new ItemAddRequest;
@@ -264,7 +268,7 @@ class OpenAPI {
                 call_user_method('set'.$key, $req, $value);
             }
         }
-        $resp = $c->execute($req, session('taobao_access_token'));
+        $resp = $c->execute($req, $sessionKey);
         if (isset($resp->item)) {
             $taoapi = D('Taoapi');
             $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
@@ -274,18 +278,21 @@ class OpenAPI {
         }
     }
 
-    public static function addTaobaoItemWithMovePic($item) {
+    public static function addTaobaoItemWithMovePic($item, $sessionKey = null) {
         if (self::needVerify()) {
             return 'verify';
         }
         if (!session('?taobao_access_token')) {
             return 'timeout';
         }
+        if ($sessionKey == null) {
+            $sessionKey = session('taobao_access_token');
+        }
         $params = "WebType=51wp_yjsc_dist".
                   "&appKey=".session('taobao_app_key').
                   "&appSecret=".session('taobao_secret_key').
                   "&numIID=".session('current_taobao_item_id').
-                  "&sessionID=".session('taobao_access_token').
+                  "&sessionID=".$sessionKey.
                   "&Num=".urlencode($item['Num']).
                   "&Price=".urlencode($item['Price']).
                   "&Type=".urlencode($item['Type']).
@@ -350,19 +357,22 @@ class OpenAPI {
         }
     }
 
-    public static function uploadTaobaoItemImg($numIid, $image, $position) {
+    public static function uploadTaobaoItemImg($numIid, $image, $position, $sessionKey = null) {
         if (self::needVerify()) {
             return 'verify';
         }
         if (!session('?taobao_access_token')) {
             return 'timeout';
         }
+        if ($sessionKey == null) {
+            $sessionKey = session('taobao_access_token');
+        }
         $c = self::initTopClient();
         $req = new ItemImgUploadRequest;
         $req->setNumIid($numIid);
         $req->setImage('@'.$image);
         $req->setPosition($position);
-        $resp = $c->execute($req, session('taobao_access_token'));
+        $resp = $c->execute($req, $sessionKey);
         if (isset($resp->item_img)) {
             $taoapi = D('Taoapi');
             $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
@@ -372,12 +382,15 @@ class OpenAPI {
         }
     }
 
-    public static function uploadTaobaoItemPropImg($numIid, $prop, $image, $position) {
+    public static function uploadTaobaoItemPropImg($numIid, $prop, $image, $position, $sessionKey = null) {
         if (self::needVerify()) {
             return 'verify';
         }
         if (!session('?taobao_access_token')) {
             return 'timeout';
+        }
+        if ($sessionKey == null) {
+            $sessionKey = session('taobao_access_token');
         }
         $c = self::initTopClient();
         $req = new ItemPropimgUploadRequest;
@@ -385,7 +398,7 @@ class OpenAPI {
         $req->setProperties($prop);
         $req->setImage($image);
         $req->setPosition($position);
-        $resp = $c->execute($req, session('taobao_access_token'));
+        $resp = $c->execute($req, $sessionKey);
         if ($resp->prop_img) {
             $taoapi = D('Taoapi');
             $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
