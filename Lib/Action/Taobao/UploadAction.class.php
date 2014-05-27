@@ -60,7 +60,6 @@ class UploadAction extends CommonAction {
             'imgsInDesc' => $this->parseDescImages($taobaoItem->desc),
             'percent' => $userdata['profit0'],
             'profit' => $userdata['profit'],
-            'autoOffWarn' => $userdata['autoOffWarn'] == 1 ? 'checked' : '',
             'initSkus' => json_encode(Util::parseSkus($taobaoItem->skus->sku)),
             'propImgs' => $propImgs,
             'isUploadedBefore' => $isUploadedBefore,
@@ -88,8 +87,7 @@ class UploadAction extends CommonAction {
         $image = '@'.$imagePath;
         $skuTableData = json_decode($_REQUEST['J_SKUTableData']);
         $salePropsObject = json_decode(urldecode($_REQUEST['salePropsObject']));
-        $autoOffWarn = I('autoOffWarn') == 'on' ? true : false;
-        $desc = $this->makeDesc($_REQUEST['_fma_pu__0_d'], session('current_taobao_item_id'), $autoOffWarn);
+        $desc = $this->makeDesc($_REQUEST['_fma_pu__0_d'], session('current_taobao_item_id'));
         $item = array(
             'Num' => '30',
             'Price' => I('_fma_pu__0_m'),
@@ -170,7 +168,6 @@ class UploadAction extends CommonAction {
         $data = array(
             'profit0' => I('percent'),
             'profit' => I('profit'),
-            'autoOffWarn' => I('autoOffWarn') == 'checked' ? 1 : 0,
             'postFee' => I('postFee'),
             'expressFee' => I('expressFee'),
             'emsFee' => I('emsFee'),
@@ -264,7 +261,6 @@ class UploadAction extends CommonAction {
             $userdataConfig = M('UserdataConfig');
             $data['profit0'] = '100.00';
             $data['profit'] = '0.00';
-            $data['autoOffWarn'] = '1';
             $data['postFee'] = '15.00';
             $data['expressFee'] = '15.00';
             $data['emsFee'] = '15.00';
@@ -440,14 +436,8 @@ class UploadAction extends CommonAction {
         return json_encode($matches[1]);
     }
 
-    private function makeDesc($desc, $taobaoItemId, $autoOffWarn) {
+    private function makeDesc($desc, $taobaoItemId) {
         $newDesc = $desc;
-        if ($autoOffWarn) {
-            $encNumIid = '51chk'.base64_encode($taobaoItemId);
-            $autoOffJpg = 'http://51wangpi.com/'.$encNumIid.'.jpg';
-            $autoOffWarnHtml = '<img align="middle" src="'.$autoOffJpg.'"/><br/>';
-            $newDesc = $autoOffWarnHtml.$newDesc;
-        }
         $newDesc .= '<font color="white">welcome to my store!</font>';
         return $newDesc;
     }
