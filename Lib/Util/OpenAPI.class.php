@@ -196,7 +196,7 @@ class OpenAPI {
         $c->appkey = C('taobao_app_key');
         $c->secretKey = C('taobao_secret_key');
         $req = new ItemGetRequest;
-        $req->setFields("title,desc,pic_url,sku,item_weight,property_alias,price,item_img.url,cid,nick");
+        $req->setFields("title,desc,pic_url,sku,item_weight,property_alias,price,item_img.url,cid,nick,props_name,prop_img,props");
         $req->setNumIid($numIid);
         $resp = $c->execute($req, null);
 
@@ -275,6 +275,25 @@ class OpenAPI {
             return $resp->item;
         } else {
             self::dumpTaobaoApiError('addTaobaoItem', $resp);
+        }
+    }
+
+    public static function addTaobaoItemWithoutVerify($item, $sessionKey) {
+        $c = new TopClient;
+        $c->appkey = C('stable_taobao_app_key');
+        $c->secretKey = C('stable_taobao_secret_key');
+        $req = new ItemAddRequest;
+        foreach ($item as $key => $value) {
+            if ($value !== '') {
+                call_user_method('set'.$key, $req, $value);
+            }
+        }
+        Log::write('accessToken:'.$sessionKey, Log::ERR);
+        $resp = $c->execute($req, $sessionKey);
+        if (isset($resp->item)) {
+            return $resp->item;
+        } else {
+            self::dumpTaobaoApiError('addTaobaoItemWithoutVerify', $resp);
         }
     }
 

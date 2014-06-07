@@ -186,6 +186,60 @@ class UploadAction extends CommonAction {
         $this->display();
     }
 
+    public function uploadItemFromAndroid() {
+        $taobaoItemId = I('taobaoItemId');
+        $taobaoItem = $this->checkApiResponse(OpenAPI::getTaobaoItemWithoutVerify($taobaoItemId));
+        $skuProperties = '';
+        $skuQuantities = '';
+        $skuPrices = '';
+        $skuOuterIds = '';
+        $count = count($taobaoItem->skus->sku);
+        for ($i = 0; $i < $count; $i++) {
+            $sku = $taobaoItem->skus->sku[$i];
+            $skuProperties .= $sku->properties.',';
+            $skuQuantities .= $sku->quantity.',';
+            $skuPrices .= $sku->price.',';
+            $skuOuterIds .= ',';
+        }
+        if (strlen($skuProperties) > 0) {
+            $skuProperties = substr($skuProperties, 0, strlen($skuProperties) - 1);
+            $skuQuantities = substr($skuQuantities, 0, strlen($skuQuantities) - 1);
+            $skuPrices = substr($skuPrices, 0, strlen($skuPrices) - 1);
+            $skuOuterIds = substr($skuOuterIds, 0, strlen($skuOuterIds) - 1);
+        }
+        $item = array(
+            'Num' => '30',
+            'Price' => $taobaoItem->price,
+            'Type' => 'fixed',
+            'StuffStatus' => 'new',
+            'Title' => $taobaoItem->title,
+            'Desc' => $taobaoItem->desc,
+            'LocationState' => '广东',
+            'LocationCity' => '广州',
+            'Cid' => intval($taobaoItem->cid),
+            'ApproveStatus' => 'onsale',
+            'Props' => $taobaoItem->props,
+            'FreightPayer' => 'seller',
+            'ValidThru' => '14',
+            'HasInvoice' => 'true',
+            'HasWarranty' => 'true',
+            'HasShowcase' => 'false',
+            'HasDiscount' => 'false',
+            'Image' => $image,
+            'PropertyAlias' => $taobaoItem->property_alias,
+            'SkuProperties' => $skuProperties,
+            'SkuQuantities' => $skuQuantities,
+            'SkuPrices' => $skuPrices,
+            'SkuOuterIds' => $skuOuterIds,
+        );
+        $uploadedItem = OpenAPI::addTaobaoItemWithoutVerify($item, I('access_token'));
+        if (isset($uploadedItem->num_iid)) {
+            $this->ajaxReturn('true');
+        } else {
+            $this->ajaxReturn('false');
+        }
+    }
+
     private function recordTaobaoItemIdToSession($taobaoItemId) {
         if (session('?uploaded_taobao_item_ids')) {
             $uploadedTaobaoItemIds = session('uploaded_taobao_item_ids');
