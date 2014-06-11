@@ -189,6 +189,8 @@ class UploadAction extends CommonAction {
     public function uploadItemFromAndroid() {
         $taobaoItemId = I('taobaoItemId');
         $taobaoItem = $this->checkApiResponse(OpenAPI::getTaobaoItemWithoutVerify($taobaoItemId));
+        $imagePath = Util::downloadImage($taobaoItem->pic_url);
+        $image = '@'.$imagePath;
         $skuProperties = '';
         $skuQuantities = '';
         $skuPrices = '';
@@ -233,6 +235,7 @@ class UploadAction extends CommonAction {
             'SkuOuterIds' => $skuOuterIds,
         );
         $uploadedItem = OpenAPI::addTaobaoItemWithoutVerify($item, I('access_token'));
+        unlink($imagePath);
         if (isset($uploadedItem->num_iid)) {
             $this->ajaxReturn('true');
         } else {
