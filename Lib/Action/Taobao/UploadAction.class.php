@@ -602,10 +602,10 @@ class UploadAction extends CommonAction {
     }
 
     private function makeMovePic($desc) {
-        if (strpos($desc, "!!") !== false) {
-            return 'checked';
-        } else {
+        if (strpos($desc, "!!") == false && strpos($desc, "taobaocdn") !== false) {
             return '';
+        } else {
+            return 'checked';
         }
     }
 
