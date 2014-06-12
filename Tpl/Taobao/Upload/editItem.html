@@ -3983,14 +3983,13 @@ Sell.Config.set('crossimage', {
 
         var isInit = true;
         $('.sku-wrap').on('click', function () {
-            $('input.J_MapQuantity').val(10);
-            setTimeout(function () {
-                $('input.J_MapQuantity').val(10);
-                $('input.J_MapQuantity').focus().blur();
-                if (isInit) {
+            if (!isInit) {
+                setTimeout(function () {
+                    $('input.J_MapQuantity').val(100);
+                    $('input.J_MapQuantity').focus().blur();
                     window.scrollTo(0);
-                }
-            }, 1000);
+                }, 500);
+            }
         });
 
         $('#event_submit_do_publish_2').on('click', function () {
@@ -4035,7 +4034,10 @@ Sell.Config.set('crossimage', {
                 }
             }
         }
-        setTimeout(function () {isInit = false;}, 1000);
+        setTimeout(function () {
+            isInit = false;
+            $('.sku-wrap').click();
+        }, 500);
         /* init sku end */
 
         $('#buynow').on('blur', function () {
