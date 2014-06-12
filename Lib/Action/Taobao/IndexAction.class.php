@@ -100,4 +100,26 @@ class IndexAction extends Action {
         $storeSession = new StoreSession($data->taobao_user_nick, $data->access_token);
         $storeSession->addStoreSession();
     }
+
+    public function switchAppKey() {
+        $this->display();
+    }
+
+    public function free() {
+        $currentTaobaoItemId = session('current_taobao_item_id');
+        session(null);
+        U('Taobao/Index/auth', array(
+            'taobaoItemId' => $currentTaobaoItemId,
+        ), true, true, false);
+    }
+
+    public function stable() {
+        $currentTaobaoItemId = session('current_taobao_item_id');
+        $taobaoAppKey = session('taobao_app_key');
+        session(null);
+        U('Taobao/Index/auth', array(
+            'taobaoItemId' => $currentTaobaoItemId,
+            'taobaoAppKey' => $taobaoAppKey,
+        ), true, true, false);
+    }
 }

@@ -488,6 +488,27 @@ class OpenAPI {
         }
     }
 
+    public static function getVasSubscribe($nick) {
+        if (self::needVerify()) {
+            return 'verify';
+        }
+        if (!session('?taobao_access_token')) {
+            return 'timeout';
+        }
+        $c = new TopClient;
+        $c->appkey = C('taobao_app_key');
+        $c->secretKey = C('taobao_secret_key');
+        $req = new VasSubscribeGetRequest;
+        $req->setNick($nick);
+        $req->setArticleCode('FW_GOODS-1856100');
+        $resp = $c->execute($req);
+        if (isset($resp->article_user_subscribes->article_user_subscribe)) {
+            return $resp->article_user_subscribes->article_user_subscribe;
+        } else {
+            self::dumpTaobaoApiError('getVasSubscribe', $resp);
+        }
+    }
+
     public static function dumpTaobaoApiError($apiName, $resp) {
         $appKey = session('taobao_app_key');
         $appSecret = session('taobao_secret_key');
@@ -545,13 +566,7 @@ class OpenAPI {
     }
 
     private static function authWithNewAppKey() {
-        $currentTaobaoItemId = session('current_taobao_item_id');
-        $taobaoAppKey = session('taobao_app_key');
-        session(null);
-        U('Taobao/Index/auth', array(
-            'taobaoItemId' => $currentTaobaoItemId,
-            'taobaoAppKey' => $taobaoAppKey,
-        ), true, true, false);
+        U('Taobao/Index/switchAppKey', null, true, true, false);
     }
 }
 
