@@ -41,6 +41,7 @@ class UploadAction extends CommonAction {
         $deliveryTemplateHtml = $this->makeDeliveryTemplateHtml($deliveryTemplates, $userdata['usePostModu']);
         $sellerCatsHtml = $this->makeSellerCatsHtml($cname);
         $movePic = $this->makeMovePic($taobaoItem->desc);
+        $isSubscribe = $this->isSubscribe();
         $storeSession = new StoreSession(null, null);
         $this->assign(array(
             'taobaoItemTitle' => $title,
@@ -79,6 +80,7 @@ class UploadAction extends CommonAction {
             'sizePropHtml' => $sizePropHtml,
             'salePropsObject' => urlencode(json_encode($salePropsObject)),
             'movePic' => $movePic,
+            'isSubscribe' => $isSubscribe,
             'otherStoreSessions' => $storeSession->getAllStoreSessionsArray(),
         ));
         $this->display();

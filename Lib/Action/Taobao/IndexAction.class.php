@@ -1,9 +1,8 @@
 <?php
 import('@.Util.Util');
 import('@.Model.StoreSession');
-import('@.Util.OpenAPI');
 
-class IndexAction extends Action {
+class IndexAction extends CommonAction {
     public function index() {
         $this->display();
     }
@@ -132,21 +131,5 @@ class IndexAction extends Action {
             'taobaoItemId' => $currentTaobaoItemId,
             'taobaoAppKey' => $taobaoAppKey,
         ), true, true, false);
-    }
-
-    private function isSubscribe() {
-        $nick = cookie('taobao_user_nick');
-        if ($nick != null) {
-            $subscribe = OpenAPI::getVasSubscribe($nick);
-            if (count($subscribe) > 0) {
-                $deadline = new DateTime($subscribe[0]->deadline);
-                $now = new DateTime('now');
-                return $deadline > $now;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
     }
 }

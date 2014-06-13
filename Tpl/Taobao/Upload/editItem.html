@@ -146,12 +146,13 @@
           <input type="hidden" name="wapDescEnable" value=""/>
 
           <div class="above-item-publish" style="height: 30px; line-height: 30px;">
-            主店铺: {$nick} <a href="{:U('Taobao/Index/signOut')}&taobaoItemId={$taobaoItemId}">退出所有店铺</a>
+            主店铺: {$nick}&nbsp;<a href="{:U('Taobao/Index/signOut')}&taobaoItemId={$taobaoItemId}">退出所有店铺</a>
             <foreach name="otherStoreSessions" item="store">
               | 副店铺{$key + 1}: {$store.nick}
               <a href="{:U('Taobao/Index/deleteStoreSession')}&nick={$store.nick}">退出</a>
             </foreach>
-            <a id="add-store" href="#" style="color: red">+店铺</a>
+            &nbsp;
+            <if condition="$isSubscribe"><a id="add-store" href="#" style="color: red">+店铺</a></if>
             <span style="margin-left:20px;">
               <if condition="$isUploadedBefore">
                 <i style="color:red;">当前商品您已发布过!</i>

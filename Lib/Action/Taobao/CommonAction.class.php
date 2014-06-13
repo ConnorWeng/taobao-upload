@@ -1,6 +1,7 @@
 <?php
 
 import('@.Util.Util');
+import('@.Util.OpenAPI');
 
 class CommonAction extends Action {
 
@@ -38,6 +39,21 @@ class CommonAction extends Action {
         }
     }
 
+    protected function isSubscribe() {
+        $nick = cookie('taobao_user_nick');
+        if ($nick != null) {
+            $subscribe = OpenAPI::getVasSubscribe($nick);
+            if (count($subscribe) > 0) {
+                $deadline = new DateTime($subscribe[0]->deadline);
+                $now = new DateTime('now');
+                return $deadline > $now;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 }
 
 ?>
