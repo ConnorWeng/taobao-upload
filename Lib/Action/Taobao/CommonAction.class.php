@@ -40,7 +40,7 @@ class CommonAction extends Action {
     }
 
     protected function isSubscribe() {
-        $nick = cookie('taobao_user_nick');
+        $nick = session('taobao_user_nick');
         if ($nick != null) {
             $subscribe = OpenAPI::getVasSubscribe($nick);
             if (count($subscribe) > 0) {

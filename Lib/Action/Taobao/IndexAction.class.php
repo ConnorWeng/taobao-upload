@@ -10,18 +10,9 @@ class IndexAction extends CommonAction {
     public function auth() {
         $taobaoItemId = I('taobaoItemId');
         session('current_taobao_item_id', $taobaoItemId);
-        $isSubscribe = $this->isSubscribe();
-        $oldAppKey = I('taobaoAppKey');
-        if ($isSubscribe) {
-            $oldAppKey = 'trival';
-        }
         if (!session('?taobao_access_token') || I('newStore') == 'newStore') {
-            if ($oldAppKey != '') {
-                if ($isSubscribe) {
-                    Util::changeTaoAppkey($taobaoItemId, $oldAppKey);
-                } else {
-                    $this->error('您还没有订购收费版应用或已过期，5秒后会自动跳转到订购页面', 'http://fuwu.taobao.com/ser/detail.htm?spm=0.0.0.0.EvCI8O&service_code=FW_GOODS-1856100', 5);
-                }
+            if (I('taobaoAppKey') != '') {
+                Util::changeTaoAppkey($taobaoItemId, I('taobaoAppKey'));
             } else {
                 Util::changeTaoAppkey($taobaoItemId);
             }
@@ -59,7 +50,9 @@ class IndexAction extends CommonAction {
             } else {
                 session('taobao_access_token', $dataObject->access_token);
                 session('taobao_user_nick', urldecode($dataObject->taobao_user_nick));
-                cookie('taobao_user_nick', urldecode($dataObject->taobao_user_nick), 60*60*24*7);
+                if ($this->isSubscribe() && session('taobao_app_key') != C('stable_taobao_app_key')) {
+                    $this->stable();
+                }
             }
         }
         U('Taobao/Upload/editItem', array('taobaoItemId'=>$taobaoItemId), true, true, false);
