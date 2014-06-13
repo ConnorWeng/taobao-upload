@@ -1,6 +1,7 @@
 <?php
 import('@.Util.Util');
 import('@.Model.StoreSession');
+import('@.Util.OpenAPI');
 
 class IndexAction extends Action {
     public function index() {
@@ -10,9 +11,18 @@ class IndexAction extends Action {
     public function auth() {
         $taobaoItemId = I('taobaoItemId');
         session('current_taobao_item_id', $taobaoItemId);
+        $isSubscribe = $this->isSubscribe();
+        $oldAppKey = I('taobaoAppKey');
+        if ($isSubscribe) {
+            $oldAppKey = 'trival';
+        }
         if (!session('?taobao_access_token') || I('newStore') == 'newStore') {
-            if (I('taobaoAppKey') != '') {
-                Util::changeTaoAppkey($taobaoItemId, I('taobaoAppKey'));
+            if ($oldAppKey != '') {
+                if ($isSubscribe) {
+                    Util::changeTaoAppkey($taobaoItemId, $oldAppKey);
+                } else {
+                    $this->error('您还没有订购收费版应用或已过期，5秒后会自动跳转到订购页面', 'http://fuwu.taobao.com/ser/detail.htm?spm=0.0.0.0.EvCI8O&service_code=FW_GOODS-1856100', 5);
+                }
             } else {
                 Util::changeTaoAppkey($taobaoItemId);
             }
@@ -50,6 +60,7 @@ class IndexAction extends Action {
             } else {
                 session('taobao_access_token', $dataObject->access_token);
                 session('taobao_user_nick', urldecode($dataObject->taobao_user_nick));
+                cookie('taobao_user_nick', urldecode($dataObject->taobao_user_nick), 60*60*24*7);
             }
         }
         U('Taobao/Upload/editItem', array('taobaoItemId'=>$taobaoItemId), true, true, false);
@@ -121,5 +132,21 @@ class IndexAction extends Action {
             'taobaoItemId' => $currentTaobaoItemId,
             'taobaoAppKey' => $taobaoAppKey,
         ), true, true, false);
+    }
+
+    private function isSubscribe() {
+        $nick = cookie('taobao_user_nick');
+        if ($nick != null) {
+            $subscribe = OpenAPI::getVasSubscribe($nick);
+            if (count($subscribe) > 0) {
+                $deadline = new DateTime($subscribe[0]->deadline);
+                $now = new DateTime('now');
+                return $deadline > $now;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 }

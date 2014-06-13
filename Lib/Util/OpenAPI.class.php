@@ -489,12 +489,6 @@ class OpenAPI {
     }
 
     public static function getVasSubscribe($nick) {
-        if (self::needVerify()) {
-            return 'verify';
-        }
-        if (!session('?taobao_access_token')) {
-            return 'timeout';
-        }
         $c = new TopClient;
         $c->appkey = C('taobao_app_key');
         $c->secretKey = C('taobao_secret_key');
