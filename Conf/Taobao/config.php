@@ -11,6 +11,8 @@ return array(
 
     'servletUri' => 'http://121.196.142.10:30001/duapp/yjscServlet',
 
+    'article_code' => 'FW_GOODS-1856100',
+
     //* sandbox
     'DB_HOST' => 'localhost',
     'DB_USER' => 'root',

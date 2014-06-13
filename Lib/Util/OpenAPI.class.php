@@ -500,7 +500,7 @@ class OpenAPI {
         $c->secretKey = C('taobao_secret_key');
         $req = new VasSubscribeGetRequest;
         $req->setNick($nick);
-        $req->setArticleCode('FW_GOODS-1856100');
+        $req->setArticleCode(C('article_code'));
         $resp = $c->execute($req);
         if (isset($resp->article_user_subscribes->article_user_subscribe)) {
             return $resp->article_user_subscribes->article_user_subscribe;
