@@ -496,7 +496,7 @@ class OpenAPI {
         $req->setNick($nick);
         $req->setArticleCode(C('article_code'));
         $resp = $c->execute($req);
-        if (isset($resp->article_user_subscribes->article_user_subscribe)) {
+        if (isset($resp->article_user_subscribes->article_user_subscribe) || count($resp) == 0) {
             return $resp->article_user_subscribes->article_user_subscribe;
         } else {
             self::dumpTaobaoApiError('getVasSubscribe', $resp);
