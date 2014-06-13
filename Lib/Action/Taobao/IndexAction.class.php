@@ -108,7 +108,7 @@ class IndexAction extends Action {
     }
 
     private function addStoreSession($data) {
-        $storeSession = new StoreSession($data->taobao_user_nick, $data->access_token);
+        $storeSession = new StoreSession(urldecode($data->taobao_user_nick), $data->access_token);
         $storeSession->addStoreSession();
     }
 
