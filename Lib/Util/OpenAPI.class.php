@@ -332,7 +332,7 @@ class OpenAPI {
                   "&ExpressFee=".urlencode($item['ExpressFee']).
                   "&EmsFee=".urlencode($item['EmsFee']).
                   "&ListTime=".urlencode($item['ListTime']).
-                  "&PostageId=".urlencode('').
+                  "&PostageId=".urlencode($item['PostageId']).
                   "&PropertyAlias=".urlencode($item['PropertyAlias']).
                   "&InputStr=".urlencode($item['InputStr']).
                   "&InputPids=".urlencode($item['InputPids']).
