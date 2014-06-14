@@ -3,6 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>51淘上传</title>
+<script type="text/javascript"
+            src="http://libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
 <style type="text/css">
 *{ padding: 0; margin: 0; }
 body{ background: #fff; font-family: '微软雅黑'; color: #333; font-size: 16px; }
@@ -17,8 +19,19 @@ button {font-size:16pt;}
   <p>1.免费版，可能重复授权 &nbsp;&nbsp;&nbsp; 2.收费版，稳定且支持多店铺上传</p>
   <p>
     <a href="{:U('Taobao/Index/free')}">免费版应用</a> &nbsp;&nbsp;&nbsp;
-    <a href="{:U('Taobao/Index/stable')}">收费版应用</a>
+    <a id="stable" href="{:U('Taobao/Index/stable')}">收费版应用</a>
   </p>
+  <p><span class="countdown">5</span>秒后将自动跳转至收费版本</p>
 </center>
+<script>
+var interval = setInterval(function () {
+    var newVal = parseInt($('.countdown').text()) - 1;
+    $('.countdown').text(newVal);
+    if (newVal <= 0) {
+        clearInterval(interval);
+        window.location = $('#stable').attr('href');
+    }
+}, 1000);
+</script>
 </body>
 </html>

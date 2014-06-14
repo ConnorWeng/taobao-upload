@@ -118,7 +118,7 @@ class IndexAction extends CommonAction {
 
     public function stable() {
         $currentTaobaoItemId = session('current_taobao_item_id');
-        $taobaoAppKey = session('taobao_app_key');
+        $taobaoAppKey = session('taobao_app_key') == null ? 'trival' : session('taobao_app_key');
         session(null);
         U('Taobao/Index/auth', array(
             'taobaoItemId' => $currentTaobaoItemId,
