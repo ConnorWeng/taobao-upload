@@ -617,11 +617,18 @@ class UploadAction extends CommonAction {
     }
 
     private function makeMovePic($desc) {
-        if (strpos($desc, "!!") == false && strpos($desc, "taobaocdn") !== false) {
-            return '';
-        } else {
-            return 'checked';
+        $pattern="/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.jpg]))[\'|\"].*?[\/]?>/";
+        preg_match_all($pattern, $desc, $matches);
+        $picNum = count($matches[0]);
+        $check = '';
+        for($i=0;$i< $picNum ;$i++) {
+            $picUrl = $matches[1][$i];
+            if (strpos($picUrl, "!!") !== false || strpos($picUrl, "taobaocdn") == false) {
+                $check = 'checked';
+                break;
+            }
         }
+        return $check;
     }
 
     private function getAllParentCids($sellerCats) {
