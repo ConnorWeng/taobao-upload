@@ -125,4 +125,9 @@ class IndexAction extends CommonAction {
             'taobaoAppKey' => $taobaoAppKey,
         ), true, true, false);
     }
+
+    public function recoveryAppKey() {
+        $taoapi = D('Taoapi');
+        dump($taoapi->recoveryAppKey(time()));
+    }
 }

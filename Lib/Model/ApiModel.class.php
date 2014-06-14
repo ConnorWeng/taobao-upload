@@ -31,6 +31,7 @@ class ApiModel extends Model {
     public function appKeyFail($id) {
         $where['id'] = $id;
         $this->where($where)->setInc('overflow');
+        $this->where($where)->setField('recovery_time', time() + 25 * 60 * 60);
     }
 
     public function appKeySuccess($id) {
