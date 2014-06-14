@@ -4114,6 +4114,16 @@ Sell.Config.set('crossimage', {
         };
 
         $('#_date').append(makeDateOptions());
+
+        var interval = setInterval(function () {
+            console.log('again');
+            if ($('#quantityId').val() > 0) {
+                clearInterval(interval);
+            } else {
+                $('input.J_MapQuantity').val(999);
+                $('input.J_MapQuantity').focus().blur();
+            }
+        }, 1000);
     });
     </script>
   </body>
