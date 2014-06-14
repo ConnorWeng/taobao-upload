@@ -134,6 +134,11 @@ class UploadAction extends CommonAction {
         if (I('movePic') == 'on' || $this->makeMovePic($desc) == 'checked') {
             $numIid = $this->checkApiResponse(OpenAPI::addTaobaoItemWithMovePic($item));
             foreach ($otherStoreSessions as $store) {
+                $item['FreightPayer'] = 'buyer';
+                $item['PostageId'] = '';
+                $item['PostFee'] = '15';
+                $item['ExpressFee'] = '15';
+                $item['EmsFee'] = '15';
                 $otherNumIid = $this->checkApiResponse(OpenAPI::addTaobaoItemWithMovePic($item, $store['accessToken']));
                 array_push($others, $otherNumIid);
             }
@@ -145,6 +150,11 @@ class UploadAction extends CommonAction {
                 $this->uploadPropImages((float)$numIid, json_decode(urldecode(I('propImgs'))));
             }
             foreach ($otherStoreSessions as $store) {
+                $item['FreightPayer'] = 'buyer';
+                $item['PostageId'] = '';
+                $item['PostFee'] = '15';
+                $item['ExpressFee'] = '15';
+                $item['EmsFee'] = '15';
                 $otherItem = $this->checkApiResponse(OpenAPI::addTaobaoItem($item, $store['accessToken']));
                 $otherNumIid = $otherItem->num_iid;
                 if (isset($otherNumIid)) {
