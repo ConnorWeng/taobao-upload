@@ -103,18 +103,17 @@ class UploadAction extends CommonAction {
             'LocationState' => I('_fma_pu__0_po_place'),
             'LocationCity' => I('_fma_pu__0_po_city'),
             'Cid' => I('cid'),
-            'ApproveStatus' => I('_now') == '0' ? 'onsale' : 'instock',
-            'ListTime' => I('_fma_pu__0_sta'),
+            'ApproveStatus' => I('_now') != '2' ? 'onsale' : 'instock',
+            'ListTime' => $this->makeListTime(I('_now'), I('_date'), I('_hour'), I('_minute')),
             'Props' => $this->makeProps($_REQUEST, $skuTableData, I('sizeType')),
             'FreightPayer' => I('postages'),
             'PostageId' => I('postages') == 'buyer' ? I('template_id') : '',
-            'ValidThru' => '14',
+            'ValidThru' => '7',
             'HasInvoice' => 'true',
             'HasWarranty' => 'true',
             'HasShowcase' => 'false',
             'SellerCids' => I('sellerCats'),
             'HasDiscount' => 'false',
-            'ListTime' => '',
             'Image' => $image,
             'PostFee' => I('post_fee'),
             'ExpressFee' => I('express_fee'),
@@ -665,6 +664,14 @@ class UploadAction extends CommonAction {
             return true;
         } else {
             return false;
+        }
+    }
+
+    private function makeListTime($now, $date, $hour, $minute) {
+        if ($now == '1') {
+            return $date.' '.$hour.':'.$minute.':00';
+        } else {
+            return '';
         }
     }
 

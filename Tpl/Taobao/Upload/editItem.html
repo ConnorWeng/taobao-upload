@@ -3515,10 +3515,48 @@
                             <li>
                               <input type="radio" class="radio"  name="_now" value="1" id="_now1"  />
                               <label for="_now1">设定</label>
-                              <select name="_date"  disabled="disabled" ></select>
-                              <select name="_hour"  disabled="disabled" ></select>
+                              <select id="_date" name="_date"></select>
+                              <select id="_hour" name="_hour">
+                                <option value="00">0</option>
+                                <option value="01">1</option>
+                                <option value="02">2</option>
+                                <option value="03">3</option>
+                                <option value="04">4</option>
+                                <option value="05">5</option>
+                                <option value="06">6</option>
+                                <option value="07">7</option>
+                                <option value="08">8</option>
+                                <option value="09">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                              </select>
                               时
-                              <select name="_minute"  disabled="disabled" ></select>
+                              <select id="_minute" name="_minute">
+                                <option value="00">0</option>
+                                <option value="05">5</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="30">30</option>
+                                <option value="35">35</option>
+                                <option value="40">40</option>
+                                <option value="45">45</option>
+                                <option value="50">50</option>
+                                <option value="55">55</option>
+                              </select>
                               分
                               <i class="J_PopTip poptip-help" id="durainfo">您可以设定宝贝的正式开始销售时间</i>
 
@@ -4052,6 +4090,30 @@ Sell.Config.set('crossimage', {
         $('#add-store').on('click', function () {
             window.location = "{:U('Taobao/Index/auth')}" + '&taobaoItemId={$taobaoItemId}&newStore=newStore&taobaoAppKey=trival';
         });
+
+        var makeSureDoubleDigits = function (number) {
+            if (number < 10) {
+                number = '0' + number;
+            }
+            return number;
+        };
+
+        var makeDateOptions = function () {
+            var options = '',
+                dateObj = new Date();
+            for (var i = 0; i < 13; i++) {
+                dateObj.setDate(dateObj.getDate() + 1);
+                var year = dateObj.getFullYear(),
+                    month = makeSureDoubleDigits(dateObj.getMonth() + 1),
+                    date = makeSureDoubleDigits(dateObj.getDate());
+                options += '<option value="' + year + '-' + month + '-' + date + '">'
+                options += year + '年' + month + '月' + date + '日';
+                options += '</option>';
+            }
+            return options;
+        };
+
+        $('#_date').append(makeDateOptions());
     });
     </script>
   </body>
