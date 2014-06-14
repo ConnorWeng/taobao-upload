@@ -168,23 +168,23 @@ class UploadAction extends CommonAction {
         $itemUrls = '';
         $error = false;
         if (isset($numIid)) {
-            $result = session('taobao_user_nick').'发布成功！';
+            $result = session('taobao_user_nick').'发布成功！<br/>';
             $itemUrl = 'http://item.taobao.com/item.htm?spm=686.1000925.1000774.13.Odmgnd&id='.$numIid;
             $itemUrls = '<li><a href="'.$itemUrl.'">查看'.session('taobao_user_nick').'中的宝贝</a></li>';
             $this->recordTaobaoItemIdToSession(session('current_taobao_item_id'));
         } else {
-            $result = session('taobao_user_nick').'发布失败！';
+            $result = session('taobao_user_nick').'发布失败！<br/>';
             $error = true;
         }
         for ($i = 0; $i < count($otherStoreSessions); $i++) {
             $otherNumIid = $others[$i];
             $store = $otherStoreSessions[$i];
             if (isset($otherNumIid)) {
-                $result .= $store['nick'].'发布成功!';
+                $result .= $store['nick'].'发布成功!<br/>';
                 $itemUrl = 'http://item.taobao.com/item.htm?spm=686.1000925.1000774.13.Odmgnd&id='.$otherNumIid;
                 $itemUrls .= '<li><a href="'.$itemUrl.'">查看'.$store['nick'].'中的宝贝</a></li>';
             } else {
-                $result .= $store['nick'].'发布失败!';
+                $result .= $store['nick'].'发布失败!<br/>';
                 $error = true;
             }
         }
