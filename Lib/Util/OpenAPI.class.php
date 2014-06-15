@@ -251,7 +251,7 @@ class OpenAPI {
         }
     }
 
-    public static function addTaobaoItem($item, $sessionKey = null) {
+    public static function addTaobaoItem($item, $sessionKey = null, $isRepeat = false) {
         if (self::needVerify()) {
             return 'verify';
         }
@@ -273,6 +273,9 @@ class OpenAPI {
             $taoapi = D('Taoapi');
             $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return $resp->item;
+        } else if ($resp->code == '7' && !$isRepeat && session('taobao_app_key') == C('stable_taobao_app_key')) {
+            sleep(3);
+            return $this->addTaobaoItem($item, $sessionKey, true);
         } else {
             self::dumpTaobaoApiError('addTaobaoItem', $resp);
         }
@@ -297,7 +300,7 @@ class OpenAPI {
         }
     }
 
-    public static function addTaobaoItemWithMovePic($item, $sessionKey = null) {
+    public static function addTaobaoItemWithMovePic($item, $sessionKey = null, $isRepeat = false) {
         if (self::needVerify()) {
             return 'verify';
         }
@@ -348,6 +351,9 @@ class OpenAPI {
             $taoapi = D('Taoapi');
             $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return $resp;
+        } else if (strpos($resp, 'limited-by-api-access-count') !== false && !$isRepeat && session('taobao_app_key') == C('stable_taobao_app_key')) {
+            sleep(3);
+            return $this->addTaobaoItemWithMovePic($item, $sessionKey, true);
         } else {
             self::dumpTaobaoApiError('addTaobaoItemWithMovePic', $resp);
             if (strpos($resp, 'ban') !== false || strpos($resp, 'limited-by-api-access-count') !== false || strpos($resp, 'belong app and user') !== false) {
