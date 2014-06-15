@@ -3512,7 +3512,7 @@
                           <input type="hidden" name="_fma.pu._0.auct" id="J_ItemStatus" value="0"/>
                           <ul class="ul-radio ul-radio-vertical">
                             <li><input type="radio" class="radio" name="_now" value="0" id="_now0"  checked="checked"  /><label for="_now0">立刻</label></li>
-                            <li>
+                            <li style="display:none">
                               <input type="radio" class="radio"  name="_now" value="1" id="_now1"  />
                               <label for="_now1">设定</label>
                               <select id="_date" name="_date"></select>
@@ -3559,7 +3559,54 @@
                               </select>
                               分
                               <i class="J_PopTip poptip-help" id="durainfo">您可以设定宝贝的正式开始销售时间</i>
-
+                            </li>
+                            <li>
+                              <input type="radio" class="radio"  name="_now" value="1"/>
+                              <label for="_now1">设定</label>
+                              <select id="__date" name="__date"></select>
+                              <select id="__hour" name="__hour">
+                                <option value="00">0</option>
+                                <option value="01">1</option>
+                                <option value="02">2</option>
+                                <option value="03">3</option>
+                                <option value="04">4</option>
+                                <option value="05">5</option>
+                                <option value="06">6</option>
+                                <option value="07">7</option>
+                                <option value="08">8</option>
+                                <option value="09">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                              </select>
+                              时
+                              <select id="__minute" name="__minute">
+                                <option value="00">0</option>
+                                <option value="05">5</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="30">30</option>
+                                <option value="35">35</option>
+                                <option value="40">40</option>
+                                <option value="45">45</option>
+                                <option value="50">50</option>
+                                <option value="55">55</option>
+                              </select>
+                              分
+                              <i class="J_PopTip poptip-help">您可以设定宝贝的正式开始销售时间</i>
                             </li>
                             <li><input type="radio" class="radio"  name="_now" value="2" id="inStock"    /><label for="inStock">放入仓库</label></li>
                           </ul>
@@ -4113,7 +4160,7 @@ Sell.Config.set('crossimage', {
             return options;
         };
 
-        $('#_date').append(makeDateOptions());
+        $('#__date').append(makeDateOptions());
 
         var interval = setInterval(function () {
             console.log('again');

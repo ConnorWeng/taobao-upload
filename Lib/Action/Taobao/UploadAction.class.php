@@ -104,7 +104,7 @@ class UploadAction extends CommonAction {
             'LocationCity' => I('_fma_pu__0_po_city'),
             'Cid' => I('cid'),
             'ApproveStatus' => I('_now') != '2' ? 'onsale' : 'instock',
-            'ListTime' => $this->makeListTime(I('_now'), I('_date'), I('_hour'), I('_minute')),
+            'ListTime' => $this->makeListTime(I('_now'), I('__date'), I('__hour'), I('__minute')),
             'Props' => $this->makeProps($_REQUEST, $skuTableData, I('sizeType')),
             'FreightPayer' => I('postages'),
             'PostageId' => I('postages') == 'buyer' ? I('template_id') : '',
