@@ -753,7 +753,35 @@ class UploadAction extends CommonAction {
         $this->display();
     }
 
-    private function makePropsHtml2() {
+    private function makePropsHtml2($props, $propsName) {
+        $count = count($props->item_prop);
+        $html = '';
+        for ($i = 0; $i < $count; $i++) {
+            $prop = $props->item_prop[$i];
+            if ($this->isSaleProp($prop) || ''.$prop->pid == '13021751') continue;
+            $html .= '<li>';
+            $html .= '<div><label>'.$prop->name.':</label></div>';
+            $html .= '<select name="cp_'.$prop->pid.'" id="prop_'.$prop->pid.'">';
+            $html .= '<option value=""></option>';
+            $hasSelected = false;
+            if (isset($prop->prop_values)) {
+                $valueCount = count($prop->prop_values->prop_value);
+                for ($j = 0; $j < $valueCount; $j++) {
+                    $value = $prop->prop_values->prop_value[$j];
+                    $optionValue = $prop->pid.':'.$value->vid;
+                    if (strpos($propsName, $optionValue) !== false || ($j == $valueCount - 1 && !$hasSelected && ''.$prop->must == 'true')) {
+                        $selected = 'selected';
+                        $hasSelected = true;
+                    } else {
+                        $selected = '';
+                    }
+                    $html .= '<option value="'.$optionValue.'" '.$selected.'>'.$value->name.'</option>';
+                }
+            }
+            $html .= '</select>';
+            $html .= '</li>';
+        }
+        //return $html;
         return '<li><div><label>主图来源:</label></div><select></select></li>
                 <li><div><label>风格:</label></div><select></select></li>';
     }
