@@ -134,9 +134,21 @@
   <body TOPMARGIN=0 LEFTMARGIN=0 MARGINWIDTH=0 MARGINHEIGHT=0>
     <div class="container">
       <div class="header">
-        <span>主店铺: liuhaicc</span><span><a href="#">退出所有店铺</a></span>
-        <span><a href="#" style="color:red">+店铺</a></span>
-        <span><i>当前商品您没有发布过,可以放心搬家</i></span>
+        <span>主店铺: {$nick}</span><span><a href="#">退出所有店铺</a></span>
+        <foreach name="otherStoreSessions" item="store">
+          | 副店铺{$key + 1}: {$store.nick}
+          <a href="{:U('Taobao/Index/deleteStoreSession')}&nick={$store.nick}">退出</a>
+        </foreach>
+        <if condition="$isSubscribe">
+          <span><a href="#" style="color:red">+店铺</a></span>
+        </if>
+        <span>
+          <if condition="$isUploadedBefore">
+            <i style="color:red">当前商品您已发布过！</i>
+          <else/>
+          <i>当前商品您没有发布过,可以放心搬家</i>
+          </if>
+        </span>
       </div>
 
       <div class="header-btn">
@@ -152,21 +164,21 @@
           <h4>设置利润和价格:</h4>
           <ul>
             <li>默认价格＝</li>
-            <li>批发价 x <input type="text" style="width:30px"></input>% + <input type="text" style="width:30px"></input>元</li>
+            <li>批发价 x <input type="text" style="width:30px" value="{$percent}"/>% + <input type="text" style="width:30px" value="{$profit}">元</li>
           </ul>
           <h4>设置邮费:</h4>
           <ul>
-            <li><label><input id="sellerFreight" type="radio" name="freight"/>卖家承担运费</label></li>
-            <li><label><input id="buyerFreight" type="radio" name="freight"/>买家承担运费</label>
+            <li><label><input id="sellerFreight" type="radio" name="freight" {$sellerFreight}/>卖家承担运费</label></li>
+            <li><label><input id="buyerFreight" type="radio" name="freight" {$buyerFreight}/>买家承担运费</label>
             <ul style="margin-left: 20px">
-              <li><label><input id="useModuFreight" type="radio" name="moduFreight"/>使用运费模版</label>
-              <select id="templateId" name="templateId"></select>
+              <li><label><input id="useModuFreight" type="radio" name="moduFreight" {$useModuFreight}/>使用运费模版</label>
+              <select id="templateId" name="templateId">{$deliveryTemplateHtml}</select>
               </li>
-              <li><label><input type="radio" name="moduFreight"/>运费</label>
+              <li><label><input type="radio" name="moduFreight" {$postFreight}/>运费</label>
               <ul style="margin-left:20px;">
-                <li>平邮:<input style="width: 60px;" id="postFee" name="postFee" type="text" value="15">元</li>
-                <li>快递:<input style="width: 60px;" id="expressFee" name="expressFee" type="text" value="15">元</li>
-                <li>EMS:<input style="width: 60px;" id="emsFee" name="emsFee" type="text" value="15">元</li>
+                <li>平邮:<input style="width: 60px;" id="postFee" name="postFee" type="text" value="{$postFee}">元</li>
+                <li>快递:<input style="width: 60px;" id="expressFee" name="expressFee" type="text" value="{$expressFee}">元</li>
+                <li>EMS:<input style="width: 60px;" id="emsFee" name="emsFee" type="text" value="{$emsFee}">元</li>
               </ul>
               </li>
             </ul>
@@ -183,15 +195,18 @@
             <label class="category">宝贝属性:</label>
             <div class="content">
               <ul class="props-ul">
-                <li><div><label>货号:</label></div><input type="text"/></li>
-                <li><div><label>主图来源:</label></div><select></select></li>
-                <li><div><label>风格:</label></div><select></select></li>
+                <li><div><label>货号:</label></div><input type="text" value="{$huoHao}"/></li>
+                {$propsHtml}
               </ul>
             </div>
             <label class="category">宝贝标题:</label>
-            <div class="input-content"><input type="text"/></div>
+            <div class="input-content">
+              <input id="title" name="title" type="text" value="{$taobaoItemTitle}"/>
+            </div>
             <label class="category">一口价:</label>
-            <div class="input-content"><input type="text"/></div>
+            <div class="input-content">
+              <input type="text" value="{$price}"/><span style="color:red">批发价:{$rawPrice}元</span>
+            </div>
             <label class="category">宝贝规格:</label>
             <div class="content">
               <label style="display:block;">主要颜色:</label>
@@ -223,15 +238,7 @@
               </ul>
               <label style="display:block; clear:both;">尺码:</label>
               <ul class="sku-list size">
-                <li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:28316" id="prop_20509-28316"><label class="labelname" for="prop_20509-28316" title="L">L</label><input id="J_Alias_20509-28316" class="editbox text" maxlength="15" type="text" value="L" name="cpva_20509:28316"></li>
-                <li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:28315" id="prop_20509-28315"><label class="labelname" for="prop_20509-28315" title="M">M</label><input id="J_Alias_20509-28315" class="editbox text" maxlength="15" type="text" value="M" name="cpva_20509:28315"></li>
-                <li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:28314" id="prop_20509-28314"><label class="labelname" for="prop_20509-28314" title="S">S</label><input id="J_Alias_20509-28314" class="editbox text" maxlength="15" type="text" value="S" name="cpva_20509:28314"></li>
-                <li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:28317" id="prop_20509-28317"><label class="labelname" for="prop_20509-28317" title="XL">XL</label><input id="J_Alias_20509-28317" class="editbox text" maxlength="15" type="text" value="XL" name="cpva_20509:28317"></li>
-                <li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:28313" id="prop_20509-28313"><label class="labelname" for="prop_20509-28313" title="XS">XS</label><input id="J_Alias_20509-28313" class="editbox text" maxlength="15" type="text" value="XS" name="cpva_20509:28313"></li>
-                <li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:28318" id="prop_20509-28318"><label class="labelname" for="prop_20509-28318" title="XXL">XXL</label><input id="J_Alias_20509-28318" class="editbox text" maxlength="15" type="text" value="XXL" name="cpva_20509:28318"></li>
-                <li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:28319" id="prop_20509-28319"><label class="labelname" for="prop_20509-28319" title="XXXL">XXXL</label><input id="J_Alias_20509-28319" class="editbox text" maxlength="15" type="text" value="XXXL" name="cpva_20509:28319"></li>
-                <li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:29696" id="prop_20509-29696"><label class="labelname" for="prop_20509-29696" title="其它尺码">其它尺码</label><input id="J_Alias_20509-29696" class="editbox text" maxlength="15" type="text" value="其它尺码" name="cpva_20509:29696"></li>
-                <li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:28383" id="prop_20509-28383"><label class="labelname" for="prop_20509-28383" title="均码">均码</label><input id="J_Alias_20509-28383" class="editbox text" maxlength="15" type="text" value="均码" name="cpva_20509:28383"></li>
+                {$sizePropHtml}
               </ul>
               <table class="sku-table" cellspacing="0" style="visibility: visible;">
                 <thead>
@@ -251,26 +258,30 @@
             <label class="category">宝贝数量:</label>
             <div class="input-content"><input type="text"/></div>
             <label class="category">商家编码:</label>
-            <div class="input-content"><input type="text"/></div>
+            <div class="input-content">
+              <input type="text" value="{$outerId}"/>
+            </div>
             <label class="category">宝贝图片:</label>
             <div class="content">
               <lable><span style="color:orange">注：超过400件宝贝主图不改，将会被随机投诉盗图</span> <span style="color:blue">点击主图可以进行替换</span></lable>
               <ul class="item-images">
-                <li><img style="width:90px;height:90px;" src="#"/></li>
-                <li><img style="width:90px;height:90px;" src="#"/></li>
-                <li><img style="width:90px;height:90px;" src="#"/></li>
-                <li><img style="width:90px;height:90px;" src="#"/></li>
-                <li><img style="width:90px;height:90px;" src="#"/></li>
+                <li><img style="width:90px;height:90px;" src="{$picUrl}"/></li>
+                <li><img style="width:90px;height:90px;" src="{$image0}"/></li>
+                <li><img style="width:90px;height:90px;" src="{$image1}"/></li>
+                <li><img style="width:90px;height:90px;" src="{$image2}"/></li>
+                <li><img style="width:90px;height:90px;" src="{$image3}"/></li>
               </ul>
             </div>
             <label class="category">宝贝描述:</label>
             <div class="content">
               <textarea id="desc" style="width: 100%; height: 400px;">
-                ssss
+                {$desc}
               </textarea>
             </div>
             <label class="category">店铺类目:</label>
-            <div class="input-content"><select></select></div>
+            <div class="input-content">
+              <select>{$sellerCatsHtml}</select>
+            </div>
           </li>
         </ul>
 
@@ -328,17 +339,17 @@
             <label class="category">运费:</label>
             <div class="input-content">
               <ul>
-                <li><label><input id="sellerFreight" type="radio" name="freight"/>卖家承担运费</label></li>
-                <li><label><input id="buyerFreight" type="radio" name="freight"/>买家承担运费</label>
+                <li><label><input id="seller_freight" type="radio" name="postages" {$sellerFreight}/>卖家承担运费</label></li>
+                <li><label><input id="buyer_freight" type="radio" name="postages" {$buyerFreight}/>买家承担运费</label>
                 <ul style="margin-left: 20px">
-                  <li><label><input id="useModuFreight" type="radio" name="moduFreight"/>使用运费模版</label>
-                  <select id="templateId" name="templateId"></select>
+                  <li><label><input id="use_modu_freight" type="radio" name="post" {$useModuFreight}/>使用运费模版</label>
+                  <select id="template_id" name="template_id">{$deliveryTemplateHtml}</select>
                   </li>
-                  <li><label><input type="radio" name="moduFreight"/>运费</label>
+                  <li><label><input type="radio" name="post" {$postFreight}/>运费</label>
                   <ul style="margin-left:20px;">
-                    <li>平邮:<input style="width: 60px;" id="postFee" name="postFee" type="text" value="15">元</li>
-                    <li>快递:<input style="width: 60px;" id="expressFee" name="expressFee" type="text" value="15">元</li>
-                    <li>EMS:<input style="width: 60px;" id="emsFee" name="emsFee" type="text" value="15">元</li>
+                    <li>平邮:<input style="width: 60px;" id="postFee" name="postFee" type="text" value="{$postFee}">元</li>
+                    <li>快递:<input style="width: 60px;" id="expressFee" name="expressFee" type="text" value="{$expressFee}">元</li>
+                    <li>EMS:<input style="width: 60px;" id="emsFee" name="emsFee" type="text" value="{$emsFee}">元</li>
                   </ul>
                 </li>
               </ul>
@@ -411,7 +422,7 @@
             </div>
             <label class="category">图片搬家:</label>
             <div class="input-content">
-              <label><input type="checkbox"/>是</label>
+              <label><input type="checkbox" {$movePic}/>是</label>
               <span class="tips">上传成功后,图片会在1-2分钟内更新完成,您无需等待即可上传下一个宝贝</span>
             </div>
           </li>
@@ -423,10 +434,33 @@
       </div>
     </div>
   </div>
+  <form id="mainform" style="display:none">
+    <input type="hidden" name="taobaoItemId" value="{$taobaoItemId}"/>
+    <input type="hidden" name="cid" value="{$cid}"/>
+    <input type="hidden" name="sizeType" value="{$sizeType}"/>
+    <input type="hidden" name="propImgs" value="{$propImgs}"/>
+    <input type="hidden" name="salePropsObject" value="{$salePropsObject}"/>
+  </form>
   <script>
   $(function () {
+      /* init desc editor */
       $('#desc').cleditor();
+      /* end */
 
+      /* let user confirm to uploading duplicated item */
+      var isCurrentTaobaoItemIdInSession = {$isCurrentTaobaoItemIdInSession|default="false"};
+      if (isCurrentTaobaoItemIdInSession) {
+          if (confirm('亲，当前商品刚刚已经上传过了哟！确认继续上传吗？')) {
+              window.location = 'http://' + window.location.host + "{:U('Taobao/Upload/editItem')}" + '&continue=true';
+          } else {
+              window.opener = null;
+              window.open('', '_self');
+              window.close();
+          }
+      }
+      /* end */
+
+      /* sku table */
       $('.sku-item').on('click', function (event) {
           event.stopPropagation();
           rebuildSkuTable();
@@ -462,6 +496,34 @@
           });
           return html;
       };
+      /* end */
+
+      /* init sku */
+      var initSkus = {$initSkus|default="[]"};
+      var propAlias = '{$propAlias}';
+      var getPropAlias = function (propVid, propValue) {
+          var position = propAlias.indexOf(propVid);
+          if (position != -1) {
+              var nextPosition = propAlias.indexOf(';', position),
+              propString = propAlias.substring(position, nextPosition == -1 ? propAlias.length : nextPosition);
+              return propString.split(':')[1];
+          }
+          return propValue;
+      };
+      for (var i in initSkus) {
+          var sku = initSkus[i],
+          propertiesParts = sku.propertiesName.split(';');
+          for (var i in propertiesParts) {
+              var propertiesMoreParts = propertiesParts[i].split(':'),
+              prop = propertiesMoreParts[0] + ':' + propertiesMoreParts[1],
+              $checkbox = $('input[value="'+prop+'"]');
+              $checkbox.siblings('input[type=text]').val(getPropAlias(propertiesMoreParts[1], propertiesMoreParts[3]));
+              if (typeof($checkbox.attr('checked')) === 'undefined') {
+                  $checkbox.click();
+              }
+          }
+      }
+      /* end */
   });
   </script>
 </body>

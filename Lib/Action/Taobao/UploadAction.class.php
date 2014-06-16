@@ -701,4 +701,60 @@ class UploadAction extends CommonAction {
         }
         return false;
     }
+
+    public function editItem2() {
+        $this->assign(array(
+            'taobaoItemTitle' => 'title',
+            'taobaoItemId' => '12345',
+            'propsHtml' => $this->makePropsHtml2(),
+            'price' => '99.99',
+            'rawPrice' => '80.99',
+            'desc' => 'xxxxxxxxxx',
+            'cid' => '11111111',
+            'picUrl' => '#',
+            'image0' => '#',
+            'image1' => '#',
+            'image2' => '#',
+            'image3' => '#',
+            /*'sizeType' => 0,*/
+            'outerId' => '#111#sss',
+            'nick' => 'liuhaicc',
+            'huoHao' => 'huohao',
+            /*'imgsInDesc' => $this->parseDescImages($taobaoItem->desc),*/
+            'percent' => '99',
+            'profit' => '2',
+            'initSkus' => '',
+            'propImgs' => '',
+            'isUploadedBefore' => true,
+            'isCurrentTaobaoItemIdInSession' => false,
+            'propAlias' => '',
+            'postFee' => '15.00',
+            'expressFee' => '15.00',
+            'emsFee' => '15.00',
+            'sellerFreight' => '',
+            'buyerFreight' => 'checked',
+            'useModuFreight' => '',
+            'postFreight' => 'checked',
+            'deliveryTemplateHtml' => '<option value="1221952600" selected="">00</option><option value="1257147530">淘宝</option><option value="1212780690">xj</option>',
+            'sellerCatsHtml' => '<option value="">请选择</option><option value="915062563" selected="">女装上上上</option><option value="915062564" selected="">女装下下下</option>',
+            'sizePropHtml' => '<li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20518" value="20518:28415" id="prop_20518-28415"><label class="labelname" for="prop_20518-28415" title="50厘米（1尺5)">50厘米（1尺5)</label><input id="J_Alias_20518-28415" class="editbox text" maxlength="15" type="text" value="50厘米（1尺5)" name="cpva_20518:28415"></li><li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20518" value="20518:28416" id="prop_20518-28416"><label class="labelname" for="prop_20518-28416" title="52厘米( 1尺56)">52厘米( 1尺56)</label><input id="J_Alias_20518-28416" class="editbox text" maxlength="15" type="text" value="52厘米( 1尺56)" name="cpva_20518:28416"></li><li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20518" value="20518:28417" id="prop_20518-28417"><label class="labelname" for="prop_20518-28417" title="54厘米 (1尺6)">54厘米 (1尺6)</label><input id="J_Alias_20518-28417" class="editbox text" maxlength="15" type="text" value="54厘米 (1尺6)" name="cpva_20518:28417"></li><li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20518" value="20518:28418" id="prop_20518-28418"><label class="labelname" for="prop_20518-28418" title="56厘米（1尺68）">56厘米（1尺68）</label><input id="J_Alias_20518-28418" class="editbox text" maxlength="15" type="text" value="56厘米（1尺68）" name="cpva_20518:28418"></li><li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20518" value="20518:28419" id="prop_20518-28419"><label class="labelname" for="prop_20518-28419" title="58厘米 （1尺75）">58厘米 （1尺75）</label><input id="J_Alias_20518-28419" class="editbox text" maxlength="15" type="text" value="58厘米 （1尺75）" name="cpva_20518:28419"></li><li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20518" value="20518:28420" id="prop_20518-28420"><label class="labelname" for="prop_20518-28420" title="60厘米 ( 1尺8）">60厘米 ( 1尺8）</label><input id="J_Alias_20518-28420" class="editbox text" maxlength="15" type="text" value="60厘米 ( 1尺8）" name="cpva_20518:28420"></li><li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20518" value="20518:28421" id="prop_20518-28421"><label class="labelname" for="prop_20518-28421" title="62厘米（1尺85）">62厘米（1尺85）</label><input id="J_Alias_20518-28421" class="editbox text" maxlength="15" type="text" value="62厘米（1尺85）" name="cpva_20518:28421"></li><li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20518" value="20518:28422" id="prop_20518-28422"><label class="labelname" for="prop_20518-28422" title="64厘米（1尺9）">64厘米（1尺9）</label><input id="J_Alias_20518-28422" class="editbox text" maxlength="15" type="text" value="64厘米（1尺9）" name="cpva_20518:28422"></li><li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20518" value="20518:28357" id="prop_20518-28357"><label class="labelname" for="prop_20518-28357" title="66厘米（2尺）">66厘米（2尺）</label><input id="J_Alias_20518-28357" class="editbox text" maxlength="15" type="text" value="66厘米（2尺）" name="cpva_20518:28357"></li><li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20518" value="20518:28358" id="prop_20518-28358"><label class="labelname" for="prop_20518-28358" title="68厘米（2尺05）">68厘米（2尺05）</label><input id="J_Alias_20518-28358" class="editbox text" maxlength="15" type="text" value="68厘米（2尺05）" name="cpva_20518:28358"></li><li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20518" value="20518:28359" id="prop_20518-28359"><label class="labelname" for="prop_20518-28359" title="70厘米（2尺1）">70厘米（2尺1）</label><input id="J_Alias_20518-28359" class="editbox text" maxlength="15" type="text" value="70厘米（2尺1）" name="cpva_20518:28359"></li><li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20518" value="20518:28360" id="prop_20518-28360"><label class="labelname" for="prop_20518-28360" title="72厘米（2尺16）">72厘米（2尺16）</label><input id="J_Alias_20518-28360" class="editbox text" maxlength="15" type="text" value="72厘米（2尺16）" name="cpva_20518:28360"></li><li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20518" value="20518:28361" id="prop_20518-28361"><label class="labelname" for="prop_20518-28361" title="74厘米（2尺2）">74厘米（2尺2）</label><input id="J_Alias_20518-28361" class="editbox text" maxlength="15" type="text" value="74厘米（2尺2）" name="cpva_20518:28361"></li><li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20518" value="20518:28362" id="prop_20518-28362"><label class="labelname" for="prop_20518-28362" title="76厘米（2尺3）">76厘米（2尺3）</label><input id="J_Alias_20518-28362" class="editbox text" maxlength="15" type="text" value="76厘米（2尺3）" name="cpva_20518:28362"></li><li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20518" value="20518:28363" id="prop_20518-28363"><label class="labelname" for="prop_20518-28363" title="78厘米（2尺35）">78厘米（2尺35）</label><input id="J_Alias_20518-28363" class="editbox text" maxlength="15" type="text" value="78厘米（2尺35）" name="cpva_20518:28363"></li><li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20518" value="20518:28364" id="prop_20518-28364"><label class="labelname" for="prop_20518-28364" title="80厘米（2尺4）">80厘米（2尺4）</label><input id="J_Alias_20518-28364" class="editbox text" maxlength="15" type="text" value="80厘米（2尺4）" name="cpva_20518:28364"></li><li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20518" value="20518:28365" id="prop_20518-28365"><label class="labelname" for="prop_20518-28365" title="82厘米（2尺45）">82厘米（2尺45）</label><input id="J_Alias_20518-28365" class="editbox text" maxlength="15" type="text" value="82厘米（2尺45）" name="cpva_20518:28365"></li><li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20518" value="20518:28366" id="prop_20518-28366"><label class="labelname" for="prop_20518-28366" title="84厘米（2尺5）">84厘米（2尺5）</label><input id="J_Alias_20518-28366" class="editbox text" maxlength="15" type="text" value="84厘米（2尺5）" name="cpva_20518:28366"></li><li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20518" value="20518:28367" id="prop_20518-28367"><label class="labelname" for="prop_20518-28367" title="86厘米（2尺6）">86厘米（2尺6）</label><input id="J_Alias_20518-28367" class="editbox text" maxlength="15" type="text" value="86厘米（2尺6）" name="cpva_20518:28367"></li><li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20518" value="20518:28368" id="prop_20518-28368"><label class="labelname" for="prop_20518-28368" title="88厘米（2尺65）">88厘米（2尺65）</label><input id="J_Alias_20518-28368" class="editbox text" maxlength="15" type="text" value="88厘米（2尺65）" name="cpva_20518:28368"></li><li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20518" value="20518:28369" id="prop_20518-28369"><label class="labelname" for="prop_20518-28369" title="90厘米（2尺7）">90厘米（2尺7）</label><input id="J_Alias_20518-28369" class="editbox text" maxlength="15" type="text" value="90厘米（2尺7）" name="cpva_20518:28369"></li><li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20518" value="20518:28370" id="prop_20518-28370"><label class="labelname" for="prop_20518-28370" title="92厘米（2尺75）">92厘米（2尺75）</label><input id="J_Alias_20518-28370" class="editbox text" maxlength="15" type="text" value="92厘米（2尺75）" name="cpva_20518:28370"></li>',
+            'salePropsObject' => '',
+            'movePic' => 'checked',
+            'isSubscribe' => true,
+            'otherStoreSessions' => array(
+                array(
+                    'nick' => '老副',
+                ),
+                array(
+                    'nick' => '副老',
+                ),
+            ),
+        ));
+        $this->display();
+    }
+
+    private function makePropsHtml2() {
+        return '<li><div><label>主图来源:</label></div><select></select></li>
+                <li><div><label>风格:</label></div><select></select></li>';
+    }
 }
