@@ -132,7 +132,7 @@
     </style>
   </head>
   <body TOPMARGIN=0 LEFTMARGIN=0 MARGINWIDTH=0 MARGINHEIGHT=0>
-    <form id="mainform" action="{:U('Taobao/Upload/uploadItem2')}" method="POST">
+    <form id="mainform" action="{:U('Taobao/Upload/uploadItem')}" method="POST">
       <input type="hidden" name="taobaoItemId" value="{$taobaoItemId}"/>
       <input type="hidden" name="cid" value="{$cid}"/>
       <input type="hidden" name="sizeType" value="{$sizeType}"/>
@@ -549,12 +549,23 @@
           rebuildSkuTable();
       });
 
+      var countQuantity = function () {
+          var num = 0;
+          $('.quantity-input').each(function () {
+              val = parseInt($(this).val());
+              if (!isNaN(val)) {
+                  num += val;
+              }
+          });
+          $('#num').val(num);
+      };
+
       var rebuildSkuTable = function () {
           var $colors = $('.sku-list.color input[type=checkbox]:checked').siblings('input');
           var $sizes = $('.sku-list.size input[type=checkbox]:checked').siblings('input');
           $('#sku-tbody').children().remove();
           $('#sku-tbody').append(makeSkuTableHtml($colors, $sizes));
-          $('.quantity-input').change();
+          countQuantity();
       };
 
       var makeSkuTableHtml = function ($colors, $sizes) {
@@ -608,14 +619,7 @@
 
       /* num */
       $('.quantity-input').live('change', function () {
-          var num = 0;
-          $('.quantity-input').each(function () {
-              val = parseInt($(this).val());
-              if (!isNaN(val)) {
-                  num += val;
-              }
-          });
-          $('#num').val(num);
+          countQuantity();
       });
       /* end */
 
