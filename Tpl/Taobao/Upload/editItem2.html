@@ -177,7 +177,7 @@
             <h4>设置利润和价格:</h4>
             <ul>
               <li>默认价格＝</li>
-              <li>批发价 x <input type="text" style="width:30px" value="{$percent}"/>% + <input type="text" style="width:30px" value="{$profit}">元</li>
+              <li>批发价 x <input id="percent" type="text" style="width:30px" value="{$percent}"/>% + <input id="profit" type="text" style="width:30px" value="{$profit}">元</li>
             </ul>
             <h4>设置邮费:</h4>
             <ul>
@@ -473,6 +473,27 @@
       /* add store */
       $('#add-store').on('click', function () {
           window.location = "{:U('Taobao/Index/auth')}" + '&taobaoItemId={$taobaoItemId}&newStore=newStore&taobaoAppKey=trival';
+      });
+      /* end */
+
+      /* save user config */
+      $('.saveAndEffect').on('click', function () {
+          $.ajax({
+              url: "{:U('Taobao/Upload/saveConfig')}",
+              data: {
+                  'nick': '{$nick}',
+                  'percent': $('#percent').val(),
+                  'profit': $('#profit').val(),
+                  'postFee': $('#postFee').val(),
+                  'expressFee': $('#expressFee').val(),
+                  'emsFee': $('#emsFee').val(),
+                  'buyerFreight': $('#buyerFreight').attr('checked') ? '1' : '0',
+                  'usePostModu': $('#useModuFreight').attr('checked') && $('#buyerFreight').attr('checked') ? $('#templateId').val() : '999'
+              },
+              success: function (data) {
+                  location.href = location.href;
+              }
+          });
       });
       /* end */
 
