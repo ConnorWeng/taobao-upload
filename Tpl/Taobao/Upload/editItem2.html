@@ -215,6 +215,7 @@
               <label class="category">宝贝标题:</label>
               <div class="input-content">
                 <input id="title" name="title" type="text" value="{$taobaoItemTitle}"/>
+                <span class="title-countdown"></span>
               </div>
               <label class="category">一口价:</label>
               <div class="input-content">
@@ -510,6 +511,33 @@
       }
       /* end */
 
+      /* count down title */
+      $('#title').on('keydown', function (event) {
+          var $title = $(this),
+              length = getLength($title.val()),
+              delta = 30 - length;
+          if (delta >= 0) {
+              $('.title-countdown').text('还能输入' + delta + '字');
+          } else {
+              event.preventDefault();
+          }
+      });
+
+      var getLength = function (str) {
+          var len = str.length;
+          var reLen = 0;
+          for (var i = 0; i < len; i++) {
+              if (str.charCodeAt(i) < 27 || str.charCodeAt(i) > 126) {
+                  // 全角
+                  reLen += 2;
+              } else {
+                  reLen++;
+              }
+          }
+          return reLen;
+      };
+      /* end */
+
       /* sku table */
       $('.sku-item').on('click', function (event) {
           event.stopPropagation();
@@ -633,12 +661,19 @@
       /* end */
 
       /* submit */
+      var checkTitle = function (title) {
+          if (getLength(title) > 30) {
+              return title.substr(0, 30);
+          }
+          return title;
+      };
+
       $('.publish-btn').on('click', function (event) {
           event.preventDefault();
           $('#J_SKUTableData').val(getSkuTableData());
           $('#desc-hidden').val($('#desc').val());
           $('#price-hidden').val($('#price').val());
-          $('#title-hidden').val($('#title').val());
+          $('#title-hidden').val(checkTitle($('#title').val()));
           $('#location-state-hidden').val($('#location-state').val());
           $('#location-city-hidden').val($('#location-city').val());
           $('#outer-id-hidden').val($('#outer-id').val());
