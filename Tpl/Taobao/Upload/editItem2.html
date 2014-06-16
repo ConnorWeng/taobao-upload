@@ -147,13 +147,13 @@
       <input type="hidden" name="_fma_pu__0_o" id="outer-id-hidden" value=""/>
       <div class="container">
         <div class="header">
-          <span>主店铺: {$nick}</span><span><a href="#">退出所有店铺</a></span>
+          <span>主店铺: {$nick}</span><span><a href="{:U('Taobao/Index/signOut')}&taobaoItemId={$taobaoItemId}">退出所有店铺</a></span>
           <foreach name="otherStoreSessions" item="store">
             | 副店铺{$key + 1}: {$store.nick}
             <a href="{:U('Taobao/Index/deleteStoreSession')}&nick={$store.nick}">退出</a>
           </foreach>
           <if condition="$isSubscribe">
-            <span><a href="#" style="color:red">+店铺</a></span>
+            <span><a id="add-store" href="#" style="color:red">+店铺</a></span>
           </if>
           <span>
             <if condition="$isUploadedBefore">
@@ -468,6 +468,12 @@
   $(function () {
       /* init desc editor */
       $('#desc').cleditor();
+      /* end */
+
+      /* add store */
+      $('#add-store').on('click', function () {
+          window.location = "{:U('Taobao/Index/auth')}" + '&taobaoItemId={$taobaoItemId}&newStore=newStore&taobaoAppKey=trival';
+      });
       /* end */
 
       /* let user confirm to uploading duplicated item */
