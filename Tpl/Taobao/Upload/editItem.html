@@ -515,11 +515,13 @@
       $('#title').on('keydown', function (event) {
           var $title = $(this),
               length = getLength($title.val()),
-              delta = 30 - length;
+              delta = 60 - length;
           if (delta >= 0) {
+              $('.title-countdown').css('color', 'green');
               $('.title-countdown').text('还能输入' + delta + '字');
           } else {
-              event.preventDefault();
+              $('.title-countdown').css('color', 'red');
+              $('.title-countdown').text('已经超过' + (delta * -1) + '字');
           }
       });
 
