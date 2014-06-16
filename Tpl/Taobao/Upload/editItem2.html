@@ -269,7 +269,9 @@
                 </table>
               </div>
               <label class="category">宝贝数量:</label>
-              <div class="input-content"><input type="text"/></div>
+              <div class="input-content">
+                <input id="num" name="num" type="text" value="0" disabled/>
+              </div>
               <label class="category">商家编码:</label>
               <div class="input-content">
                 <input id="outer-id" type="text" value="{$outerId}"/>
@@ -497,6 +499,7 @@
           var $sizes = $('.sku-list.size input[type=checkbox]:checked').siblings('input');
           $('#sku-tbody').children().remove();
           $('#sku-tbody').append(makeSkuTableHtml($colors, $sizes));
+          $('.quantity-input').change();
       };
 
       var makeSkuTableHtml = function ($colors, $sizes) {
@@ -510,8 +513,8 @@
                   html += '<tr class="J_MapRow">';
                   html += '<td class="color-td" data="'+$color.attr('id').substr(8)+'">'+color+'</td>';
                   html += '<td class="size-td" data="'+$size.attr('id').substr(8)+'">'+size+'</td>';
-                  html += '<td><input class="price-input" type="text"/></td>';
-                  html += '<td><input class="quantity-input" type="text"/></td>';
+                  html += '<td><input class="price-input" type="text" value="{$price}"/></td>';
+                  html += '<td><input class="quantity-input" type="text" value="999"/></td>';
                   html += '<td><input class="outer-id-input" type="text"/></td>';
                   html += '<td><input type="text"/></td>';
                   html += '</tr>';
@@ -546,6 +549,19 @@
               }
           }
       }
+      /* end */
+
+      /* num */
+      $('.quantity-input').live('change', function () {
+          var num = 0;
+          $('.quantity-input').each(function () {
+              val = parseInt($(this).val());
+              if (!isNaN(val)) {
+                  num += val;
+              }
+          });
+          $('#num').val(num);
+      });
       /* end */
 
       /* pictures */
