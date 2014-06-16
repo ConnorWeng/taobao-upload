@@ -138,7 +138,6 @@
       <input type="hidden" name="sizeType" value="{$sizeType}"/>
       <input type="hidden" name="propImgs" value="{$propImgs}"/>
       <input type="hidden" name="salePropsObject" value="{$salePropsObject}"/>
-      <input type="hidden" name="picUrl1" value="{$picUrl}"/>
       <input type="hidden" name="J_SKUTableData" id="J_SKUTableData" value=""/>
       <input type="hidden" name="_fma_pu__0_d" id="desc-hidden" value=""/>
       <input type="hidden" name="_fma_pu__0_m" id="price-hidden" value=""/>
@@ -279,11 +278,26 @@
               <div class="content">
                 <lable><span style="color:orange">注：超过400件宝贝主图不改，将会被随机投诉盗图</span> <span style="color:blue">点击主图可以进行替换</span></lable>
                 <ul class="item-images">
-                  <li><img style="width:90px;height:90px;" src="{$picUrl}"/></li>
-                  <li><img style="width:90px;height:90px;" src="{$image0}"/></li>
-                  <li><img style="width:90px;height:90px;" src="{$image1}"/></li>
-                  <li><img style="width:90px;height:90px;" src="{$image2}"/></li>
-                  <li><img style="width:90px;height:90px;" src="{$image3}"/></li>
+                  <li>
+                    <img style="width:90px;height:90px;" src="{$picUrl}"/>
+                    <input type="hidden" name="picUrl1" value="{$picUrl}"/>
+                  </li>
+                  <li>
+                    <img style="width:90px;height:90px;" src="{$image0}"/>
+                    <input type="hidden" name="picUrl2" value="{$image0}"/>
+                  </li>
+                  <li>
+                    <img style="width:90px;height:90px;" src="{$image1}"/>
+                    <input type="hidden" name="picUrl3" value="{$image1}"/>
+                  </li>
+                  <li>
+                    <img style="width:90px;height:90px;" src="{$image2}"/>
+                    <input type="hidden" name="picUrl4" value="{$image2}"/>
+                  </li>
+                  <li>
+                    <img style="width:90px;height:90px;" src="{$image3}"/>
+                    <input type="hidden" name="picUrl5" value="{$image3}"/>
+                  </li>
                 </ul>
               </div>
               <label class="category">宝贝描述:</label>
@@ -532,6 +546,21 @@
               }
           }
       }
+      /* end */
+
+      /* pictures */
+      $('.item-images img').on('click', function () {
+          var $img = $(this),
+              result = window.showModalDialog('picdemo1/propic.php',
+                                              ['{$taobaoItemTitle}', $img.attr('src'), {$imgsInDesc}],
+                                              'center:yes;resizable:no;dialogHeight:600px;dialogWidth:1080px');
+          if (result == null) {
+              alert("您没有更改主图!若点击下一页不出现图片，请等待图片下载完成后再次点击更改主图按钮");
+          } else {
+              $img.attr('src', result[2].toString());
+              $img.siblings('input').val(result[2].toString());
+          }
+      });
       /* end */
 
       /* list time */
