@@ -757,4 +757,9 @@ class UploadAction extends CommonAction {
         return '<li><div><label>主图来源:</label></div><select></select></li>
                 <li><div><label>风格:</label></div><select></select></li>';
     }
+
+    public function uploadItem2() {
+        header("Content-type:text/html;charset=utf-8");
+        dump($_REQUEST);
+    }
 }

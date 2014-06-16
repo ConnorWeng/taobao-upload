@@ -132,12 +132,14 @@
     </style>
   </head>
   <body TOPMARGIN=0 LEFTMARGIN=0 MARGINWIDTH=0 MARGINHEIGHT=0>
-    <form id="mainform">
+    <form id="mainform" action="{:U('Taobao/Upload/uploadItem2')}" method="POST">
       <input type="hidden" name="taobaoItemId" value="{$taobaoItemId}"/>
       <input type="hidden" name="cid" value="{$cid}"/>
       <input type="hidden" name="sizeType" value="{$sizeType}"/>
       <input type="hidden" name="propImgs" value="{$propImgs}"/>
       <input type="hidden" name="salePropsObject" value="{$salePropsObject}"/>
+      <input type="hidden" name="picUrl1" value="{$picUrl}"/>
+      <input type="hidden" name="J_SKUTableData" id="J_SKUTableData" value=""/>
       <div class="container">
         <div class="header">
           <span>主店铺: {$nick}</span><span><a href="#">退出所有店铺</a></span>
@@ -434,7 +436,7 @@
             </li>
           </ul>
 
-          <center><button class="publish-btn" style="margin-top:10px">不编辑了，立刻发布</button></center>
+          <center><button class="publish-btn" style="margin-top:10px">发布</button></center>
 
           <div style="height:30px"></div>
         </div>
@@ -482,15 +484,17 @@
       var makeSkuTableHtml = function ($colors, $sizes) {
           var html = '';
           $colors.each(function () {
-              var color = $(this).val();
+              var $color = $(this),
+                  color = $(this).val();
               $sizes.each(function () {
-                  var size = $(this).val();
+                  var $size = $(this),
+                      size = $(this).val();
                   html += '<tr class="J_MapRow">';
-                  html += '<td>'+color+'</td>';
-                  html += '<td>'+size+'</td>';
-                  html += '<td><input type="text"/></td>';
-                  html += '<td><input type="text"/></td>';
-                  html += '<td><input type="text"/></td>';
+                  html += '<td class="color-td" data="'+$color.attr('id').substr(8)+'">'+color+'</td>';
+                  html += '<td class="size-td" data="'+$size.attr('id').substr(8)+'">'+size+'</td>';
+                  html += '<td><input class="price-input" type="text"/></td>';
+                  html += '<td><input class="quantity-input" type="text"/></td>';
+                  html += '<td><input class="outer-id-input" type="text"/></td>';
                   html += '<td><input type="text"/></td>';
                   html += '</tr>';
               });
@@ -523,6 +527,35 @@
                   $checkbox.click();
               }
           }
+      }
+      /* end */
+
+      /* submit */
+      $('.publish-btn').on('click', function (event) {
+          event.preventDefault();
+          $('#J_SKUTableData').val(getSkuTableData());
+          $('#mainform').submit();
+      });
+
+      var getSkuTableData = function () {
+          var data = '{';
+          $('.J_MapRow').each(function () {
+              var $tr = $(this);
+              data += '"' +
+                  $tr.find('.color-td').attr('data') +
+                  '_' +
+                  $tr.find('.size-td').attr('data') +
+                  '":{' +
+                  '"price":"' + $tr.find('.price-input').val() + '",' +
+                  '"quantity":"' + $tr.find('.quantity-input').val() + '",' +
+                  '"outer_id":"' + $tr.find('.outer-id-input').val() + '"' +
+                  '},';
+          });
+          if (data.length > 1) {
+              data = data.substr(0, data.length - 1);
+          }
+          data += '}';
+          return data;
       }
       /* end */
   });
