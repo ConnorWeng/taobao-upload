@@ -119,6 +119,9 @@
         background: white;
         clear:both;
       }
+      .sku-table {
+        border: 1px solid gray;
+      }
       .J_MapRow input {
         width: 80px;
       }
@@ -192,7 +195,7 @@
             <label class="category">宝贝规格:</label>
             <div class="content">
               <label style="display:block;">主要颜色:</label>
-              <ul class="sku-list">
+              <ul class="sku-list color">
                 <li class="sku-item  "><input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:3232483" id="prop_1627207-3232483" data-color="5d762a" data-path="" data-thumb=""><label class="color-lump" style="background-color:#5d762a;" for="prop_1627207-3232483"></label><label class="labelname" for="prop_1627207-3232483" title="军绿色">军绿色</label><input id="J_Alias_1627207-3232483" class="editbox text" maxlength="15" type="text" value="军绿色" name="cpva_1627207:3232483"></li>
                 <li class="sku-item  "><input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:3232484" id="prop_1627207-3232484" data-color="1eddff" data-path="" data-thumb=""><label class="color-lump" style="background-color:#1eddff;" for="prop_1627207-3232484"></label><label class="labelname" for="prop_1627207-3232484" title="天蓝色">天蓝色</label><input id="J_Alias_1627207-3232484" class="editbox text" maxlength="15" type="text" value="天蓝色" name="cpva_1627207:3232484"></li>
                 <li class="sku-item  "><input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:3232481" id="prop_1627207-3232481" data-color="d2691e" data-path="" data-thumb=""><label class="color-lump" style="background-color:#d2691e;" for="prop_1627207-3232481"></label><label class="labelname" for="prop_1627207-3232481" title="巧克力色">巧克力色</label><input id="J_Alias_1627207-3232481" class="editbox text" maxlength="15" type="text" value="巧克力色" name="cpva_1627207:3232481"></li>
@@ -218,8 +221,8 @@
                 <li class="sku-item  "><input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:28324" id="prop_1627207-28324" data-color="ffff00" data-path="" data-thumb=""><label class="color-lump" style="background-color:#ffff00;" for="prop_1627207-28324"></label><label class="labelname" for="prop_1627207-28324" title="黄色">黄色</label><input id="J_Alias_1627207-28324" class="editbox text" maxlength="15" type="text" value="黄色" name="cpva_1627207:28324"></li>
                 <li class="sku-item  "><input type="checkbox" class="J_Checkbox" name="cp_1627207" value="1627207:28341" id="prop_1627207-28341" data-color="000000" data-path="" data-thumb=""><label class="color-lump" style="background-color:#000000;" for="prop_1627207-28341"></label><label class="labelname" for="prop_1627207-28341" title="黑色">黑色</label><input id="J_Alias_1627207-28341" class="editbox text" maxlength="15" type="text" value="黑色" name="cpva_1627207:28341"></li>
               </ul>
-              <label style="display:block; clear:both;">尺码:<label>
-              <ul class="sku-list">
+              <label style="display:block; clear:both;">尺码:</label>
+              <ul class="sku-list size">
                 <li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:28316" id="prop_20509-28316"><label class="labelname" for="prop_20509-28316" title="L">L</label><input id="J_Alias_20509-28316" class="editbox text" maxlength="15" type="text" value="L" name="cpva_20509:28316"></li>
                 <li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:28315" id="prop_20509-28315"><label class="labelname" for="prop_20509-28315" title="M">M</label><input id="J_Alias_20509-28315" class="editbox text" maxlength="15" type="text" value="M" name="cpva_20509:28315"></li>
                 <li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:28314" id="prop_20509-28314"><label class="labelname" for="prop_20509-28314" title="S">S</label><input id="J_Alias_20509-28314" class="editbox text" maxlength="15" type="text" value="S" name="cpva_20509:28314"></li>
@@ -230,7 +233,7 @@
                 <li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:29696" id="prop_20509-29696"><label class="labelname" for="prop_20509-29696" title="其它尺码">其它尺码</label><input id="J_Alias_20509-29696" class="editbox text" maxlength="15" type="text" value="其它尺码" name="cpva_20509:29696"></li>
                 <li class="sku-item"><input type="checkbox" class="J_Checkbox" name="cp_20509" value="20509:28383" id="prop_20509-28383"><label class="labelname" for="prop_20509-28383" title="均码">均码</label><input id="J_Alias_20509-28383" class="editbox text" maxlength="15" type="text" value="均码" name="cpva_20509:28383"></li>
               </ul>
-              <table border="0" class="sku-table" cellspacing="0" style="visibility: visible;">
+              <table class="sku-table" cellspacing="0" style="visibility: visible;">
                 <thead>
                 <tr>
                 <th class="J_Map_1627207"><span>主要颜色</span></th>
@@ -241,50 +244,7 @@
                 <th class="J_Map_0"><span class="">商品条形码</span></th>
                 </tr>
                 </thead>
-                <tbody>
-                  <tr class="J_MapRow">
-                    <td rowspan="6"><span class="J_Map_1627207-28320">白色</span></td>
-                    <td rowspan="1"><span class="J_Map_20509-28316">妈妈装L</span></td>
-                    <td class="price"><input data-id="1627207-28320_20509-28316" id="J_SkuField_price_1627207-28320_20509-28316" class="J_MapPrice text" data-type="price" type="text" value="908"></td>
-                    <td class="quantity"><input maxlength="9" data-id="1627207-28320_20509-28316" id="J_SkuField_quantity_1627207-28320_20509-28316" class="J_MapQuantity text" data-type="quantity" type="text" value=""></td>
-                    <td class="tsc"><input data-id="1627207-28320_20509-28316" class="J_MapProductid text" data-type="tsc" type="text" value=""></td>
-                    <td class="barcode"><input data-id="1627207-28320_20509-28316" class="text" data-type="barcode" type="text" value=""></td>
-                  </tr>
-                  <tr class="J_MapRow">
-                    <td rowspan="1"><span class="J_Map_20509-28315">妈妈装M</span></td>
-                    <td class="price"><input data-id="1627207-28320_20509-28315" id="J_SkuField_price_1627207-28320_20509-28315" class="J_MapPrice text" data-type="price" type="text" value="908"></td>
-                    <td class="quantity"><input maxlength="9" data-id="1627207-28320_20509-28315" id="J_SkuField_quantity_1627207-28320_20509-28315" class="J_MapQuantity text" data-type="quantity" type="text" value=""></td>
-                    <td class="tsc"><input data-id="1627207-28320_20509-28315" class="J_MapProductid text" data-type="tsc" type="text" value=""></td>
-                    <td class="barcode"><input data-id="1627207-28320_20509-28315" class="text" data-type="barcode" type="text" value=""></td>
-                  </tr>
-                  <tr class="J_MapRow">
-                    <td rowspan="1"><span class="J_Map_20509-28314">妈妈装S</span></td>
-                    <td class="price"><input data-id="1627207-28320_20509-28314" id="J_SkuField_price_1627207-28320_20509-28314" class="J_MapPrice text" data-type="price" type="text" value="908"></td>
-                    <td class="quantity"><input maxlength="9" data-id="1627207-28320_20509-28314" id="J_SkuField_quantity_1627207-28320_20509-28314" class="J_MapQuantity text" data-type="quantity" type="text" value=""></td>
-                    <td class="tsc"><input data-id="1627207-28320_20509-28314" class="J_MapProductid text" data-type="tsc" type="text" value=""></td>
-                    <td class="barcode"><input data-id="1627207-28320_20509-28314" class="text" data-type="barcode" type="text" value=""></td>
-                  </tr>
-                  <tr class="J_MapRow">
-                    <td rowspan="1"><span class="J_Map_20509-28317">妈妈装XL</span></td>
-                    <td class="price"><input data-id="1627207-28320_20509-28317" id="J_SkuField_price_1627207-28320_20509-28317" class="J_MapPrice text" data-type="price" type="text" value="908"></td>
-                    <td class="quantity"><input maxlength="9" data-id="1627207-28320_20509-28317" id="J_SkuField_quantity_1627207-28320_20509-28317" class="J_MapQuantity text" data-type="quantity" type="text" value=""></td>
-                    <td class="tsc"><input data-id="1627207-28320_20509-28317" class="J_MapProductid text" data-type="tsc" type="text" value=""></td>
-                    <td class="barcode"><input data-id="1627207-28320_20509-28317" class="text" data-type="barcode" type="text" value=""></td>
-                  </tr>
-                  <tr class="J_MapRow">
-                    <td rowspan="1"><span class="J_Map_20509-28313">2-3岁宝宝装</span></td>
-                    <td class="price"><input data-id="1627207-28320_20509-28313" id="J_SkuField_price_1627207-28320_20509-28313" class="J_MapPrice text" data-type="price" type="text" value="908"></td>
-                    <td class="quantity"><input maxlength="9" data-id="1627207-28320_20509-28313" id="J_SkuField_quantity_1627207-28320_20509-28313" class="J_MapQuantity text" data-type="quantity" type="text" value=""></td>
-                    <td class="tsc"><input data-id="1627207-28320_20509-28313" class="J_MapProductid text" data-type="tsc" type="text" value=""></td>
-                    <td class="barcode"><input data-id="1627207-28320_20509-28313" class="text" data-type="barcode" type="text" value=""></td>
-                  </tr>
-                  <tr class="J_MapRow">
-                    <td rowspan="1"><span class="J_Map_20509-28318">4-5岁宝宝装</span></td>
-                    <td class="price"><input data-id="1627207-28320_20509-28318" id="J_SkuField_price_1627207-28320_20509-28318" class="J_MapPrice text" data-type="price" type="text" value="908"></td>
-                    <td class="quantity"><input maxlength="9" data-id="1627207-28320_20509-28318" id="J_SkuField_quantity_1627207-28320_20509-28318" class="J_MapQuantity text" data-type="quantity" type="text" value=""></td>
-                    <td class="tsc"><input data-id="1627207-28320_20509-28318" class="J_MapProductid text" data-type="tsc" type="text" value=""></td>
-                    <td class="barcode"><input data-id="1627207-28320_20509-28318" class="text" data-type="barcode" type="text" value=""></td>
-                  </tr>
+                <tbody id="sku-tbody">
                 </tbody>
               </table>
             </div>
@@ -466,6 +426,42 @@
   <script>
   $(function () {
       $('#desc').cleditor();
+
+      $('.sku-item').on('click', function (event) {
+          event.stopPropagation();
+          rebuildSkuTable();
+      });
+
+      $('.sku-list input[type=text]').on('change', function (event) {
+          event.stopPropagation();
+          rebuildSkuTable();
+      });
+
+      var rebuildSkuTable = function () {
+          var $colors = $('.sku-list.color input[type=checkbox]:checked').siblings('input');
+          var $sizes = $('.sku-list.size input[type=checkbox]:checked').siblings('input');
+          $('#sku-tbody').children().remove();
+          $('#sku-tbody').append(makeSkuTableHtml($colors, $sizes));
+      };
+
+      var makeSkuTableHtml = function ($colors, $sizes) {
+          var html = '';
+          $colors.each(function () {
+              var color = $(this).val();
+              $sizes.each(function () {
+                  var size = $(this).val();
+                  html += '<tr class="J_MapRow">';
+                  html += '<td>'+color+'</td>';
+                  html += '<td>'+size+'</td>';
+                  html += '<td><input type="text"/></td>';
+                  html += '<td><input type="text"/></td>';
+                  html += '<td><input type="text"/></td>';
+                  html += '<td><input type="text"/></td>';
+                  html += '</tr>';
+              });
+          });
+          return html;
+      };
   });
   </script>
 </body>
