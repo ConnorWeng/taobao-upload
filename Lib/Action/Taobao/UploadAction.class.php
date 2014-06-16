@@ -615,7 +615,7 @@ class UploadAction extends CommonAction {
     }
 
     private function makeMovePic($desc) {
-        $pattern="/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.jpg]))[\'|\"].*?[\/]?>/";
+        $pattern="/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.GIF|\.jpg|\.JPG]))[\'|\"].*?[\/]?>/";
         preg_match_all($pattern, $desc, $matches);
         $picNum = count($matches[0]);
         $check = '';
