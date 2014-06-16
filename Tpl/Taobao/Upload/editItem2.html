@@ -140,6 +140,12 @@
       <input type="hidden" name="salePropsObject" value="{$salePropsObject}"/>
       <input type="hidden" name="picUrl1" value="{$picUrl}"/>
       <input type="hidden" name="J_SKUTableData" id="J_SKUTableData" value=""/>
+      <input type="hidden" name="_fma_pu__0_d" id="desc-hidden" value=""/>
+      <input type="hidden" name="_fma_pu__0_m" id="price-hidden" value=""/>
+      <input type="hidden" name="_fma_pu__0_ti" id="title-hidden" value=""/>
+      <input type="hidden" name="_fma_pu__0_po_place" id="location-state-hidden" value=""/>
+      <input type="hidden" name="_fma_pu__0_po_city" id="location-city-hidden" value=""/>
+      <input type="hidden" name="_fma_pu__0_o" id="outer-id-hidden" value=""/>
       <div class="container">
         <div class="header">
           <span>主店铺: {$nick}</span><span><a href="#">退出所有店铺</a></span>
@@ -213,7 +219,7 @@
               </div>
               <label class="category">一口价:</label>
               <div class="input-content">
-                <input type="text" value="{$price}"/><span style="color:red">批发价:{$rawPrice}元</span>
+                <input id="price" type="text" value="{$price}"/><span style="color:red">批发价:{$rawPrice}元</span>
               </div>
               <label class="category">宝贝规格:</label>
               <div class="content">
@@ -267,7 +273,7 @@
               <div class="input-content"><input type="text"/></div>
               <label class="category">商家编码:</label>
               <div class="input-content">
-                <input type="text" value="{$outerId}"/>
+                <input id="outer-id" type="text" value="{$outerId}"/>
               </div>
               <label class="category">宝贝图片:</label>
               <div class="content">
@@ -282,13 +288,11 @@
               </div>
               <label class="category">宝贝描述:</label>
               <div class="content">
-                <textarea id="desc" style="width: 100%; height: 400px;">
-                  {$desc}
-                </textarea>
+                <textarea id="desc" style="width: 100%; height: 400px;">{$desc}</textarea>
               </div>
               <label class="category">店铺类目:</label>
               <div class="input-content">
-                <select>{$sellerCatsHtml}</select>
+                <select name="sellerCats">{$sellerCatsHtml}</select>
               </div>
             </li>
           </ul>
@@ -298,7 +302,7 @@
             <li>
               <label class="category">所在地:</label>
               <div class="input-content">
-                <select>
+                <select id="location-state">
                   <option value="">----请选择省份----</option>
                   <option value=安徽>安徽</option>
                   <option value=北京>北京</option>
@@ -339,7 +343,7 @@
               </div>
               <label class="category">城市:</label>
               <div class="input-content">
-                <select>
+                <select id="location-city">
                   <option value="">----请选择城市----</option>
                   <option value="广州" selected>广州</option>
                 </select>
@@ -347,17 +351,17 @@
               <label class="category">运费:</label>
               <div class="input-content">
                 <ul>
-                  <li><label><input id="seller_freight" type="radio" name="postages" {$sellerFreight}/>卖家承担运费</label></li>
-                  <li><label><input id="buyer_freight" type="radio" name="postages" {$buyerFreight}/>买家承担运费</label>
+                  <li><label><input id="seller_freight" value="seller" type="radio" name="postages" {$sellerFreight}/>卖家承担运费</label></li>
+                  <li><label><input id="buyer_freight" value="buyer" type="radio" name="postages" {$buyerFreight}/>买家承担运费</label>
                   <ul style="margin-left: 20px">
                     <li><label><input id="use_modu_freight" type="radio" name="post" {$useModuFreight}/>使用运费模版</label>
                     <select id="template_id" name="template_id">{$deliveryTemplateHtml}</select>
                     </li>
                     <li><label><input type="radio" name="post" {$postFreight}/>运费</label>
                     <ul style="margin-left:20px;">
-                      <li>平邮:<input style="width: 60px;" id="postFee" name="postFee" type="text" value="{$postFee}">元</li>
-                      <li>快递:<input style="width: 60px;" id="expressFee" name="expressFee" type="text" value="{$expressFee}">元</li>
-                      <li>EMS:<input style="width: 60px;" id="emsFee" name="emsFee" type="text" value="{$emsFee}">元</li>
+                      <li>平邮:<input style="width: 60px;" id="post_fee" name="post_fee" type="text" value="{$postFee}">元</li>
+                      <li>快递:<input style="width: 60px;" id="express_fee" name="express_fee" type="text" value="{$expressFee}">元</li>
+                      <li>EMS:<input style="width: 60px;" id="ems_fee" name="ems_fee" type="text" value="{$emsFee}">元</li>
                     </ul>
                   </li>
                 </ul>
@@ -430,7 +434,7 @@
               </div>
               <label class="category">图片搬家:</label>
               <div class="input-content">
-                <label><input type="checkbox" {$movePic}/>是</label>
+                <label><input name="movePic" type="checkbox" {$movePic}/>是</label>
                 <span class="tips">上传成功后,图片会在1-2分钟内更新完成,您无需等待即可上传下一个宝贝</span>
               </div>
             </li>
@@ -530,10 +534,42 @@
       }
       /* end */
 
+      /* list time */
+      var makeSureDoubleDigits = function (number) {
+          if (number < 10) {
+              number = '0' + number;
+          }
+          return number;
+      };
+
+      var makeDateOptions = function () {
+          var options = '',
+          dateObj = new Date();
+          for (var i = 0; i < 13; i++) {
+              dateObj.setDate(dateObj.getDate() + 1);
+              var year = dateObj.getFullYear(),
+              month = makeSureDoubleDigits(dateObj.getMonth() + 1),
+              date = makeSureDoubleDigits(dateObj.getDate());
+              options += '<option value="' + year + '-' + month + '-' + date + '">'
+              options += year + '年' + month + '月' + date + '日';
+              options += '</option>';
+          }
+          return options;
+      };
+
+      $('#__date').append(makeDateOptions());
+      /* end */
+
       /* submit */
       $('.publish-btn').on('click', function (event) {
           event.preventDefault();
           $('#J_SKUTableData').val(getSkuTableData());
+          $('#desc-hidden').val($('#desc').val());
+          $('#price-hidden').val($('#price').val());
+          $('#title-hidden').val($('#title').val());
+          $('#location-state-hidden').val($('#location-state').val());
+          $('#location-city-hidden').val($('#location-city').val());
+          $('#outer-id-hidden').val($('#outer-id').val());
           $('#mainform').submit();
       });
 
