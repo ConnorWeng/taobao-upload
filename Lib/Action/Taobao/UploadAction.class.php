@@ -782,8 +782,8 @@ class UploadAction extends CommonAction {
             $html .= '</li>';
         }
         //return $html;
-        return '<li><div><label>主图来源:</label></div><select></select></li>
-                <li><div><label>风格:</label></div><select></select></li>';
+        return '<li><div><label>主图来源:</label></div><select name="cp_123123"><option value="222222:2222"></option></select></li>
+                <li><div><label>风格:</label></div><select name="cp_321321"><option value="111:1111"></select></li>';
     }
 
     public function uploadItem2() {
