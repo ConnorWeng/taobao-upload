@@ -40,6 +40,9 @@ class CommonAction extends Action {
     }
 
     protected function isSubscribe() {
+        if (session('taobao_app_key') == C('stable_taobao_app_key')) {
+            return true;
+        }
         $nick = session('taobao_user_nick');
         if ($nick != null) {
             $subscribe = OpenAPI::getVasSubscribe($nick);
