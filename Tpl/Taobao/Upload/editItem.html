@@ -308,7 +308,7 @@
               </div>
               <label class="category">宝贝描述:</label>
               <div class="content">
-                <textarea id="desc" style="width: 100%; height: 400px;">{$desc}</textarea>
+                <textarea id="desc" style="width: 100%;">{$desc}</textarea>
               </div>
               <label class="category">店铺类目:</label>
               <div class="input-content">
@@ -471,7 +471,7 @@
   <script>
   $(function () {
       /* init desc editor */
-      $('#desc').cleditor();
+      $('#desc').cleditor({height:500});
       /* end */
 
       /* add store */
