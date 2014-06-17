@@ -617,6 +617,7 @@
               $checkbox.siblings('input[type=text]').val(getPropAlias(propertiesMoreParts[1], propertiesMoreParts[3]));
               if (typeof($checkbox.attr('checked')) === 'undefined') {
                   $checkbox.click();
+                  rebuildSkuTable();
               }
           }
       }
