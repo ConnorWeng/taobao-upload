@@ -584,7 +584,7 @@
                   html += '<tr class="J_MapRow">';
                   html += '<td class="color-td" data="'+$color.attr('id').substr(8)+'">'+color+'</td>';
                   html += '<td class="size-td" data="'+$size.attr('id').substr(8)+'">'+size+'</td>';
-                  html += '<td><input class="price-input" type="text" value="{$price}"/></td>';
+                  html += '<td><input class="price-input" type="text" value="' + $('#price').val() + '"/></td>';
                   html += '<td><input class="quantity-input" type="text" value="999"/></td>';
                   html += '<td><input class="outer-id-input" type="text"/></td>';
                   html += '<td><input type="text"/></td>';
@@ -621,6 +621,12 @@
               }
           }
       }
+      /* end */
+
+      /* price */
+      $('#price').on('change', function () {
+          rebuildSkuTable();
+      });
       /* end */
 
       /* num */
