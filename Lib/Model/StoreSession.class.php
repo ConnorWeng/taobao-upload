@@ -22,6 +22,7 @@ class StoreSession {
                 $newOtherStoreSessions .= $str.';';
             }
         }
+        session('other_store_sessions', null);
         session('other_store_sessions', $newOtherStoreSessions);
     }
 
