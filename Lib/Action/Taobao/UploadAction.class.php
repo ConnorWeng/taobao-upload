@@ -597,7 +597,7 @@ class UploadAction extends CommonAction {
     }
 
     private function makeSellerCatsHtml($cname) {
-        $sellerCatsHtml = '';
+        $sellerCatsHtml = '<option value="">请选择</option>';
         $sellerCats = OpenAPI::getTaobaoSellercatsList(session('taobao_user_nick'));
         $parentCids = $this->getAllParentCids($sellerCats);
         $count = count($sellerCats->seller_cat);
