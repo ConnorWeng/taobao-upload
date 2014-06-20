@@ -474,6 +474,10 @@
       $('#desc').cleditor({height:500});
       /* end */
 
+      /* init 20000 prop input */
+      $('select#prop_20000').parent().append('<input type="text" name="band"/>');
+      /* end */
+
       /* add store */
       $('#add-store').on('click', function () {
           window.location = "{:U('Taobao/Index/auth')}" + '&taobaoItemId={$taobaoItemId}&newStore=newStore&taobaoAppKey=trival';
