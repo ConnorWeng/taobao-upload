@@ -478,6 +478,10 @@
       $('select#prop_20000').parent().append('<input type="text" name="band"/>');
       /* end */
 
+      /* default to select other dist picture */
+      $('select#prop_20418023').val('20418023:157305309');
+      /* end */
+
       /* add store */
       $('#add-store').on('click', function () {
           window.location = "{:U('Taobao/Index/auth')}" + '&taobaoItemId={$taobaoItemId}&newStore=newStore&taobaoAppKey=trival';
