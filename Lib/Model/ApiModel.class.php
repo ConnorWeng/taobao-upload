@@ -29,9 +29,9 @@ class ApiModel extends Model {
     }
 
     public function appKeyFail($id) {
-        $where['id'] = $id;
-        $this->where($where)->setInc('overflow');
-        $this->where($where)->setField('recovery_time', time() + 25 * 60 * 60);
+        $recoveryTime = strval(time() + 25 * 60 * 60);
+        $sql = "update ecm_taoapi_self set `overflow` = 97, recovery_time = {$recoveryTime} where id = {$id}";
+        $this->db->query($sql);
     }
 
     public function appKeySuccess($id) {
