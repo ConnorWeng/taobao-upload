@@ -327,9 +327,9 @@ class UploadAction extends CommonAction {
     private function makeSkuOuterIds($skuTableData) {
         $skuOuterIds = '';
         foreach ($skuTableData as $key => $value) {
-            $skuOuterIds .= ',';
+            $skuOuterIds .= ' , ';
         }
-        return $skuOuterIds = substr($skuOuterIds, 0, strlen($skuOuterIds) - 1);
+        return $skuOuterIds = substr($skuOuterIds, 0, strlen($skuOuterIds) - 2);
     }
 
     private function makeProps($request, $skuTableData, $sizeType) {
