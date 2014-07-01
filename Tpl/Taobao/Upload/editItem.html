@@ -659,6 +659,27 @@
       /* end */
 
       /* list time */
+      var rebuildHourOptions = function () {
+          var dateObj = new Date(),
+              minHour = 0,
+              buffer = '';
+          if ($('#__date').val() === dateObj.getFullYear() + '-'
+              + makeSureDoubleDigits(dateObj.getMonth() + 1) + '-'
+              + makeSureDoubleDigits(dateObj.getDate())) {
+              minHour = dateObj.getHours() + 1;
+          }
+          for (var i = minHour; i < 24; i++) {
+              buffer += '<option value="' + makeSureDoubleDigits(i) + '">'
+                  + i + '</option>';
+          }
+          $('#__hour').children().remove();
+          $('#__hour').append(buffer);
+      };
+
+      $('#__date').on('change', function () {
+          rebuildHourOptions();
+      });
+
       var makeSureDoubleDigits = function (number) {
           if (number < 10) {
               number = '0' + number;
@@ -669,19 +690,20 @@
       var makeDateOptions = function () {
           var options = '',
           dateObj = new Date();
-          for (var i = 0; i < 13; i++) {
-              dateObj.setDate(dateObj.getDate() + 1);
+          for (var i = 0; i < 14; i++) {
               var year = dateObj.getFullYear(),
               month = makeSureDoubleDigits(dateObj.getMonth() + 1),
               date = makeSureDoubleDigits(dateObj.getDate());
               options += '<option value="' + year + '-' + month + '-' + date + '">'
               options += year + '年' + month + '月' + date + '日';
               options += '</option>';
+              dateObj.setDate(dateObj.getDate() + 1);
           }
           return options;
       };
 
       $('#__date').append(makeDateOptions());
+      rebuildHourOptions();
       /* end */
 
       /* submit */
