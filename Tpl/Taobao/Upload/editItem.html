@@ -716,6 +716,7 @@
 
       $('.publish-btn').on('click', function (event) {
           event.preventDefault();
+          $('.publish-btn').text('正在发布中，请稍候...');
           $('#J_SKUTableData').val(getSkuTableData());
           $('#desc-hidden').val($('#desc').val());
           $('#price-hidden').val($('#price').val());
@@ -723,7 +724,9 @@
           $('#location-state-hidden').val($('#location-state').val());
           $('#location-city-hidden').val($('#location-city').val());
           $('#outer-id-hidden').val($('#outer-id').val());
-          $('#mainform').submit();
+          setTimeout(function () {
+              $('#mainform').submit()
+          }, 100);
       });
 
       var getSkuTableData = function () {
