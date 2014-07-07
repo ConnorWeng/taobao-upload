@@ -137,7 +137,7 @@
   <body TOPMARGIN=0 LEFTMARGIN=0 MARGINWIDTH=0 MARGINHEIGHT=0>
     <form id="mainform" action="{:U('Taobao/Upload/uploadItem')}" method="POST">
       <input type="hidden" name="taobaoItemId" value="{$taobaoItemId}"/>
-      <input type="hidden" name="cid" value="{$cid}"/>
+      <input type="hidden" name="cid" id="cid" value="{$cid}"/>
       <input type="hidden" name="sizeType" value="{$sizeType}"/>
       <input type="hidden" name="propImgs" value="{$propImgs}"/>
       <input type="hidden" name="salePropsObject" value="{$salePropsObject}"/>
@@ -522,6 +522,18 @@
       }
       /* end */
 
+      /* props which are parent */
+      $('.props-ul select').on('change', function () {
+          var value = $(this).val(),
+              $option = $('option[value="'+value+'"]');
+          if ($option.attr('parent') === 'true') {
+              $(this).parent().children('select.child_prop').css('display', 'none').attr('disabled', 'disabled');
+              $('select[parent="'+value+'"]').css('display', '').removeAttr('disabled');
+          }
+      });
+      $('.props-ul select').change();
+      /* end */
+
       /* count down title */
       $('#title').on('keydown', function (event) {
           var $title = $(this),
@@ -583,22 +595,37 @@
 
       var makeSkuTableHtml = function ($colors, $sizes) {
           var html = '';
-          $colors.each(function () {
-              var $color = $(this),
-                  color = $(this).val();
-              $sizes.each(function () {
-                  var $size = $(this),
-                      size = $(this).val();
+          if ($sizes.length === 0) {
+              $colors.each(function () {
+                  var $color = $(this),
+                      color = $(this).val();
                   html += '<tr class="J_MapRow">';
                   html += '<td class="color-td" data="'+$color.attr('id').substr(8)+'">'+color+'</td>';
-                  html += '<td class="size-td" data="'+$size.attr('id').substr(8)+'">'+size+'</td>';
+                  html += '<td></td>';
                   html += '<td><input class="price-input" type="text" value="' + $('#price').val() + '"/></td>';
                   html += '<td><input class="quantity-input" type="text" value="999"/></td>';
                   html += '<td><input class="outer-id-input" type="text"/></td>';
                   html += '<td><input type="text"/></td>';
                   html += '</tr>';
               });
-          });
+          } else {
+              $colors.each(function () {
+                  var $color = $(this),
+                  color = $(this).val();
+                  $sizes.each(function () {
+                      var $size = $(this),
+                          size = $(this).val();
+                      html += '<tr class="J_MapRow">';
+                      html += '<td class="color-td" data="'+$color.attr('id').substr(8)+'">'+color+'</td>';
+                      html += '<td class="size-td" data="'+$size.attr('id').substr(8)+'">'+size+'</td>';
+                      html += '<td><input class="price-input" type="text" value="' + $('#price').val() + '"/></td>';
+                      html += '<td><input class="quantity-input" type="text" value="999"/></td>';
+                      html += '<td><input class="outer-id-input" type="text"/></td>';
+                      html += '<td><input type="text"/></td>';
+                      html += '</tr>';
+                  });
+              });
+          }
           return html;
       };
       /* end */
@@ -735,7 +762,7 @@
               var $tr = $(this);
               data += '"' +
                   $tr.find('.color-td').attr('data') +
-                  '_' +
+                  $tr.find('.size-td').length > 0 ? '_' : '' +
                   $tr.find('.size-td').attr('data') +
                   '":{' +
                   '"price":"' + $tr.find('.price-input').val() + '",' +

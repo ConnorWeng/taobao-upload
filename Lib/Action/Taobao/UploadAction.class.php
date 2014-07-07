@@ -27,7 +27,7 @@ class UploadAction extends CommonAction {
         $deliveryTemplates = $this->checkApiResponse(OpenAPI::getTaobaoDeliveryTemplates());
         $userdata = $this->makeUserdata($nick, $deliveryTemplates);
         $images = $this->makeImages($taobaoItem->item_imgs);
-        $propsHtml = $this->makePropsHtml($props, $taobaoItem->props_name);
+        $propsHtml = $this->makePropsHtml($props, $taobaoItem->props_name, $taobaoItem->cid);
         $sizeType = $this->makeSizeType($props);
         $sizePropHtml = $this->makeSizePropHtml($props);
         $salePropsObject = $this->makeSalePropsObject($props);
@@ -388,7 +388,7 @@ class UploadAction extends CommonAction {
         return $images;
     }
 
-    private function makePropsHtml($props, $propsName) {
+    private function makePropsHtml($props, $propsName, $cid) {
         $count = count($props->item_prop);
         $html = '';
         for ($i = 0; $i < $count; $i++) {
@@ -399,6 +399,7 @@ class UploadAction extends CommonAction {
             $html .= '<select name="cp_'.$prop->pid.'" id="prop_'.$prop->pid.'">';
             $html .= '<option value=""></option>';
             $hasSelected = false;
+            $hasChildProps = false;
             if (isset($prop->prop_values)) {
                 $valueCount = count($prop->prop_values->prop_value);
                 for ($j = 0; $j < $valueCount; $j++) {
@@ -410,10 +411,29 @@ class UploadAction extends CommonAction {
                     } else {
                         $selected = '';
                     }
-                    $html .= '<option value="'.$optionValue.'" '.$selected.'>'.$value->name.'</option>';
+                    $isParent = isset($value->is_parent) ? ' parent="true" vid="'.$value->vid.'"' : '';
+                    if ($isParent != '') {
+                        $hasChildProps = true;
+                    }
+                    $html .= '<option value="'.$optionValue.'" '.$selected.$isParent.'>'.$value->name.'</option>';
                 }
             }
             $html .= '</select>';
+            if ($hasChildProps) {
+                $childProps = $this->checkApiResponse(OpenAPI::getTaobaoItemProps($cid, $prop->pid));
+                $childCount = count($childProps->item_prop);
+                for ($j = 0; $j < $childCount; $j++) {
+                    $childProp = $childProps->item_prop[$j];
+                    $html .= '<select class="child_prop" style="display:none" parent="'.$prop->pid.':'.$childProp->parent_vid.'" name="cp_'.$childProp->pid.'" id="prop_'.$childProp->pid.'">';
+                    $childValueCount = count($childProp->prop_values->prop_value);
+                    for ($k = 0; $k < $childValueCount; $k++) {
+                        $childValue = $childProp->prop_values->prop_value[$k];
+                        $childOptionValue = $childProp->pid.':'.$childValue->vid;
+                        $html .= '<option value="'.$childOptionValue.'">'.$childValue->name.'</option>';
+                    }
+                    $html .= '</select>';
+                }
+            }
             $html .= '</li>';
         }
         return $html;
