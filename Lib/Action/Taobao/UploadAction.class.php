@@ -41,6 +41,7 @@ class UploadAction extends CommonAction {
         $deliveryTemplateHtml = $this->makeDeliveryTemplateHtml($deliveryTemplates, $userdata['usePostModu']);
         $sellerCatsHtml = $this->makeSellerCatsHtml($cname);
         $movePic = $this->makeMovePic($taobaoItem->desc);
+        $isDelist = $this->makeIsDelist($taobaoItem->delist_time);
         $isSubscribe = $this->isSubscribe();
         $storeSession = new StoreSession(null, null);
         $this->assign(array(
@@ -67,6 +68,7 @@ class UploadAction extends CommonAction {
             'propImgs' => $propImgs,
             'isUploadedBefore' => $isUploadedBefore,
             'isCurrentTaobaoItemIdInSession' => $isCurrentTaobaoItemIdInSession,
+            'isDelist' => $isDelist,
             'propAlias' => $taobaoItem->property_alias,
             'postFee' => $userdata['postFee'],
             'expressFee' => $userdata['expressFee'],
@@ -707,6 +709,17 @@ class UploadAction extends CommonAction {
             return $date.' '.$hour.':'.$minute.':00';
         } else {
             return '';
+        }
+    }
+
+    private function makeIsDelist($delistTimeStr) {
+        $delistTime = strtotime($delistTimeStr);
+        $nowTimeStr = date("Y-m-d H:i:s", time());
+        $nowTime = strtotime($nowTimeStr);
+        if ($delistTime < $nowTime) {
+            return true;
+        } else {
+            return false;
         }
     }
 

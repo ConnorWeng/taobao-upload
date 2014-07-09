@@ -509,15 +509,27 @@
       });
       /* end */
 
+      var closeWindow = function () {
+          window.opener = null;
+          window.open('', '_self');
+          window.close();
+      };
+
+      /* close window if the item is delisted */
+      var isDelist = {$isDelist|default="false"};
+      if (isDelist) {
+          alert('抱歉，该宝贝已下架！');
+          closeWindow();
+      }
+      /* end */
+
       /* let user confirm to uploading duplicated item */
       var isCurrentTaobaoItemIdInSession = {$isCurrentTaobaoItemIdInSession|default="false"};
       if (isCurrentTaobaoItemIdInSession) {
           if (confirm('亲，当前商品刚刚已经上传过了哟！确认继续上传吗？')) {
               window.location = 'http://' + window.location.host + "{:U('Taobao/Upload/editItem')}" + '&continue=true';
           } else {
-              window.opener = null;
-              window.open('', '_self');
-              window.close();
+              closeWindow();
           }
       }
       /* end */
