@@ -1,0 +1,28 @@
+<html>
+<head>
+<title>vvic店铺调整</title>
+<script type="text/javascript"
+            src="http://libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+</head>
+<body>
+<h1>vvic店铺调整</h1>
+<input type="button" name="" value="查询新增" id="findNew"/>
+<input type="button" name="" value="查询差异" id="findDiff"/>
+<script type="text/javascript">
+$(function () {
+    $('#findNew').on('click', function () {
+        $.ajax({
+            url: "{:U('Store/Index/findNew')}",
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    });
+
+    $('#findDiff').on('click', function () {
+
+    });
+});
+</script>
+</body>
+</html>
