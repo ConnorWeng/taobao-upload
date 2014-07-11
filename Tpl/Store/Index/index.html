@@ -29,7 +29,7 @@ td {
   </th>
   <tr ng-repeat="store in stores">
     <td></td>
-    <td><a href="#" ng-click="addStore({{store.store_id}})">新增</a></td>
+    <td><a href="#" ng-click="operate({{store.store_id}})">{{operation}}</a></td>
     <td>{{store.shop_mall}}</td>
     <td>{{store.floor}}</td>
     <td>{{store.address}}</td>
@@ -49,19 +49,38 @@ storeAppModule.controller('StoreController', function StoreController($scope, $h
     $scope.findNew = function () {
         $http.get("{:U('Store/Index/findNew')}").success(function (data, status, headers, config) {
             $scope.operationName = '需新增的店铺';
+            $scope.operation = '新增';
             $scope.stores = data;
             console.log(data);
         });
     }
 
-    $scope.addStore = function (storeId) {
+    $scope.operate = function (storeId) {
+        var url = "{:U('Store/Index/updateStore')}";
+        if ($scope.operation === '新增') {
+            url = "{:U('Store/Index/addStore')}";
+        }
         $http
-            .post("{:U('Store/Index/addStore')}", null, {params: {'store_id': storeId}})
+            .post(url, null, {params: {'store_id': storeId}})
             .success(function (data, status, headers, config) {
                 if (data === '1') {
-                    $scope.findNew();
+                    if ($scope.operation === '新增') {
+                        $scope.findNew();
+                    } else {
+                        $scope.findDiff();
+                    }
                 }
+                console.log(data);
             });
+    }
+
+    $scope.findDiff = function () {
+        $http.get("{:U('Store/Index/findDiff')}").success(function (data, status, headers, config) {
+            $scope.operationName = '需更新的店铺';
+            $scope.operation = '更新';
+            $scope.stores = data;
+            console.log(data);
+        });
     }
 });
 </script>
