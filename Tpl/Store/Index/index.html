@@ -1,27 +1,68 @@
-<html>
+<html ng-app="storeApp">
 <head>
 <title>vvic店铺调整</title>
-<script type="text/javascript"
-            src="http://libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://cdn.staticfile.org/angular.js/1.2.0rc3/angular.js"></script>
+<style>
+td {
+  border: 1px solid gray;
+}
+</style>
 </head>
-<body>
+<body ng-controller="StoreController">
 <h1>vvic店铺调整</h1>
-<input type="button" name="" value="查询新增" id="findNew"/>
-<input type="button" name="" value="查询差异" id="findDiff"/>
+<button ng-click="findNew()">查询新增</button>
+<button ng-click="findDiff()">查询差异</button>
+<div>
+<h3>{{operationName}}</h3>
+<table cellpadding="0" cellspacing="0">
+  <th>
+    <td>操作</td>
+    <td>市场</td>
+    <td>楼层</td>
+    <td>档口</td>
+    <td>店铺名</td>
+    <td>价格</td>
+    <td>qq</td>
+    <td>ww</td>
+    <td>tel</td>
+    <td>http</td>
+  </th>
+  <tr ng-repeat="store in stores">
+    <td></td>
+    <td><a href="#" ng-click="addStore({{store.store_id}})">新增</a></td>
+    <td>{{store.shop_mall}}</td>
+    <td>{{store.floor}}</td>
+    <td>{{store.address}}</td>
+    <td>{{store.store_name}}</td>
+    <td>{{store.see_price}}</td>
+    <td>{{store.im_qq}}</td>
+    <td>{{store.im_ww}}</td>
+    <td>{{store.tel}}</td>
+    <td>{{store.shop_http}}</td>
+  </tr>
+</table>
+</div>
 <script type="text/javascript">
-$(function () {
-    $('#findNew').on('click', function () {
-        $.ajax({
-            url: "{:U('Store/Index/findNew')}",
-            success: function (data) {
-                console.log(data);
-            }
+var storeAppModule = angular.module('storeApp', []);
+
+storeAppModule.controller('StoreController', function StoreController($scope, $http) {
+    $scope.findNew = function () {
+        $http.get("{:U('Store/Index/findNew')}").success(function (data, status, headers, config) {
+            $scope.operationName = '需新增的店铺';
+            $scope.stores = data;
+            console.log(data);
         });
-    });
+    }
 
-    $('#findDiff').on('click', function () {
-
-    });
+    $scope.addStore = function (storeId) {
+        $http
+            .post("{:U('Store/Index/addStore')}", null, {params: {'store_id': storeId}})
+            .success(function (data, status, headers, config) {
+                if (data === '1') {
+                    $scope.findNew();
+                }
+            });
+    }
 });
 </script>
 </body>
