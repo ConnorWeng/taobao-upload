@@ -51,7 +51,6 @@ storeAppModule.controller('StoreController', function StoreController($scope, $h
             $scope.operationName = '需新增的店铺';
             $scope.operation = '新增';
             $scope.stores = data;
-            console.log(data);
         });
     }
 
@@ -64,13 +63,8 @@ storeAppModule.controller('StoreController', function StoreController($scope, $h
             .post(url, null, {params: {'store_id': storeId}})
             .success(function (data, status, headers, config) {
                 if (data === '1') {
-                    if ($scope.operation === '新增') {
-                        $scope.findNew();
-                    } else {
-                        $scope.findDiff();
-                    }
+                    deleteStore(storeId);
                 }
-                console.log(data);
             });
     }
 
@@ -79,8 +73,16 @@ storeAppModule.controller('StoreController', function StoreController($scope, $h
             $scope.operationName = '需更新的店铺';
             $scope.operation = '更新';
             $scope.stores = data;
-            console.log(data);
         });
+    }
+
+    deleteStore = function (storeId) {
+        for (var i in $scope.stores) {
+            var store = $scope.stores[i];
+            if (parseInt(store.store_id) == storeId) {
+                $scope.stores.splice(i, 1);
+            }
+        }
     }
 });
 </script>
