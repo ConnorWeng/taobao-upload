@@ -6,11 +6,12 @@ class Util {
 
     public static function parseSkus($skus) {
         $parsedSkus = array();
-        $count = count($skus);
+        $count = count($skus->sku);
         for ($i = 0; $i < $count; $i += 1) {
-            array_push($parsedSkus, new Sku(self::extractValue($skus[$i]->properties_name->asXML()),
-                self::extractValue($skus[$i]->price->asXML()),
-                self::extractValue($skus[$i]->quantity->asXML())));
+            $sku = $skus->sku[$i];
+            array_push($parsedSkus, new Sku(''.$sku->properties_name,
+                ''.$sku->price,
+                ''.$sku->quantity));
         }
         return $parsedSkus;
     }

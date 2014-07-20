@@ -64,7 +64,7 @@ class UploadAction extends CommonAction {
             'imgsInDesc' => $this->parseDescImages($taobaoItem->desc),
             'percent' => $userdata['profit0'],
             'profit' => $userdata['profit'],
-            'initSkus' => json_encode(Util::parseSkus($taobaoItem->skus->sku)),
+            'initSkus' => json_encode(Util::parseSkus($taobaoItem->skus)),
             'propImgs' => $propImgs,
             'isUploadedBefore' => $isUploadedBefore,
             'isCurrentTaobaoItemIdInSession' => $isCurrentTaobaoItemIdInSession,
