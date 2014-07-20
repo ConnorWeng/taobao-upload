@@ -2,12 +2,12 @@
 
 class Sku {
 
-    public $propertiesName = '';
+    public $properties_name = '';
     public $price = '';
     public $quantity = '';
 
-    function __construct($propertiesName, $price, $quantity) {
-        $this->propertiesName = $propertiesName;
+    function __construct($properties_name, $price, $quantity) {
+        $this->properties_name = $properties_name;
         $this->price = $price;
         $this->quantity = $quantity;
     }

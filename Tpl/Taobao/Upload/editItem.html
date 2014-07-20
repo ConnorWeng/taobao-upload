@@ -656,7 +656,7 @@
       };
       for (var i in initSkus) {
           var sku = initSkus[i],
-          propertiesParts = sku.propertiesName.split(';');
+          propertiesParts = sku.properties_name.split(';');
           for (var i in propertiesParts) {
               var propertiesMoreParts = propertiesParts[i].split(':'),
               prop = propertiesMoreParts[0] + ':' + propertiesMoreParts[1],
