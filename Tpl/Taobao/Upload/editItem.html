@@ -774,7 +774,7 @@
               var $tr = $(this);
               data += '"' +
                   $tr.find('.color-td').attr('data') +
-                  $tr.find('.size-td').length > 0 ? '_' : '' +
+                  ($tr.find('.size-td').length > 0 ? '_' : '') +
                   $tr.find('.size-td').attr('data') +
                   '":{' +
                   '"price":"' + $tr.find('.price-input').val() + '",' +
