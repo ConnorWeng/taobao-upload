@@ -64,9 +64,7 @@ class IndexAction extends CommonAction {
     }
 
     public function signOut() {
-        $taobaoItemId = session('current_taobao_item_id');
-        session(null);
-        U('Taobao/Index/auth', array('taobaoItemId' => $taobaoItemId), true, true, false);
+        $this->free();
     }
 
     public function verifyCode() {
@@ -115,19 +113,23 @@ class IndexAction extends CommonAction {
 
     public function free() {
         $currentTaobaoItemId = session('current_taobao_item_id');
+        $currentGoodsId = session('current_goods_id');
         session(null);
         U('Taobao/Index/auth', array(
             'taobaoItemId' => $currentTaobaoItemId,
+            'goodsId' => $currentGoodsId,
         ), true, true, false);
     }
 
     public function stable() {
         $currentTaobaoItemId = session('current_taobao_item_id');
+        $currentGoodsId = session('current_goods_id');
         $taobaoAppKey = session('taobao_app_key') == null ? 'trival' : session('taobao_app_key');
         session(null);
         U('Taobao/Index/auth', array(
             'taobaoItemId' => $currentTaobaoItemId,
             'taobaoAppKey' => $taobaoAppKey,
+            'goodsId' => $currentGoodsId,
         ), true, true, false);
     }
 
