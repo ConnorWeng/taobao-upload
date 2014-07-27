@@ -2,6 +2,7 @@
 import('@.Util.Util');
 import('@.Util.OpenAPI');
 import('@.Model.StoreSession');
+import('@.Model.TaobaoItem');
 
 class UploadAction extends CommonAction {
     public function selectCategory() {
@@ -21,7 +22,11 @@ class UploadAction extends CommonAction {
             $isCurrentTaobaoItemIdInSession = false;
         }
 
-        $taobaoItem = $this->checkApiResponse(OpenAPI::getTaobaoItem($taobaoItemId));
+        if (session('?current_goods_id')) {
+            $taobaoItem = $this->getTaobaoItemFromDatabase(session('current_goods_id'));
+        } else {
+            $taobaoItem = $this->checkApiResponse(OpenAPI::getTaobaoItem($taobaoItemId));
+        }
         $props = $this->checkApiResponse(OpenAPI::getTaobaoItemProps($taobaoItem->cid));
         $cname = $this->checkApiResponse(OpenAPI::getTaobaoItemCat($taobaoItem->cid));
         $deliveryTemplates = $this->checkApiResponse(OpenAPI::getTaobaoDeliveryTemplates());
@@ -731,5 +736,26 @@ class UploadAction extends CommonAction {
             }
         }
         return false;
+    }
+
+    private function getTaobaoItemFromDatabase($goodsId) {
+        $goodsModel = M('goods');
+        $rs = $goodsModel->query("select g.*, sum(s.stock) num from ecm_goods g right join ecm_goods_spec s on g.goods_id = s.goods_id where g.goods_id = {$goodsId} group by g.goods_id");
+        $taobaoItem = new TaobaoItem;
+        if (count($rs) > 0) {
+            $result = $rs[0];
+            $taobaoItem->setCid('50000671');
+            $taobaoItem->setItemImgs(array($result['default_image']));
+            $taobaoItem->setPropsName('');
+            $taobaoItem->setTitle($result['goods_name']);
+            $taobaoItem->setPicUrl($result['default_image']);
+            $taobaoItem->setNick(session('taobao_user_nick'));
+            $taobaoItem->setPrice($result['price']);
+            $taobaoItem->setNum($result['num']);
+            $taobaoItem->setPropImgs(array());
+            $taobaoItem->setDesc($result['description']);
+            $taobaoItem->setDelistTime('2099-12-10 00:00:00');
+        }
+        return $taobaoItem;
     }
 }

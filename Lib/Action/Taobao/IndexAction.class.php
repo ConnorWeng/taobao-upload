@@ -9,6 +9,11 @@ class IndexAction extends CommonAction {
 
     public function auth() {
         $taobaoItemId = I('taobaoItemId');
+        if (I('taobaoItemId') == '' && I('goodsId') != '') {
+            session('current_goods_id', I('goodsId'));
+        } else {
+            session('current_goods_id', null);
+        }
         session('current_taobao_item_id', $taobaoItemId);
         if (!session('?taobao_access_token') || I('newStore') == 'newStore') {
             if (I('taobaoAppKey') != '') {
