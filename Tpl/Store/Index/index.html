@@ -12,6 +12,8 @@ td {
 <h1>vvic店铺调整</h1>
 <button ng-click="findNew()">查询新增</button>
 <button ng-click="findDiff()">查询差异</button>
+<button ng-click="findUnused()">查询废弃</button>
+<p style="color:red">查询废弃可能需要耗时半分钟，请耐心等候</p>
 <div>
 <h3>{{operationName}}</h3>
 <table cellpadding="0" cellspacing="0">
@@ -27,7 +29,7 @@ td {
     <td>tel</td>
     <td>http</td>
   </th>
-  <tr ng-repeat="store in stores">
+  <tr ng-repeat="store in stores track by store.store_id">
     <td></td>
     <td><a href="#" ng-click="operate({{store.store_id}})">{{operation}}</a></td>
     <td>{{store.shop_mall}}</td>
@@ -59,6 +61,9 @@ storeAppModule.controller('StoreController', function StoreController($scope, $h
         if ($scope.operation === '新增') {
             url = "{:U('Store/Index/addStore')}";
         }
+        if ($scope.operation === '删除') {
+            url = "{:U('Store/Index/deleteStore')}";
+        }
         $http
             .post(url, null, {params: {'store_id': storeId}})
             .success(function (data, status, headers, config) {
@@ -72,6 +77,14 @@ storeAppModule.controller('StoreController', function StoreController($scope, $h
         $http.get("{:U('Store/Index/findDiff')}").success(function (data, status, headers, config) {
             $scope.operationName = '需更新的店铺';
             $scope.operation = '更新';
+            $scope.stores = data;
+        });
+    }
+
+    $scope.findUnused = function () {
+        $http.get("{:U('Store/Index/findUnused')}").success(function (data, status, headers, config) {
+            $scope.operationName = '需删除的店铺';
+            $scope.operation = '删除';
             $scope.stores = data;
         });
     }
