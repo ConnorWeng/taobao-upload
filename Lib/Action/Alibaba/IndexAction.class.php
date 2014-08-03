@@ -13,6 +13,11 @@ class IndexAction extends CommonAction {
     // 跳转到alibaba的认证页面
     public function auth() {
         $taobaoItemId = I('taobaoItemId');
+        if (I('taobaoItemId') == '' && I('goodsId') != '') {
+            session('alibaba_current_goods_id', I('goodsId'));
+        } else {
+            session('alibaba_current_goods_id', null);
+        }
         if (!session('?access_token')) {
             // fetch taobao appkey
             Util::changeTaoAppkey($taobaoItemId, 'trival');
@@ -43,7 +48,11 @@ class IndexAction extends CommonAction {
             $response = $this->checkApiResponse(AlibabaOpenAPI::memberGet(session('member_id')));
         }
 
-        $taobaoItem = OpenAPI::getTaobaoItemWithoutVerify($taobaoItemId);
+        if (session('?alibaba_current_goods_id')) {
+            $taobaoItem = OpenAPI::getTaobaoItemFromDatabase(session('alibaba_current_goods_id'));
+        } else {
+            $taobaoItem = OpenAPI::getTaobaoItemWithoutVerify($taobaoItemId);
+        }
         $taobaoItemCat = OpenAPI::getTaobaoItemCatWithoutVerify($taobaoItem->cid);
 
         $this->assign(array(
@@ -79,7 +88,12 @@ class IndexAction extends CommonAction {
     public function editPage() {
         $taobaoItemId = session('current_taobao_item_id');
         $categoryName = $this->checkApiResponse(AlibabaOpenAPI::getPostCatList(I('categoryId')))->result->toReturn[0]->catsName;
-        $taobaoItem = OpenAPI::getTaobaoItemWithoutVerify($taobaoItemId);
+
+        if (session('?alibaba_current_goods_id')) {
+            $taobaoItem = OpenAPI::getTaobaoItemFromDatabase(session('alibaba_current_goods_id'));
+        } else {
+            $taobaoItem = OpenAPI::getTaobaoItemWithoutVerify($taobaoItemId);
+        }
 
         $imgsInDesc = $this->parseDescImages($taobaoItem->desc);
 
@@ -126,7 +140,7 @@ class IndexAction extends CommonAction {
             'categoryName' => $categoryName,
             'offerDetail' => $taobaoItem->desc,
             'picUrl' => $taobaoItem->pic_url,
-            'itemImgs' => json_encode(Util::parseItemImgs($taobaoItem->item_imgs->item_img)),
+            'itemImgs' => json_encode(Util::parseItemImgs($taobaoItem->item_imgs)),
             'initSkus' => json_encode(Util::parseSkus($taobaoItem->skus)),
             'propsAlias' => $taobaoItem->property_alias,
             'offerWeight' => '0.2',
@@ -317,9 +331,12 @@ class IndexAction extends CommonAction {
     // 登出
     public function signOut() {
         $taobaoItemId = session('current_taobao_item_id');
+        $currentGoodsId = session('alibaba_current_goods_id');
         session(null);
         cookie(null);
-        U('Index/auth', array('taobaoItemId' => $taobaoItemId), true, true, false);
+        U('Index/auth', array('taobaoItemId' => $taobaoItemId,
+                              'goodsId' => $currentGoodsId,
+                              ), true, true, false);
     }
 
     public function showError() {

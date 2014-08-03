@@ -72,9 +72,9 @@ class Util {
 
     public static function parseItemImgs($itemImgs) {
         $parsedItemImgs = array();
-        $count = count($itemImgs);
+        $count = count($itemImgs->item_img);
         for ($i = 0; $i < $count; $i += 1) {
-            array_push($parsedItemImgs, self::extractValue($itemImgs[$i]->url->asXML()));
+            array_push($parsedItemImgs, $itemImgs->item_img[$i]->url);
         }
         return $parsedItemImgs;
     }

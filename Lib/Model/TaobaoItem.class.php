@@ -92,6 +92,14 @@ class ItemImgs {
     }
 }
 
+class ItemImg {
+    public $url;
+
+    public function __construct($url) {
+        $this->url = $url;
+    }
+}
+
 class PropImgs {
     public $prop_img;
 
