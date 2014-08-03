@@ -43,8 +43,8 @@ class IndexAction extends CommonAction {
             $response = $this->checkApiResponse(AlibabaOpenAPI::memberGet(session('member_id')));
         }
 
-        $taobaoItem = $this->checkApiResponse(OpenAPI::getTaobaoItem($taobaoItemId));
-        $taobaoItemCat = $this->checkApiResponse(OpenAPI::getTaobaoItemCat($taobaoItem->cid));
+        $taobaoItem = OpenAPI::getTaobaoItemWithoutVerify($taobaoItemId);
+        $taobaoItemCat = OpenAPI::getTaobaoItemCatWithoutVerify($taobaoItem->cid);
 
         $this->assign(array(
             'basepath' => str_replace('index.php', 'Public', __APP__),
@@ -79,7 +79,7 @@ class IndexAction extends CommonAction {
     public function editPage() {
         $taobaoItemId = session('current_taobao_item_id');
         $categoryName = $this->checkApiResponse(AlibabaOpenAPI::getPostCatList(I('categoryId')))->result->toReturn[0]->catsName;
-        $taobaoItem = $this->checkApiResponse(OpenAPI::getTaobaoItem($taobaoItemId));
+        $taobaoItem = OpenAPI::getTaobaoItemWithoutVerify($taobaoItemId);
 
         $imgsInDesc = $this->parseDescImages($taobaoItem->desc);
 

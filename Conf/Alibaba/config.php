@@ -26,5 +26,7 @@ return array(
     //开启日志
     'LOG_RECORD' => true,
     'LOG_LEVEL' => 'ERR',
+
+    'gateway_uri' => 'http://gw.api.taobao.com/router/rest',
 );
 ?>

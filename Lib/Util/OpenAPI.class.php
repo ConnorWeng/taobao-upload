@@ -45,7 +45,7 @@ class OpenAPI {
         $c->appkey = C('taobao_app_key');
         $c->secretKey = C('taobao_secret_key');
         $req = new ItemGetRequest;
-        $req->setFields("title,desc,pic_url,sku,item_weight,property_alias,price,item_img.url,cid,nick,props_name,prop_img,props");
+        $req->setFields("title,desc,pic_url,sku,item_weight,property_alias,price,item_img.url,cid,nick,props_name,prop_img,delist_time,props");
         $req->setNumIid($numIid);
         $resp = $c->execute($req, null);
 
@@ -75,6 +75,22 @@ class OpenAPI {
             return Util::extractValue($resp->item_cats->item_cat->name->asXML());
         } else {
             self::dumpTaobaoApiError('getTaobaoItemCat', $resp);
+        }
+    }
+
+    public static function getTaobaoItemCatWithoutVerify($cid) {
+        $c = new TopClient;
+        $c->appkey = C('taobao_app_key');
+        $c->secretKey = C('taobao_secret_key');
+        $req = new ItemcatsGetRequest;
+        $req->setFields("name");
+        $req->setCids($cid);
+        $resp = $c->execute($req, null);
+
+        if (isset($resp->item_cats->item_cat)) {
+            return Util::extractValue($resp->item_cats->item_cat->name->asXML());
+        } else {
+            self::dumpTaobaoApiError('getTaobaoItemCatWithoutVerify', $resp);
         }
     }
 
