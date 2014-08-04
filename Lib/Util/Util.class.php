@@ -74,7 +74,7 @@ class Util {
         $parsedItemImgs = array();
         $count = count($itemImgs->item_img);
         for ($i = 0; $i < $count; $i += 1) {
-            array_push($parsedItemImgs, $itemImgs->item_img[$i]->url);
+            array_push($parsedItemImgs, ''.$itemImgs->item_img[$i]->url);
         }
         return $parsedItemImgs;
     }

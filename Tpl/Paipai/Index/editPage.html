@@ -1,0 +1,1280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-cn" lang="zh-cn">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="zh-cn" />
+    <title>输入商品信息 - 拍拍网</title>
+    <meta name="description" content="网上购物？来腾讯拍拍！拍拍为您的网购提供时尚男女服饰、美容、家居、数码、家电、话费点卡充值等上亿件优质特价商品。拍拍更提供先行赔付、假一赔三、七天无理由退换货、数码免费维修等交易保障，让你安心享受网上购物的乐趣！" />
+    <meta name="keywords" content="拍拍,腾讯,QQ,店铺,开店,代购,购物,网购,女装,服装,秒杀,网店,减肥产品,充值,3C,手机,内衣,机票,女鞋,男装,名鞋,食品,休闲鞋,零食,减肥,男装" />
+    <link rel="stylesheet" href="http://static.paipaiimg.com/css/heads.css?t=ver_2_20110426" type="text/css" media="screen" />
+    <link rel="stylesheet" href="http://static.paipaiimg.com/module/flow_step_v2.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="http://static.paipaiimg.com/module/msg_tips.css?t=20110110" type="text/css" media="screen" />
+    <link rel="stylesheet" href="http://static.paipaiimg.com/module/ppicons.css?t=20130326" type="text/css" media="screen" />
+    <link rel="stylesheet" href="http://static.paipaiimg.com/module/paginator.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="http://static.paipaiimg.com/upload/item_upload.min.css?t=1212" type="text/css" media="screen" />
+    <!--[if IE]>
+        <link rel="stylesheet" href="http://static.paipaiimg.com/upload/item_upload_ie.css" type="text/css" media="screen" />
+        <![endif]--> <!--[if !IE]>|xGv00|7d47f42ad05ca38280262e94838cee42<![endif]-->
+    <style type="text/css">
+      .stock_tb .optlist{padding:0;background-color:#fff;border:1px solid #ccc;-webkit-border-radius:3px;-moz-border-radius:3px;-o-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 4px rgba(204,204,204,.8);-moz-box-shadow:0 1px 4px rgba(204,204,204,.8);-o-box-shadow:0 1px 4px rgba(204,204,204,.8);box-shadow:0 1px 4px rgba(204,204,204,.8);position:absolute;left:-90px;top:17px;}
+      .stock_tb .optlist li{display:block;width:90px;height:21px;line-height:21px;padding:0;white-space:nowrap;text-align:right;}
+      .stock_tb .optlist a {display:block;width:90px;height:21px;line-height:21px;color:#224f88;text-decoration:none}
+      .stock_tb .optlist a:hover{background-color:#eee}
+    </style>
+    <!--[if IE]>
+        <style type="text/css">
+          .brand_select_search .ipt_search input {
+          padding-top:4px;
+          height:16px;
+          }
+        </style>
+        <![endif]-->
+    <script type="text/javascript"
+            src="http://lib.sinaapp.com/js/jquery/1.7.2/jquery.min.js"></script>
+    <import type="js" file="js.ckeditor.ckeditor" basepath="{$basepath}"/>
+    <import type="js" file="js.tradetable" basepath="{$basepath}"/>
+<style>
+.settings-container {
+  width: 100%;
+  height: 25px;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+.settings {
+  width: 948px;
+  height: 25px;
+  padding: 0 21px 0 21px;
+  background: white;
+  margin: 0 auto;
+  line-height: 25px;
+  border: 1px solid rgb(215,215,215);
+}
+.settings span {
+  font-weight: bolder;
+}
+.settings a {
+  text-decoration: underline;
+}
+.settings input {
+  text-align: right;
+  width: 60px;
+}
+body {
+  margin-top: 30px;
+}
+.pic_preview .preview_pic {
+  height: auto;
+}
+.taobao-ref-hider {
+  top: 10%;
+  right: 240px;
+  width: 20px;
+  position: fixed;
+  background: #FFD98D;
+  color: #FF6600;
+  cursor: pointer;
+}
+.taobao-ref {
+  /*top: 350px;*/
+  top: 10%;
+  right: 0px;
+  width: 240px;
+  background: #fffae3;
+  border: 1px solid #f1e38b;
+  text-align: left;
+  position: fixed;
+}
+.taobao-ref h4 {
+  text-align: center;
+  background: #FFD98D;
+  color: #FF6600;
+}
+.taobao-ref p {
+  color: gray;
+}
+.ref-left {
+  width: 100px;
+  text-align: right;
+  padding-right: 10px;
+  float:left;
+}
+.ref-right {
+  width: 100px;
+  float:left;
+  text-align: left;
+}
+</style>
+  </head>
+  <body>
+
+    <div class="taobao-ref-hider">
+      隐藏
+    </div>
+    <div class="taobao-ref">
+      <h4>淘宝属性信息参考</h4>
+      <p>由于淘宝网的属性字段和拍拍网不太一样，所以属性请自行比对选择，这里提供参考。如果没有你要的属性，请上传宝贝后到拍拍后台修改。敬请谅解！</p>
+      <ul>
+        <foreach name="propsArray" item="prop">
+          <li><div class="ref-left">{$prop.name}:</div><div class="ref-right">{$prop.value}</div></li>
+        </foreach>
+      </ul>
+    </div>
+
+    <form name="mainform" class="mainform" action="{:U('Index/addItem')}" method="POST">
+      <input type="hidden" name="navigationId" value="{$navigationId}"/>
+      <input type="hidden" name="attr" id="attr" value=""/>
+      <input type="hidden" name="stockList" id="stockList" value=""/>
+<div class="settings-container">
+  <div class="settings">
+    <span>设置:</span>
+    <label>拿货价{$rawPrice}元,</label>
+    <label>自动加价</label>
+    <input id="profit-input" type="text" value="{$profit}"/>元
+    <a id="updateProfitLink" href="#">保存</a>
+  </div>
+</div>
+    <!-- s inc_first_head_sim -->
+    <!--div class="pp_toolbar" id="pp_toolbar">
+      <div class="m">
+        <div class="pp_buy_sell">
+          <a class="buy" href="http://search.paipai.com/?PTAG=20060.1.1">我要买</a>
+          <a href="http://my.paipai.com/cgi-bin/sell?PTAG=20060.1.2">我要卖</a>
+          <a href="http://my.paipai.com/cgi-bin/userauth_show?PTAG=20060.1.3">免费开店</a>
+        </div>
+        <ul class="pp_site_link">
+          <li class="login" id="headLogin">您好，欢迎来拍拍！<a href="http://member.paipai.com/cgi-bin/login_entry?PTAG=20060.1.4">登录</a>　<a href="http://chs.reg.qq.com/?PTAG=20060.1.5">免费注册</a></li>
+          <li id="sellerPlan" style="display:none"><a href="http://seller.paipai.com/?PTAG=20060.1.19">卖家经营中心</a></li>
+          <li><a href="http://search.paipai.com/?PTAG=20084.1.6">我要买</a></li>
+          <li class="my_admin" id = "myPPLi">
+            <p><a href="http://my.paipai.com/cgi-bin/myppindex/entry?PTAG=3.1.14">我的拍拍</a><span id="myPPSpan" class="pp_arrd"></span></p>
+            <div class="now h" id = "myPPList">
+              <ul>
+                <li><a href="http://my.paipai.com/cgi-bin/trade_deal_list/boughtentry?isBuyLink=01&amp;PTAG=20084.1.10">购买的商品</a></li>
+                <li><a href="http://my.paipai.com/cgi-bin/favorite_new/Entry?type=item&amp;PTAG=20084.1.29">收藏的商品</a></li>
+                <li><a href="http://my.paipai.com/cgi-bin/favorite_new/Entry?type=shop&amp;PTAG=20084.1.30">收藏的店铺</a></li>
+              </ul>
+            </div>
+          </li>
+          <li id="shopCarHead"><a href="http://auction.paipai.com/cgi-bin/shopcart/detail?PTAG=20060.1.18">购物车</a></li>
+          <li><a target="_blank" href="http://service.paipai.com/cgi-bin/go?pageId=20084&domainId=1&linkId=13&url=http://pay.paipai.com/cgi-bin/tenpay/Jump2tenpay">财付通</a></li>
+          <li class="help" id = "helpLi">
+            <p><a href="http://help.paipai.com/index.shtml?PTAG=20084.1.15">帮助</a><span id="helpSpan" class="pp_arrd"></span></p>
+            <div class="now h" id = "helpList">
+              <ul>
+                <li><a href="http://guize.paipai.com/" target="_blank">规则平台</a></li>
+                <li><a href="http://help.paipai.com/index.shtml?PTAG=20084.1.15">帮助中心</a></li>
+                <li><a href="http://service.qq.com/category/paipai.html?PTAG=20084.1.20">客服专区</a></li>
+                <li><a href="http://www.paipai.com/trust/plan/index.shtml?tab=6&amp;PTAG=30072.4.8">交易安全</a></li>
+                <li><a href="http://www.paipai.com/COD/intro/seller.html?PTAG=20084.1.58">货到付款</a></li>
+                <li><a href="http://qgo.qq.com/index.html?PTAG=20084.1.21">手机拍拍</a></li>
+                <li><a href="http://www.paipai.com/college/?PTAG=20084.1.17">拍拍大讲堂</a></li>
+                <li><a href="http://daxue.qq.com/ecc/?PTAG=20084.1.18" target="_blank">电商学院</a></li>
+                <li><a href="http://my.paipai.com/cgi-bin/right_defence_entry?PTAG=20084.1.16">维权中心</a></li>
+              </ul>
+            </div>
+          </li>
+
+          <li><a href="http://bbs.paipai.com/portal.php?PTAG=20084.1.14">社区</a></li>
+          <li><a href="http://shop.qq.com/zhaoshang/?PTAG=20084.1.26">招商</a></li>
+        </ul>
+      </div>
+    </div-->
+    <div class="notice_board m h" id="noticeBoard"></div>
+
+    <!--
+        <%@ page contentType="text/html;charset=UTF-8"%>
+        -->
+    <!--div class="pp_head_sline" id="pp_head_sline"><div id="sim_head_module">
+        <div class="pp_cat_head head m" id="search_bar">
+          <div class="pp_cat_logo"><a href="http://www.paipai.com/?PTAG=20060.24.1" title="拍拍网：腾讯旗下网站 - 拍拍购物更放心" target="_top"><img src="http://static.paipaiimg.com/module/logo/pp_cat_head.png" alt="拍拍网：腾讯旗下网站 - 拍拍购物更放心" /></a></div>
+          <div class="pp_cat_search">
+            <div class="pp_cat_sformc pp_cat_sform_s">
+              <span class="pp_cat_spl"></span>
+              <form id="searchForm" class="pp_cat_sform" name="searchForm" autocomplete="off" method="get" target="_self" onsubmit="return false" action="http://search.paipai.com/cgi-bin/comm_search">
+                <span class="pp_cat_stextc"><input type="text" class="pp_cat_stext" autocomplete="off" id="KeyWord" name="KeyWord" value="" /></span>
+                <input type="hidden" id="searchType" name="searchType" value="0" />
+                <input type="hidden" id="sClassid" name="sClassid" value="0" />
+                <button type="submit" class="pp_cat_sbtn" id="headSubmitBtn" frm="searchForm">搜索</button>
+              </form>
+              <span class="pp_cat_spr"></span>
+              <div class="pp_cat_suggestions" id="pp_cat_suggestions">
+                <div class="auto-result" id="searchDrawList"></div>
+                <iframe frameBorder="0" class="mask-auto" id="maskSearchDrawList"></iframe>
+              </div>
+            </div>
+            <ul class="pp_cat_smore">
+              <li><a target="_blank" href="http://help.paipai.com/index.shtml?PTAG=20034.1.11">如何开始？</a></li>
+              <li><a target="_blank" href="http://search.paipai.com/search_goods.shtml?PTAG=20028.4.15">高级搜索</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div-->
+    <!-- e inc_first_head_sim ppms -->
+    <if condition="$movePic">
+      <div style="width: 920px; margin: 0 auto; color: red; text-align: center; background: #fffae3; border: 1px solid #f1e38b; font-size: 13pt;">
+        <span>该宝贝详情图片来源为淘宝，所以会自动开启“图片搬家”功能，点击上传后浏览器可能会无响应，需等待1～3分钟</span>
+      </div>
+    </if>
+    <div style="width: 920px; margin: 0 auto; text-align: right;">
+      <span>{$memberId} | </span><a href="{:U('Index/signOut')}">退出</a>
+    </div>
+    <!-- S setp -->
+    <div class="flow_step_no2 flow_step_no0_n">
+      <div class="flow_step" style="margin-top:10px;">
+        <ol class="cols3">
+          <li class="step_1">1.选择商品分类</li>
+          <li class="step_2">2.填写商品详情</li>
+          <li class="step_3">3.发布成功</li>
+        </ol>
+      </div>
+    </div>
+    <!-- E setp -->
+    <div class="upload_tips upload_notice"><img class="upload_tips_icon" src="http://static.paipaiimg.com/module/b.png" />提醒：商品违规发布累计扣十二分将会被处以店铺商品批量下架、限制发布商品及公示警告的处罚。禁止发布侵犯他人知识产权的商品，请确认商品符合知识产权保护的规定。请您在发布前详细了解以下规则：<br />
+      <a class="linkLine" target="_blank" href="http://help.paipai.com/content/help_60102.shtml">拍拍商品发布规则</a>　　<a class="linkLine" target="_blank" href="http://help.paipai.com/content/help_1046.shtml">拍拍网监管处罚细则</a>　　<a class="linkLine" target="_blank" href="http://help.paipai.com/content/help_60101.shtml">禁止交易和限制交易的物品规则</a></div>
+      <div class="wrap">
+        <!-- hd：基本信息 -->
+        <div class="hd">
+          <h3>基本信息<span>（以下带<em class="asterisk">*</em>的项必填。）</span></h3>
+        </div>
+
+        <!-- 商品类目 -->
+        <div class="bd item_category">
+          <div class="fm_tit">商品类目：</div>
+          <div class="fm_cnt" id="classfullname">
+            <p class="upload_fm">{$catStr} >><a href="{:U('Index/authBack')}">[更改类目]</a></p></div>
+</div>
+
+<!-- 出售类型 -->
+<div class="bd sell_type" style="display: none;">
+  <div class="fm_tit"><em class="asterisk">*</em>出售类型：</div>
+  <div class="fm_cnt">
+    <p class="upload_fm"><label for="cSellType1" class="type_fixed_price"><input type="radio" name="cSellType" id="cSellType1" value="1" checked="checked" />一口价</label>　<a href="http://my.paipai.com/cgi-bin/item_mgn/uploadview?sItemid=&iUpdateType=0&cSellType=2&dwLeafClassId=202020">[我要发布拍卖商品]</a>　　<a href="http://help.paipai.com/content/help_30113.shtml" target="_blank">“一口价”与“拍卖”的区别</a></p></div>
+</div>
+
+
+
+
+<!-- 新旧程度 -->
+<div class="bd new_or_old">
+  <div class="fm_tit"><em class="asterisk">*</em>新旧程度：</div>
+
+  <div class="fm_cnt">
+    <p class="upload_fm"><label><input name="cNewType" type="radio" value="1"  defaultvarforcheckbox="cNewType" checkboxvar="0" checked="checked" />全新</label>　<label><input  type="radio" value="2" disabled="disabled" />二手</label>　　<a href="http://help.paipai.com/content/help_20809.shtml" target="_blank">二手商品的诚信保证服务相关说明</a></p>
+  </div>
+
+</div>
+
+
+
+<!-- 商品属性 -->
+<div class="bd attribute">
+  <div class="fm_tit">商品属性：<br />
+    （带<em class="asterisk">*</em>为必填项）</div>
+  <div class="fm_cnt">
+    <div class="attr_des" id ="classAttrTip"><img class="upload_tips_icon" src="http://static.paipaiimg.com/module/b.png" />填错商品属性可能会引起商品下架，影响您的正常销量。默认选中第一个，请手工调整。</div>
+    <div class="attr_form">
+      <ul class="attr_list" id="classAttrDiv"><p align="center"><img src="http://static.paipaiimg.com/assets/common/loading2.gif" /><br />数据加载中……</p></ul>
+    </div>
+    <!--这个button不能删除，用于阻止inter键触发表单提交-->
+    <div style="display:none"><button onclick="return false"></button></div>
+  </div>
+</div>
+
+
+<!-- 商品名称 -->
+<div class="bd title">
+  <div class="fm_tit"><em class="asterisk">*</em>商品名称：</div>
+  <div class="fm_cnt">
+    <p class="upload_fm"><input class="ipt_txt" name="sTitle" id="sTitle"  type="text" value="{$infoTitle}" maxlength="60" size="60" promote="商品名称" /></p>
+    <span class="tips_wran" style="display:none" id="sTitle_error"></span>
+    <p class="hint">标题长度至少3个字符，最长30个汉字<br />
+      未加入拍拍"假一赔三"的商品名称中勿带正品含义的所有关键字</p>
+  </div>
+</div>
+
+<!-- 商品库存 -->
+<div class="bd stock" id="stockShowFrame_1">
+  <div class="fm_tit">商品库存：</div>
+  <div class="fm_cnt">
+    <div><input type="checkbox" name="stockSwitch" id="stockSwitch" checked="true"><label for="stockSwitch">启用库存配置</label>&nbsp;&nbsp;<a href="http://help.paipai.com/content/help_30122.shtml" target="_blank">查看使用帮助&gt;&gt;</a><font color="#FF0000"></font></div>
+    <div id="divStockArea">
+      <div id="divSaleAttrSelectorArea">
+        <ul class="attr_list attr_list_compact tb_colors" id="saleattrs"></ul>
+      </div>
+      <!--div id="divStockTableArea" class="item-list">
+      </div-->
+      <table class="table_aip"  style="width:750px">
+        <colgroup>
+            <col width="10%">
+            <col width="90%">
+        </colgroup>
+        <tbody>
+            <tr>
+                <th>商品类目：</th>
+                <td><strong class="strong">*</strong> <!--
+                        <select name="jumpMenu" id="jumpMenu" onchange="MM_jumpMenu('parent',this,0)">
+                          <option>请选择</option>
+                        </select>
+                        --> <span id="clzPanel0"></span></td>
+            </tr>
+            <tr>
+                <th>库存填写：</th>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan=2>
+                    <div class="fm_cnt" style="border-left:none"><div id="divStockArea"></div></div>
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input id="btnSubmit" type="button" value="生成属性串" /></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                <p class="msg-para-right" id="msgOk"><span class="msg0-icon-right"></span><strong
+                    class="msg-title">恭喜！</strong> <span class="msg-para-hint"></span>库存串串计算成功</p>
+                <p class="msg-para-warn" id="msgErr"><span class="msg0-icon-warn"></span><strong class="msg-title">错误！</strong> <span class="msg-para-hint"></span><label id=errMessage>属性串生成错误请检查。</label></p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+    <!--<div class="upload_tips" style="margin: 5px 20px 10pt 0;"><img class="upload_tips_icon" src="http://static.paipaiimg.com/module/b.png"><em style="color:#FF5500">【新功能】分库存属性可独立修改了。采用独立修改的方式，将不会影响下面库存属性表中的信息。赶快试用吧！</em><a href="http://bbs.paipai.com/thread-2148477-1-1.html" target="_blank" tag="new_feature_tips" nft_id="20120514001" top="20" left="-144">查看说明</a></div>
+        <div class="stock_area" id="stockArea"></div>
+        <div id="stockAttrUploader"></div>-->
+  </div>
+</div>
+
+
+
+<!-- 商品图片 -->
+<div class="bd picture">
+  <div class="fm_tit"><em class="asterisk">*</em>商品图片：</div>
+  <div class="fm_cnt">
+    <!-- S 商品图片 -->
+    <div class="wrap_pic">
+      <ul class="pic_hd" id ="sectionHandle"><li section="localSection" class="current">本地上传图片</li><li section="webSection">上传拍拍相册图片</li><li section="spuSection" style="display:none">上传产品库图片</li></ul>
+      <div class="pic_bd">
+        <!-- 本地图片 -->
+        <div class="pic_location" id ="localSection" >
+          <div class="upload_tips flash_tips" id="divFlashNoTips" style="display:none"><img class="upload_tips_icon" src="http://static.paipaiimg.com/module/b.png" /><em style="color:#F60;font-weight:bold">您的电脑未安装或未启用flash播放器，不可上传本地图片。</em><p>您可以上传拍拍相册图片，或安装flash播放器。<a href="http://www.adobe.com/go/getflashplayer" target="_blank">点击此处安装</a></p></div>
+        </div>
+
+        <!-- 相册图片 -->
+        <div class="pic_web" style="display:none;" id ="webSection">
+          <p class="select_album"><a href="javascript:;" class="upward_enable" id ="webPicListBack" title="点击进入上一级目录"><span></span>向上</a>　　位置：<span class="album_path" id="albumPath"></span><a href="http://ext.paipai.com/album/photomanage" class="album_manage" target="_blank">管理相册</a></p>
+          <ul class="pic_list" id="webPicList">
+          </ul>
+          <div class="pic_web_page" id = "webPicPager"></div>
+        </div>
+        <!-- SPU图片 -->
+        <div class="pic_spu" style="display:none;" id ="spuSection">
+          <p class="spu_des">发布标准化商品时，拍拍网提供产品官方图片供您自愿选择使用。</p>
+          <ul id="spuPicList" class="pic_list"></ul>
+          <div class="pic_spu_page" id ="spuPicPager"></div>
+        </div>
+      </div>
+      <div class="pic_preview">
+        <ul class="preview_list" id ="fileViewList" style="position:relative">
+          <li class="firist">
+            <div class="preview_pic" id="fileview1">
+              <img class="preview_img" src="http://static.paipaiimg.com/upload/item_upload_pic_nopic.png" defaultsrc ="http://static.paipaiimg.com/upload/item_upload_pic_nopic.png" realurl="http://static.paipaiimg.com/upload/item_upload_pic_nopic.png" />
+              <a href="javascript:;" id="pic_change_1">更换主图</a>
+            </div><!--p class="btn_upload" ><button type="button">上传图片</button><span id="uploadbutton"></span></p-->
+          </li>
+          <li>
+            <div class="preview_pic" id="fileview2">
+              <img class="preview_img" src="http://static.paipaiimg.com/upload/item_upload_pic_nopic.png"  defaultsrc ="http://static.paipaiimg.com/upload/item_upload_pic_nopic.png" realurl="http://static.paipaiimg.com/upload/item_upload_pic_nopic.png" />
+              <a href="javascript:;" id="pic_change_2">更换主图</a>
+            </div><!--p class="btn_upload" ><button type="button">上传图片</button></p-->
+          </li>
+          <li>
+            <div class="preview_pic" id="fileview3">
+              <img class="preview_img" src="http://static.paipaiimg.com/upload/item_upload_pic_nopic.png"  defaultsrc ="http://static.paipaiimg.com/upload/item_upload_pic_nopic.png" realurl="http://static.paipaiimg.com/upload/item_upload_pic_nopic.png" />
+              <a href="javascript:;" id="pic_change_3">更换主图</a>
+            </div><!--p class="btn_upload" ><button type="button">上传图片</button></p-->
+          </li>
+          <li>
+            <div class="preview_pic" id="fileview4">
+              <img class="preview_img" src="http://static.paipaiimg.com/upload/item_upload_pic_nopic.png"  defaultsrc ="http://static.paipaiimg.com/upload/item_upload_pic_nopic.png" realurl="http://static.paipaiimg.com/upload/item_upload_pic_nopic.png" />
+              <a href="javascript:;" id="pic_change_4">更换主图</a>
+            </div><!--p class="btn_upload" ><button type="button">上传图片</button></p-->
+          </li>
+          <li>
+            <div class="preview_pic" id="fileview5">
+              <img class="preview_img" src="http://static.paipaiimg.com/upload/item_upload_pic_nopic.png"  defaultsrc ="http://static.paipaiimg.com/upload/item_upload_pic_nopic.png" realurl="http://static.paipaiimg.com/upload/item_upload_pic_nopic.png" />
+              <a href="javascript:;" id="pic_change_5">更换主图</a>
+            </div><!--p class="btn_upload" ><button type="button">上传图片</button></p-->
+          </li>
+        </ul>
+        <div class="upload_op" id = "fileControl" style="display:none"><p class="upload_op_lucidity"></p><p class="upload_op_pic"><a href="javascript:;" id="imgBtnMLeft" border="0"><img class="upload_op_left" src="http://static.paipaiimg.com/module/b.png" /></a><a href="javascript:;" id="imgBtnMRight" border="0"><img class="upload_op_right" src="http://static.paipaiimg.com/module/b.png" /></a><a href="javascript:;" id="imgBtnClose" border="0"><img class="upload_op_close" src="http://static.paipaiimg.com/module/b.png" /></a></p></div>
+        <input type="hidden" name="uploadPicInfo1" id ="uploadPicInfo1" />
+        <input type="hidden" name="uploadPicInfo2" id ="uploadPicInfo2" />
+        <input type="hidden" name="uploadPicInfo3" id ="uploadPicInfo3" />
+        <input type="hidden" name="uploadPicInfo4" id ="uploadPicInfo4" />
+        <input type="hidden" name="uploadPicInfo5" id ="uploadPicInfo5" />
+        <!--div class="upload_tips preview_des"><img class="upload_tips_icon" src="http://static.paipaiimg.com/module/b.png" /><em>上传800*800像素以上的图片，即可在商品详情页面提供图片放大功能。</em><br />默认显示第一张图片，请勿使用带有第三方网址水印的图片。<br/>图片仅支持jpg和gif格式，不能小于300*300像素，大小不能超过990K。<br />商品初次发布15天后修改第一张主图可能导致销量清空。（一张图片升级为5张除外） <a href="http://bbs1.paipai.com/g40005c0i1073s0p0.html" target="_blank">查看规则&raquo;</a> <br />拍拍提醒您发布商品的实物图片， 否则引起的交易纠纷等需要自行承担责任。 </div-->
+      </div>
+    </div>
+    <!-- E 商品图片 -->
+  </div>
+</div>
+
+
+<!-- 尺码对照表 -->
+<div class="bd size_table" id="divSizeTable" style="display:none">
+  <div class="fm_tit">尺码对照表：</div>
+  <div class="fm_cnt">
+    <div id = "noSize" style="display:none;"><p><a href="http://help.paipai.com/content/help_30124.shtml" target="_blank">什么是尺码对照表？</a></p>
+      <p class="upload_tips tips_no_size_table"><img class="upload_tips_icon" src="http://static.paipaiimg.com/module/b.png" />您还没有使用过尺码对照表，请点击<a target="_blank" href="http://my.paipai.com/cgi-bin/dimension/add_entry">添加新的尺码对照表</a>在新窗口中设置。设置完成请点<a href="javascript:;" id="refreshSizeLink">更新</a>。</p></div>
+    <div id = "haveSize" style="display:none;"><p><select id="sizeTableSel" name="sizeTableSel"><option>不使用</option></select> <input type="button" id="refreshSize" value="更新列表" /></p></div>
+    <p class="size_table_edit"><a href="http://my.paipai.com/cgi-bin/dimension/add_entry" target="_blank">新增尺码对照表</a> | <a href="http://my.paipai.com/cgi-bin/dimension/list" target="_blank">管理尺码对照表</a></p></div>
+</div>
+
+
+
+<!-- 一口价 -->
+<div class="bd price_item">
+  <div class="fm_tit"><em class="asterisk">*</em>一口价：</div>
+  <div class="fm_cnt">
+    <p class="upload_fm" id="commPriceEditArea"><input name="dwPrice_bin" type="text" selltype="bin" id="dwPrice_bin" value="{$stockPrice}" size="12" /> 元</p>
+    <span id="commPriceShowArea" style="display:none"></span>
+    <span class="tips_stock_price" id="commPriceShowAreaInfo" style="display:none;"></span>
+    <span style="display:none" class="tips_wran" id="dwPrice_bin_error"></span>
+    <div style="display:none;margin: 5px 20px 0pt 0pt;" class="upload_tips" id="dwPrice_bin_tip"></div>
+    <p class="hint">价格必须是0.01~5000000之间的数字<br />
+      若启用了库存配置，请到上方商品库存区域管理价格<br />
+      若出于恶意竞争填写过高或过低的价格，可能引起商品下架或受到相关处罚</p>
+  </div>
+</div>
+
+
+
+
+
+<!-- 商品总数 -->
+<div class="bd total_item">
+  <div class="fm_tit"><em class="asterisk">*</em>商品总数：</div>
+  <div class="fm_cnt">
+    <p class="upload_fm"><input name="dwNum" type="text"  id="dwNum" value="100" size="12" /> 件</p>
+    <span style="display:none" class="tips_wran" id="dwNum_error"></span>
+    <p class="hint" id="stockNumInfo" style="display:none;">商品数量必须为1~1000000000之间的整数<br />
+      若启用了库存配置，则系统自动计算商品的总数，此处无需卖家填写</p>
+  </div>
+</div>
+
+
+<!-- 限制买家购买数量 -->
+<div class="bd total_item" id ="bin_buye_limit">
+  <div class="fm_tit">限制买家购买数量：</div>
+  <div class="fm_cnt">
+    <p class="upload_fm"><input name="dwOpNum" type="text" id="dwOpNum" selltype="bin"   value="0" size="12" /> 件</p>
+    <span style="display:none" class="tips_wran" id="dwOpNum_error"></span>
+    <p class="hint">买家购买数量限制是指同一买家在3天内能购买的最大数量，0件表示不限制</p>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 商家编码 -->
+<div class="bd seller_number">
+  <div class="fm_tit">商家编码：</div>
+  <div class="fm_cnt">
+    <p class="upload_fm"><input name="sDefStockId" id="sDefStockId" require="false" datatype="LimitB" min="1" maxlength="20"  msg="请正确输入商家编码，最多可以输入20个字符" type="text" value="" size="30" promote="商家编码" /></p>
+    <p class="hint">商家编码是指卖家个人管理商品的编码<br />最多可输入20个字符，支持输入中文、字母、数字、_、/、-和小数点</p>
+  </div>
+</div>
+
+
+
+<!-- 一口价运费模块 -->
+<div class="bd postage_item">
+  <div class="fm_tit"><em class="asterisk">*</em>运费：</div>
+  <div class="fm_cnt">
+    <ul class="upload_fm">
+      <li class="postage_for_seller"><label for="cTransportType1"><input class="ipt_radio" type="radio" id="cTransportType1" name="cTransportType" value="1" defaultvarforradio="cTransportType" radiovar="2" />卖家承担运费</label></li>
+      <li class="postage_for_buyer"><label for="cTransportType2"><input class="ipt_radio" type="radio" id="cTransportType2" name="cTransportType" value="2" selltype="bin"  datatype="Group"  msg="请选定商品的运费承担方式" />买家承担运费</label>
+        <!--普通的运费模版ID-->
+        <ul id="TransportTypeBuyerDiv">
+          <li>
+            <ul  class="postage_template">
+              <li><h4>普通运费设置</h4></li>
+              <li><ul><li><label for="YunFeiMoban1"><input type="radio" id="YunFeiMoban1" name="YunFeiMoban" value="1" checked="checked" defaultvarforradio="YunFeiMoban" radiovar="1"  />使用运费模板</label><br />
+                    <div id="haveSFTemplate" style="display:none"><p class="select_template" id="TransportTemplateDiv">请选择运费模板 <select id="transporttemplateid" name="transporttemplateid"></select> <input type="button" value="更新列表" id="refreshSFTtemplate"/> 点击这里<a href="http://my.paipai.com/cgi-bin/shippingfee/sfmgrlist" target="_blank">管理运费模板</a></p></div>
+                    <div id="noSFTemplate" style="display:none">
+                      <p class="select_template">您还没有创建运费模板，请点击<a href="http://my.paipai.com/cgi-bin/shippingfee/sfmgraddentry" target="_blank">创建运费模板</a>在新窗口中设置。设置完成请点<a href="#nolink" id="refreshSFT">更新</a>。</p>
+                  </div></li>
+                  <li><input name="YunFeiMoban" type="radio" id="YunFeiMoban2" value="2" /><label for="dwNormalMailPrice">平邮：<input name="dwNormalMailPrice" id="dwNormalMailPrice"  value="" selltype="bin"  type="text"  size="10"  /> 元</label>　<label for="dwExpressMailPrice">快递：<input name="dwExpressMailPrice" id="dwExpressMailPrice" value="" selltype="bin"  type="text" size="10"  /> 元</label>　<label for="dwEMSMailPrice">EMS：<input name="dwEMSMailPrice" id="dwEMSMailPrice" value="" selltype="bin"  type="text" size="10" /> 元</label><span style="display:none" class="tips_wran" id="YunFeiMoban_error"></span></li>
+            </ul></li></ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- 一口价运费模块 -->
+<div class="bd postage_item" id = "TransportTypeBuyerDivCod" style = "display:none">
+  <div class="fm_tit"><em class="asterisk"></em>货到付款：</div>
+  <div class="fm_cnt">
+    <ul class="upload_fm">
+      <li class="postage_for_cod">
+        <p><label for="ckbIsSupportCod"><input type="checkbox" id="ckbIsSupportCod" />该商品支持货到付款</label>　　<a href="http://help.paipai.com/content/help_1504.shtml" target="_blank">货到付款详细介绍</a></p>
+        <ul class="postage_template" id = "codTemplateArea" style="display:none">
+          <li><h4>货到付款运费设置</h4></li>
+          <li><ul><li>
+                <p>使用货到付款运费模板</p>
+                <div id="haveSFTemplateCod" style="display:none"><p class="select_template" id="TransportTemplateDiv">请选择运费模板 <select id="transporttemplateidCod" name="transporttemplateidCod"></select> <input type="button" value="更新列表" id="refreshSFTtemplateCod"/> 点击这里<a href="http://my.paipai.com/cgi-bin/shippingfee/sfcodlist" target="_blank">管理运费模板</a></p></div>
+                <div id="haveNoSFTemplateCod" style="display:none">
+                  <p class="select_template">您还没有创建运费模板，请点击<a href="http://my.paipai.com/cgi-bin/shippingfee/sfcodaddentry" target="_blank">创建运费模板</a>在新窗口中设置。设置完成请点<a href="#nolink" id="refreshSFTCod">更新</a>。</p>
+                </div>
+          </li></ul></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="bd postage_item" id = "TransportTypeBuyerDivNoCod" style = "display:none">
+  <div class="fm_tit"><em class="asterisk"></em>货到付款：</div>
+  <div class="fm_cnt">您还没有开通货到付款，<a href="http://my.paipai.com/cgi-bin/applycod/entry" target="_blank">现在去开通</a></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- 商品详情描述 -->
+<div class="hd">
+  <h3><span class="asterisk">*</span>商品详情描述</h3>
+</div>
+<div class="bd description">
+  <textarea id="sDesc" name="sDesc" style="width:930px;height:385px;">
+    {$offerDetail}
+  </textarea>
+
+
+</div>
+
+
+<!-- 诚信保证计划 -->
+<div class="hd">
+  <h3>诚信保证计划</h3>
+</div>
+
+
+<div class="bd chengbao">
+  <ul>
+    <li><label for="XiaoBao14Day"><input type="checkbox"  id="XiaoBao14Day" checked="checked" readonly="readonly" disabled="disabled" value="1" />诚信保证计划—"14天先行赔付"</label><span class="hint">(默认支持)</span></li>
+
+    <li><label for="XiaoBao7Day"><input type="checkbox" name="cXiaobao" id="XiaoBao7Day" value="2" defaultvarforcheckbox="cXiaobao" checkboxvar=""/>诚信保证计划—"<span>7天包退</span>"</label><span class="hint">(选择后将获得更多推荐)</span>
+      <a href="http://help.paipai.com/content/help_20810.shtml" target="_blank">查看规则&raquo;</a>
+      <span id="cXiaoBaoFeiHua" style="display:none" class="fontOrange" >请确保您已仔细阅读了“<span id="XiaoBao7DayName2">7天包退</span>”的有关协议，虚拟商品建议您不要选择此项！</span></li>
+
+
+
+
+
+
+
+  </ul>
+</div>
+
+
+
+
+<div class="hd">
+  <h3>其他信息</h3>
+</div>
+
+<!-- 商品模板 -->
+<div class="bd item_location" id = "divDetailTemplateArea" style="display:none">
+  <div class="fm_tit"><em class="asterisk">*</em>商品详情模板：</div>
+  <div class="fm_cnt">
+    <p class="upload_fm"><select name="detailTemplateSlt" id="detailTemplateSlt"></select>&nbsp;<input type="button" id ="linkFlushDetailTemplate" value="刷新" />　<a href="http://my.paipai.com/cgi-bin/myshop/manage?link=20&ptag=40042.6.28" target="_blank">模板管理</a></p>
+  </div>
+</div>
+
+
+<!-- 商品所在地 -->
+<div class="bd item_location">
+  <div class="fm_tit"><em class="asterisk">*</em>商品所在地：</div>
+  <div class="fm_cnt">
+    <p class="upload_fm"><select name="province" id="adrsProv"></select> <select name="city" id="adrsCity"></select></p>
+    <span style="display:none" class="tips_wran" id="addressError"></span>
+    <p class="hint">如不填写将默认展示您个人资料中设置的地址；<a href="http://my.paipai.com/cgi-bin/c2cUser_view_userInfo?isSellLink=19" target="_blank">设置新的个人所在地</a></p>
+  </div>
+</div>
+
+
+
+<!-- 发票 -->
+<div class="bd invoice">
+  <div class="fm_tit"><em class="asterisk">*</em>发票：</div>
+  <div class="fm_cnt">
+    <p class="upload_fm"><label><input name="cInvoiceType" type="radio" value="1" defaultvarforradio="cInvoiceType" radiovar="2" />有</label>
+      <label><input name="cInvoiceType" type="radio" value="2" datatype="Group"  msg="请选定商品的发票有无" checked="checked" />无</label></p>
+  </div>
+</div>
+
+
+
+<!-- 保修 -->
+<div class="bd guarantee">
+  <div class="fm_tit"><em class="asterisk">*</em>保修：</div>
+  <div class="fm_cnt">
+    <p class="upload_fm"><label><input name="cRepairType" type="radio" value="1"  defaultvarforradio="cRepairType" radiovar="2"/>有</label>
+      <label><input name="cRepairType" type="radio" value="2"  datatype="Group"  msg="请选定商品的保修情况" checked="checked" />无</label></p>
+  </div>
+</div>
+
+
+
+
+<!-- 自定义分类 -->
+<div class="bd shop_category">
+  <div class="fm_tit">自定义分类：</div>
+  <div class="fm_cnt"><p class="hint">您也可以到"我的拍拍-店铺管理-<a href="http://my.paipai.com/cgi-bin/myshop/manage?link=11" target="_blank">自定义分类</a>"中设置您的商品归类。</p>
+
+  </div>
+</div>
+
+<!-- 有效期 -->
+<div class="bd item_indate">
+  <div class="fm_tit"><em class="asterisk">*</em>有效期：</div>
+  <div class="fm_cnt">
+    <p class="upload_fm"><select name="dwValidDuration" id="dwValidDuration" class="select_span" defaultvar="7">
+
+        <!-- <option value="7" >37</option> -->
+        <option value="14">14</option>
+      </select> 天</p>
+    <p class="hint">有效期指商品在架销售的一个周期。<br />
+      商品在架时间超过有效期，系统将根据自动上架的设置处理商品：自动上架继续销售或陈列在仓库中。</p>
+  </div>
+</div>
+
+<!-- 自动上架 -->
+<div class="bd auto_shelves">
+  <div class="fm_tit"><em class="asterisk">*</em>自动上架：</div>
+  <div class="fm_cnt">
+    <p class="upload_fm"><label><input name="cAutoReload" type="checkbox" value="1" checked="checked" defaultvarforcheckbox="cAutoReload" checkboxvar="1" />是</label></p>
+    <p class="hint">如您选择“是”，诚保卖家可自动上架10次。<br />
+      且“仓库中商品-等待上架的商品”列表里的商品，通过手工上架可以再自动上架10次。</p>
+  </div>
+</div>
+
+<!-- 预售商品 -->
+<div class="bd presellitem">
+
+</div>
+
+
+
+<!-- 上架时间 -->
+<div class="bd shelves_time">
+  <div class="fm_tit"><em class="asterisk">*</em>上架时间：</div>
+  <div class="fm_cnt">
+    <ul class="upload_fm shelves_list">
+
+      <li><label for="cAddType1"><input name="cAddType" type="radio" id="cAddType1" value="1" checked="checked" datatype="Group"  editvar="1" />立即上架</label></li>
+
+
+      <li><label for="cAddType3"><input type="radio" value="3" name="cAddType" id="cAddType3" />定时上架</label>　<span class="" style="display:none;" id="added_on_time">
+          <select id="addedDate" onchange="setDefaultUploadHour(this.value,1386398776)" ></select>
+          <select id="addedHour"><option value="0">0</option></select> 时
+          <select id="addedMinute">
+            <option value="0">0</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+            <option value="30">30</option>
+            <option value="35">35</option>
+            <option value="40">40</option>
+            <option value="45">45</option>
+            <option value="50">50</option>
+            <option value="55">55</option>
+          </select> 分　左右上架</span>
+      </li>
+
+
+
+      <li><label for="cAddType2"><input name="cAddType" type="radio" id="cAddType2" value="2" />放入仓库</label><span class="hint">(等待上架)</span></li>
+
+
+
+
+
+
+
+    </ul>
+  </div>
+</div>
+
+<!-- 橱窗推荐 暂时隐藏废弃 需要清理下面代码-->
+<div class="bd shopwindow" style="display:none">
+  <div class="fm_tit">橱窗推荐：</div>
+  <div class="fm_cnt">
+    <p class="upload_fm"><label for="shopwindow"><input name="shopwindow" id="shopwindow" type="checkbox" value="1" />是</label></p>
+    <p class="hint">您当前共有 <strong>0</strong> 个<a href="http://my.paipai.com/cgi-bin/mypaipai/selling?SellingType=1&isSellLink=34" target="_blank">橱窗推荐位</a>，使用了 <strong>0</strong> 个。<br />利用好橱窗推荐，获得更多成交！
+      <a href="http://help.paipai.com/content/help_30508.shtml" target="_blank">什么是"橱窗推荐"？</a>
+      <a href="http://help.paipai.com/content/help_30509.shtml" target="_blank">如何设置“橱窗推荐”？</a></p>
+  </div>
+</div>
+
+<div class="bd stockreduce">
+  <div class="fm_tit"><em class="asterisk">*</em>库存扣减设置：</div>
+  <div class="fm_cnt">
+    <ul>
+      <li><label><input name="cReduceType" type="radio" value="0" defaultvarforradio="cReduceType" radiovar="0" />付款扣库存<b>（推荐）</b></label>
+        <span class="msg0-icon-help" title="买家付款成功后才扣减库存，可避免恶意下单，但存在超卖风险。"></span>
+      </li>
+      <li><label><input name="cReduceType" type="radio" value="1" />下单扣库存</label>
+        <span class="msg0-icon-help" title="买家拍下商品即扣减库存，适用于抢购、促销等热销商品。可避免超卖。设置后只能使用立即购买，无法加入购物车。"></span>
+      </li>
+      <div class="attr_des" id ="reduceTypeTip" style="display:none"><img class="upload_tips_icon" src="http://static.paipaiimg.com/module/b.png" />设置下单扣库存的商品，暂时只支持使用立即购买，无法加入购物车，且无法加入优惠套餐。</div>
+    </ul>
+  </div>
+</div>
+
+<div class="bd stockreduce">
+  <div class="fm_tit"><em class="asterisk">*</em>下架提醒：</div>
+  <div class="fm_cnt">
+    <ul>
+      <li><label><input name="autoOff" type="checkbox" checked="true" id="autoOff"/>开启<b>（推荐）</b></label>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- 进口商品条形码 -->
+<div class="bd importitem">
+
+</div>
+
+</div>
+
+<p class="item_submit">
+  <input type="hidden"  name="submit_source" id="submit_source" value="" />
+  <input type="image" src="http://static.paipaiimg.com/upload/item_upload_submit.png" name="confirm" id="confirm" /></p>
+<div id="uploading" style="display:none"></div>
+
+<div id="forbid" style="display:none">
+  <div style="margin-top:20px; text-align:center"><IMG hspace=5 src="http://pics.paipai.com/upload/choiceNote.gif" align=absMiddle>您需要先<A class=linkLine href="http://pay.paipai.com/cgi-bin/pay_query_user_qpayaccount" target=_blank>注册财付通</A>，才能上架出售商品！<IMG src="http://pics.paipai.com/common/icon/tenpay.gif" align=absMiddle><A class=linkLine style="FONT-SIZE: 12px" href="https://www.tenpay.com/zft/qa/guide/index.shtml" target=_blank>财付通是什么？</A></div>
+</div>
+<!--div class="m">
+  <div class="footer-services">
+    <ul>
+      <li class="footer-snewbie">
+        <dl> <dt><span class="ico"></span><strong class="tit">新手上路</strong></dt> <dd><a href="http://www.paipai.com/fresher/promote/mall.shtml?ppmall=paipai_fresher_12&amp;PTAG=20084.27.1" target="_blank">新人购物指南</a></dd> <dd><a href="http://fuwu.paipai.com/?PTAG=20084.27.1" target="_blank">商户服务平台</a></dd> </dl></li>
+      <li class="footer-ssafe">
+        <dl> <dt><span class="ico"></span><strong class="tit">购物保障</strong></dt> <dd><a href="http://www.paipai.com/trust/plan/?tab=2&amp;PTAG=20084.27.2" target="_blank">先行赔付</a></dd> <dd><a href="http://www.paipai.com/trust/plan/?tab=6&amp;PTAG=20084.27.2" target="_blank">正品假一赔三</a></dd> <dd><a href="http://www.paipai.com/trust/plan/?tab=4&amp;PTAG=20084.27.2" target="_blank">7天包退</a></dd> <dd><a href="http://www.paipai.com/trust/plan/?tab=5&amp;PTAG=20084.27.2" target="_blank">诚保代充</a></dd></dl></li>
+      <li class="footer-spay">
+        <dl> <dt><span class="ico"></span><strong class="tit">支付方式</strong></dt> <dd><a href="http://help.paipai.com/pay/index.html#5-1-1-1?PTAG=20084.27.3" target="_blank">一点通支付</a></dd> <dd><a href="http://help.paipai.com/pay/index.html#4-1-1-1?PTAG=20084.27.3" target="_blank">信用卡支付</a></dd> <dd><a href="http://help.paipai.com/pay/index.html#3-1-1-1?PTAG=20084.27.3" target="_blank">借记卡支付</a></dd> <dd><a href="http://help.paipai.com/pay/index.html#9-1-1-1?PTAG=20084.27.3" target="_blank">请人代付</a></dd></dl></li>
+      <li class="footer-scare">
+        <dl class="last"> <dt><span class="ico"></span><strong class="tit">售后服务</strong></dt> <dd>消费者业务咨询:0755-83762288</dd> <dd>商家业务咨询:075583768988</dd> <dd><a href="http://my.paipai.com/cgi-bin/rightdefence_list?flag=0&PTAG=20084.27.6" target="_blank">消费者维权中心</a></dd></dl></li>
+    </ul>
+  </div>
+</div-->
+
+<!--div id="foot" class="m">
+  <div class="foot_nav">
+    <ul class="foot_agreement">
+      <li><a href="http://help.paipai.com/introduce.shtml" target="_blank">拍拍简介</a></li>
+      <li><a target="_blank" href="http://help.paipai.com/news.shtml">拍拍动态</a></li>
+      <li><a target="_blank" href="http://help.paipai.com/commerce.shtml">商务合作</a></li>
+      <li><a target="_blank" href="http://service.qq.com/category/paipai.html">客服中心</a></li>
+      <li><a target="_blank" href="http://help.paipai.com/hr/">拍拍招聘</a></li>
+      <li><a target="_blank" href="http://www.paipai.com/sitemap.shtml">网站地图</a></li>
+      <li><a target="_blank" href="http://help.paipai.com/user_agreement.shtml">用户协议</a></li>
+      <li><a target="_blank" href="http://www.tencent.com/law/mo_law.shtml?/law/copyright.htm">版权说明</a></li>
+    </ul>
+    <div class="group_site">
+      <h4>腾讯旗下网站：</h4>
+      <ul>
+        <li><a target="_blank" href="http://www.tencent.com">腾讯官网</a></li>
+        <li><a target="_blank" href="http://www.qq.com">腾讯门户</a></li>
+        <li><a target="_blank" href="http://www.paipai.com">拍拍购物</a></li>
+        <li><a target="_blank" href="http://www.tenpay.com">财付通支付</a></li>
+        <li><a target="_blank" href="http://www.soso.com">SOSO搜索</a></li>
+        <li><a target="_blank" href="http://t.qq.com">腾讯微博</a></li>
+        <li><a target="_blank" href="http://fanli.qq.com/">QQ返利</a></li>
+        <li><a target="_blank" href="http://www.qq.com/map/">更多业务</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="copyright">
+    <div class="saftsite"> <a target="_blank" href="http://service.paipai.com/cgi-bin/go?pageId=10&domainId=1&linkId=84&url=http://www.paipai.com/include/netSupervision.html"><span class="ploice1"></span></a> <a target="_blank" href="http://service.paipai.com/cgi-bin/go?pageId=10&domainId=1&linkId=84&url=http://www.paipai.com/include/netSupervision.html"><span class="ploice2"></span></a> </div>
+    <div>
+      <p>Copyright&copy; 1998-<script type="text/javascript">(function(){document.write(new Date().getFullYear())})()</script> Tencent.All Rights Reserved 腾讯公司 版权所有 </p>
+      <p><a target="_blank" href="http://service.paipai.com/cgi-bin/go?pageId=10&domainId=1&linkId=79&url=http://www.paipai.com/include/gdca.html">广东省通管局</a> <a target="_blank" href="http://www.qq.com/icp.shtml">增值电信业务经营许可证B2-20040031 </a></p>
+    </div>
+  </div>
+</div-->
+<!--foot from ppms-->
+<!--1020底部-->
+<style type="text/css">
+  /*预告期*/
+
+  /*985版本*/
+  .event_1212_nav_btm{background-color:#f10547;left:0;bottom:0;z-index:201314; clear:both;}
+  .event_1212_nav_btm .inner{width:985px; margin: 0 auto; height:85px; overflow: hidden; position: relative;}
+  .event_1212_nav_btm .inner .l_main{position: absolute; left:0; width:188px; height:85px; background:url(http://static.paipaiimg.com/qqbuy/img/1212/bg_btm.png?t=2) no-repeat 0 -12px #e50543; text-indent: -9999px;}
+  .event_1212_nav_btm .inner .text{position: absolute; left:0; bottom:0; height:31px; background-color: #da0540; width:188px; color:#fff;}
+  .event_1212_nav_btm .inner .prev{position: absolute; left:10px; color:#fff; top:8px; width:100px; _top:10px;}
+  .event_1212_nav_btm .inner .prev_text{position: absolute; left:30px; color:#fff; font-size: 20px; font-family: "Arial"; white-space: nowrap; top:5px; font-weight: bold}
+  .event_1212_nav_btm .inner .time{position: absolute; left:65px; color:#fff; top:0px; font-size: 24px; font-family: "Arial"; white-space: nowrap;}
+  .event_1212_nav_btm .inner .box_1{margin-left: 188px; width:797px; overflow: hidden;}
+  .event_1212_nav_btm .inner .box_2{display: none}
+  .event_1212_nav_btm .inner .box_1 ul{width:850px;}
+  .event_1212_nav_btm .inner .box_1 li{float:left; width:89px; height:43px; font-size: 14px; line-height: 43px; text-align: center;}
+  .event_1212_nav_btm .inner .box_1 li.dark_red{background-color: #d90439}
+  .event_1212_nav_btm .inner .box_1 li a{float:left; width:88px; display: block; width:100%; height:100%; overflow: hidden; position: relative; color:#fff; font-weight: bold; font-family: "Microsoft Yahei";}
+  .event_1212_nav_btm .inner .box_1 li a i{font-family: "simsun"; padding-left: 4px;}
+  .event_1212_nav_btm .inner .box_1 li a:hover{color:#ffe92e; text-decoration: none}
+
+  /*1225版本*/
+  .wg_wide_show .event_1212_nav_btm .inner{width:1225px;}
+  .wg_wide_show .event_1212_nav_btm .inner .box_1{width:1037px;}
+  .wg_wide_show .event_1212_nav_btm .inner .box_1 ul{width:1100px;}
+  .wg_wide_show .event_1212_nav_btm .inner .box_1 li{width:115px; font-size: 16px;}
+
+
+  /*搜索1260宽度*/
+  .w1260 .event_1212_nav_btm .inner{width:1260px; border-right: 1px solid #000}
+  .w1260 .event_1212_nav_btm .inner .box_1{width:1072px;}
+  .w1260 .event_1212_nav_btm .inner .box_1 ul{width:1135px;}
+  .w1260 .event_1212_nav_btm .inner .box_1 li{width:120px; font-size: 16px;}
+
+  /*搜索1360宽度*/
+  .w1360 .event_1212_nav_btm .inner{width:1360px;}
+  .w1360 .event_1212_nav_btm .inner .box_1{width:1172px;}
+  .w1360 .event_1212_nav_btm .inner .box_1 ul{width:1235px;}
+  .w1360 .event_1212_nav_btm .inner .box_1 li{width:131px; font-size: 16px;}
+
+
+
+  /*正式期*/
+
+  /*985版本*/
+  .event_1212_nav_btm_release{}
+  .event_1212_nav_btm_release .inner{height:115px;}
+  .event_1212_nav_btm_release .inner .l_main{height: 115px; background-position: 0 0}
+  .event_1212_nav_btm_release .inner .text{height:40px; background-color:#ef134f}
+  .event_1212_nav_btm_release .inner .prev{ top:12px; _top:14px;}
+  .event_1212_nav_btm_release .inner .prev_text{top:8px;}
+  .event_1212_nav_btm_release .inner .time{top:5px;  }
+  .event_1212_nav_btm_release .box_1{display: none}
+  .event_1212_nav_btm_release .box_2{display:block !important; margin-left: 188px; width: 797px; overflow: hidden; position: relative; }
+  .event_1212_nav_btm_release .inner .box_2 ul{width:850px;}
+  .event_1212_nav_btm_release .inner .box_2 li{float:left; width:89px; height:39px; font-size: 14px; line-height: 39px; text-align: center; }
+  .event_1212_nav_btm_release .inner .box_2 li.dark_red{background-color: #d90439}
+  .event_1212_nav_btm_release .inner .box_2 li a{float:left; width:88px; display: block; width:100%; height:100%; overflow: hidden; position: relative; color:#fff; font-weight: bold; font-family: "Microsoft Yahei";}
+  .event_1212_nav_btm_release .inner .box_2 li a i{font-family: "simsun"; padding-left: 4px;}
+  .event_1212_nav_btm_release .inner .box_2 li a:hover{color:#ffe92e; text-decoration: none}
+  .event_1212_nav_btm_release .inner .box_2 li.qiang{position: absolute; height:78px; text-indent: -9999px; overflow: hidden; background:url(http://static.paipaiimg.com/qqbuy/img/1212/bg_btm.png?t=2) no-repeat -208px 0px; right:0px; _right:-1px; top:39px; width:85px;}
+
+  /*1225版本*/
+  .wg_wide_show .event_1212_nav_btm_release .inner{width:1225px;}
+  .wg_wide_show .event_1212_nav_btm_release .inner .box_2{width:1037px;}
+  .wg_wide_show .event_1212_nav_btm_release .inner .box_2 ul{width:1100px;}
+  .wg_wide_show .event_1212_nav_btm_release .inner .box_2 li{width:115px; font-size: 16px;}
+  .wg_wide_show .event_1212_nav_btm_release .inner .box_2 li.qiang{right:2px; _right:1px; width:115px; background:url(http://static.paipaiimg.com/qqbuy/img/1212/bg_btm.png?t=2) no-repeat -193px 0px #e30945; }
+
+
+  /*搜索1260宽度*/
+  .w1260 .event_1212_nav_btm_release .inner{width:1260px;}
+  .w1260 .event_1212_nav_btm_release .inner .box_2{width:1072px;}
+  .w1260 .event_1212_nav_btm_release .inner .box_2 ul{width:1135px;}
+  .w1260 .event_1212_nav_btm_release .inner .box_2 li{width:120px; font-size: 16px;}
+  .w1260 .event_1212_nav_btm_release .inner .box_2 li.qiang{right:-3px; width:115px; background:url(http://static.paipaiimg.com/qqbuy/img/1212/bg_btm.png?t=2) no-repeat -193px 0px #e30945; }
+
+  /*搜索1360宽度*/
+  .w1360 .event_1212_nav_btm_release .inner{width:1360px;}
+  .w1360 .event_1212_nav_btm_release .inner .box_2{width:1172px;}
+  .w1360 .event_1212_nav_btm_release .inner .box_2 ul{width:1235px;}
+  .w1360 .event_1212_nav_btm_release .inner .box_2 li{width:131px; font-size: 16px;}
+  .w1360 .event_1212_nav_btm_release .inner .box_2 li.qiang{right:-7px; width:131px; background:url(http://static.paipaiimg.com/qqbuy/img/1212/bg_btm.png?t=2) no-repeat -193px 0px #e30945; }
+
+</style>
+
+<div class="event_1212_nav_btm" id="eventBtmNav" style="display: none">
+  <div class="inner">
+    <a target="_blank" href="http://1212.wanggou.com/?PTAG=20205.15.1" class="l_main">主会场</a>
+    <div class="text" id="btmNote"></div>
+    <!--预热期列表 默认显示，正式期隐藏-->
+    <div class="box_1">
+      <ul>
+        <li class="dark_red"><a target="_blank" href="http://1212.wanggou.com/pre_lady.shtml?PTAG=20205.14.2">女装专场<i>&gt;</i></a></li>
+        <li><a target="_blank" href="http://1212.wanggou.com/pre_womanshoes.shtml?PTAG=20205.14.3">女鞋专场<i>&gt;</i></a></li>
+        <li class="dark_red"><a target="_blank" href="http://1212.wanggou.com/pre_underware.shtml?PTAG=20205.14.4">内衣专场<i>&gt;</i></a></li>
+        <li><a target="_blank" href="http://1212.wanggou.com/pre_beauty.shtml?PTAG=20205.14.5">化妆品专场</a></li>
+        <li class="dark_red"><a target="_blank" href="http://1212.wanggou.com/pre_bag.shtml?PTAG=20205.14.6">箱包专场<i>&gt;</i></a></li>
+        <li><a target="_blank" href="http://1212.wanggou.com/pre_watch.shtml?PTAG=20205.14.7">饰品专场<i>&gt;</i></a></li>
+        <li class="dark_red"><a target="_blank" href="http://1212.wanggou.com/pre_3c.shtml?PTAG=20205.14.8">数码专场<i>&gt;</i></a></li>
+        <li><a target="_blank" href="http://1212.wanggou.com/100tuan.shtml?PTAG=20205.14.9">品牌专场<i>&gt;</i></a></li>
+        <li class="dark_red"><a target="_blank" href="http://1212.wanggou.com/pre_baby.shtml?PTAG=20205.14.10">母婴专场<i>&gt;</i></a></li>
+        <li><a target="_blank" href="http://1212.wanggou.com/pre_man.shtml?PTAG=20205.14.11">男装专场<i>&gt;</i></a></li>
+        <li class="dark_red"><a target="_blank" href="http://1212.wanggou.com/pre_manshoes.shtml?PTAG=20205.14.12">男鞋专场<i>&gt;</i></a></li>
+        <li><a target="_blank" href="http://1212.wanggou.com/pre_sport.shtml?PTAG=20205.14.13">运动专场<i>&gt;</i></a></li>
+        <li class="dark_red"><a target="_blank" href="http://1212.wanggou.com/pre_life.shtml?PTAG=20205.14.14">家居专场<i>&gt;</i></a></li>
+        <li><a target="_blank" href="http://1212.wanggou.com/pre_food.shtml?PTAG=20205.14.15">食品专场<i>&gt;</i></a></li>
+        <li class="dark_red"><a target="_blank" href="http://1212.wanggou.com/pre_hobby.shtml?PTAG=20205.14.16">车品专场<i>&gt;</i></a></li>
+        <li><a target="_blank" href="http://1212.wanggou.com/pre_book.shtml?PTAG=20205.14.17">图书专场<i>&gt;</i></a></li>
+        <li class="dark_red"><a target="_blank" href="http://www.wanggou.com/sale.shtml?PTAG=20205.14.18">特价专场<i>&gt;</i></a></li>
+        <li><a target="_blank" href="http://1212.wanggou.com/chong.shtml?PTAG=20205.14.19">抢代金券<i>&gt;</i></a></li>
+      </ul>
+    </div>
+
+    <!--正式期列表 默认隐藏，正式期才显示-->
+    <div class="box_2">
+      <ul>
+        <li class="dark_red"><a target="_blank" href="http://1212.wanggou.com/pre_lady.shtml?PTAG=20205.15.2">女装专场<i>&gt;</i></a></li>
+        <li><a target="_blank" href="http://1212.wanggou.com/pre_womanshoes.shtml?PTAG=20205.15.3">女鞋专场<i>&gt;</i></a></li>
+        <li class="dark_red"><a target="_blank" href="http://1212.wanggou.com/pre_underware.shtml?PTAG=20205.15.4">内衣专场<i>&gt;</i></a></li>
+        <li><a target="_blank" href="http://1212.wanggou.com/pre_beauty.shtml?PTAG=20205.15.5">化妆品专场</a></li>
+        <li class="dark_red"><a target="_blank" href="http://1212.wanggou.com/pre_bag.shtml?PTAG=20205.15.6">箱包专场<i>&gt;</i></a></li>
+        <li><a target="_blank" href="http://1212.wanggou.com/pre_watch.shtml?PTAG=20205.15.7">饰品专场<i>&gt;</i></a></li>
+        <li class="dark_red"><a target="_blank" href="http://1212.wanggou.com/pre_3c.shtml?PTAG=20205.15.8">数码专场<i>&gt;</i></a></li>
+        <li><a target="_blank" href="http://1212.wanggou.com/warm_home.shtml?PTAG=20205.15.9">保暖专场<i>&gt;</i></a></li>
+        <li class="dark_red"><a target="_blank" href="http://1212.wanggou.com/pre_hobby.shtml?PTAG=20205.15.18">车品专场<i>&gt;</i></a></li>
+        <li><a target="_blank" href="http://1212.wanggou.com/pre_man.shtml?PTAG=20205.15.10">男装专场<i>&gt;</i></a></li>
+        <li class="dark_red"><a target="_blank" href="http://1212.wanggou.com/pre_manshoes.shtml?PTAG=20205.15.11">男鞋专场<i>&gt;</i></a></li>
+        <li><a target="_blank" href="http://1212.wanggou.com/pre_sport.shtml?PTAG=20205.15.12">运动专场<i>&gt;</i></a></li>
+        <li class="dark_red"><a target="_blank" href="http://1212.wanggou.com/outdoors.shtml?PTAG=20205.15.13">户外专场<i>&gt;</i></a></li>
+        <li><a target="_blank" href="http://1212.wanggou.com/pre_life.shtml?PTAG=20205.15.14">家居专场<i>&gt;</i></a></li>
+        <li class="dark_red"><a target="_blank" href="http://1212.wanggou.com/pre_baby.shtml?PTAG=20205.15.15">母婴专场<i>&gt;</i></a></li>
+        <li><a target="_blank" href="http://1212.wanggou.com/pre_food.shtml?PTAG=20205.15.16">食品专场<i>&gt;</i></a></li>
+        <li class="dark_red"><a target="_blank" href="http://1212.wanggou.com/pre_book.shtml?PTAG=20205.15.17">图书专场<i>&gt;</i></a></li>
+        <li></li>
+        <li class="qiang"><a target="_blank" href="http://1212.wanggou.com/chong.shtml?PTAG=20205.15.27">抢代金券<i>&gt;</i></a></li>
+        <li class="dark_red"><a target="_blank" href="http://1212.wanggou.com/promote/2013/beauty_sub_man.shtml?PTAG=20205.15.26">男士护理<i>&gt;</i></a></li>
+        <li><a target="_blank" href="http://1212.wanggou.com/hobby_sub.shtml?PTAG=20205.15.19">鲜花成人<i>&gt;</i></a></li>
+        <li class="dark_red"><a target="_blank" href="http://www.wanggou.com/sale.shtml?PTAG=20205.15.20">特价专场<i>&gt;</i></a></li>
+        <li><a target="_blank" href="http://1212.wanggou.com/100tuan.shtml?PTAG=20205.15.21">品牌专场<i>&gt;</i></a></li>
+        <li class="dark_red"><a target="_blank" href="http://1212.wanggou.com/xmas.shtml?PTAG=20205.15.22">圣诞礼品<i>&gt;</i></a></li>
+        <li><a target="_blank" href="http://1212.wanggou.com/man_sub.shtml?PTAG=20205.15.23">男装冬款<i>&gt;</i></a></li>
+        <li class="dark_red"><a target="_blank" href="http://1212.wanggou.com/lady_sub.shtml?PTAG=20205.15.24">女装爆款<i>&gt;</i></a></li>
+        <li><a target="_blank" href="http://1212.wanggou.com/womanshoes_sub.shtml?PTAG=20205.15.25">男女鞋爆款</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+</form>
+<span style="display: none"><span id="tempid">none</span></span>
+<!--[if !IE]>|xGv00|99cd0c66222cfdf22f16394ab64db653<![endif]-->
+<!--[if !IE]>|xGv00|b6facc6c3fec5ade60bc74dec153333c<![endif]--><!--[if !IE]>|xGv00|b2d2dcdb69c853011f3704755e222b05<![endif]-->
+<import type="js" file="js.stockManage" basepath="{$basepath}"/>
+<script>
+$(function () {
+    window.profit = '{$profit}';
+
+    var navigationId = '{$navigationId}',
+        editor = CKEDITOR.replace('sDesc'),
+        stockObj = null;
+
+    $('.taobao-ref-hider').on('click', function () {
+        var state = $('.taobao-ref').css('display') == 'block' ? 'none' : 'block',
+            position = $('.taobao-ref-hider').css('right') == '240px' ? '0px' : '240px';
+        $('.taobao-ref').css('display', state);
+        $('.taobao-ref-hider').css('right', position).text(position == '0px' ? '淘宝属性信息参考' : '隐藏');
+    });
+
+    // 填充主图
+    var itemImgs = {$itemImgs};
+    for (var i = 0; i < itemImgs.length && i < 5; i++) {
+        var $pic = $('.preview_img').eq(i);
+        $pic.attr('src', itemImgs[i]);
+        $('#uploadPicInfo' + (i + 1)).val(itemImgs[i]);
+    }
+
+    // 主图替换
+    var imgsInDesc = {$imgsInDesc};
+    $('.preview_img').siblings('a').click(function (event) {
+        var $a = $(event.target),
+            index = $a.attr('id').split('_')[2],
+            $preview = $a.siblings('.preview_img'),
+            result = window.showModalDialog('picdemo1/propic.php',
+                                            ['{$infoTitle}', $preview.attr('src'), imgsInDesc],
+                                            'center:yes;resizable:no;dialogHeight:600px;dialogWidth:1080px');
+        if (result == null) {
+            alert("您没有更改主图!若点击下一页不出现图片，请等待图片下载完成后再次点击更改主图按钮");
+        } else {
+            $preview.attr('src', result[2].toString());
+            $('#uploadPicInfo' + index).val(result[2].toString());
+        }
+    });
+
+    $.ajax({
+        url: '{:U('Index/getAttributeList')}',
+        data: {
+            'navigationId': navigationId
+        },
+        success: function (data) {
+            var normalFeaturesString = '', specFeaturesString = '',
+                attrList = data.attrList;
+
+            getAttributeListSuccess(data);
+
+            for (var i in attrList) {
+                var featuresString = '';
+                    feature = attrList[i];
+
+                // 跳过自定义库存属性
+                if (feature.attrId == 42914) {
+                    continue;
+                }
+
+                featuresString += '<li fid="' + feature.attrId + '">';
+                featuresString += '<div class="attr_tit">';
+                featuresString += '<em class="asterisk">' + (feature.necessary == '1' ? '*' : '') + '</em>';
+                featuresString += feature.attrName + ':';
+                featuresString += '</div>';
+                featuresString += '<div class="attr_cnt">';
+
+                switch (feature.useType) {
+                    case 'UT_TEXT':
+                        featuresString += '<span class="cts1">';
+                        featuresString += '<input type="text" size="20" name="customAttr_' + feature.attrId + '" id="' + feature.attrId + '"/>';
+                        featuresString += '</span>';
+                        break;
+                    case 'UT_RADIO':
+                        featuresString += '<select name="attr_' + feature.attrId + '">';
+                        for (var j in feature.optionList) {
+                            var option = feature.optionList[j];
+                            featuresString += '<option value="' + option.optionId + '">' + option.optionValue + '</option>';
+                        }
+                        featuresString += '</select>';
+                        break;
+                    case 'UT_CHECKBOX':
+                        for (var j in feature.optionList) {
+                            var option = feature.optionList[j];
+                            featuresString += '<span>';
+                            featuresString += '<label>';
+                            featuresString += '<input type="checkbox" value="' + j + '"/>';
+                            featuresString += option.optionValue;
+                            featuresString += '</label>';
+                            featuresString += '</span>'
+                        }
+                        break;
+                }
+
+                featuresString += '</div>';
+                featuresString += '</li>';
+
+                if (feature.saleAttr == 1) {
+
+                } else {
+                    normalFeaturesString += featuresString;
+                }
+            }
+
+            $('#classAttrDiv').children().remove();
+            $('#classAttrDiv').append(normalFeaturesString);
+
+            // TODO: 填充货号
+            $('#31813').val('{$khn}');
+            $('#sDefStockId').val('{$businessCode}');
+
+            // 默认选春夏
+            $('li[fid=56]').find('input[type=checkbox]').eq(0).attr('checked', 'true');
+            $('li[fid=56]').find('input[type=checkbox]').eq(1).attr('checked', 'true');
+        }
+    });
+
+    $('#confirm').on('click', function () {
+        var numFormat = 16,
+            custAttrString = '',
+            attrString = '';
+
+        // FIXME: 没有考虑custom属性
+        var handleProItem = function (index, element) {
+            var $e = $(element),
+                $firstInput = $e.find('input:first').length == 0 ? $e.find('select:first') : $e.find('input:first'),
+                fid = $e.attr('fid');
+                txt = 0;
+
+            if ($firstInput.attr('type') == 'text') {
+                if ($firstInput.val() != '') {
+                    custAttrString = custAttrString + (1*fid).toString(numFormat) + ':' + $firstInput.val() + '|';
+                    attrString = attrString + (1*fid).toString(numFormat) + ':1|';
+                }
+            } else if ($firstInput.attr('type') == 'checkbox') {
+                var pAttr = (1 * fid).toString(numFormat) + ':';
+                $e.find('input').each(function (i, e) {
+                    if (e.checked) {
+                        var id = e.id;
+                        txt = txt + Math.pow(2, id - 1);
+                    }
+                });
+                if (1 * txt != 0) {
+                    attrString = attrString + (1*fid).toString(numFormat) + ':' + (1*txt).toString(numFormat) + '|';
+                }
+            } else {
+                attrString = attrString + (1*fid).toString(numFormat) + ':' + (1*$firstInput.val()).toString(numFormat) + '|';
+            }
+        };
+
+        $('.attr_list li').each(handleProItem);
+
+        if (attrString != '') {
+            attrString = attrString.substring(0, attrString.length - 1);
+        }
+
+        $('#attr').val(attrString);
+
+        /* stockList */
+        if ($('#stockSwitch').val() == 'on') {
+            var msg="";
+            if(!stockObj){
+                msg="请先选择品类";
+            }else{
+                var ret=stockObj.check();
+                if(ret.err){
+                    msg = ret.errMsg;
+                }
+            }
+
+            if(msg!=""){
+                $('#errMessage').text(msg);
+                alert(msg);
+                //$('#msgErr').show();
+                //$('#msgOk').hide();
+                return false;
+            }
+
+            var stockList=stockObj.getStockList();
+            for(var i=0;i<stockList.length;i++){
+                stockList[i].price=parseInt(stockList[i].price*100,10)+"";
+            }
+
+            //生成库存属性串
+            eval("$('#stockList').val('"+JSON.stringify(stockList)+"');");
+            //eval("that.stockJsonDom.value='"+JSON.stringify(stockList)+"';");
+            //展示OK
+            //$('#msgErr').hide();
+            //$('#msgOk').show();
+        }
+        /* end stockList */
+    });
+
+    $('#updateProfitLink').click(function () {
+        $.ajax({
+            url: '{:U('Index/updateProfit')}',
+            data: {
+                'profit': $('#profit-input').val()
+            },
+            success: function (data) {
+                if (data != 'false') {
+                    alert('设置成功');
+                } else {
+                    alert(data);
+                }
+            }
+        });
+    });
+
+    function getAttributeListSuccess(getAttributeList) {
+        if(getAttributeList.attrId=='0') {
+            var saleAttrs = [];
+            var attrList = getAttributeList.attrList;
+            for(var i=0;i<attrList.length;i++) {
+                if(!!(attrList[i].property&0x10000)) {
+
+                    attrList[i].id=attrList[i].attrId;
+                    attrList[i].name=attrList[i].attrName;
+                    var opList=[];
+                    for(var j=0;j<attrList[i].optionList.length;j++){
+                        var opt = attrList[i].optionList[j];
+                        opList.push([opt.optionId,opt.optionValue]);
+                    }
+                    attrList[i].opList=opList;
+                    saleAttrs.push(attrList[i]);
+                }
+            }
+
+            stockObj=$stockManageNew({
+                dom:$id("divStockArea"),
+                saleAttrs:saleAttrs
+            });
+
+            setTimeout(matchSku, 500);
+        }
+    }
+
+    function matchSku() {
+        if ($('#divSaleAttrSelectorArea .attr_tit').length == 0) {
+            setTimeout(matchSku, 500);
+            return;
+        }
+
+        var initSkus = {$initSkus},
+            propsAlias = '{$propsAlias}';
+
+        for (var i in initSkus) {
+            var sku = initSkus[i],
+            propsName = sku.properties_name,
+            props = propsName.split(';');
+
+            for (var j in props) {
+                var prop = props[j],
+                parts = prop.split(':'),
+                vid = parts[1],
+                fname = parts[2],
+                vname = parts[3];
+
+                $('#divSaleAttrSelectorArea .attr_tit').each(function (index, element) {
+                    var $e = $(element),
+                    propName = $.trim($e.text()).split('：')[0];
+
+                    if (fname[0] == propName[0] || fname.indexOf(propName) !== -1) {
+                        var alias = getPropsAlias(propsAlias, vid);
+
+                        if (alias === null) {
+                            alias = vname;
+                        }
+
+                        $e.siblings('.attr_cnt').find('input[type=checkbox]').each(function (i, e) {
+                            var $$e = $(e),
+                                $span = $$e.siblings('span'),
+                                text = $.trim($span.text());
+
+                            if (text === alias) {
+                                if (!$$e[0].checked) {
+                                    $$e.click();
+                                    $('input.inp-01[stype=stockId]').val({$khn});
+                                    $('input.inp-02[stype=price]').val({$stockPrice});
+                                    $('input.inp-02[stype=num]').val(sku.quantity);
+                                    $('input.inp-01, input.inp-02').blur();
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        }
+    }
+});
+</script>
+</body>
+</html><!--[if !IE]>|xGv00|d06aa582b712ab2c9d50a859ad16a999<![endif]-->
