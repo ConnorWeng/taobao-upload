@@ -6,14 +6,46 @@
 td {
   border: 1px solid gray;
 }
+.after-query {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: white;
+}
 </style>
 </head>
 <body ng-controller="StoreController">
+<div class="after-query">
+  <b>我们的数据</b>
+  <table cellpadding="0" cellspacing="0">
+  <th>
+    <td>市场</td>
+    <td>楼层</td>
+    <td>档口</td>
+    <td>店铺名</td>
+    <td>价格</td>
+    <td>qq</td>
+    <td>ww</td>
+    <td>tel</td>
+    <td>http</td>
+  </th>
+  <tr>
+    <td></td>
+    <td>{{queryStore.shop_mall}}</td>
+    <td>{{queryStore.floor}}</td>
+    <td>{{queryStore.address}}</td>
+    <td>{{queryStore.store_name}}</td>
+    <td>{{queryStore.see_price}}</td>
+    <td>{{queryStore.im_qq}}</td>
+    <td>{{queryStore.im_ww}}</td>
+    <td>{{queryStore.tel}}</td>
+    <td>{{queryStore.shop_http}}</td>
+  </tr>
+  </table>
+</div>
 <h1>vvic店铺调整</h1>
-<button ng-click="findNew()">查询新增</button>
 <button ng-click="findDiff()">查询差异</button>
-<button ng-click="findUnused()">查询废弃</button>
-<p style="color:red">查询废弃可能需要耗时半分钟，请耐心等候</p>
+<button ng-click="findUnused()">查询vvic中不存在的店铺</button>
 <div>
 <h3>{{operationName}}</h3>
 <table cellpadding="0" cellspacing="0">
@@ -31,7 +63,14 @@ td {
   </th>
   <tr ng-repeat="store in stores track by store.store_id">
     <td></td>
-    <td><a href="#" ng-click="operate({{store.store_id}})">{{operation}}</a></td>
+    <td>
+      <span ng-hide="{{deleting}}">
+        <a style="color:blue" href="#" ng-click="operate({{store.store_id}}, '更新')" ng-show="{{store.update}}">更新</a>
+        <span ng-show="{{store.update}}">(<a style="color:blue" href="#" ng-click="query({{store.store_id}})">查询</a>)</span>
+        <a style="color:red" href="#" ng-click="operate({{store.store_id}}, '新增')" ng-hide="{{store.update}}">新增</a>
+      </span>
+      <a href="#" ng-click="operate({{store.store_id}}, '删除')" ng-show="{{deleting}}">删除</a>
+    </td>
     <td>{{store.shop_mall}}</td>
     <td>{{store.floor}}</td>
     <td>{{store.address}}</td>
@@ -48,20 +87,57 @@ td {
 var storeAppModule = angular.module('storeApp', []);
 
 storeAppModule.controller('StoreController', function StoreController($scope, $http) {
-    $scope.findNew = function () {
-        $http.get("{:U('Store/Index/findNew')}").success(function (data, status, headers, config) {
-            $scope.operationName = '需新增的店铺';
-            $scope.operation = '新增';
-            $scope.stores = data;
+    $scope.findDiff = function () {
+        $scope.deleting = false;
+        $scope.operationName = '需手工审核的店铺(vvic的数据)';
+        $scope.stores = [];
+        $http.get("{:U('Store/Index/findDiff')}").success(function (data, status, headers, config) {
+            if (status === 200) {
+                $http.get("{:U('Store/Index/findUpdate')}").success(function (data2, status2, headers2, config2) {
+                    if (status2 === 200) {
+                        for (var i = 0; i < data.length; i++) {
+                            for (var j = 0; j < data2.length; j++) {
+                                if (data[i].store_id === data2[j].store_id) {
+                                    data[i]['update'] = true;
+                                    break;
+                                }
+                            }
+                        }
+                        $scope.stores = data;
+                    }
+                });
+            }
+        });
+    };
+
+    $scope.findUnused = function () {
+        $scope.deleting = true;
+        $scope.operationName = 'vvic中不存在的店铺';
+        $scope.stores = [];
+        $scope.queryStore = {};
+        $http.get("{:U('Store/Index/findUnused')}").success(function (data, status, headers, config) {
+            if (status === 200) {
+                $scope.stores = data;
+            }
         });
     }
 
-    $scope.operate = function (storeId) {
+    $scope.query = function (storeId) {
+        $http
+            .post("{:U('Store/Index/queryStore')}", null, {params: {'store_id': storeId}})
+            .success(function (data, status, headers, config) {
+                if (status === 200) {
+                    $scope.queryStore = data;
+                }
+            });
+    }
+
+    $scope.operate = function (storeId, operation) {
         var url = "{:U('Store/Index/updateStore')}";
-        if ($scope.operation === '新增') {
+        if (operation === '新增') {
             url = "{:U('Store/Index/addStore')}";
         }
-        if ($scope.operation === '删除') {
+        if (operation === '删除') {
             url = "{:U('Store/Index/deleteStore')}";
         }
         $http
@@ -71,22 +147,6 @@ storeAppModule.controller('StoreController', function StoreController($scope, $h
                     deleteStore(storeId);
                 }
             });
-    }
-
-    $scope.findDiff = function () {
-        $http.get("{:U('Store/Index/findDiff')}").success(function (data, status, headers, config) {
-            $scope.operationName = '需更新的店铺';
-            $scope.operation = '更新';
-            $scope.stores = data;
-        });
-    }
-
-    $scope.findUnused = function () {
-        $http.get("{:U('Store/Index/findUnused')}").success(function (data, status, headers, config) {
-            $scope.operationName = '需删除的店铺';
-            $scope.operation = '删除';
-            $scope.stores = data;
-        });
     }
 
     deleteStore = function (storeId) {
