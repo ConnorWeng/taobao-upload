@@ -26,7 +26,7 @@ class IndexAction extends CommonAction {
             Util::changeAliAppkey($taobaoItemId);
 
             // auth
-            header('location:'.Util::getAlibabaAuthUrl($taobaoItemId));
+            header('location:'.Util::getAlibabaAuthUrl($taobaoItemId ? $taobaoItemId : I('goodsId')));
         } else {
             U('Index/authBack', array('state' => $taobaoItemId), true, true, false);
         }
