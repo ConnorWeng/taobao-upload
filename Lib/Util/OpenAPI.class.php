@@ -26,7 +26,7 @@ class OpenAPI {
         if (count($rs) > 0) {
             $result = $rs[0];
             $taobaoItem->setCid('50000671');
-            $taobaoItem->setItemImgs(array(new ItemImg($result['default_image'])));
+            $taobaoItem->setItemImgs(array(new ItemImg(self::parseDefaultImage($result['default_image']))));
             $taobaoItem->setPropsName('');
             $taobaoItem->setTitle($result['goods_name']);
             $taobaoItem->setPicUrl($result['default_image']);
@@ -38,6 +38,14 @@ class OpenAPI {
             $taobaoItem->setDelistTime('2099-12-10 00:00:00');
         }
         return $taobaoItem;
+    }
+
+    private static function parseDefaultImage($image) {
+        if (strpos('data/files') !== false) {
+            return 'http://ecmall.51zwd.com/'.$image;
+        } else {
+            return $image;
+        }
     }
 
     public static function getTaobaoItem($numIid) {
