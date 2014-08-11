@@ -124,6 +124,12 @@ class Util {
         }
         return $tmpFile;
     }
+
+    public static function changeDatabaseAccordingToSession() {
+        if (session('?use_ecmall_db')) {
+            C('DB_NAME', 'ecmall51');
+        }
+    }
 }
 
 ?>

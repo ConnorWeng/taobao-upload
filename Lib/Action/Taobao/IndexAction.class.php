@@ -11,9 +11,12 @@ class IndexAction extends CommonAction {
         $taobaoItemId = I('taobaoItemId');
         if (I('taobaoItemId') == '' && I('goodsId') != '') {
             session('current_goods_id', I('goodsId'));
+            session('use_ecmall_db', 'true');
         } else {
             session('current_goods_id', null);
+            session('use_ecmall_db', null);
         }
+        Util::changeDatabaseAccordingToSession();
         session('current_taobao_item_id', $taobaoItemId);
         if (!session('?taobao_access_token') || I('newStore') == 'newStore') {
             if (I('taobaoAppKey') != '') {
@@ -28,6 +31,7 @@ class IndexAction extends CommonAction {
     }
 
     public function authBack() {
+        Util::changeDatabaseAccordingToSession();
         if (!session('?taobao_access_token') || I('state') == 'newStore') {
             $code = I('code');
             $taobaoItemId = session('current_taobao_item_id');

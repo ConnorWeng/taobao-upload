@@ -5,10 +5,12 @@ import('@.Model.StoreSession');
 
 class UploadAction extends CommonAction {
     public function selectCategory() {
+        Util::changeDatabaseAccordingToSession();
         $this->display();
     }
 
     public function editItem() {
+        Util::changeDatabaseAccordingToSession();
         header("Content-type:text/html;charset=utf-8");
         $taobaoItemId = session('current_taobao_item_id');
         $nick = session('taobao_user_nick');
@@ -93,6 +95,7 @@ class UploadAction extends CommonAction {
     }
 
     public function uploadItem() {
+        Util::changeDatabaseAccordingToSession();
         header("Content-type:text/html;charset=utf-8");
         $imagePath = Util::downloadImage(I('picUrl1'));
         $image = '@'.$imagePath;
@@ -270,6 +273,7 @@ class UploadAction extends CommonAction {
     }
 
     public function saveConfig() {
+        Util::changeDatabaseAccordingToSession();
         $data = array(
             'profit0' => I('percent'),
             'profit' => I('profit'),
