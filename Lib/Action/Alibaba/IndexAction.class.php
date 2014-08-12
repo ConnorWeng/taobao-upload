@@ -15,9 +15,12 @@ class IndexAction extends CommonAction {
         $taobaoItemId = I('taobaoItemId');
         if (I('taobaoItemId') == '' && I('goodsId') != '') {
             session('alibaba_current_goods_id', I('goodsId'));
+            session('use_ecmall_db', 'true');
         } else {
             session('alibaba_current_goods_id', null);
+            session('use_ecmall_db', null);
         }
+        Util::changeDatabaseAccordingToSession();
         if (!session('?access_token')) {
             // fetch taobao appkey
             Util::changeTaoAppkey($taobaoItemId, 'trival');
@@ -34,6 +37,7 @@ class IndexAction extends CommonAction {
 
     // 从alibaba跳转回来的action
     public function authBack() {
+        Util::changeDatabaseAccordingToSession();
         $taobaoItemId = $_REQUEST['state'];
         session('current_taobao_item_id', $taobaoItemId);
 
@@ -86,6 +90,7 @@ class IndexAction extends CommonAction {
 
     // 编辑页面
     public function editPage() {
+        Util::changeDatabaseAccordingToSession();
         $taobaoItemId = session('current_taobao_item_id');
         $categoryName = $this->checkApiResponse(AlibabaOpenAPI::getPostCatList(I('categoryId')))->result->toReturn[0]->catsName;
 
@@ -212,6 +217,7 @@ class IndexAction extends CommonAction {
 
     // 发布新产品
     public function offerNew() {
+        Util::changeDatabaseAccordingToSession();
         $categoryId = I('categoryId');
         if (get_magic_quotes_gpc() == 0) {
             $detail = addslashes(addslashes($_REQUEST['details']));
@@ -317,11 +323,13 @@ class IndexAction extends CommonAction {
     }
 
     private function uploadCount($memberId, $ip) {
+        Util::changeDatabaseAccordingToSession();
         $userdataAli = D('UserdataAli');
         $userdataAli->uploadCount($memberId, $ip);
     }
 
     public function updateProfit() {
+        Util::changeDatabaseAccordingToSession();
         $memberId = session('member_id');
         $profit = I('profit');
         $userdataAli = D('UserdataAli');
