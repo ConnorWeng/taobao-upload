@@ -12,6 +12,14 @@ class IndexAction extends Action {
 
     public function auth() {
         session('paipai_current_taobao_id', I('taobaoItemId'));
+        if (I('taobaoItemId') == '' && I('goodsId') != '') {
+            session('paipai_current_goods_id', I('goodsId'));
+            session('use_ecmall_db', 'true');
+        } else {
+            session('paipai_current_goods_id', null);
+            session('use_ecmall_db', null);
+        }
+        Util::changeDatabaseAccordingToSession();
         if (!session('?paipai_access_token')) {
             header('location: http://fuwu.paipai.com/my/app/authorizeGetAccessToken.xhtml?responseType=access_token&appOAuthID='.C('appOAuthId'));
         } else {
@@ -20,6 +28,7 @@ class IndexAction extends Action {
     }
 
     public function authBack() {
+        Util::changeDatabaseAccordingToSession();
         if (!session('?paipai_access_token')) {
             session('paipai_access_token', I('?access_token'));
             session('uin', I('useruin'));
@@ -27,7 +36,11 @@ class IndexAction extends Action {
         }
 
         $taobaoItemId = session('paipai_current_taobao_id');
-        $taobaoItem = OpenAPI::getTaobaoItemWithoutVerify($taobaoItemId);
+        if (session('?paipai_current_goods_id')) {
+            $taobaoItem = OpenAPI::getTaobaoItemFromDatabase(session('paipai_current_goods_id'));
+        } else {
+            $taobaoItem = OpenAPI::getTaobaoItemWithoutVerify($taobaoItemId);
+        }
         $taobaoItemCat = OpenAPI::getTaobaoItemCatWithoutVerify($taobaoItem->cid);
 
         $this->assign(array(
@@ -48,8 +61,13 @@ class IndexAction extends Action {
     }
 
     public function editPage() {
+        Util::changeDatabaseAccordingToSession();
         $navigationId = I('navigationId');
-        $taobaoItem = OpenAPI::getTaobaoItemWithoutVerify(I('taobaoItemId'));
+        if (session('?paipai_current_goods_id')) {
+            $taobaoItem = OpenAPI::getTaobaoItemFromDatabase(session('paipai_current_goods_id'));
+        } else {
+            $taobaoItem = OpenAPI::getTaobaoItemWithoutVerify(I('taobaoItemId'));
+        }
 
         $propsArray = $this->makePropsArray($taobaoItem->props_name.'');
         $imgsInDesc = $this->parseDescImages($taobaoItem->desc);
@@ -145,6 +163,7 @@ class IndexAction extends Action {
     }
 
     public function addItem() {
+        Util::changeDatabaseAccordingToSession();
         $itemAttrs = array();
 
         $itemAttrs['sellerUin'] = session('uin');
@@ -220,6 +239,7 @@ class IndexAction extends Action {
     }
 
     public function updateProfit() {
+        Util::changeDatabaseAccordingToSession();
         $memberId = session('uin');
         $profit = I('profit');
         $userdataPp = D('UserdataPp');
@@ -229,9 +249,12 @@ class IndexAction extends Action {
     // 登出
     public function signOut() {
         $taobaoItemId = session('paipai_current_taobao_id');
+        $currentGoodsId = session('paipai_current_goods_id');
         session(null);
         cookie(null);
-        U('Index/auth', array('taobaoItemId' => $taobaoItemId), true, true, false);
+        U('Index/auth', array('taobaoItemId' => $taobaoItemId,
+                              'goodsId' => $currentGoodsId
+                              ), true, true, false);
     }
 
     private function movePic($detailInfo) {
