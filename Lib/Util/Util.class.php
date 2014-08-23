@@ -126,8 +126,12 @@ class Util {
     }
 
     public static function changeDatabaseAccordingToSession() {
-        if (session('?use_ecmall_db')) {
-            C('DB_NAME', 'ecmall51');
+        if (session('?use_db')) {
+            switch(session('use_db')) {
+                case 'ecmall':
+                    C('DB_NAME', 'ecmall51');
+                    break;
+            }
         }
     }
 }

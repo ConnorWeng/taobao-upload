@@ -14,10 +14,10 @@ class IndexAction extends Action {
         session('paipai_current_taobao_id', I('taobaoItemId'));
         if (I('taobaoItemId') == '' && I('goodsId') != '') {
             session('paipai_current_goods_id', I('goodsId'));
-            session('use_ecmall_db', 'true');
+            session('use_db', I('db'));
         } else {
             session('paipai_current_goods_id', null);
-            session('use_ecmall_db', null);
+            session('use_db', null);
         }
         Util::changeDatabaseAccordingToSession();
         if (!session('?paipai_access_token')) {
@@ -250,10 +250,12 @@ class IndexAction extends Action {
     public function signOut() {
         $taobaoItemId = session('paipai_current_taobao_id');
         $currentGoodsId = session('paipai_current_goods_id');
+        $useDb = session('use_db');
         session(null);
         cookie(null);
         U('Index/auth', array('taobaoItemId' => $taobaoItemId,
-                              'goodsId' => $currentGoodsId
+                              'goodsId' => $currentGoodsId,
+                              'db' => $useDb,
                               ), true, true, false);
     }
 

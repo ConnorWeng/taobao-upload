@@ -11,10 +11,10 @@ class IndexAction extends CommonAction {
         $taobaoItemId = I('taobaoItemId');
         if (I('taobaoItemId') == '' && I('goodsId') != '') {
             session('current_goods_id', I('goodsId'));
-            session('use_ecmall_db', 'true');
+            session('use_db', I('db'));
         } else {
             session('current_goods_id', null);
-            session('use_ecmall_db', null);
+            session('use_db', null);
         }
         Util::changeDatabaseAccordingToSession();
         session('current_taobao_item_id', $taobaoItemId);
@@ -118,22 +118,26 @@ class IndexAction extends CommonAction {
     public function free() {
         $currentTaobaoItemId = session('current_taobao_item_id');
         $currentGoodsId = session('current_goods_id');
+        $useDb = session('use_db');
         session(null);
         U('Taobao/Index/auth', array(
             'taobaoItemId' => $currentTaobaoItemId,
             'goodsId' => $currentGoodsId,
+            'db' => $useDb,
         ), true, true, false);
     }
 
     public function stable() {
         $currentTaobaoItemId = session('current_taobao_item_id');
         $currentGoodsId = session('current_goods_id');
+        $useDb = session('use_db');
         $taobaoAppKey = session('taobao_app_key') == null ? 'trival' : session('taobao_app_key');
         session(null);
         U('Taobao/Index/auth', array(
             'taobaoItemId' => $currentTaobaoItemId,
             'taobaoAppKey' => $taobaoAppKey,
             'goodsId' => $currentGoodsId,
+            'db' => $useDb,
         ), true, true, false);
     }
 

@@ -15,10 +15,10 @@ class IndexAction extends CommonAction {
         $taobaoItemId = I('taobaoItemId');
         if (I('taobaoItemId') == '' && I('goodsId') != '') {
             session('alibaba_current_goods_id', I('goodsId'));
-            session('use_ecmall_db', 'true');
+            session('use_db', I('db'));
         } else {
             session('alibaba_current_goods_id', null);
-            session('use_ecmall_db', null);
+            session('use_db', null);
         }
         Util::changeDatabaseAccordingToSession();
         if (!session('?access_token')) {
@@ -340,10 +340,12 @@ class IndexAction extends CommonAction {
     public function signOut() {
         $taobaoItemId = session('current_taobao_item_id');
         $currentGoodsId = session('alibaba_current_goods_id');
+        $useDb = session('use_db');
         session(null);
         cookie(null);
         U('Index/auth', array('taobaoItemId' => $taobaoItemId,
                               'goodsId' => $currentGoodsId,
+                              'db' => $useDb,
                               ), true, true, false);
     }
 
