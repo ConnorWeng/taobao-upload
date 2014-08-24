@@ -94,20 +94,28 @@ class Util {
     }
 
     public static function changeTaoAppkey($taobaoItemId, $oldAppKey = null) {
+        if (session('use_db') == 'catshome') {
+            self::changeDatabaseBackToWangpi51();
+        }
         $taoapi = D('Taoapi');
         $taoappkey = $taoapi->getAppKey($taobaoItemId, $oldAppKey);
         session('taobao_app_key', $taoappkey['appkey']);
         session('taobao_secret_key', $taoappkey['appsecret']);
         session('current_taobao_app_key_id', $taoappkey['id']);
+        self::changeDatabaseAccordingToSession();
     }
 
     public static function changeAliAppkey($taobaoItemId, $oldAppKey = null) {
+        if (session('use_db') == 'catshome') {
+            self::changeDatabaseBackToWangpi51();
+        }
         $aliapi = D('Aliapi');
         $aliappkey = $aliapi->getAppKey($taobaoItemId, $oldAppKey);
         session('alibaba_app_key', $aliappkey['appkey']);
         session('alibaba_secret_key', $aliappkey['appsecret']);
         session('current_alibaba_app_key_id', $aliappkey['id']);
         session('access_token', null);
+        self::changeDatabaseAccordingToSession();
     }
 
     public static function downloadImage($picUrl) {
@@ -131,8 +139,21 @@ class Util {
                 case 'ecmall':
                     C('DB_NAME', 'ecmall51');
                     break;
+                case 'catshome':
+                    C('DB_NAME', 'test');
+                    C('DB_HOST', '114.215.149.19');
+                    C('DB_USER', 'root');
+                    C('DB_PWD', 'suowei');
+                    break;
             }
         }
+    }
+
+    public static function changeDatabaseBackToWangpi51() {
+        C('DB_NAME', 'wangpi51');
+        C('DB_HOST', 'rdsqr7ne2m2ifjm.mysql.rds.aliyuncs.com');
+        C('DB_USER', 'wangpi51');
+        C('DB_PWD', '51374b78b104');
     }
 }
 
