@@ -208,10 +208,11 @@ class OpenAPI {
         if ($sessionKey == null) {
             $sessionKey = session('taobao_access_token');
         }
+        $currentTaobaoItemId = session('current_taobao_item_id') == '' ? '0' : session('current_taobao_item_id');
         $params = "WebType=51wp_yjsc_dist".
                   "&appKey=".session('taobao_app_key').
                   "&appSecret=".session('taobao_secret_key').
-                  "&numIID=".session('current_taobao_item_id').
+                  "&numIID=".$currentTaobaoItemId.
                   "&sessionID=".$sessionKey.
                   "&Num=".urlencode($item['Num']).
                   "&Price=".urlencode($item['Price']).
@@ -243,7 +244,7 @@ class OpenAPI {
                   "&SkuOuterIds=".urlencode($item['SkuOuterIds']).
                   "&Outer_id=".urlencode($item['OuterId']).
                   "&mainpic=".urlencode($item['mainpic']).
-                  "&checklic=".md5(session('current_taobao_item_id').'51');
+                  "&checklic=".md5($currentTaobaoItemId.'51');
         $resp = self::sendRequestWithShortUrl(C('servletUri'), $params);
         if (is_numeric($resp)) {
             $taoapi = D('Taoapi');
