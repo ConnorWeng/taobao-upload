@@ -1,7 +1,10 @@
 <?php
 
+import('@.Util.Util');
+
 class BuyigangAction extends Action {
     public function getAllStoreIds() {
+        Util::checkIP();
         $shopMall = I('shopMall');
         $storeModel = M('store');
         $where['shop_mall'] = $shopMall;
@@ -9,6 +12,7 @@ class BuyigangAction extends Action {
     }
 
     public function getStore() {
+        Util::checkIP();
         $storeId = I('storeId');
         $storeModel = M('store');
         $where['store_id'] = $storeId;
@@ -16,6 +20,7 @@ class BuyigangAction extends Action {
     }
 
     public function getAllGoodIds() {
+        Util::checkIP();
         $storeId = I('storeId');
         $goodsModel = M('goods');
         $where['store_id'] = $storeId;
@@ -23,6 +28,7 @@ class BuyigangAction extends Action {
     }
 
     public function getGood() {
+        Util::checkIP();
         $goodsId = I('goodsId');
         $goodsModel = M('goods');
         $where['goods_id'] = $goodsId;

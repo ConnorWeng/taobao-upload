@@ -155,6 +155,30 @@ class Util {
         C('DB_USER', 'wangpi51');
         C('DB_PWD', '51374b78b104');
     }
+
+    public static function checkIP() {
+        $ip = self::getIP();
+        if ($ip == '124.172.221.107' || $ip == '124.172.221.110' || $ip == '180.168.191.194' || $ip == '27.115.4.22') {
+            //echo 'ok,the ip is ' . $ip;
+        } else {
+            echo 'no,the ip is ' . $ip;
+            redirect('http://www.51zwd.com');
+        }
+    }
+
+    public static function getIP() {
+        if (getenv("http_client_ip") && strcasecmp(getenv("http_client_ip"), "unknown"))
+            $ip = getenv("http_client_ip");
+        else if (getenv("http_x_forwarded_for") && strcasecmp(getenv("http_x_forwarded_for"), "unknown"))
+            $ip = getenv("http_x_forwarded_for");
+        else if (getenv("remote_addr") && strcasecmp(getenv("remote_addr"), "unknown"))
+            $ip = getenv("remote_addr");
+        else if (isset($_server[remote_addr]) && $_server[remote_addr] && strcasecmp($_server[remote_addr], "unknown"))
+            $ip = $_server[remote_addr];
+        else
+            $ip = "unknown";
+        return $ip;
+    }
 }
 
 ?>
