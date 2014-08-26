@@ -13,12 +13,11 @@ class IndexAction extends CommonAction {
     // 跳转到alibaba的认证页面
     public function auth() {
         $taobaoItemId = I('taobaoItemId');
+        session('use_db', I('db'));
         if (I('taobaoItemId') == '' && I('goodsId') != '') {
             session('alibaba_current_goods_id', I('goodsId'));
-            session('use_db', I('db'));
         } else {
             session('alibaba_current_goods_id', null);
-            session('use_db', null);
         }
         Util::changeDatabaseAccordingToSession();
         if (!session('?access_token')) {

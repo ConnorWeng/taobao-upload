@@ -12,12 +12,11 @@ class IndexAction extends Action {
 
     public function auth() {
         session('paipai_current_taobao_id', I('taobaoItemId'));
+        session('use_db', I('db'));
         if (I('taobaoItemId') == '' && I('goodsId') != '') {
             session('paipai_current_goods_id', I('goodsId'));
-            session('use_db', I('db'));
         } else {
             session('paipai_current_goods_id', null);
-            session('use_db', null);
         }
         Util::changeDatabaseAccordingToSession();
         if (!session('?paipai_access_token')) {

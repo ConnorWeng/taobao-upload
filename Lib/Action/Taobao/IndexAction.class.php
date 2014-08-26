@@ -9,12 +9,11 @@ class IndexAction extends CommonAction {
 
     public function auth() {
         $taobaoItemId = I('taobaoItemId');
+        session('use_db', I('db'));
         if (I('taobaoItemId') == '' && I('goodsId') != '') {
             session('current_goods_id', I('goodsId'));
-            session('use_db', I('db'));
         } else {
             session('current_goods_id', null);
-            session('use_db', null);
         }
         Util::changeDatabaseAccordingToSession();
         session('current_taobao_item_id', $taobaoItemId);

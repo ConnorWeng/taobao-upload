@@ -134,7 +134,7 @@ class Util {
     }
 
     public static function changeDatabaseAccordingToSession() {
-        if (session('?use_db')) {
+        if (session('use_db') != '') {
             switch(session('use_db')) {
                 case 'ecmall':
                     C('DB_NAME', 'ecmall51');
