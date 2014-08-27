@@ -11,10 +11,10 @@ return array(
 
     'servletUri' => 'http://121.196.142.10:30001/duapp/yjscServlet',
 
-    'article_code' => 'FW_GOODS-1856100',
+    'article_code' => 'FW_GOODS-1862529',
 
-    'stable_taobao_app_key' => '21357243',
-    'stable_taobao_secret_key' => '244fd3a0b1f554046a282dd9b673b386',
+    'stable_taobao_app_key' => '21486955',
+    'stable_taobao_secret_key' => 'f6d12223ff4859f639bc54478a834870',
 
     /* sandbox
     'DB_HOST' => 'localhost',
@@ -31,11 +31,14 @@ return array(
     'DB_HOST' => 'rdsqr7ne2m2ifjm.mysql.rds.aliyuncs.com',
     'DB_USER' => 'wangpi51',
     'DB_PWD' => '51374b78b104',
-    'redirect_host' => '121.196.142.10',
-    'redirect_path' => '/index.php',
-    'taobao_app_key' => '21357243',
-    'taobao_secret_key' => '244fd3a0b1f554046a282dd9b673b386',
+    'redirect_host' => 'www.daifabao.com',
+    'redirect_path' => '/auth.jsp',
+    'taobao_app_key' => '21486955',
+    'taobao_secret_key' => 'f6d12223ff4859f639bc54478a834870',
     'oauth_uri' => 'oauth.taobao.com',
     'gateway_uri' => 'http://gw.api.taobao.com/router/rest',
     //*/
+
+    '51zwd_redirect_host' => '121.196.142.10',
+    '51zwd_redirect_path' => '/index.php',
 );

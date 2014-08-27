@@ -23,7 +23,8 @@ class IndexAction extends CommonAction {
             } else {
                 Util::changeTaoAppkey($taobaoItemId);
             }
-            header('location: https://'.C('oauth_uri').'/authorize?response_type=code&client_id='.session('taobao_app_key').'&redirect_uri=http://'.C('redirect_host').urlencode(C('redirect_path')).'&state='.I('newStore').'&view=web');
+            $state = '51zwd:'.I('newStore');
+            header('location: https://'.C('oauth_uri').'/authorize?response_type=code&client_id='.session('taobao_app_key').'&redirect_uri=http://'.$this->getRedirectUri().'&state='.$state.'&view=web');
         } else {
             U('Taobao/Index/authBack', null, true, true, false);
         }
@@ -40,8 +41,8 @@ class IndexAction extends CommonAction {
                 'client_secret' => session('taobao_secret_key'),
                 'grant_type' => 'authorization_code',
                 'code' => $code,
-                'redirect_uri' => 'http://'.C('redirect_host').'/taobao-upload',
-                            );
+                'redirect_uri' => 'http://'.$this->getRedirectUri(),
+            );
             foreach($params as $key=>$value) { $params_string .= $key.'='.$value.'&'; }
             rtrim($params_string, '&');
             $ch = curl_init();
@@ -143,5 +144,14 @@ class IndexAction extends CommonAction {
     public function recoveryAppKey() {
         $taoapi = D('Taoapi');
         dump($taoapi->recoveryAppKey(time()));
+    }
+
+    private function getRedirectUri() {
+        if (session('taobao_app_key') == C('stable_taobao_app_key')) {
+            $redirectUri = C('redirect_host').urlencode(C('redirect_path'));
+        } else {
+            $redirectUri = C('51zwd_redirect_host').urlencode(C('51zwd_redirect_path'));
+        }
+        return $redirectUri;
     }
 }
