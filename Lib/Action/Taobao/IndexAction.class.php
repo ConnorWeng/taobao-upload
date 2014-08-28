@@ -18,11 +18,7 @@ class IndexAction extends CommonAction {
         Util::changeDatabaseAccordingToSession();
         session('current_taobao_item_id', $taobaoItemId);
         if (!session('?taobao_access_token') || I('newStore') == 'newStore') {
-            if (I('taobaoAppKey') != '') {
-                Util::changeTaoAppkey($taobaoItemId, I('taobaoAppKey'));
-            } else {
-                Util::changeTaoAppkey($taobaoItemId);
-            }
+            Util::changeTaoAppkey($taobaoItemId, 'trival'); /* always use daifabao's app key */
             $state = '51zwd:'.I('newStore');
             header('location: https://'.C('oauth_uri').'/authorize?response_type=code&client_id='.session('taobao_app_key').'&redirect_uri=http://'.$this->getRedirectUri().'&state='.$state.'&view=web');
         } else {
