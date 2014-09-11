@@ -94,7 +94,7 @@ class Util {
     }
 
     public static function changeTaoAppkey($taobaoItemId, $oldAppKey = null) {
-        if (session('use_db') == 'catshome') {
+        if (session('use_db') == 'catshome' || session('use_db') == 'catshomedemo') {
             self::changeDatabaseBackToWangpi51();
         }
         $taoapi = D('Taoapi');
@@ -106,7 +106,7 @@ class Util {
     }
 
     public static function changeAliAppkey($taobaoItemId, $oldAppKey = null) {
-        if (session('use_db') == 'catshome') {
+        if (session('use_db') == 'catshome' || session('use_db') == 'catshomedemo') {
             self::changeDatabaseBackToWangpi51();
         }
         $aliapi = D('Aliapi');
@@ -144,6 +144,12 @@ class Util {
                     C('DB_HOST', '114.215.149.19');
                     C('DB_USER', 'root');
                     C('DB_PWD', 'suowei');
+                    break;
+                case 'catshomedemo':
+                    C('DB_NAME', '315pangxie');
+                    C('DB_HOST', '114.215.149.19');
+                    C('DB_USER', '315pangxie');
+                    C('DB_PWD', 'q4r5c8C4');
                     break;
             }
         }
