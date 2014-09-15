@@ -108,12 +108,8 @@ class IndexAction extends CommonAction {
         if ($storeInfo && $store != null) {
             $seePrice = $storeInfo['see_price'];
         }
-        if ($seePrice == '减半') {
-            $price = $price / 2.0;
-        } else {
-            $delta = substr($seePrice, 3);
-            $price = $price - floatval($delta);
-        }
+
+        $price = Util::makePrice($price, $seePrice, $taobaoItem->title);
 
         $title = $taobaoItem->title;
         $khn = $this->getKHN($title);

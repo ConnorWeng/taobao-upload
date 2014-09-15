@@ -185,6 +185,33 @@ class Util {
             $ip = "unknown";
         return $ip;
     }
+
+    public static function makePrice($price, $seePrice, $title = null) {
+        $rawPrice = floatval($price);
+        $finalPrice = $rawPrice;
+        if (strpos($seePrice, '减半') !== false) {
+            $finalPrice = $rawPrice / 2;
+        } else if (strpos($seePrice, '减') === 0) {
+            $finalPrice = $rawPrice - floatval(mb_substr($seePrice, 1, mb_strlen($seePrice, 'utf-8') - 1, 'utf-8'));
+        } else if (strpos($seePrice, '实价') !== false) {
+            $finalPrice = $rawPrice;
+        } else if (strpos($seePrice, '*') === 0) {
+            $finalPrice = $rawPrice * floatval(mb_substr($seePrice, 1, mb_strlen($seePrice, 'utf-8') - 1, 'utf-8'));
+        } else if (strpos($seePrice, '打') === 0) {
+            $finalPrice = $rawPrice * (floatval(mb_substr($seePrice, 1, mb_strlen($seePrice, 'utf-8') - 1, 'utf-8')) / 10);
+        } else if (strpos($seePrice, '折') === mb_strlen($seePrice, 'utf-8') - 1) {
+            $finalPrice = $rawPrice * (floatval(mb_substr($seePrice, 0, mb_strlen($seePrice, 'utf-8') - 1, 'utf-8')) / 10);
+        } else if (strpos($seePrice, 'P') !== false) {
+            $regex ='/P(\d+)/';
+            preg_match($regex, $title, $matches);
+            $finalPrice = floatval($matches[1]);
+        }
+        if (is_numeric($finalPrice)) {
+            return $finalPrice;
+        } else {
+            return $price;
+        }
+    }
 }
 
 ?>
