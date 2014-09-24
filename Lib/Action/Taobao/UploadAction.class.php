@@ -37,7 +37,7 @@ class UploadAction extends CommonAction {
         $sizeType = $this->makeSizeType($props);
         $sizePropHtml = $this->makeSizePropHtml($props);
         $salePropsObject = $this->makeSalePropsObject($props);
-        $title = $this->makeTitle($taobaoItem->title);
+        $title = Util::makeTitle($taobaoItem->title);
         $storeInfo = $this->getStoreInfo($taobaoItem->nick);
         $price = Util::makePrice($taobaoItem->price, $storeInfo['see_price'], $taobaoItem->title);
         $caculatedPrice = $this->caculatePrice($price, $userdata['profit0'], $userdata['profit']);
@@ -66,7 +66,7 @@ class UploadAction extends CommonAction {
             'sizeType' => $sizeType,
             'outerId' => $outerId,
             'nick' => $nick,
-            'huoHao' => $this->getHuoHao($taobaoItem->title),
+            'huoHao' => Util::getHuoHao($taobaoItem->title),
             'imgsInDesc' => $this->parseDescImages($taobaoItem->desc),
             'percent' => $userdata['profit0'],
             'profit' => $userdata['profit'],
@@ -513,36 +513,12 @@ class UploadAction extends CommonAction {
     private function makeOuterId($title, $rawPrice, $storeInfo) {
         $seller = $storeInfo['shop_mall'].$storeInfo['address'];
         $price = Util::makePrice($rawPrice, $storeInfo['see_price'], $title);
-        $huoHao = $this->getHuoHao($title);
+        $huoHao = Util::getHuoHao($title);
         return $outerId = $seller.'_P'.$price.'_'.$huoHao.'#';
-    }
-
-    private function makeTitle($title) {
-        $huoHao = $this->getHuoHao($title);
-        $newTitle = str_replace('款号', '',
-                                str_replace('*', '',
-                                            str_replace('#', '',
-                                                        str_replace($huoHao, '', $title))));
-        return trim($newTitle);
     }
 
     private function caculatePrice($price, $percent, $profit) {
         return floatval($price) * (floatval($percent) / 100.00) + floatval($profit);
-    }
-
-    private function getHuoHao($title) {
-        $kuanHaoRegex='/[A-Z]?\d+/';
-        preg_match_all($kuanHaoRegex,$title,$kuanHao);
-        $pKhnum=count($kuanHao[0]);
-        if($pKhnum>0) {
-            for($i=0;$i < $pKhnum;$i++) {
-                if(strlen($kuanHao[0][$i])==3 || (strlen($kuanHao[0][$i])==4 && substr($kuanHao[0][$i], 0,3)!= "201")) {
-                    $huoHao = $kuanHao[0][$i];
-                    break;
-                }
-            }
-        }
-        return $huoHao;
     }
 
     private function parseDescImages($desc) {

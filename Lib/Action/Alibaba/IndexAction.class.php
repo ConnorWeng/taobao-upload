@@ -110,12 +110,8 @@ class IndexAction extends CommonAction {
         }
 
         $price = Util::makePrice($price, $seePrice, $taobaoItem->title);
-
-        $title = $taobaoItem->title;
-        $khn = $this->getKHN($title);
-        $title = str_replace($khn, '', $title);
-        $title = str_replace('#', '', $title);
-        $title = str_replace('*', '', $title);
+        $title = Util::makeTitle($taobaoItem->title);
+        $khn = Util::getHuoHao($taobaoItem->title);
 
         $profit = '0.00';
         $userdataAli = D('UserdataAli');
@@ -159,25 +155,6 @@ class IndexAction extends CommonAction {
         $pattern="/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.jpg]))[\'|\"].*?[\/]?>/";
         preg_match_all($pattern, $desc, $matches);//带引号
         return json_encode($matches[1]);
-    }
-
-    private function getKHN($title) {
-        $pKh='/[A-Z]?\d+/';
-        preg_match_all($pKh,$title,$pKuanhao);
-        $pKhnum=count($pKuanhao[0]);
-        if($pKhnum>0)
-        {
-            for($i=0;$i < $pKhnum;$i++)
-            {
-                if(strlen($pKuanhao[0][$i])==3 || (strlen($pKuanhao[0][$i])==4 && substr($pKuanhao[0][$i], 0,3)!= "201"))
-                {
-                    $khn = $pKuanhao[0][$i];
-                    break;
-                }
-            }
-        }
-
-        return $khn;
     }
 
     // 获取发布相关属性

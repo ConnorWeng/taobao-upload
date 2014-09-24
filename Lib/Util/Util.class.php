@@ -212,6 +212,35 @@ class Util {
             return $price;
         }
     }
+
+    public static function makeTitle($title) {
+        $huoHao = self::getHuoHao($title);
+        $newTitle = str_replace('款号', '',
+                                str_replace('*', '',
+                                            str_replace('#', '',
+                                                        str_replace($huoHao, '', $title))));
+        $regex ='/P(\d+)/';
+        preg_match($regex, $newTitle, $matches);
+        if ($matches) {
+            $newTitle = str_replace($matches[0], '', $newTitle);
+        }
+        return trim($newTitle);
+    }
+
+    public static function getHuoHao($title) {
+        $kuanHaoRegex='/[A-Z]?\d+/';
+        preg_match_all($kuanHaoRegex,$title,$kuanHao);
+        $pKhnum=count($kuanHao[0]);
+        if($pKhnum>0) {
+            for($i=0;$i < $pKhnum;$i++) {
+                if(strlen($kuanHao[0][$i])==3 || (strlen($kuanHao[0][$i])==4 && substr($kuanHao[0][$i], 0,3)!= "201")) {
+                    $huoHao = $kuanHao[0][$i];
+                    break;
+                }
+            }
+        }
+        return $huoHao;
+    }
 }
 
 ?>
