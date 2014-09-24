@@ -82,12 +82,8 @@ class IndexAction extends Action {
             $shopMall = $storeInfo['shop_mall'];
             $address = $storeInfo['address'];
         }
-        if ($seePrice == '减半') {
-            $price = $price / 2.0;
-        } else {
-            $delta = substr($seePrice, 3);
-            $price = $price - floatval($delta);
-        }
+
+        $price = Util::makePrice($price, $seePrice, $taobaoItem->title);
 
         $profit = '0.00';
         $userdataPp = D('UserdataPp');

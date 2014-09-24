@@ -25,7 +25,7 @@ class OpenAPI {
         $taobaoItem = new TaobaoItem;
         if (count($rs) > 0) {
             $result = $rs[0];
-            $taobaoItem->setCid('50000671');
+            $taobaoItem->setCid(self::getCategoryId($result));
             $taobaoItem->setItemImgs(array(new ItemImg(self::parseDefaultImage($result['default_image']))));
             $taobaoItem->setPropsName('');
             $taobaoItem->setTitle($result['goods_name']);
@@ -38,6 +38,18 @@ class OpenAPI {
             $taobaoItem->setDelistTime('2099-12-10 00:00:00');
         }
         return $taobaoItem;
+    }
+
+    private static function getCategoryId($good) {
+        $categoryId = '0';
+        for ($i = 1; $i <= 4; $i++) {
+            if ($good['cate_id_'.$i] == '0') {
+                break;
+            } else {
+                $categoryId = $good['cate_id_'.$i];
+            }
+        }
+        return $categoryId;
     }
 
     private static function parseDefaultImage($image) {

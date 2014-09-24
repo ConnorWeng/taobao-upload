@@ -39,7 +39,7 @@ class UploadAction extends CommonAction {
         $salePropsObject = $this->makeSalePropsObject($props);
         $title = $this->makeTitle($taobaoItem->title);
         $storeInfo = $this->getStoreInfo($taobaoItem->nick);
-        $price = $this->makePrice($taobaoItem->price, $storeInfo['see_price']);
+        $price = Util::makePrice($taobaoItem->price, $storeInfo['see_price'], $taobaoItem->title);
         $caculatedPrice = $this->caculatePrice($price, $userdata['profit0'], $userdata['profit']);
         $outerId = $this->makeOuterId($taobaoItem->title, $taobaoItem->price, $storeInfo);
         $isUploadedBefore = $this->makeIsUploadedBefore($outerId);
@@ -512,7 +512,7 @@ class UploadAction extends CommonAction {
 
     private function makeOuterId($title, $rawPrice, $storeInfo) {
         $seller = $storeInfo['shop_mall'].$storeInfo['address'];
-        $price = $this->makePrice($rawPrice, $storeInfo['see_price']);
+        $price = Util::makePrice($rawPrice, $storeInfo['see_price'], $title);
         $huoHao = $this->getHuoHao($title);
         return $outerId = $seller.'_P'.$price.'_'.$huoHao.'#';
     }
@@ -524,22 +524,6 @@ class UploadAction extends CommonAction {
                                             str_replace('#', '',
                                                         str_replace($huoHao, '', $title))));
         return trim($newTitle);
-    }
-
-    private function makePrice($rawPrice, $seePrice) {
-        $localSeePrice = str_replace("减","",$seePrice);
-        $price = $rawPrice;
-        if($localSeePrice == "半") {
-            $price = $rawPrice >> 1;
-        } else if ($localSeePrice == "P") {
-            //get price from title
-            $pprice='/P(\d+)/';
-            preg_match($pprice,$respitem->item->title,$pric);
-            $price  = $pric[1];
-        } else {
-            $price = $price - $localSeePrice;
-        }
-        return $price;
     }
 
     private function caculatePrice($price, $percent, $profit) {
