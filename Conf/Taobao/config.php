@@ -4,7 +4,7 @@ return array(
     'max_api_times_per_minute' => 50,
     'taoapi_count' => 200,
 
-    'DB_NAME' => 'wangpi51',
+    'DB_NAME' => 'wangpi51_hz',
     'DB_TYPE' => 'mysql',
     'DB_PORT' => 3306,
     'DB_PREFIX' => 'ecm_',
