@@ -202,7 +202,7 @@ class Util {
         } else if (strpos($seePrice, '折') === mb_strlen($seePrice, 'utf-8') - 1) {
             $finalPrice = $rawPrice * (floatval(mb_substr($seePrice, 0, mb_strlen($seePrice, 'utf-8') - 1, 'utf-8')) / 10);
         } else if (strpos($seePrice, 'P') !== false) {
-            $regex ='/P(\d+)/';
+            $regex ='/[PpFf](\d+)/';
             preg_match($regex, $title, $matches);
             $finalPrice = floatval($matches[1]);
         }
@@ -219,7 +219,7 @@ class Util {
                                 str_replace('*', '',
                                             str_replace('#', '',
                                                         str_replace($huoHao, '', $title))));
-        $regex ='/P(\d+)/';
+        $regex ='/[PpFf](\d+)/';
         preg_match($regex, $newTitle, $matches);
         if ($matches) {
             $newTitle = str_replace($matches[0], '', $newTitle);
