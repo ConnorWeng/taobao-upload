@@ -33,7 +33,7 @@ class IndexAction extends Action {
     public function addStore() {
         $storeId = $_REQUEST['store_id'];
         $storeVvic = new Model();
-        $rs = $storeVvic->execute("insert into ecm_store (shop_mall,floor,address,store_name,see_price,im_qq,im_ww,tel,shop_http,has_link,serv_refund,serv_exchgoods,serv_sendgoods,serv_deltpic,serv_modpic,serv_golden,qqun_name,csv_http,shop_range,cate_content,weixincode) select shop_mall,floor,address,store_name,see_price,im_qq,im_ww,tel,shop_http,has_link,serv_refund,serv_exchgoods,serv_sendgoods,serv_deltpic,serv_modpic,serv_golden,'','','','','' from ecm_store_vvic where store_id = ".$storeId);
+        $rs = $storeVvic->execute("insert into ecm_store (shop_mall,floor,address,store_name,see_price,im_qq,im_ww,tel,shop_http,has_link,serv_refund,serv_exchgoods,serv_sendgoods,serv_deltpic,serv_modpic,serv_golden,qqun_name,csv_http,shop_range,cate_content,weixincode, state) select shop_mall,floor,address,store_name,see_price,im_qq,im_ww,tel,shop_http,has_link,serv_refund,serv_exchgoods,serv_sendgoods,serv_deltpic,serv_modpic,serv_golden,'','','','','',1 from ecm_store_vvic where store_id = ".$storeId);
         $this->ajaxReturn($rs);
     }
 
@@ -50,7 +50,7 @@ class IndexAction extends Action {
         $imQq = $rs[0]['im_qq'];
         $shopHttp = $rs[0]['shop_http'];
         $floor = $rs[0]['floor'];
-        $rs2 = $storeVvic->execute("update ecm_store s set s.see_price = '{$seePrice}', s.shop_mall = '{$shopMall}', s.store_name = '{$storeName}', s.tel = '{$tel}', s.im_qq = '{$imQq}', s.shop_http = '{$shopHttp}', s.floor = '{$floor}' where s.im_ww = '{$imWw}' and s.address = '{$address}'");
+        $rs2 = $storeVvic->execute("update ecm_store s set s.see_price = '{$seePrice}', s.shop_mall = '{$shopMall}', s.store_name = '{$storeName}', s.tel = '{$tel}', s.im_qq = '{$imQq}', s.shop_http = '{$shopHttp}', s.floor = '{$floor}', s.state = 1 where s.im_ww = '{$imWw}' and s.address = '{$address}'");
         $this->ajaxReturn($rs2);
     }
 

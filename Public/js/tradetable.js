@@ -1,7 +1,7 @@
 $(function ($) {
 
     // Only support 2 level specs only, which means selectedSpecs length must be 2.
-    window.tradetable = function (parent, selectedSpecs, specExtendedAttrs, initSkus, propsAlias, seePrice) {
+    window.tradetable = function (parent, selectedSpecs, specExtendedAttrs, initSkus, propsAlias, seePrice, taobaoItemTitle) {
         // selectedSpecs: [{fid:'',name:'',values:[]}, {fid:'',name:'',values:[]}]
         // specExtendedAttrs: [{fid:'',name:'',showType:''}]
         this.parent = parent;
@@ -10,6 +10,7 @@ $(function ($) {
         this.initSkus = initSkus;
         this.propsAlias = propsAlias;
         this.seePrice = seePrice;
+        this.taobaoItemTitle = taobaoItemTitle;
 
         $(document).on('change', '.same-checkbox', function (e) {
             var checkbox = e.target
@@ -104,6 +105,8 @@ $(function ($) {
                         if (this.seePrice != '') {
                             if (this.seePrice == '减半') {
                                 price = price / 2;
+                            } else if (this.seePrice == 'P') {
+                                price = /P(\d+(\.\d+)?)/.exec(this.taobaoItemTitle)[1];
                             } else {
                                 var delta = parseFloat(this.seePrice.substr(1));
                                 price = price - delta;
@@ -145,6 +148,8 @@ $(function ($) {
                             if (this.seePrice != '') {
                                 if (this.seePrice == '减半') {
                                     price = price / 2;
+                                } else if (this.seePrice == 'P') {
+                                    price = /P(\d+(\.\d+)?)/.exec(this.taobaoItemTitle)[1];
                                 } else {
                                     var delta = parseFloat(this.seePrice.substr(1));
                                     price = price - delta;

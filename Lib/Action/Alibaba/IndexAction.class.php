@@ -132,6 +132,7 @@ class IndexAction extends CommonAction {
             'memberId' => session('member_id'),
             'basepath' => str_replace('index.php', 'Public', __APP__),
             'infoTitle' => $title,
+            'taobaoItemTitle' => $taobaoItem->title,
             'categoryId' => I('categoryId'),
             'categoryName' => $categoryName,
             'offerDetail' => $taobaoItem->desc,
