@@ -161,6 +161,25 @@ class OpenAPI {
         }
     }
 
+    public static function getTaobaoItemPropsWithoutVerify($cid, $parentPid = null) {
+        $c = new TopClient;
+        $c->appkey = C('taobao_app_key');
+        $c->secretKey = C('taobao_secret_key');
+        $req = new ItempropsGetRequest;
+        $req->setFields("pid,name,must,multi,prop_values,is_key_prop,is_sale_prop,parent_vid");
+        $req->setCid($cid);
+        if ($parentPid) {
+            $req->setParentPid($parentPid);
+        }
+        $resp = $c->execute($req, null);
+
+        if (isset($resp->item_props)) {
+            return $resp->item_props;
+        } else {
+            self::dumpTaobaoApiError('getTaobaoItemProps', $resp);
+        }
+    }
+
     public static function addTaobaoItem($item, $sessionKey = null, $isRepeat = false) {
         if (self::needVerify()) {
             return 'verify';

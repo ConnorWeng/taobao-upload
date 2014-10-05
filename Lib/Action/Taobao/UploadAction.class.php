@@ -398,7 +398,7 @@ class UploadAction extends CommonAction {
         return $images;
     }
 
-    private function makePropsHtml($props, $propsName, $cid) {
+    public function makePropsHtml($props, $propsName, $cid, $needVerify = true) {
         $count = count($props->item_prop);
         $html = '';
         for ($i = 0; $i < $count; $i++) {
@@ -430,7 +430,11 @@ class UploadAction extends CommonAction {
             }
             $html .= '</select>';
             if ($hasChildProps) {
-                $childProps = $this->checkApiResponse(OpenAPI::getTaobaoItemProps($cid, $prop->pid));
+                if ($needVerify) {
+                    $childProps = $this->checkApiResponse(OpenAPI::getTaobaoItemProps($cid, $prop->pid));
+                } else {
+                    $childProps = OpenAPI::getTaobaoItemPropsWithoutVerify($cid, $prop->pid);
+                }
                 $childCount = count($childProps->item_prop);
                 for ($j = 0; $j < $childCount; $j++) {
                     $childProp = $childProps->item_prop[$j];
