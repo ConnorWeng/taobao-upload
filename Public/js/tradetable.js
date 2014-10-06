@@ -102,16 +102,7 @@ $(function ($) {
                     var val = '';
                     if (sku != null) {
                         var price = sku.price;
-                        if (this.seePrice != '') {
-                            if (this.seePrice == '减半') {
-                                price = price / 2;
-                            } else if (this.seePrice == 'P') {
-                                price = /P(\d+(\.\d+)?)/.exec(this.taobaoItemTitle)[1];
-                            } else {
-                                var delta = parseFloat(this.seePrice.substr(1));
-                                price = price - delta;
-                            }
-                        }
+                        price = this.parsePrice(price, this.seePrice, this.taobaoItemTitle);
                         if (this.specExtendedAttrs[o].fname == 'price') {
                             val = parseFloat(price) + parseFloat(window.profit);
                         }
@@ -145,16 +136,7 @@ $(function ($) {
                         var val = '';
                         if (sku != null) {
                             var price = sku.price;
-                            if (this.seePrice != '') {
-                                if (this.seePrice == '减半') {
-                                    price = price / 2;
-                                } else if (this.seePrice == 'P') {
-                                    price = /P(\d+(\.\d+)?)/.exec(this.taobaoItemTitle)[1];
-                                } else {
-                                    var delta = parseFloat(this.seePrice.substr(1));
-                                    price = price - delta;
-                                }
-                            }
+                            price = this.parsePrice(price, this.seePrice, this.taobaoItemTitle);
                             if (this.specExtendedAttrs[o].fname == 'price') {
                                 val = parseFloat(price) + parseFloat(window.profit);
                             }
@@ -175,6 +157,35 @@ $(function ($) {
             }
 
             return html;
+        },
+
+        parsePrice: function(price, seePrice, goodsName) {
+            var finalPrice, rawPrice, _ref1;
+            rawPrice = parseFloat(price);
+            finalPrice = rawPrice;
+            if (seePrice == null) {
+                finalPrice = rawPrice.toFixed(2);
+            }
+            if (seePrice.indexOf('减半') !== -1) {
+                finalPrice = (rawPrice / 2).toFixed(2);
+            } else if (seePrice.indexOf('减') === 0) {
+                finalPrice = (rawPrice - parseFloat(seePrice.substr(1))).toFixed(2);
+            } else if (seePrice === '实价') {
+                finalPrice = rawPrice.toFixed(2);
+            } else if (seePrice.indexOf('*') === 0) {
+                finalPrice = (rawPrice * parseFloat(seePrice.substr(1))).toFixed(2);
+            } else if (seePrice.indexOf('打') === 0) {
+                finalPrice = (rawPrice * (parseFloat(seePrice.substr(1)) / 10)).toFixed(2);
+            } else if (seePrice.indexOf('折') === seePrice.length - 1) {
+                finalPrice = (rawPrice * (parseFloat(seePrice) / 10)).toFixed(2);
+            } else if (seePrice === 'P') {
+                finalPrice = parseFloat((_ref1 = /[PpFf](\d+(\.\d+)?)/.exec(goodsName)) != null ? _ref1[1] : void 0);
+            }
+            if (isNaN(finalPrice) !== true) {
+                return finalPrice;
+            } else {
+                return rawPrice;
+            }
         },
 
         createTable: function() {
