@@ -21,13 +21,13 @@ class OpenAPI {
 
     public static function getTaobaoItemFromDatabase($goodsId) {
         $goodsModel = M('goods');
-        $rs = $goodsModel->query("select g.*, sum(s.stock) num from ecm_goods g right join ecm_goods_spec s on g.goods_id = s.goods_id where g.goods_id = {$goodsId} group by g.goods_id");
+        $rs = $goodsModel->query("select t.*, group_concat(a.attr_id separator ',') attr_ids, group_concat(a.value_id separator ',') value_ids, group_concat(a.attr_name separator ',') attr_names, group_concat(a.attr_value separator ',') attr_values from (select g.*, group_concat(s.spec_1 separator ',') spec_1s, group_concat(s.spec_2 separator ',') spec_2s, group_concat(s.price separator ',') prices, group_concat(s.stock separator ',') stocks from ecm_goods g, ecm_goods_spec s where g.goods_id = {$goodsId} and g.goods_id = s.goods_id group by goods_id) t, ecm_goods_attr a where t.goods_id = a.goods_id group by t.goods_id;");
         $taobaoItem = new TaobaoItem;
         if (count($rs) > 0) {
             $result = $rs[0];
             $taobaoItem->setCid(self::getCategoryId($result));
             $taobaoItem->setItemImgs(array(new ItemImg(self::parseDefaultImage($result['default_image']))));
-            $taobaoItem->setPropsName('');
+            $taobaoItem->setPropsName(self::parsePropsName($result));
             $taobaoItem->setTitle($result['goods_name']);
             $taobaoItem->setPicUrl($result['default_image']);
             $taobaoItem->setNick(session('taobao_user_nick'));
@@ -58,6 +58,20 @@ class OpenAPI {
         } else {
             return $image;
         }
+    }
+
+    private static function parsePropsName($good) {
+        $propsName = '';
+        $attrIds = split(',', $good['attr_ids']);
+        if (count($attrIds) > 0) {
+            $valueIds = split(',', $good['value_ids']);
+            $attrNames = split(',', $good['attr_names']);
+            $attrValues = split(',', $good['attr_values']);
+            for ($i = 0; $i < count($attrIds); $i++) {
+                $propsName .= $attrIds[$i].':'.$valueIds[$i].':'.$attrNames[$i].':'.$attrValues[$i].';';
+            }
+        }
+        return $propsName;
     }
 
     public static function getTaobaoItem($numIid) {
