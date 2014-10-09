@@ -32,7 +32,7 @@ class OpenAPI {
             $taobaoItem->setSkus(self::parseSkus($result));
             $taobaoItem->setPropsName(self::parsePropsName($result));
             $taobaoItem->setTitle($result['goods_name']);
-            $taobaoItem->setPicUrl($result['default_image']);
+            $taobaoItem->setPicUrl(self::parseDefaultImage($result['default_image']));
             $taobaoItem->setNick(session('taobao_user_nick'));
             $taobaoItem->setPrice($result['price']);
             $taobaoItem->setNum($result['num']);
