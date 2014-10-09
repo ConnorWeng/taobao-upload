@@ -4,6 +4,8 @@ import('@.Util.Util');
 import('@.Model.StoreSession');
 vendor('taobao-sdk.TopSdk');
 import('@.Model.TaobaoItem');
+import('@.Model.Skus');
+import('@.Model.Sku');
 
 class OpenAPI {
 
@@ -27,6 +29,7 @@ class OpenAPI {
             $result = $rs[0];
             $taobaoItem->setCid(self::getCategoryId($result));
             $taobaoItem->setItemImgs(array(new ItemImg(self::parseDefaultImage($result['default_image']))));
+            $taobaoItem->setSkus(self::parseSkus($result));
             $taobaoItem->setPropsName(self::parsePropsName($result));
             $taobaoItem->setTitle($result['goods_name']);
             $taobaoItem->setPicUrl($result['default_image']);
@@ -72,6 +75,20 @@ class OpenAPI {
             }
         }
         return $propsName;
+    }
+
+    private static function parseSkus($good) {
+        $skus = new Skus;
+        $spec1s = split(',', $good['spec_1s']);
+        if (count($spec1s) > 0) {
+            $spec2s = split(',', $good['spec_2s']);
+            $prices = split(',', $good['prices']);
+            $stocks = split(',', $good['stocks']);
+            for ($i = 0; $i < count($spec1s); $i++) {
+                array_push($skus->sku, new Sku($spec1s[$i].':'.$spec2s[$i], $prices[$i], $stocks[$i]));
+            }
+        }
+        return $skus;
     }
 
     public static function getTaobaoItem($numIid) {
