@@ -140,36 +140,37 @@ class Util {
     }
 
     public static function changeDatabaseAccordingToSession() {
-        if (session('use_db') != '') {
-            switch(session('use_db')) {
-                case 'ecmall':
-                    C('DB_NAME', 'ecmall51');
-                    break;
-                case 'catshome':
-                    C('DB_NAME', 'test');
-                    C('DB_HOST', '114.215.149.19');
-                    C('DB_USER', 'root');
-                    C('DB_PWD', 'suowei');
-                    break;
-                case 'catshomedemo':
-                    C('DB_NAME', '315pangxie');
-                    C('DB_HOST', '114.215.149.19');
-                    C('DB_USER', '315pangxie');
-                    C('DB_PWD', 'q4r5c8C4');
-                    break;
-                case 'dg':
-                    C('DB_NAME', 'wangpi51_dg');
-                    C('DB_HOST', 'rdsqr7ne2m2ifjm.mysql.rds.aliyuncs.com');
-                    C('DB_USER', 'wangpicn');
-                    C('DB_PWD', 'wangpicn123456');
-                    break;
-                case 'cs':
-                    C('DB_NAME', 'wangpi51_cs');
-                    C('DB_HOST', 'rdsqr7ne2m2ifjm.mysql.rds.aliyuncs.com');
-                    C('DB_USER', 'wangpicn');
-                    C('DB_PWD', 'wangpicn123456');
-                    break;
-            }
+        switch(session('use_db')) {
+            case 'ecmall':
+                C('DB_NAME', 'ecmall51');
+                break;
+            case 'catshome':
+                C('DB_NAME', 'test');
+                C('DB_HOST', '114.215.149.19');
+                C('DB_USER', 'root');
+                C('DB_PWD', 'suowei');
+                break;
+            case 'catshomedemo':
+                C('DB_NAME', '315pangxie');
+                C('DB_HOST', '114.215.149.19');
+                C('DB_USER', '315pangxie');
+                C('DB_PWD', 'q4r5c8C4');
+                break;
+            case 'dg':
+                C('DB_NAME', 'wangpi51_dg');
+                C('DB_HOST', 'rdsqr7ne2m2ifjm.mysql.rds.aliyuncs.com');
+                C('DB_USER', 'wangpicn');
+                C('DB_PWD', 'wangpicn123456');
+                break;
+            case 'cs':
+                C('DB_NAME', 'wangpi51_cs');
+                C('DB_HOST', 'rdsqr7ne2m2ifjm.mysql.rds.aliyuncs.com');
+                C('DB_USER', 'wangpicn');
+                C('DB_PWD', 'wangpicn123456');
+                break;
+            default:
+                self::changeDatabaseBackToWangpi51();
+                break;
         }
     }
 

@@ -38,7 +38,7 @@ class UploadAction extends CommonAction {
         $sizePropHtml = $this->makeSizePropHtml($props);
         $salePropsObject = $this->makeSalePropsObject($props);
         $title = Util::makeTitle($taobaoItem->title);
-        $storeInfo = $this->getStoreInfo($taobaoItem->nick);
+        $storeInfo = $this->getStoreInfo($taobaoItem);
         $price = Util::makePrice($taobaoItem->price, $storeInfo['see_price'], $taobaoItem->title);
         $caculatedPrice = $this->caculatePrice($price, $userdata['profit0'], $userdata['profit']);
         $outerId = $this->makeOuterId($taobaoItem->title, $taobaoItem->price, $storeInfo);
@@ -509,9 +509,18 @@ class UploadAction extends CommonAction {
         return false;
     }
 
-    private function getStoreInfo($im_ww) {
+    private function getStoreInfo($taobaoItem) {
         $store = M('store');
-        return $storeInfo = $store->where('im_ww="'.$im_ww.'"')->find();
+        $isNewVersion = isset($taobaoItem->store_id);
+        if ($isNewVersion) { // from ecmall database
+            $storeId = $taobaoItem->store_id;
+        } else { // old version
+            $rs = $store->query("select store_id from ecm_goods where good_http='http://item.taobao.com/item.htm?id=".session('current_taobao_item_id')."'");
+            $storeId = $rs[0]['store_id'];
+        }
+        $storeInfo = $store->where('store_id='.$storeId)->find();
+        $storeInfo['address'] = $isNewVersion ? $storeInfo['dangkou_address'] : $storeInfo['address'];
+        return $storeInfo;
     }
 
     private function makeOuterId($title, $rawPrice, $storeInfo) {

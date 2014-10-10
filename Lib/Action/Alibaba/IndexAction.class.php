@@ -13,7 +13,8 @@ class IndexAction extends CommonAction {
     // 跳转到alibaba的认证页面
     public function auth() {
         $taobaoItemId = I('taobaoItemId');
-        session('use_db', I('db'));
+        $useDb = I('db') == '' ? 'wangpi51' : I('db');
+        session('use_db', $useDb);
         if (I('taobaoItemId') == '' && I('goodsId') != '') {
             session('alibaba_current_goods_id', I('goodsId'));
         } else {

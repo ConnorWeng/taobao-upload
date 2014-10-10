@@ -16,6 +16,7 @@ class TaobaoItem {
     public $desc;
     public $delist_time;
     public $skus;
+    public $store_id;
 
     public function __construct() {
         $this->cid = '50000671';
@@ -30,6 +31,7 @@ class TaobaoItem {
         $this->desc = 'null goods';
         $this->delist_time = '2009-12-10 00:00:00';
         $this->skus = new Skus;
+        $this->store_id = -1;
     }
 
     public function setCid($value) {
@@ -78,6 +80,10 @@ class TaobaoItem {
 
     public function setSkus($skus) {
         $this->skus = $skus;
+    }
+
+    public function setStoreId($storeId) {
+        $this->store_id = $storeId;
     }
 }
 

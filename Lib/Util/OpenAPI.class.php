@@ -39,6 +39,7 @@ class OpenAPI {
             $taobaoItem->setPropImgs(array());
             $taobaoItem->setDesc($result['description']);
             $taobaoItem->setDelistTime('2099-12-10 00:00:00');
+            $taobaoItem->setStoreId($result['store_id']);
         }
         return $taobaoItem;
     }
