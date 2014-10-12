@@ -140,7 +140,11 @@ class Util {
     }
 
     public static function changeDatabaseAccordingToSession() {
-        switch(session('use_db')) {
+        self::changeDatabase(session('use_db'));
+    }
+
+    public static function changeDatabase($db) {
+        switch($db) {
             case 'ecmall':
                 C('DB_NAME', 'ecmall51');
                 break;

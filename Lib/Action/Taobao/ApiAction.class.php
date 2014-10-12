@@ -1,5 +1,6 @@
 <?php
 import('@.Util.OpenAPI');
+import('@.Util.Util');
 
 class ApiAction extends CommonAction {
     public function makePropsHtml() {
@@ -9,15 +10,22 @@ class ApiAction extends CommonAction {
         $props = OpenAPI::getTaobaoItemPropsWithoutVerify($cid);
         $propsName = '';
         if ($goodsId != '') {
-            switch(I('db')) {
-                case 'ecmall':
-                    C('DB_NAME', 'ecmall51');
-                    break;
-            }
+            Util::changeDatabase(I('db'));
             $taobaoItem = OpenAPI::getTaobaoItemFromDatabase($goodsId);
             $propsName = $taobaoItem->props_name;
         }
         $html = $upload->makePropsHtml($props, $propsName, $cid, false);
         $this->ajaxReturn($html);
+    }
+
+    public function getTaobaoItem() {
+        Util::changeDatabase(I('db'));
+        $goodsId = I('goodsId');
+        $taobaoItem = OpenAPI::getTaobaoItemFromDatabase($goodsId);
+        $upload = new UploadAction();
+        $storeInfo = $upload->getStoreInfo($taobaoItem);
+        $outerId = $upload->makeOuterId($taobaoItem->title, $taobaoItem->price, $storeInfo);
+        $taobaoItem->setOuterId($outerId);
+        $this->ajaxReturn($taobaoItem);
     }
 }

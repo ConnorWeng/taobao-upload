@@ -509,7 +509,7 @@ class UploadAction extends CommonAction {
         return false;
     }
 
-    private function getStoreInfo($taobaoItem) {
+    public function getStoreInfo($taobaoItem) {
         $store = M('store');
         $isNewVersion = isset($taobaoItem->store_id);
         if ($isNewVersion) { // from ecmall database
@@ -523,7 +523,7 @@ class UploadAction extends CommonAction {
         return $storeInfo;
     }
 
-    private function makeOuterId($title, $rawPrice, $storeInfo) {
+    public function makeOuterId($title, $rawPrice, $storeInfo) {
         $seller = $storeInfo['shop_mall'].$storeInfo['address'];
         $price = Util::makePrice($rawPrice, $storeInfo['see_price'], $title);
         $huoHao = Util::getHuoHao($title);
