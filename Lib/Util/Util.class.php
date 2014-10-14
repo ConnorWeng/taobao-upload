@@ -97,7 +97,8 @@ class Util {
         if (session('use_db') == 'catshome'
             || session('use_db') == 'catshomedemo'
             || session('use_db') == 'dg'
-            || session('use_db') == 'cs') {
+            || session('use_db') == 'cs'
+            || session('use_db') == 'hz') {
             self::changeDatabaseBackToWangpi51();
         }
         $taoapi = D('Taoapi');
@@ -112,7 +113,8 @@ class Util {
         if (session('use_db') == 'catshome'
             || session('use_db') == 'catshomedemo'
             || session('use_db') == 'dg'
-            || session('use_db') == 'cs') {
+            || session('use_db') == 'cs'
+            || session('use_db') == 'hz') {
             self::changeDatabaseBackToWangpi51();
         }
         $aliapi = D('Aliapi');
@@ -171,6 +173,9 @@ class Util {
                 C('DB_HOST', 'rdsqr7ne2m2ifjm.mysql.rds.aliyuncs.com');
                 C('DB_USER', 'wangpicn');
                 C('DB_PWD', 'wangpicn123456');
+                break;
+            case 'hz':
+                C('DB_NAME', 'wangpi51_hz');
                 break;
             default:
                 self::changeDatabaseBackToWangpi51();
