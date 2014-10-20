@@ -230,9 +230,13 @@ class Util {
         } else if (strpos($seePrice, '折') === mb_strlen($seePrice, 'utf-8') - 1) {
             $finalPrice = $rawPrice * (floatval(mb_substr($seePrice, 0, mb_strlen($seePrice, 'utf-8') - 1, 'utf-8')) / 10);
         } else if (strpos($seePrice, 'P') !== false) {
-            $regex ='/[PpFf](\d+)/';
-            preg_match($regex, $title, $matches);
-            $finalPrice = floatval($matches[1]);
+            $regexP = '/[Pp](\d+)/';
+            $regexF = '/[Ff](\d+)/';
+            if (preg_match($regexP, $title, $matches) == 1) {
+                $finalPrice = floatval($matches[1]);
+            } else if (preg_match($regexF, $title, $matches) == 1) {
+                $finalPrice = floatval($matches[1]);
+            }
         }
         if (is_numeric($finalPrice)) {
             return $finalPrice;
