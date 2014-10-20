@@ -655,16 +655,37 @@
           return propValue;
       };
       for (var i in initSkus) {
-          var sku = initSkus[i],
-          propertiesParts = sku.properties_name.split(';');
-          for (var i in propertiesParts) {
-              var propertiesMoreParts = propertiesParts[i].split(':'),
-              prop = propertiesMoreParts[0] + ':' + propertiesMoreParts[1],
-              $checkbox = $('input[value="'+prop+'"]');
-              $checkbox.siblings('input[type=text]').val(getPropAlias(propertiesMoreParts[1], propertiesMoreParts[3]));
-              if (typeof($checkbox.attr('checked')) === 'undefined') {
-                  $checkbox.click();
-                  rebuildSkuTable();
+          var sku = initSkus[i];
+          if (~sku.properties_name.indexOf(';')) { // from taobao
+              var propertiesParts = sku.properties_name.split(';');
+              for (var j in propertiesParts) {
+                  var propertiesMoreParts = propertiesParts[j].split(':'),
+                  prop = propertiesMoreParts[0] + ':' + propertiesMoreParts[1],
+                  $checkbox = $('input[value="'+prop+'"]');
+                  $checkbox.siblings('input[type=text]').val(getPropAlias(propertiesMoreParts[1], propertiesMoreParts[3]));
+                  if (typeof($checkbox.attr('checked')) === 'undefined') {
+                      $checkbox.click();
+                      rebuildSkuTable();
+                  }
+              }
+          } else { // from ecmall database
+              var propertiesParts = sku.properties_name.split(':');
+              for (var j in propertiesParts) {
+                  var $label = $('label[title=' + propertiesParts[j] + ']');
+                  if ($label.length > 0) {
+                      var $checkbox = $label.siblings('input[type=checkbox]');
+                      if (typeof($checkbox.attr('checked')) === 'undefined') {
+                          $checkbox.click();
+                          rebuildSkuTable();
+                      }
+                  } else {
+                      $checkbox = $('.sku-list:eq(' + j + ')').find('input[type=checkbox]:eq(' + i + ')');
+                      $checkbox.siblings('input[type=text]').val(propertiesParts[j]);
+                      if (typeof($checkbox.attr('checked')) === 'undefined') {
+                          $checkbox.click();
+                          rebuildSkuTable();
+                      }
+                  }
               }
           }
       }

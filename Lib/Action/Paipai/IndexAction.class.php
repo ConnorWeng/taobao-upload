@@ -12,7 +12,8 @@ class IndexAction extends Action {
 
     public function auth() {
         session('paipai_current_taobao_id', I('taobaoItemId'));
-        session('use_db', I('db'));
+        $useDb = I('db') == '' ? 'wangpi51' : I('db');
+        session('use_db', $useDb);
         if (I('taobaoItemId') == '' && I('goodsId') != '') {
             session('paipai_current_goods_id', I('goodsId'));
         } else {

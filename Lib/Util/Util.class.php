@@ -94,7 +94,11 @@ class Util {
     }
 
     public static function changeTaoAppkey($taobaoItemId, $oldAppKey = null) {
-        if (session('use_db') == 'catshome' || session('use_db') == 'catshomedemo') {
+        if (session('use_db') == 'catshome'
+            || session('use_db') == 'catshomedemo'
+            || session('use_db') == 'dg'
+            || session('use_db') == 'cs'
+            || session('use_db') == 'hz') {
             self::changeDatabaseBackToWangpi51();
         }
         $taoapi = D('Taoapi');
@@ -106,7 +110,11 @@ class Util {
     }
 
     public static function changeAliAppkey($taobaoItemId, $oldAppKey = null) {
-        if (session('use_db') == 'catshome' || session('use_db') == 'catshomedemo') {
+        if (session('use_db') == 'catshome'
+            || session('use_db') == 'catshomedemo'
+            || session('use_db') == 'dg'
+            || session('use_db') == 'cs'
+            || session('use_db') == 'hz') {
             self::changeDatabaseBackToWangpi51();
         }
         $aliapi = D('Aliapi');
@@ -134,24 +142,44 @@ class Util {
     }
 
     public static function changeDatabaseAccordingToSession() {
-        if (session('use_db') != '') {
-            switch(session('use_db')) {
-                case 'ecmall':
-                    C('DB_NAME', 'ecmall51');
-                    break;
-                case 'catshome':
-                    C('DB_NAME', 'test');
-                    C('DB_HOST', '114.215.149.19');
-                    C('DB_USER', 'root');
-                    C('DB_PWD', 'suowei');
-                    break;
-                case 'catshomedemo':
-                    C('DB_NAME', '315pangxie');
-                    C('DB_HOST', '114.215.149.19');
-                    C('DB_USER', '315pangxie');
-                    C('DB_PWD', 'q4r5c8C4');
-                    break;
-            }
+        self::changeDatabase(session('use_db'));
+    }
+
+    public static function changeDatabase($db) {
+        switch($db) {
+            case 'ecmall':
+                C('DB_NAME', 'ecmall51');
+                break;
+            case 'catshome':
+                C('DB_NAME', 'test');
+                C('DB_HOST', '114.215.149.19');
+                C('DB_USER', 'root');
+                C('DB_PWD', 'suowei');
+                break;
+            case 'catshomedemo':
+                C('DB_NAME', '315pangxie');
+                C('DB_HOST', '114.215.149.19');
+                C('DB_USER', '315pangxie');
+                C('DB_PWD', 'q4r5c8C4');
+                break;
+            case 'dg':
+                C('DB_NAME', 'wangpi51_dg');
+                C('DB_HOST', 'rdsqr7ne2m2ifjm.mysql.rds.aliyuncs.com');
+                C('DB_USER', 'wangpicn');
+                C('DB_PWD', 'wangpicn123456');
+                break;
+            case 'cs':
+                C('DB_NAME', 'wangpi51_cs');
+                C('DB_HOST', 'rdsqr7ne2m2ifjm.mysql.rds.aliyuncs.com');
+                C('DB_USER', 'wangpicn');
+                C('DB_PWD', 'wangpicn123456');
+                break;
+            case 'hz':
+                C('DB_NAME', 'wangpi51_hz');
+                break;
+            default:
+                self::changeDatabaseBackToWangpi51();
+                break;
         }
     }
 
@@ -202,9 +230,13 @@ class Util {
         } else if (strpos($seePrice, '折') === mb_strlen($seePrice, 'utf-8') - 1) {
             $finalPrice = $rawPrice * (floatval(mb_substr($seePrice, 0, mb_strlen($seePrice, 'utf-8') - 1, 'utf-8')) / 10);
         } else if (strpos($seePrice, 'P') !== false) {
-            $regex ='/[PpFf](\d+)/';
-            preg_match($regex, $title, $matches);
-            $finalPrice = floatval($matches[1]);
+            $regexP = '/[Pp](\d+)/';
+            $regexF = '/[Ff](\d+)/';
+            if (preg_match($regexP, $title, $matches) == 1) {
+                $finalPrice = floatval($matches[1]);
+            } else if (preg_match($regexF, $title, $matches) == 1) {
+                $finalPrice = floatval($matches[1]);
+            }
         }
         if (is_numeric($finalPrice)) {
             return $finalPrice;

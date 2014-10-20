@@ -21,7 +21,12 @@ class TaskAction extends CommonAction {
     }
 
     private function fetchNumIidFromUrl($url) {
-        $pos = strpos($url, 'id=');
-        return substr($url, $pos + 3);
+        $regex = '/id=(\d+)/';
+        preg_match($regex, $url, $matches);
+        if ($matches) {
+            return $matches[1];
+        } else {
+            return -1;
+        }
     }
 }

@@ -4,6 +4,8 @@ import('@.Util.Util');
 import('@.Model.StoreSession');
 vendor('taobao-sdk.TopSdk');
 import('@.Model.TaobaoItem');
+import('@.Model.Skus');
+import('@.Model.Sku');
 
 class OpenAPI {
 
@@ -21,21 +23,23 @@ class OpenAPI {
 
     public static function getTaobaoItemFromDatabase($goodsId) {
         $goodsModel = M('goods');
-        $rs = $goodsModel->query("select g.*, sum(s.stock) num from ecm_goods g right join ecm_goods_spec s on g.goods_id = s.goods_id where g.goods_id = {$goodsId} group by g.goods_id");
+        $rs = $goodsModel->query("select t.*, group_concat(a.attr_id separator ',') attr_ids, group_concat(a.value_id separator ',') value_ids, group_concat(a.attr_name separator ',') attr_names, group_concat(a.attr_value separator ',') attr_values from (select g.*, group_concat(s.spec_1 separator ',') spec_1s, group_concat(s.spec_2 separator ',') spec_2s, group_concat(s.price separator ',') prices, group_concat(s.stock separator ',') stocks from ecm_goods g, ecm_goods_spec s where g.goods_id = {$goodsId} and g.goods_id = s.goods_id group by goods_id) t, ecm_goods_attr a where t.goods_id = a.goods_id group by t.goods_id;");
         $taobaoItem = new TaobaoItem;
         if (count($rs) > 0) {
             $result = $rs[0];
             $taobaoItem->setCid(self::getCategoryId($result));
             $taobaoItem->setItemImgs(array(new ItemImg(self::parseDefaultImage($result['default_image']))));
-            $taobaoItem->setPropsName('');
+            $taobaoItem->setSkus(self::parseSkus($result));
+            $taobaoItem->setPropsName(self::parsePropsName($result));
             $taobaoItem->setTitle($result['goods_name']);
-            $taobaoItem->setPicUrl($result['default_image']);
+            $taobaoItem->setPicUrl(self::parseDefaultImage($result['default_image']));
             $taobaoItem->setNick(session('taobao_user_nick'));
             $taobaoItem->setPrice($result['price']);
             $taobaoItem->setNum($result['num']);
             $taobaoItem->setPropImgs(array());
             $taobaoItem->setDesc($result['description']);
             $taobaoItem->setDelistTime('2099-12-10 00:00:00');
+            $taobaoItem->setStoreId($result['store_id']);
         }
         return $taobaoItem;
     }
@@ -58,6 +62,34 @@ class OpenAPI {
         } else {
             return $image;
         }
+    }
+
+    private static function parsePropsName($good) {
+        $propsName = '';
+        $attrIds = split(',', $good['attr_ids']);
+        if (count($attrIds) > 0) {
+            $valueIds = split(',', $good['value_ids']);
+            $attrNames = split(',', $good['attr_names']);
+            $attrValues = split(',', $good['attr_values']);
+            for ($i = 0; $i < count($attrIds); $i++) {
+                $propsName .= $attrIds[$i].':'.$valueIds[$i].':'.$attrNames[$i].':'.$attrValues[$i].';';
+            }
+        }
+        return $propsName;
+    }
+
+    private static function parseSkus($good) {
+        $skus = new Skus;
+        $spec1s = split(',', $good['spec_1s']);
+        if (count($spec1s) > 0) {
+            $spec2s = split(',', $good['spec_2s']);
+            $prices = split(',', $good['prices']);
+            $stocks = split(',', $good['stocks']);
+            for ($i = 0; $i < count($spec1s); $i++) {
+                array_push($skus->sku, new Sku($spec1s[$i].':'.$spec2s[$i], $prices[$i], $stocks[$i]));
+            }
+        }
+        return $skus;
     }
 
     public static function getTaobaoItem($numIid) {
@@ -143,6 +175,25 @@ class OpenAPI {
         if (!session('?taobao_access_token')) {
             return 'timeout';
         }
+        $c = new TopClient;
+        $c->appkey = C('taobao_app_key');
+        $c->secretKey = C('taobao_secret_key');
+        $req = new ItempropsGetRequest;
+        $req->setFields("pid,name,must,multi,prop_values,is_key_prop,is_sale_prop,parent_vid");
+        $req->setCid($cid);
+        if ($parentPid) {
+            $req->setParentPid($parentPid);
+        }
+        $resp = $c->execute($req, null);
+
+        if (isset($resp->item_props)) {
+            return $resp->item_props;
+        } else {
+            self::dumpTaobaoApiError('getTaobaoItemProps', $resp);
+        }
+    }
+
+    public static function getTaobaoItemPropsWithoutVerify($cid, $parentPid = null) {
         $c = new TopClient;
         $c->appkey = C('taobao_app_key');
         $c->secretKey = C('taobao_secret_key');

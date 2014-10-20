@@ -9,7 +9,8 @@ class IndexAction extends CommonAction {
 
     public function auth() {
         $taobaoItemId = I('taobaoItemId');
-        session('use_db', I('db'));
+        $useDb = I('db') == '' ? 'wangpi51' : I('db');
+        session('use_db', $useDb);
         if (I('taobaoItemId') == '' && I('goodsId') != '') {
             session('current_goods_id', I('goodsId'));
         } else {

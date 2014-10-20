@@ -1,6 +1,7 @@
 <?php
 
 import('@.Model.Sku');
+import('@.Model.Skus');
 
 class TaobaoItem {
     public $cid;
@@ -15,6 +16,8 @@ class TaobaoItem {
     public $desc;
     public $delist_time;
     public $skus;
+    public $store_id;
+    public $outer_id;
 
     public function __construct() {
         $this->cid = '50000671';
@@ -29,6 +32,8 @@ class TaobaoItem {
         $this->desc = 'null goods';
         $this->delist_time = '2009-12-10 00:00:00';
         $this->skus = new Skus;
+        $this->store_id = -1;
+        $this->outer_id = -1;
     }
 
     public function setCid($value) {
@@ -75,8 +80,16 @@ class TaobaoItem {
         $this->delist_time = $value;
     }
 
-    public function addSku($sku) {
-        $this->skus->addSku($sku);
+    public function setSkus($skus) {
+        $this->skus = $skus;
+    }
+
+    public function setStoreId($storeId) {
+        $this->store_id = $storeId;
+    }
+
+    public function setOuterId($outerId) {
+        $this->outer_id = $outerId;
     }
 }
 
@@ -109,17 +122,5 @@ class PropImgs {
 
     public function setPropImg($value) {
         $this->prop_img = $value;
-    }
-}
-
-class Skus {
-    public $sku;
-
-    public function __construct() {
-        $this->sku = array();
-    }
-
-    public function addSku($sku) {
-        array_push($this->sku, $sku);
     }
 }
