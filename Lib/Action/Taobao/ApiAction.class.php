@@ -26,6 +26,17 @@ class ApiAction extends CommonAction {
         $storeInfo = $upload->getStoreInfo($taobaoItem);
         $outerId = $upload->makeOuterId($taobaoItem->title, $taobaoItem->price, $storeInfo);
         $taobaoItem->setOuterId($outerId);
+        $taobaoItem->setPropsName($this->propsNameWithoutNameAndValue($taobaoItem->props_name));
         $this->ajaxReturn($taobaoItem);
+    }
+
+    private function propsNameWithoutNameAndValue($propsName) {
+        $new = '';
+        $propsNameAttr = explode(';', $propsName);
+        foreach ($propsNameAttr as $propsNameStr) {
+            $parts = explode(':', $propsNameStr);
+            $new .= $parts[0].':'.$parts[1].';';
+        }
+        return $new;
     }
 }
