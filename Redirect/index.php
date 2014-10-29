@@ -29,10 +29,16 @@ $code = $_REQUEST['code'];
 $error = $_REQUEST['error'];
 $error_description = $_REQUEST['error_description'];
 $state = $_REQUEST['state'];
+$host = '121.196.142.10';
+if (strpos($state, '51zwd') !== false) {
+    $host = 'yjsc2.51zwd.com';
+} else if (strpos($state, 'login') !== false) {
+    $host = 'ecmall.51zwd.com';
+}
 
 if($error){
         if($error_description){
-                if(strpos($error_description, 'purchase')!= false)
+                if(strpos($error_description, 'purchase') !== false)
                 {
                          header("Content-type:text/html;charset=gbk");
                          $content  = '<script>';
@@ -41,11 +47,11 @@ if($error){
                          $content .= '</script>';
                  exit($content);
                 }
-                if (strpos($error_description, 'larger') != false) {
+                if (strpos($error_description, 'larger') !== false) {
                          header("Content-type:text/html;charset=gbk");
                          $content  = '<script>';
                          $content .= 'alert("同时在线人数过多，请重试一次！");';
-                         $content .= 'window.location = "http://121.196.142.10/taobao-upload-multi-store/index.php?g=Taobao&m=Index&a=free";';
+                         $content .= 'window.location = "http://'.$host.'/taobao-upload-multi-store/index.php?g=Taobao&m=Index&a=free";';
                          $content .= '</script>';
                          exit($content);
                 }
@@ -69,7 +75,7 @@ if ($state == 'android') {
         'client_secret' => '244fd3a0b1f554046a282dd9b673b386',
         'grant_type' => 'authorization_code',
         'code' => $code,
-        'redirect_uri' => 'http://121.196.142.10/index.php');
+        'redirect_uri' => 'http://'.$host.'/index.php');
     foreach($params as $key=>$value) { $params_string .= $key.'='.$value.'&'; }
     rtrim($params_string, '&');
     $ch = curl_init();
@@ -116,7 +122,7 @@ if (strpos($state,"wap")!== false) {
         'client_secret' => $appsecret,
         'grant_type' => 'authorization_code',
         'code' => $code,
-        'redirect_uri' => 'http://121.196.142.10/index.php');
+        'redirect_uri' => 'http://'.$host.'/index.php');
     foreach($params as $key=>$value) { $params_string .= $key.'='.$value.'&'; }
     rtrim($params_string, '&');
     $ch = curl_init();
@@ -143,8 +149,13 @@ if($code=="" && $Uurl=="" && $num_iid=="" && $cs_type=="")
 
 }
 
+if ($code && strpos($state, 'login') !== false) {
+    header("location:"."http://".$host."/index.php?app=member&act=taobaoAuthBack&code=".$code);
+    exit;
+}
+
 if($code){
-         header("location:"."http://121.196.142.10/taobao-upload-multi-store/index.php?g=Taobao&m=Index&a=authBack&code=".$code."&state=".$state);
+         header("location:"."http://".$host."/taobao-upload-multi-store/index.php?g=Taobao&m=Index&a=authBack&code=".$code."&state=".$state);
         // $log->Debug("Location is "."http://yjsc.51zwd.com/taobao-upload/index.php?g=Taobao&m=Index&a=authBack&code=".$code);
    exit;
 }
