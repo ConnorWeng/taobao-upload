@@ -29,10 +29,11 @@ $error = $_REQUEST['error'];
 $error_description = $_REQUEST['error_description'];
 $state = $_REQUEST['state'];
 $host = '121.196.142.10';
-if (strpos($state, '51zwd') !== false) {
+if (strpos($state, '51zwd') === 0) {
     $host = 'yjsc2.51zwd.com';
-} else if (strpos($state, 'login') !== false) {
-    $host = 'ecmall.51zwd.com';
+} else if (strpos($state, 'taobaologin') === 0) {
+    $parts = explode('::', urldecode($state));
+    $host = $parts[1];
 }
 
 if($error){
@@ -147,8 +148,8 @@ if($code=="" && $Uurl=="" && $num_iid=="" && $cs_type=="")
 
 }
 
-if ($code && strpos($state, 'login') !== false) {
-    header("location:"."http://".$host."/index.php?app=member&act=taobaoAuthBack&code=".$code);
+if ($code && strpos($state, 'taobaologin') === 0) {
+    header("location:".$host."/index.php?app=member&act=taobaoAuthBack&code=".$code);
     exit;
 }
 
