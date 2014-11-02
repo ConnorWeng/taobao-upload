@@ -219,6 +219,14 @@ class Util {
         $finalPrice = $rawPrice;
         if (strpos($seePrice, '减半') !== false) {
             $finalPrice = $rawPrice / 2;
+        } else if (strpos($seePrice, 'P') !== false || $seePrice == '减P' || $seePrice == '减p') {
+            $regexP = '/[Pp](\d+)/';
+            $regexF = '/[Ff](\d+)/';
+            if (preg_match($regexP, $title, $matches) == 1) {
+                $finalPrice = floatval($matches[1]);
+            } else if (preg_match($regexF, $title, $matches) == 1) {
+                $finalPrice = floatval($matches[1]);
+            }
         } else if (strpos($seePrice, '减') === 0) {
             $finalPrice = $rawPrice - floatval(mb_substr($seePrice, 1, mb_strlen($seePrice, 'utf-8') - 1, 'utf-8'));
         } else if (strpos($seePrice, '实价') !== false) {
@@ -229,14 +237,6 @@ class Util {
             $finalPrice = $rawPrice * (floatval(mb_substr($seePrice, 1, mb_strlen($seePrice, 'utf-8') - 1, 'utf-8')) / 10);
         } else if (strpos($seePrice, '折') === mb_strlen($seePrice, 'utf-8') - 1) {
             $finalPrice = $rawPrice * (floatval(mb_substr($seePrice, 0, mb_strlen($seePrice, 'utf-8') - 1, 'utf-8')) / 10);
-        } else if (strpos($seePrice, 'P') !== false) {
-            $regexP = '/[Pp](\d+)/';
-            $regexF = '/[Ff](\d+)/';
-            if (preg_match($regexP, $title, $matches) == 1) {
-                $finalPrice = floatval($matches[1]);
-            } else if (preg_match($regexF, $title, $matches) == 1) {
-                $finalPrice = floatval($matches[1]);
-            }
         }
         if (is_numeric($finalPrice)) {
             return $finalPrice;

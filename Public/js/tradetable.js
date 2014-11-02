@@ -160,7 +160,7 @@ $(function ($) {
         },
 
         parsePrice: function(price, seePrice, goodsName) {
-            var finalPrice, rawPrice, _ref1;
+            var finalPrice, rawPrice, _ref1, _ref2;
             rawPrice = parseFloat(price);
             finalPrice = rawPrice;
             if (seePrice == null) {
@@ -168,6 +168,12 @@ $(function ($) {
             }
             if (seePrice.indexOf('减半') !== -1) {
                 finalPrice = (rawPrice / 2).toFixed(2);
+            } else if (seePrice === 'P' || seePrice === '减P' || seePrice === '减p') {
+                if (/[Pp](\d+(\.\d+)?)/.test(goodsName)) {
+                    finalPrice = parseFloat((_ref1 = /[Pp](\d+(\.\d+)?)/.exec(goodsName)) != null ? _ref1[1] : void 0);
+                } else if (/[Ff](\d+(\.\d+)?)/.test(goodsName)) {
+                    finalPrice = parseFloat((_ref2 = /[Ff](\d+(\.\d+)?)/.exec(goodsName)) != null ? _ref2[1] : void 0);
+                }
             } else if (seePrice.indexOf('减') === 0) {
                 finalPrice = (rawPrice - parseFloat(seePrice.substr(1))).toFixed(2);
             } else if (seePrice === '实价') {
@@ -178,8 +184,6 @@ $(function ($) {
                 finalPrice = (rawPrice * (parseFloat(seePrice.substr(1)) / 10)).toFixed(2);
             } else if (seePrice.indexOf('折') === seePrice.length - 1) {
                 finalPrice = (rawPrice * (parseFloat(seePrice) / 10)).toFixed(2);
-            } else if (seePrice === 'P') {
-                finalPrice = parseFloat((_ref1 = /[PpFf](\d+(\.\d+)?)/.exec(goodsName)) != null ? _ref1[1] : void 0);
             }
             if (isNaN(finalPrice) !== true) {
                 return finalPrice;
