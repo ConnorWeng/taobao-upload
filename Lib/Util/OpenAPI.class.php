@@ -307,7 +307,8 @@ class OpenAPI {
                   "&SkuOuterIds=".urlencode($item['SkuOuterIds']).
                   "&Outer_id=".urlencode($item['OuterId']).
                   "&mainpic=".urlencode($item['mainpic']).
-                  "&checklic=".md5($currentTaobaoItemId.'51');
+                  "&checklic=".md5($currentTaobaoItemId.'51').
+                  "&ItemWeight=".urlencode($item['ItemWeight']);
         $resp = self::sendRequestWithShortUrl(C('servletUri'), $params);
         if (is_numeric($resp)) {
             $taoapi = D('Taoapi');

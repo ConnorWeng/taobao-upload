@@ -135,6 +135,7 @@ class UploadAction extends CommonAction {
             'SkuPrices' => $this->makeSkuPrices($skuTableData),
             'SkuOuterIds' => $this->makeSkuOuterIds($skuTableData),
             'OuterId' => I('_fma_pu__0_o'),
+            'ItemWeight' => '0.5',
             'mainpic' => strpos($_REQUEST['picUrl1'], 'http://') === false ? 'http://yjsc.51zwd.com/taobao-upload-multi-store/'.$_REQUEST['picUrl1'] : $_REQUEST['picUrl1'],
         );
         $storeSession = new StoreSession(null, null);
