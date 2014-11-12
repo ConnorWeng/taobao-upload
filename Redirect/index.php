@@ -42,16 +42,25 @@ if($error){
         {
             header("Content-type:text/html;charset=gbk");
             $content  = '<script>';
-            $content .= 'alert("请按确认键后进行产品的订购，然后再进行相关操作！");';
+            $content .= 'alert("亲，订购应用后就可以轻松上传了哦，51做网店感谢您一直以来的大力支持！");';
             $content .= 'window.location = "http://fuwu.taobao.com/ser/detail.htm?spm=0.0.0.0.EvCI8O&service_code=FW_GOODS-1856100";';
             $content .= '</script>';
             exit($content);
         }
         if (strpos($error_description, 'larger') !== false) {
+            if (!isset($_SESSION['larger_count'])) {
+                $_SESSION['larger_count'] = 0;
+            }
+            $_SESSION['larger_count'] = $_SESSION['larger_count'] + 1;
+            $type = 'free';
+            if ($_SESSION['larger_count'] > 1) {
+                $type = 'stable';
+                unset($_SESSION['larger_count']);
+            }
             header("Content-type:text/html;charset=gbk");
             $content  = '<script>';
             $content .= 'alert("同时在线人数过多，请重试一次！");';
-            $content .= 'window.location = "http://'.$host.'/taobao-upload-multi-store/index.php?g=Taobao&m=Index&a=free";';
+            $content .= 'window.location = "http://'.$host.'/taobao-upload-multi-store/index.php?g=Taobao&m=Index&a='.$type.'";';
             $content .= '</script>';
             exit($content);
         }
