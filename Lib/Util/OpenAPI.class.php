@@ -478,6 +478,20 @@ class OpenAPI {
         }
     }
 
+    public static function getTradesSold($appKey, $secretKey, $sessionKey) {
+        $c = new TopClient;
+        $c->appkey = $appKey;
+        $c->secretKey = $secretKey;
+        $req = new TradesSoldGetRequest;
+        $req->setFields("seller_nick, buyer_nick, title, type, created, status, payment, total_fee, pay_time, end_time, orders.title, orders.price, orders.num, orders.status, orders.total_fee, orders.payment");
+        $resp = $c->execute($req, $sessionKey);
+        if (isset($resp->trades) || ''.$resp->total_results == '0') {
+            return $resp->trades;
+        } else {
+            return $resp->msg.$resp->sub_msg;
+        }
+    }
+
     public static function dumpTaobaoApiError($apiName, $resp) {
         $appKey = session('taobao_app_key');
         $appSecret = session('taobao_secret_key');
