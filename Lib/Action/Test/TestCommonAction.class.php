@@ -2,15 +2,8 @@
 
 import('@.Util.Asserts');
 
-class TestCommonAction extends Action {
-    public function index() {
-        $methods = get_class_methods(__CLASS__);
-        foreach ($methods as $method) {
-            if (strpos($method, 'test') !== false) {
-                call_user_func(array($this, $method));
-            }
-        }
-    }
+class TestCommonAction extends TestAction {
+    public $className = 'TestCommonAction';
 
     public function testReadConfig() {
         Asserts::equal('read DB_PWD from module', C('DB_PWD'), '123456');
