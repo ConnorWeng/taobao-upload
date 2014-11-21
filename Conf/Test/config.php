@@ -1,4 +1,4 @@
 <?php
 return array(
-    'DB_PWD' => '123456',
+    'TEST_CONFIG' => '123456',
 );
