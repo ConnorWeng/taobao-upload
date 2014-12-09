@@ -2149,6 +2149,10 @@ $(function () {
             $('#346').val('广州');
             // 设置品牌
             $('#2176').val('其他');
+            // 解决含毛量的问题
+            if ($('#1991').length > 0) {
+                $('<div class="pro-item fd-clr" id="pro-div-feature1277" data-isspecpicattr="false"><div class="pro-t"><span class="icon-must">含毛量：</span></div><div class="pro-d"><em class="pro-form"><input type="text" name="feature1277" id="1277"></input></em><span class="pro-unit"></span></div></div><div class="err-div fd-clr"><span class="err">请填写</span></div>').insertAfter('#pro-div-feature1991');
+            }
         }
     });
 
@@ -2486,11 +2490,6 @@ $(function () {
 
         window.scroll(0, top);
     }
-
-    // 解决含毛量的问题
-    $('#1991').live('blur', function (event) {
-        $('<div class="pro-item fd-clr" id="pro-div-feature1277" data-isspecpicattr="false"><div class="pro-t"><span class="icon-must">含毛量：</span></div><div class="pro-d"><em class="pro-form"><input type="text" name="feature1277" id="1277"></input></em><span class="pro-unit"></span></div></div><div class="err-div fd-clr"><span class="err">请填写</span></div>').insertAfter('#pro-div-feature1991');
-    });
 });
 </script>
 </body>
