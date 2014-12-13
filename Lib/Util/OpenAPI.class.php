@@ -484,6 +484,7 @@ class OpenAPI {
         $c->secretKey = $secretKey;
         $req = new TradesSoldGetRequest;
         $req->setFields("buyer_nick,receiver_name,receiver_mobile,price,total_fee,created,buyer_area,receiver_address,orders.title,orders.pic_path,orders.num,orders.price,orders.sku_id,orders.outer_iid,orders.sku_properties_name,post_fee,pay_time,consign_time,send_time,end_time,receiver_zip,shipping_type");
+        $req->setStatus('WAIT_SELLER_SEND_GOODS');
         $resp = $c->execute($req, $sessionKey);
         if (isset($resp->trades) || ''.$resp->total_results == '0') {
             return $resp->trades;
