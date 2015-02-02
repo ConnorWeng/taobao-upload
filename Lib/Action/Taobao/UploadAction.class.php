@@ -35,6 +35,7 @@ class UploadAction extends CommonAction {
         $images = $this->makeImages($taobaoItem->item_imgs);
         $propsHtml = $this->makePropsHtml($props, $taobaoItem->props_name, $taobaoItem->cid);
         $sizeType = $this->makeSizeType($props);
+        $colorPropHtml = $this->makeColorPropHtml($props);
         $sizePropHtml = $this->makeSizePropHtml($props);
         $salePropsObject = $this->makeSalePropsObject($props);
         $title = Util::makeTitle($taobaoItem->title);
@@ -85,6 +86,7 @@ class UploadAction extends CommonAction {
             'postFreight' => $userdata['buyerFreight'] == '1' && $userdata['usePostModu'] == '999' ? 'checked' : '',
             'deliveryTemplateHtml' => $deliveryTemplateHtml,
             'sellerCatsHtml' => $sellerCatsHtml,
+            'colorPropHtml' => $colorPropHtml,
             'sizePropHtml' => $sizePropHtml,
             'salePropsObject' => urlencode(json_encode($salePropsObject)),
             'movePic' => $movePic,
@@ -472,6 +474,84 @@ class UploadAction extends CommonAction {
             }
         }
         return $sizePropHtml;
+    }
+
+    private function makeColorPropHtml($props) {
+        $colorPropHtml = '';
+        $colorArray = array(
+            '乳白色' => 'rgb(255, 251, 240)',
+            '白色' => 'rgba(0, 0, 0, 0)',
+            '米白色' => 'rgb(238, 222, 176)',
+            '浅灰色' => 'rgb(228, 228, 228)',
+            '深灰色' => 'rgb(102, 102, 102)',
+            '灰色' => 'rgb(128, 128, 128)',
+            '银色' => 'rgb(192, 192, 192)',
+            '黑色' => 'rgb(0, 0, 0)',
+            '桔红色' => 'rgb(255, 117, 0)',
+            '玫红色' => 'rgb(223, 27, 118)',
+            '粉红色' => 'rgb(255, 182, 193)',
+            '红色' => 'rgb(255, 0, 0)',
+            '藕色' => 'rgb(238, 208, 216)',
+            '西瓜红' => 'rgb(240, 86, 84)',
+            '酒红色' => 'rgb(153, 0, 0)',
+            '卡其色' => 'rgb(195, 176, 145)',
+            '姜黄色' => 'rgb(255, 199, 115)',
+            '明黄色' => 'rgb(255, 255, 1)',
+            '杏色' => 'rgb(247, 238, 214)',
+            '柠檬黄' => 'rgb(255, 236, 67)',
+            '桔色' => 'rgb(255, 165, 0)',
+            '浅黄色' => 'rgb(250, 255, 114)',
+            '荧光黄' => 'rgb(234, 255, 86)',
+            '金色' => 'rgb(255, 215, 0)',
+            '香槟色' => 'rgba(0, 0, 0, 0)',
+            '黄色' => 'rgb(255, 255, 0)',
+            '军绿色' => 'rgb(93, 118, 42)',
+            '墨绿色' => 'rgba(0, 0, 0, 0)',
+            '浅绿色' => 'rgb(152, 251, 152)',
+            '绿色' => 'rgb(0, 128, 0)',
+            '翠绿色' => 'rgb(10, 163, 68)',
+            '荧光绿' => 'rgb(35, 250, 7)',
+            '青色' => 'rgb(0, 224, 158)',
+            '天蓝色' => 'rgb(68, 206, 246)',
+            '孔雀蓝' => 'rgb(0, 164, 197)',
+            '宝蓝色' => 'rgb(75, 92, 196)',
+            '浅蓝色' => 'rgb(210, 240, 244)',
+            '深蓝色' => 'rgb(4, 22, 144)',
+            '湖蓝色' => 'rgb(48, 223, 243)',
+            '蓝色' => 'rgb(0, 0, 254)',
+            '藏青色' => 'rgb(46, 78, 126)',
+            '浅紫色' => 'rgb(237, 224, 230)',
+            '深紫色' => 'rgb(67, 6, 83)',
+            '紫红色' => 'rgb(139, 0, 98)',
+            '紫罗兰' => 'rgb(183, 172, 228)',
+            '紫色' => 'rgb(128, 0, 128)',
+            '咖啡色' => 'rgb(96, 57, 18)',
+            '巧克力色' => 'rgb(210, 105, 30)',
+            '栗色' => 'rgb(96, 40, 30)',
+            '浅棕色' => 'rgb(179, 92, 68)',
+            '深卡其布色' => 'rgb(189, 183, 107)',
+            '深棕色' => 'rgb(124, 75, 0)',
+            '褐色' => 'rgb(133, 91, 0)',
+            '驼色' => 'rgb(168, 132, 98)',
+            '花色' => 'rgba(0, 0, 0, 0)',
+            '透明' => 'rgba(0, 0, 0, 0)');
+        $count = count($props->item_prop);
+        for ($i = 0; $i < $count; $i++) {
+            $prop = $props->item_prop[$i];
+            if ($this->isSaleProp($prop) && strpos(''.$prop->name, '颜色') !== false) {
+                $valueCount = count($prop->prop_values->prop_value);
+                for ($j = 0; $j < $valueCount; $j++) {
+                    $value = $prop->prop_values->prop_value[$j];
+                    $colorPropHtml .= '<li class="sku-item">';
+                    $colorPropHtml .= '<input type="checkbox" class="J_Checkbox" name="cp_'.$prop->pid.'" value="'.$prop->pid.':'.$value->vid.'" id="prop_'.$prop->pid.'-'.$value->vid.'" data-color="'.$colorArray[''.$value->name].'" data-path="" data-thumb="">';
+                    $colorPropHtml .= '<label class="color-lump" style="background:'.$colorArray[''.$value->name].';" for="prop_'.$prop->pid.'-'.$value->vid.'"></label>';
+                    $colorPropHtml .= '<label class="labelname" for="prop_'.$prop->pid.'-'.$value->vid.'" title="'.$value->name.'">'.$value->name.'</label>';
+                    $colorPropHtml .= '<input id="J_Alias_'.$prop->pid.'-'.$value->vid.'" class="editbox text" maxlength="15" type="text" value="'.$value->name.'" name="cpva_'.$prop->pid.':'.$value->vid.'">';
+                    $colorPropHtml .= '</li>';
+                }
+            }
+        }
+        return $colorPropHtml;
     }
 
     private function makeSalePropsObject($props) {
