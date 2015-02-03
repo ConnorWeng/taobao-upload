@@ -643,6 +643,7 @@
                   prop = propertiesMoreParts[0] + ':' + propertiesMoreParts[1],
                   $checkbox = $('input[value="'+prop+'"]');
                   $checkbox.siblings('input[type=text]').val(getPropAlias(propertiesMoreParts[1], propertiesMoreParts[3]));
+                  $checkbox.siblings('label:eq(1)').text(getPropAlias(propertiesMoreParts[1], propertiesMoreParts[3]));
                   if (typeof($checkbox.attr('checked')) === 'undefined') {
                       $checkbox.click();
                       rebuildSkuTable();
@@ -661,6 +662,7 @@
                   } else {
                       $checkbox = $('.sku-list:eq(' + j + ')').find('input[type=checkbox]:eq(' + i + ')');
                       $checkbox.siblings('input[type=text]').val(propertiesParts[j]);
+                      $checkbox.siblings('label:eq(1)').text(propertiesParts[j]);
                       if (typeof($checkbox.attr('checked')) === 'undefined') {
                           $checkbox.click();
                           rebuildSkuTable();
