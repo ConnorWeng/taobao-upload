@@ -150,7 +150,7 @@ class Util {
     public static function changeDatabase($db) {
         switch($db) {
             case 'ecmall':
-                C('DB_NAME', 'ecmall51');
+                C('DB_NAME', 'ecmall51_2');
                 break;
             case 'catshome':
                 C('DB_NAME', 'test');
