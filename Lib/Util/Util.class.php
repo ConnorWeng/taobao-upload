@@ -96,6 +96,7 @@ class Util {
     public static function changeTaoAppkey($taobaoItemId, $oldAppKey = null) {
         if (session('use_db') == 'catshome'
             || session('use_db') == 'catshomedemo'
+            || session('use_db') == 'ecmall'
             || session('use_db') == 'dg'
             || session('use_db') == 'cs'
             || session('use_db') == 'hz'
@@ -113,6 +114,7 @@ class Util {
     public static function changeAliAppkey($taobaoItemId, $oldAppKey = null) {
         if (session('use_db') == 'catshome'
             || session('use_db') == 'catshomedemo'
+            || session('use_db') == 'ecmall'
             || session('use_db') == 'dg'
             || session('use_db') == 'cs'
             || session('use_db') == 'hz'
