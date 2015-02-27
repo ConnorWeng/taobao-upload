@@ -269,7 +269,7 @@ class Util {
         return trim($newTitle);
     }
 
-    public static function getHuoHao($title) {
+    public static function getHuoHao($title, $propsName = null) {
         $kuanHaoRegex='/[A-Z]?\d+/';
         preg_match_all($kuanHaoRegex,$title,$kuanHao);
         $pKhnum=count($kuanHao[0]);
@@ -278,6 +278,17 @@ class Util {
                 if(strlen($kuanHao[0][$i])==3 || (strlen($kuanHao[0][$i])==4 && substr($kuanHao[0][$i], 0,3)!= "201")) {
                     $huoHao = $kuanHao[0][$i];
                     break;
+                }
+            }
+        }
+        if (!$huoHao && $propsName != null) {
+            if (strpos(''.$propsName, '13021751') !== false) {
+                $parts = explode(';', ''.$propsName);
+                $count = count($parts);
+                for ($i = 0; $i < $count; $i++) {
+                    if (strpos($parts[$i], '13021751') !== false) {
+                        $huoHao = intval(explode(':', $parts[$i])[3]);
+                    }
                 }
             }
         }

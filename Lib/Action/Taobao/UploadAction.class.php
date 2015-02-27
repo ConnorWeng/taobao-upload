@@ -42,7 +42,7 @@ class UploadAction extends CommonAction {
         $storeInfo = $this->getStoreInfo($taobaoItem);
         $price = Util::makePrice($taobaoItem->price, $storeInfo['see_price'], $taobaoItem->title);
         $caculatedPrice = $this->caculatePrice($price, $userdata['profit0'], $userdata['profit']);
-        $outerId = $this->makeOuterId($taobaoItem->title, $taobaoItem->price, $storeInfo);
+        $outerId = $this->makeOuterId($taobaoItem->title, $taobaoItem->price, $storeInfo, $taobaoItem->props_name);
         $isUploadedBefore = $this->makeIsUploadedBefore($outerId);
         $propImgs = urlencode($this->makePropImgs($taobaoItem->prop_imgs->prop_img));
         $deliveryTemplateHtml = $this->makeDeliveryTemplateHtml($deliveryTemplates, $userdata['usePostModu']);
@@ -67,7 +67,7 @@ class UploadAction extends CommonAction {
             'sizeType' => $sizeType,
             'outerId' => $outerId,
             'nick' => $nick,
-            'huoHao' => Util::getHuoHao($taobaoItem->title),
+            'huoHao' => Util::getHuoHao($taobaoItem->title, $taobaoItem->props_name),
             'imgsInDesc' => $this->parseDescImages($taobaoItem->desc),
             'percent' => $userdata['profit0'],
             'profit' => $userdata['profit'],
@@ -604,10 +604,10 @@ class UploadAction extends CommonAction {
         return $storeInfo;
     }
 
-    public function makeOuterId($title, $rawPrice, $storeInfo) {
+    public function makeOuterId($title, $rawPrice, $storeInfo, $propsName = null) {
         $seller = $storeInfo['shop_mall'].$storeInfo['address'];
         $price = Util::makePrice($rawPrice, $storeInfo['see_price'], $title);
-        $huoHao = Util::getHuoHao($title);
+        $huoHao = Util::getHuoHao($title, $propsName);
         return $outerId = $seller.'_P'.$price.'_'.$huoHao.'#';
     }
 
