@@ -2154,7 +2154,15 @@ $(function () {
             $('#2176').val('其他');
             // 解决含毛量的问题
             if ($('#1991').length > 0) {
-                $('<div class="pro-item fd-clr" id="pro-div-feature1277" data-isspecpicattr="false"><div class="pro-t"><span class="icon-must">含毛量：</span></div><div class="pro-d"><em class="pro-form"><input type="text" name="feature1277" id="1277"></input></em><span class="pro-unit"></span></div></div><div class="err-div fd-clr"><span class="err">请填写</span></div>').insertAfter('#pro-div-feature1991');
+                $('<div class="err-div fd-clr"><span class="err">请填写</span></div><div class="pro-item fd-clr" id="pro-div-feature1277" data-isspecpicattr="false"><div class="pro-t"><span class="icon-must">含毛量：</span></div><div class="pro-d"><em class="pro-form"><input type="text" name="feature1277" id="1277"></input></em><span class="pro-unit"></span></div></div>').insertAfter('#pro-div-feature1991');
+            }
+            // 解决面料主材料问题
+            if ($('#147566185').length > 0) {
+                $('<div class="err-div fd-clr"><span class="err">请填写</span></div><div class="pro-item fd-clr" id="pro-div-feature19166310" data-isspecpicattr="false"><div class="pro-t"><span class="icon-must">面料主材质：</span></div><div class="pro-d"><em class="pro-form"><input type="text" name="feature19166310" id="19166310"></input></em><span class="pro-unit"></span></div></div>').insertAfter('#pro-div-feature147566185');
+            }
+            // 解决面料次材料问题
+            if ($('#147614228').length > 0) {
+                $('<div class="err-div fd-clr"><span class="err">请填写</span></div><div class="pro-item fd-clr" id="pro-div-feature147612250" data-isspecpicattr="false"><div class="pro-t"><span class="icon-must">面料次要材质：</span></div><div class="pro-d"><em class="pro-form"><input type="text" name="feature147612250" id="147612250"></input></em><span class="pro-unit"></span></div></div>').insertAfter('#pro-div-feature147614228');
             }
         }
     });
