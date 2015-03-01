@@ -596,7 +596,7 @@ class UploadAction extends CommonAction {
         if ($isNewVersion) { // from ecmall database
             $storeId = $taobaoItem->store_id;
         } else { // old version
-            $rs = $store->query("select store_id from ecm_goods where good_http='http://item.taobao.com/item.htm?id=".session('current_taobao_item_id')."'");
+            $rs = $store->query("select store_id from ecm_goods where good_http like 'http://item.taobao.com/item.htm?id=".session('current_taobao_item_id')."%'");
             $storeId = $rs[0]['store_id'];
         }
         $storeInfo = $store->where('store_id='.$storeId)->find();
