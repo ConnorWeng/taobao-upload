@@ -127,6 +127,7 @@ class IndexAction extends CommonAction {
         // }
 
         $this->assign(array(
+            'randNumber' => rand(1, 30000),
             'taobaoItemId' => $taobaoItemId,
             'price' => $price + floatval($profit),
             'rawPrice' => $price,
