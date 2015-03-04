@@ -2129,7 +2129,12 @@ $(function () {
                 var $this = $(this),
                     itemTextWithColon = $this.find('.pro-t').text(),
                     itemText = itemTextWithColon.substr(0, itemTextWithColon.length-1),
+                    propsNameIndex;
+                if (Array.prototype.indexOf) {
                     propsNameIndex = propsName.split(':').indexOf(itemText);
+                } else {
+                    propsNameIndex = yaIndexOf(propsName.split(':'), itemText);
+                }
                 if (propsNameIndex != -1) {
                     var taobaoProp = propsName.split(':')[propsNameIndex+1].split(';')[0],
                         $select = $this.find('select');

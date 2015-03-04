@@ -13,3 +13,19 @@ function checkResponse(response) {
         window.location = url;
     }
 }
+
+function yaIndexOf(arr, elt /*, from*/) {
+    var len = arr.length >>> 0;
+    var from = Number(arguments[2]) || 0;
+    from = (from < 0)
+        ? Math.ceil(from)
+        : Math.floor(from);
+    if (from < 0)
+        from += len;
+    for (; from < len; from++) {
+        if (from in arr &&
+            arr[from] === elt)
+            return from;
+    }
+    return -1;
+};
