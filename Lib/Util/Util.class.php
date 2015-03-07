@@ -287,7 +287,7 @@ class Util {
                 $count = count($parts);
                 for ($i = 0; $i < $count; $i++) {
                     if (strpos($parts[$i], '13021751') !== false) {
-                        $huoHao = intval(explode(':', $parts[$i])[3]);
+                        $huoHao = explode(':', $parts[$i])[3];
                     }
                 }
             }
