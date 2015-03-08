@@ -202,6 +202,7 @@ class IndexAction extends Action {
                 ));
             }
         } else {
+            Log::write('[ paipai_error ] accessToken:'.session('paipai_access_token').' errorCode:'.$response->errorCode.' errorMessage:'.$response->errorMessage.' itemAttrs:'.dump($itemAttrs, false), Log::ERR);
             $this->assign(array(
                 'result' => '发布失败！ errorCode:'.$response->errorCode.', errorMessage:'.$response->errorMessage,
                 'message' => '宝贝没有顺利上架，请不要泄气哦，换个宝贝试试吧！祝生意欣荣，财源广进！',
