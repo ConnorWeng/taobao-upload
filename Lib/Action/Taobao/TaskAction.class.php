@@ -5,7 +5,7 @@ class TaskAction extends CommonAction {
     public function updateRealPicToday() {
         $goodsModel = M('Goods');
         $todayTime = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-        $goods = $goodsModel->where('add_time > '.$todayTime)->select();
+        $goods = $goodsModel->where('add_time > '.$todayTime.' and realpic = 0')->select();
         foreach ($goods as $good) {
             $goodId = $good['goods_id'];
             $numIid = $this->fetchNumIidFromUrl($good['good_http']);
