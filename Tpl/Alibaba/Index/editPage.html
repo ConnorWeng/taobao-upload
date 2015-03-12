@@ -2346,7 +2346,7 @@ $(function () {
         // 准备产品属性信息
         var handleProItem = function (index, element) {
             var $e = $(element),
-                $firstInput = $e.find('input:first').length == 0 ? $e.find('select:first') : $e.find('input:first'),
+                $firstInput = $e.find('select:first').length == 0 ? $e.find('input:first') : $e.find('select:first'),
                 fid = $firstInput.attr('name').substr(7),
                 valueString = '',
                 featureString = '';
@@ -2359,7 +2359,12 @@ $(function () {
                 });
                 valueString = valueString.substr(0, valueString.length - 1);
             } else {
-                valueString = $firstInput.val();
+                var $other = $firstInput.siblings('.other');
+                if ($other.length > 0) {
+                    valueString = $other.val();
+                } else {
+                    valueString = $firstInput.val();
+                }
             }
 
             featureString = '"' + fid + '":"' + valueString + '",';
@@ -2422,6 +2427,16 @@ $(function () {
                 }
             }
         });
+    });
+
+    // 支持产地自定义
+    $('#346').live('change', function() {
+        $location = $('#346');
+        if ($location.val() === '其他') {
+            $location.parent().append('<input type="text" name="other346" class="other">');
+        } else {
+            $location.siblings('.other').remove();
+        }
     });
 
     // 按产品数量报价，处理价格区间，准备提交
