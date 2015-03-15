@@ -57,8 +57,8 @@ class OpenAPI {
     }
 
     private static function parseDefaultImage($image) {
-        if (strpos('data/files') !== false) {
-            return 'http://ecmall.51zwd.com/'.$image;
+        if (strpos($image, 'data/files') !== false) {
+            return 'http://mall.51zwd.com/'.$image;
         } else {
             return $image;
         }
