@@ -294,6 +294,16 @@ class Util {
         }
         return $huoHao;
     }
+
+    public static function getNumIidFromUrl($url) {
+        $regex = '/id=(\d+)/';
+        preg_match($regex, $url, $matches);
+        if ($matches) {
+            return $matches[1];
+        } else {
+            return -1;
+        }
+    }
 }
 
 ?>

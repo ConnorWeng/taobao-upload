@@ -40,6 +40,7 @@ class OpenAPI {
             $taobaoItem->setDesc($result['description']);
             $taobaoItem->setDelistTime('2099-12-10 00:00:00');
             $taobaoItem->setStoreId($result['store_id']);
+            $taobaoItem->setGoodHttp($result['good_http']);
         }
         return $taobaoItem;
     }
@@ -72,7 +73,9 @@ class OpenAPI {
             $attrNames = split(',', $good['attr_names']);
             $attrValues = split(',', $good['attr_values']);
             for ($i = 0; $i < count($attrIds); $i++) {
-                $propsName .= $attrIds[$i].':'.$valueIds[$i].':'.$attrNames[$i].':'.$attrValues[$i].';';
+                if ($attrIds[$i] != '1') {
+                    $propsName .= $attrIds[$i].':'.$valueIds[$i].':'.$attrNames[$i].':'.$attrValues[$i].';';
+                }
             }
         }
         return $propsName;

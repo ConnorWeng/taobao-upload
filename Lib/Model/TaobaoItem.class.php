@@ -18,6 +18,8 @@ class TaobaoItem {
     public $skus;
     public $store_id;
     public $outer_id;
+    public $num_iid;
+    public $good_http;
 
     public function __construct() {
         $this->cid = '50000671';
@@ -34,6 +36,8 @@ class TaobaoItem {
         $this->skus = new Skus;
         $this->store_id = -1;
         $this->outer_id = -1;
+        $this->num_iid = -1;
+        $this->good_http = '';
     }
 
     public function setCid($value) {
@@ -90,6 +94,14 @@ class TaobaoItem {
 
     public function setOuterId($outerId) {
         $this->outer_id = $outerId;
+    }
+
+    public function setNumIid($numIid) {
+        $this->num_iid = $numIid;
+    }
+
+    public function setGoodHttp($goodHttp) {
+        $this->good_http = $goodHttp;
     }
 }
 
