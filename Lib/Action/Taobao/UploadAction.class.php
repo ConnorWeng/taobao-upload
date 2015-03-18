@@ -34,7 +34,6 @@ class UploadAction extends CommonAction {
         $userdata = $this->makeUserdata($nick, $deliveryTemplates);
         $images = $this->makeImages($taobaoItem->item_imgs);
         $propsHtml = $this->makePropsHtml($props, $taobaoItem->props_name, $taobaoItem->cid);
-        $sizeType = $this->makeSizeType($props);
         $colorPropHtml = $this->makeColorPropHtml($props);
         $sizePropHtml = $this->makeSizePropHtml($props);
         $salePropsObject = $this->makeSalePropsObject($props);
@@ -64,7 +63,6 @@ class UploadAction extends CommonAction {
             'image1' => $images[2],
             'image2' => $images[3],
             'image3' => $images[4],
-            'sizeType' => $sizeType,
             'outerId' => $outerId,
             'nick' => $nick,
             'huoHao' => Util::getHuoHao($taobaoItem->title, $taobaoItem->props_name),
@@ -116,7 +114,7 @@ class UploadAction extends CommonAction {
             'Cid' => I('cid'),
             'ApproveStatus' => I('_now') != '2' ? 'onsale' : 'instock',
             'ListTime' => $this->makeListTime(I('_now'), I('__date'), I('__hour'), I('__minute')),
-            'Props' => $this->makeProps($_REQUEST, $skuTableData, I('sizeType')),
+            'Props' => $this->makeProps($_REQUEST, $skuTableData),
             'FreightPayer' => I('postages'),
             'PostageId' => I('postages') == 'buyer' ? I('template_id') : '',
             'ValidThru' => '7',
@@ -345,28 +343,38 @@ class UploadAction extends CommonAction {
         return $skuOuterIds = substr($skuOuterIds, 0, strlen($skuOuterIds) - 2);
     }
 
-    private function makeProps($request, $skuTableData, $sizeType) {
+    private function makeProps($request, $skuTableData) {
         $propsArray = array();
+        $colorPid = $sizePid = 'invalidPid';
+        foreach ($skuTableData as $key => $value) {
+            $colorPid = explode('-', explode('_', $key)[0])[0];
+            if (count(explode('_', $key)) == 2) {
+                $sizePid = explode('-', explode('_', $key)[1])[0];
+            }
+            break;
+        }
         foreach ($request as $key => $value) {
             if (strpos($key, 'cp_') !== false && $value !== ''
-                && strpos($key, '1627207') === false
-                && strpos($key, '20509') === false
-                && strpos($key, '20518') === false) {
+                && strpos($key, $colorPid) === false
+                && strpos($key, $sizePid) === false) {
                 array_push($propsArray, $value);
             }
         }
         $colorArray = array();
         $sizeArray = array();
         foreach ($skuTableData as $key => $value) {
-            $color = split('-', split('_', $key)[0])[1];
+            $color = explode('-', explode('_', $key)[0])[1];
             array_push($colorArray, $color);
-            $size = split('-', split('_', $key)[1])[1];
-            array_push($sizeArray, $size);
+            if ($sizePid !== 'invalidPid') {
+                $size = explode('-', explode('_', $key)[1])[1];
+                array_push($sizeArray, $size);
+            }
         }
-        $colorProp = '1627207:';
-        $colorPropStr = $colorProp.implode(',', array_unique($colorArray));
-        $sizeProp = $sizeType == 0 ? '20509:' : '20518:';
-        $sizePropStr = $sizeProp.implode(',', array_unique($sizeArray));
+        $colorPropStr = $colorPid.':'.implode(',', array_unique($colorArray));
+        $sizePropStr = '';
+        if ($sizePid !== 'invalidPid') {
+            $sizePropStr = $sizePid.':'.implode(',', array_unique($sizeArray));
+        }
         return implode(';', $propsArray).';'.$colorPropStr.';'.$sizePropStr;
     }
 
@@ -567,22 +575,6 @@ class UploadAction extends CommonAction {
             }
         }
         return $salePropsObject;
-    }
-
-    /* 0:20509 尺码, 1:20518 尺寸 */
-    private function makeSizeType($props) {
-        $count = count($props->item_prop);
-        for ($i = 0; $i < $count; $i++) {
-            $prop = $props->item_prop[$i];
-            if ($this->isSaleProp($prop)) {
-                if (''.$prop->pid == '20509') {
-                    return 0;
-                } else if (''.$prop->pid == '20518') {
-                    return 1;
-                }
-            }
-        }
-        return 0;
     }
 
     private function isSaleProp($prop) {
