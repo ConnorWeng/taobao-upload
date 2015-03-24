@@ -146,4 +146,14 @@ class IndexAction extends CommonAction {
         $taoapi = D('Taoapi');
         dump($taoapi->recoveryAppKey(time()));
     }
+
+    public function testAuth() {
+        header('location: https://'.C('oauth_uri').'/authorize?response_type=code&client_id='.I('app_key').'&redirect_uri=http://'.C('redirect_host').urlencode('/taobao-upload-multi-store/index.php?g=Taobao&m=Index&a=testAuthBack').'&state='.I('newStore').'&view=web');
+    }
+
+    public function testAuthBack() {
+        dump(I('code'));
+        dump(I('error'));
+        dump(I('error_description'));
+    }
 }
