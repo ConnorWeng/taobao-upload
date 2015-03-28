@@ -295,7 +295,8 @@ class UploadAction extends CommonAction {
             $skuProperties = str_replace('_', ';', str_replace('-', ':', $key));
             $skuProps = split(';', $skuProperties);
             foreach ($skuProps as $prop) {
-                $originValueName = get_object_vars($salePropsArray[$prop])['0'];
+                $originValueVars = get_object_vars($salePropsArray[$prop]);
+                $originValueName = $originValueVars['0'];
                 $alias = $request['cpva_'.$prop];
                 if ($originValueName != $alias) {
                     if (strlen($propertyAlias.$prop.':'.$alias.';') < 511) {
@@ -347,9 +348,12 @@ class UploadAction extends CommonAction {
         $propsArray = array();
         $colorPid = $sizePid = 'invalidPid';
         foreach ($skuTableData as $key => $value) {
-            $colorPid = explode('-', explode('_', $key)[0])[0];
+            $keyParts = explode('_', $key);
+            $colorPidArray = explode('-', $keyParts[0]);
+            $colorPid = $colorPidArray[0];
             if (count(explode('_', $key)) == 2) {
-                $sizePid = explode('-', explode('_', $key)[1])[0];
+                $sizePidArray = explode('-', $keyParts[1]);
+                $sizePid = $sizePidArray[0];
             }
             break;
         }
@@ -363,10 +367,13 @@ class UploadAction extends CommonAction {
         $colorArray = array();
         $sizeArray = array();
         foreach ($skuTableData as $key => $value) {
-            $color = explode('-', explode('_', $key)[0])[1];
+            $keyParts = explode('_', $key);
+            $colorKeyArray = explode('-', $keyParts[0]);
+            $color = $colorKeyArray[1];
             array_push($colorArray, $color);
             if ($sizePid !== 'invalidPid') {
-                $size = explode('-', explode('_', $key)[1])[1];
+                $sizeKeyArray = explode('-', $keyParts[1]);
+                $size = $sizeKeyArray[1];
                 array_push($sizeArray, $size);
             }
         }
