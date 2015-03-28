@@ -610,6 +610,20 @@ class UploadAction extends CommonAction {
         return $outerId = $seller.'_P'.$price.'_'.$huoHao.'#';
     }
 
+    public function addTaobaoPictureCategory() {
+        $pictureCategory = OpenAPI::addTaobaoPictureCategory('51zwd_pics', 0);
+        return ''.$pictureCategory->picture_category_id;
+    }
+
+    public function getTaobaoPictureCategory() {
+        $pictureCategory = OpenAPI::getTaobaoPictureCategory('51zwd_pics', 0);
+        if ($pictureCategory) {
+            return ''.$pictureCategory->picture_category->picture_category_id;
+        } else {
+            return '';
+        }
+    }
+
     private function caculatePrice($price, $percent, $profit) {
         return floatval($price) * (floatval($percent) / 100.00) + floatval($profit);
     }
