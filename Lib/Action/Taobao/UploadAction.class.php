@@ -624,6 +624,14 @@ class UploadAction extends CommonAction {
         }
     }
 
+    public function uploadTaobaoPicture($imgUrl, $pictureCategoryId) {
+        $imgTitle = substr($imgUrl, strrpos($imgUrl, '/') + 1);
+        $imgPath = Util::downloadImage($imgUrl);
+        $taobaoPicture = OpenAPI::uploadTaobaoPicture($pictureCategoryId, $imgPath, $imgTitle);
+        unlink($imgPath);
+        return ''.$taobaoPicture->picture_path;
+    }
+
     private function caculatePrice($price, $percent, $profit) {
         return floatval($price) * (floatval($percent) / 100.00) + floatval($profit);
     }

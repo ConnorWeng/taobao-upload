@@ -534,6 +534,26 @@ class OpenAPI {
         }
     }
 
+    public static function uploadTaobaoPicture($pictureCategoryId, $img, $imageInputTitle) {
+        if (self::needVerify()) {
+            return 'verify';
+        }
+        if (!session('?taobao_access_token')) {
+            return 'timeout';
+        }
+        $c = self::initTopClient();
+        $req = new PictureUploadRequest;
+        $req->setPictureCategoryId($pictureCategoryId);
+        $req->setImg('@'.$img);
+        $req->setImageInputTitle($imageInputTitle);
+        $resp = $c->execute($req, session('taobao_access_token'));
+        if ($resp->picture) {
+            return $resp->picture;
+        } else {
+            self::dumpTaobaoApiError('uploadTaobaoPicture', $resp);
+        }
+    }
+
     public static function dumpTaobaoApiError($apiName, $resp) {
         $appKey = session('taobao_app_key');
         $appSecret = session('taobao_secret_key');
