@@ -610,13 +610,21 @@ class UploadAction extends CommonAction {
         return $outerId = $seller.'_P'.$price.'_'.$huoHao.'#';
     }
 
-    public function addTaobaoPictureCategory() {
-        $pictureCategory = OpenAPI::addTaobaoPictureCategory('51zwd_pics', 0);
+    public function make51PictureCategory() {
+        $rootPcid = $this->getTaobaoPictureCategory('51zwd_pics', 0);
+        if (!$rootPcid) {
+            $rootPcid = $this->addTaobaoPictureCategory('51zwd_pics', 0);
+        }
+        return $rootPcid;
+    }
+
+    public function addTaobaoPictureCategory($pictureCategoryName, $parentId) {
+        $pictureCategory = OpenAPI::addTaobaoPictureCategory($pictureCategoryName, $parentId);
         return ''.$pictureCategory->picture_category_id;
     }
 
-    public function getTaobaoPictureCategory() {
-        $pictureCategory = OpenAPI::getTaobaoPictureCategory('51zwd_pics', 0);
+    public function getTaobaoPictureCategory($pictureCategoryName, $parentId) {
+        $pictureCategory = OpenAPI::getTaobaoPictureCategory($pictureCategoryName, $parentId);
         if ($pictureCategory) {
             return ''.$pictureCategory->picture_category->picture_category_id;
         } else {
