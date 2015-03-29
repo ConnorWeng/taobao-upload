@@ -7,6 +7,7 @@
             src="http://libs.baidu.com/jquery/1.7.2/jquery.min.js"></script>
     <import type="js" file="js.CLEditor1_4_4.cleditor" basepath="./Public"/>
     <import type="css" file="js.CLEditor1_4_4.cleditor" basepath="./Public"/>
+    <import type="js" file="js.common" basepath="./Public"/>
     <style type="text/css">
       body {
         margin: 0;
@@ -132,6 +133,10 @@
       .editbox {
         display: none;
       }
+      .loading {
+        display: none;
+        margin-left:5px;
+      }
     </style>
   </head>
   <body TOPMARGIN=0 LEFTMARGIN=0 MARGINWIDTH=0 MARGINHEIGHT=0>
@@ -170,7 +175,7 @@
         </div>
 
         <div class="header-btn">
-          <center><button class="publish-btn" style="margin-top: 15px">不编辑了，立刻发布</button></center>
+          <center><button class="publish-btn" style="margin-top: 15px">不编辑了，立刻发布</button><img class="loading" src="Public/Image/loading.gif"></img></center>
         </div>
 
         <div class="main">
@@ -439,7 +444,7 @@
             </li>
           </ul>
 
-          <center><button class="publish-btn" style="margin-top:10px">发布</button></center>
+          <center><button class="publish-btn" style="margin-top:10px">发布</button><img class="loading" src="Public/Image/loading.gif"></img></center>
 
           <div style="height:30px"></div>
         </div>
@@ -755,8 +760,7 @@
           return title;
       };
 
-      $('.publish-btn').on('click', function (event) {
-          event.preventDefault();
+      var submitForm = function() {
           $('.publish-btn').text('正在发布中，请稍候...');
           $('#J_SKUTableData').val(getSkuTableData());
           $('#desc-hidden').val($('#desc').val());
@@ -768,6 +772,27 @@
           setTimeout(function () {
               $('#mainform').submit()
           }, 100);
+      };
+
+      $('.publish-btn').on('click', function (event) {
+          event.preventDefault();
+          if ($('input[name=movePic]').attr('checked') === 'checked') {
+              $('.publish-btn').text('侦测到详情图片需要搬家，搬家中，请稍候...');
+              $('.loading').css('display', 'inline');
+              $.ajax({
+                  url: "{:U('Taobao/Upload/moveAllPicturesInDesc')}",
+                  data: {
+                      'desc': $('#desc').val()
+                  },
+                  success: function (data) {
+                      $('#desc').val(html_decode(data));
+                      $('.loading').css('display', 'none');
+                      submitForm();
+                  }
+              });
+          } else {
+              submitForm();
+          }
       });
 
       var getSkuTableData = function () {

@@ -141,7 +141,7 @@ class UploadAction extends CommonAction {
         $storeSession = new StoreSession(null, null);
         $otherStoreSessions = $storeSession->getAllStoreSessionsArray();
         $others = array();
-        if (I('movePic') == 'on' || $this->makeMovePic($desc) == 'checked') {
+        if (false) {//I('movePic') == 'on' || $this->makeMovePic($desc) == 'checked') {
             $numIid = $this->checkApiResponse(OpenAPI::addTaobaoItemWithMovePic($item));
             foreach ($otherStoreSessions as $store) {
                 $item['FreightPayer'] = 'buyer';
