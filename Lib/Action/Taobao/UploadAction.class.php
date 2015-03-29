@@ -66,7 +66,7 @@ class UploadAction extends CommonAction {
             'outerId' => $outerId,
             'nick' => $nick,
             'huoHao' => Util::getHuoHao($taobaoItem->title, $taobaoItem->props_name),
-            'imgsInDesc' => $this->parseDescImages($taobaoItem->desc),
+            'imgsInDesc' => json_encode($this->parseDescImages($taobaoItem->desc)),
             'percent' => $userdata['profit0'],
             'profit' => $userdata['profit'],
             'initSkus' => json_encode(Util::parseSkus($taobaoItem->skus)),
@@ -610,6 +610,17 @@ class UploadAction extends CommonAction {
         return $outerId = $seller.'_P'.$price.'_'.$huoHao.'#';
     }
 
+    public function moveAllPicturesInDesc() {
+        $newDesc = $_REQUEST['desc'];
+        $pcid = $this->make51PictureCategory();
+        $imgs = $this->parseDescImages($newDesc);
+        foreach ($imgs as $img) {
+            $newImg = $this->uploadTaobaoPicture($img, $pcid);
+            $newDesc = str_replace($img, $newImg, $newDesc);
+        }
+        $this->ajaxReturn($newDesc);
+    }
+
     public function make51PictureCategory() {
         $rootPcid = $this->getTaobaoPictureCategory('51zwd_pics', 0);
         if (!$rootPcid) {
@@ -647,7 +658,7 @@ class UploadAction extends CommonAction {
     private function parseDescImages($desc) {
         $pattern="/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.jpg]))[\'|\"].*?[\/]?>/";
         preg_match_all($pattern, $desc, $matches);//带引号
-        return json_encode($matches[1]);
+        return $matches[1];
     }
 
     private function makeDesc($desc, $taobaoItemId) {
