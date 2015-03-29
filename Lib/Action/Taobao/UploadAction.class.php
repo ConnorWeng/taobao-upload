@@ -28,6 +28,7 @@ class UploadAction extends CommonAction {
         } else {
             $taobaoItem = $this->checkApiResponse(OpenAPI::getTaobaoItem($taobaoItemId));
         }
+        $pcid = $this->make51PictureCategory();
         $props = $this->checkApiResponse(OpenAPI::getTaobaoItemProps($taobaoItem->cid));
         $cname = $this->checkApiResponse(OpenAPI::getTaobaoItemCat($taobaoItem->cid));
         $deliveryTemplates = $this->checkApiResponse(OpenAPI::getTaobaoDeliveryTemplates());
@@ -51,6 +52,7 @@ class UploadAction extends CommonAction {
         $isSubscribe = $this->isSubscribe();
         $storeSession = new StoreSession(null, null);
         $this->assign(array(
+            'pcid' => $pcid,
             'taobaoItemTitle' => $title,
             'taobaoItemId' => $taobaoItemId,
             'propsHtml' => $propsHtml,
@@ -610,17 +612,6 @@ class UploadAction extends CommonAction {
         return $outerId = $seller.'_P'.$price.'_'.$huoHao.'#';
     }
 
-    public function moveAllPicturesInDesc() {
-        $newDesc = $_REQUEST['desc'];
-        $pcid = $this->make51PictureCategory();
-        $imgs = $this->parseDescImages($newDesc);
-        foreach ($imgs as $img) {
-            $newImg = $this->uploadTaobaoPicture($img, $pcid);
-            $newDesc = str_replace($img, $newImg, $newDesc);
-        }
-        $this->ajaxReturn($newDesc);
-    }
-
     public function make51PictureCategory() {
         $rootPcid = $this->getTaobaoPictureCategory('51zwd_pics', 0);
         if (!$rootPcid) {
@@ -630,12 +621,16 @@ class UploadAction extends CommonAction {
     }
 
     public function addTaobaoPictureCategory($pictureCategoryName, $parentId) {
-        $pictureCategory = OpenAPI::addTaobaoPictureCategory($pictureCategoryName, $parentId);
-        return ''.$pictureCategory->picture_category_id;
+        $pictureCategory = $this->checkApiResponse(OpenAPI::addTaobaoPictureCategory($pictureCategoryName, $parentId));
+        if ($pictureCategory) {
+            return ''.$pictureCategory->picture_category_id;
+        } else {
+            return '';
+        }
     }
 
     public function getTaobaoPictureCategory($pictureCategoryName, $parentId) {
-        $pictureCategory = OpenAPI::getTaobaoPictureCategory($pictureCategoryName, $parentId);
+        $pictureCategory = $this->checkApiResponse(OpenAPI::getTaobaoPictureCategory($pictureCategoryName, $parentId));
         if ($pictureCategory) {
             return ''.$pictureCategory->picture_category->picture_category_id;
         } else {
@@ -643,12 +638,21 @@ class UploadAction extends CommonAction {
         }
     }
 
-    public function uploadTaobaoPicture($imgUrl, $pictureCategoryId) {
+    public function uploadTaobaoPicture() {
+        $imgUrl = I('imgUrl');
+        $pictureCategoryId = I('pictureCategoryId');
         $imgTitle = substr($imgUrl, strrpos($imgUrl, '/') + 1);
         $imgPath = Util::downloadImage($imgUrl);
-        $taobaoPicture = OpenAPI::uploadTaobaoPicture($pictureCategoryId, $imgPath, $imgTitle);
+        $taobaoPicture = $this->checkApiResponseAjax(OpenAPI::uploadTaobaoPicture($pictureCategoryId, $imgPath, $imgTitle));
+        ob_end_clean();
         unlink($imgPath);
-        return ''.$taobaoPicture->picture_path;
+        if ($taobaoPicture) {
+            $data['newImgUrl'] = ''.$taobaoPicture->picture_path;
+            $data['oldImgUrl'] = $imgUrl;
+            return $this->ajaxReturn($data, 'JSON');
+        } else {
+            return $this->ajaxReturn('');
+        }
     }
 
     private function caculatePrice($price, $percent, $profit) {

@@ -1,5 +1,5 @@
 function checkResponse(response) {
-    if (response != null && typeof response == 'string') {
+    if (response != null && typeof response == 'string' && ~response.indexOf('::')) {
         var url = response.split('::')[1],
             msg = '';
         if (response.indexOf('reauth') == 0) {

@@ -753,6 +753,9 @@
       /* end */
 
       /* submit */
+      var pcid = '{$pcid}';
+      var imgsInDesc = JSON.parse('{$imgsInDesc}');
+
       var checkTitle = function (title) {
           if (getLength(title) > 30) {
               return title.substr(0, 30);
@@ -777,19 +780,38 @@
       $('.publish-btn').on('click', function (event) {
           event.preventDefault();
           if ($('input[name=movePic]').attr('checked') === 'checked') {
-              $('.publish-btn').text('侦测到详情图片需要搬家，搬家中，请稍候...');
-              $('.loading').css('display', 'inline');
-              $.ajax({
-                  url: "{:U('Taobao/Upload/moveAllPicturesInDesc')}",
-                  data: {
-                      'desc': $('#desc').val()
-                  },
-                  success: function (data) {
-                      $('#desc').val(html_decode(data));
-                      $('.loading').css('display', 'none');
-                      submitForm();
+              if (pcid) {
+                  if (imgsInDesc.length > 0) {
+                      $('.publish-btn').text('侦测到详情图片需要搬家，搬家中，请稍候...');
+                      $('.loading').css('display', 'inline');
+                      var newDesc = $('#desc').val();
+                      var count = 0;
+                      for(var i = 0; i < imgsInDesc.length; i++) {
+                          $.ajax({
+                              url: "{:U('Taobao/Upload/uploadTaobaoPicture')}",
+                              data: {
+                                  'imgUrl': imgsInDesc[i],
+                                  'pictureCategoryId': pcid
+                              },
+                              success: function (data) {
+                                  count++;
+                                  checkResponse(data);
+                                  if (data) {
+                                      $('.loading').css('display', 'none');
+                                      newDesc = newDesc.replace(data['oldImgUrl'], data['newImgUrl']);
+                                      if (count === imgsInDesc.length) {
+                                          $('#desc').val(newDesc);
+                                          submitForm();
+                                      }
+                                  }
+                              }
+                          });
+                      }
                   }
-              });
+              } else {
+                  alert('图片搬家获取相册信息失败，请刷新页面重试，或者取消勾选图片搬家');
+                  return false;
+              }
           } else {
               submitForm();
           }
