@@ -187,6 +187,12 @@ class Util {
                 C('DB_USER', 'wangpicn');
                 C('DB_PWD', 'wangpicn123456');
                 break;
+            case 'local':
+                C('DB_NAME', 'wangpi51');
+                C('DB_HOST', 'localhost');
+                C('DB_USER', 'root');
+                C('DB_PWD', '57826502');
+                break;
             default:
                 self::changeDatabaseBackToWangpi51();
                 break;
