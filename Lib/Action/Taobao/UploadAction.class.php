@@ -651,7 +651,10 @@ class UploadAction extends CommonAction {
             $data['oldImgUrl'] = $imgUrl;
             return $this->ajaxReturn($data, 'JSON');
         } else {
-            return $this->ajaxReturn('');
+            $data['error'] = true;
+            $data['newImgUrl'] = '';
+            $data['oldImgUrl'] = $imgUrl;
+            return $this->ajaxReturn($data, 'JSON');
         }
     }
 

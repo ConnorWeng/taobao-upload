@@ -175,8 +175,15 @@
         </div>
 
         <div class="header-btn">
-          <center><button class="publish-btn" style="margin-top: 15px">不编辑了，立刻发布</button><img class="loading" src="Public/Image/loading.gif"></img></center>
+          <center>
+              <button class="publish-btn" style="margin-top: 15px">不编辑了，立刻发布</button><img class="loading" src="Public/Image/loading.gif"></img>
+              <div>
+                  <ul class="imgs-need-move">
+                  </ul>
+              </div>
+          </center>
         </div>
+
 
         <div class="main">
           <div class="main-header">
@@ -444,7 +451,13 @@
             </li>
           </ul>
 
-          <center><button class="publish-btn" style="margin-top:10px">发布</button><img class="loading" src="Public/Image/loading.gif"></img></center>
+          <center>
+              <button class="publish-btn" style="margin-top:10px">发布</button><img class="loading" src="Public/Image/loading.gif"></img>
+              <div>
+                  <ul class="imgs-need-move">
+                  </ul>
+              </div>
+          </center>
 
           <div style="height:30px"></div>
         </div>
@@ -755,6 +768,7 @@
       /* submit */
       var pcid = '{$pcid}';
       var imgsInDesc = JSON.parse('{$imgsInDesc}');
+      var newDesc = '';
 
       var checkTitle = function (title) {
           if (getLength(title) > 30) {
@@ -777,35 +791,59 @@
           }, 100);
       };
 
+      var uploadTaobaoPicture = function(imgUrl) {
+          if ($('li[old-url="'+imgUrl+'"]').length === 0) {
+              $('.imgs-need-move').append('<li old-url="'+imgUrl+'">'+imgUrl+'<span class="uploading">&nbsp;上传中</span></li>');
+          }
+          $.ajax({
+              url: "{:U('Taobao/Upload/uploadTaobaoPicture')}",
+              data: {
+                  'imgUrl': imgUrl,
+                  'pictureCategoryId': pcid
+              },
+              success: function (data) {
+                  checkResponse(data);
+                  var $li = $('li[old-url="'+data['oldImgUrl']+'"]');
+                  $li.children('.uploading').remove();
+                  if (data['newImgUrl']) {
+                      newDesc = newDesc.replace(data['oldImgUrl'], data['newImgUrl']);
+                      $li.append('<span class="move-success" style="color:lightgreen">&nbsp;搬家成功</span>');
+                      if ($('.move-success').length === 2 * imgsInDesc.length) {
+                          $('#desc').val(newDesc);
+                          $('.loading').css('display', 'none');
+                          submitForm();
+                      }
+                  } else {
+                      $li.append('<a href="javascript:;" class="move-failure" style="color:lightred">&nbsp;搬家失败，重试</a>');
+                  }
+              }
+          });
+      };
+
+      $('.move-failure').live('click', function() {
+          var $a = $(this);
+          var $li = $(this).parent('li');
+          var $lis = $('li[old-url="'+$li.attr('old-url')+'"]');
+          $lis.children('.move-failure').remove();
+          $lis.append('<span class="uploading">&nbsp;上传中</span>')
+          uploadTaobaoPicture($li.attr('old-url'));
+      });
+
       $('.publish-btn').on('click', function (event) {
           event.preventDefault();
+          var $btn = $(this);
+          var btnText = $btn.text();
+          if (btnText === '侦测到详情图片需要搬家，搬家中，请稍候...' || btnText === '正在发布中，请稍候...') {
+              return false;
+          }
           if ($('input[name=movePic]').attr('checked') === 'checked') {
               if (pcid) {
                   if (imgsInDesc.length > 0) {
                       $('.publish-btn').text('侦测到详情图片需要搬家，搬家中，请稍候...');
                       $('.loading').css('display', 'inline');
-                      var newDesc = $('#desc').val();
-                      var count = 0;
+                      newDesc = $('#desc').val();
                       for(var i = 0; i < imgsInDesc.length; i++) {
-                          $.ajax({
-                              url: "{:U('Taobao/Upload/uploadTaobaoPicture')}",
-                              data: {
-                                  'imgUrl': imgsInDesc[i],
-                                  'pictureCategoryId': pcid
-                              },
-                              success: function (data) {
-                                  count++;
-                                  checkResponse(data);
-                                  if (data) {
-                                      $('.loading').css('display', 'none');
-                                      newDesc = newDesc.replace(data['oldImgUrl'], data['newImgUrl']);
-                                      if (count === imgsInDesc.length) {
-                                          $('#desc').val(newDesc);
-                                          submitForm();
-                                      }
-                                  }
-                              }
-                          });
+                          uploadTaobaoPicture(imgsInDesc[i]);
                       }
                   }
               } else {
