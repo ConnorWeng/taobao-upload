@@ -797,6 +797,7 @@
       var uploadTaobaoPicture = function(imgUrl, slot) {
           $.ajax({
               url: "{:U('Taobao/Upload/uploadTaobaoPicture')}",
+              type: 'POST',
               data: {
                   'imgUrl': imgUrl,
                   'pictureCategoryId': pcid
