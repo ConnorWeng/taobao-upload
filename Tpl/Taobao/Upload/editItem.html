@@ -859,7 +859,7 @@
                       $('.loading').css('display', 'inline');
                       newDesc = $('#desc').val();
                       // 去重
-                      imgs = [];
+                      var imgs = [];
                       for(var i = 0; i < imgsInDesc.length; i++) {
                           var imgUrl = imgsInDesc[i];
                           if (!~yaIndexOf(imgs, imgUrl)) {
@@ -867,6 +867,7 @@
                           }
                       }
                       imgsInDesc = imgs;
+                      imgsInDescCount = imgsInDesc.length;
                       for(var j = 0; j < imgsInDesc.length; j++) {
                           var img = imgsInDesc[j];
                           $('.imgs-need-move').append('<li old-url="'+img+'">'+img+'<span class="uploading">&nbsp;上传中</span></li>');
