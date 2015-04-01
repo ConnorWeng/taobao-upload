@@ -808,7 +808,7 @@
                   var $li = $('li[old-url="'+data['oldImgUrl']+'"]');
                   if (data['newImgUrl']) {
                       $li.children('.uploading').remove();
-                      newDesc = newDesc.replace(data['oldImgUrl'], data['newImgUrl']);
+                      newDesc = newDesc.replace(new RegExp(data['oldImgUrl'], 'g'), data['newImgUrl']);
                       $li.append('<span class="move-success" style="color:lightgreen">&nbsp;搬家成功</span>');
                       if ($('.move-success').length === 2 * imgsInDescCount) {
                           $('#desc').val(newDesc);
@@ -858,9 +858,18 @@
                       $('.publish-btn').text('侦测到详情图片需要搬家，搬家中，请稍候...');
                       $('.loading').css('display', 'inline');
                       newDesc = $('#desc').val();
+                      // 去重
+                      imgs = [];
                       for(var i = 0; i < imgsInDesc.length; i++) {
                           var imgUrl = imgsInDesc[i];
-                          $('.imgs-need-move').append('<li old-url="'+imgUrl+'">'+imgUrl+'<span class="uploading">&nbsp;上传中</span></li>');
+                          if (!~yaIndexOf(imgs, imgUrl)) {
+                              imgs.push(imgUrl);
+                          }
+                      }
+                      imgsInDesc = imgs;
+                      for(var j = 0; j < imgsInDesc.length; j++) {
+                          var img = imgsInDesc[j];
+                          $('.imgs-need-move').append('<li old-url="'+img+'">'+img+'<span class="uploading">&nbsp;上传中</span></li>');
                       }
                       batchUploadTaobaoPicture();
                   }
