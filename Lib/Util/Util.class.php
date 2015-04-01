@@ -130,17 +130,19 @@ class Util {
         self::changeDatabaseAccordingToSession();
     }
 
-    public static function downloadImage($picUrl) {
+    public static function downloadImage($picUrl, $compress = true) {
         $tmpFile = APP_PATH.'Upload/'.uniqid().'.jpg';
         $content = file_get_contents($picUrl);
         file_put_contents($tmpFile, $content);
-        $filesize = filesize($tmpFile);
-        if ($filesize > 512000) {
-            import('ORG.Util.Image');
-            $newTmpFile = APP_PATH.'Upload/'.uniqid().'.jpg';
-            Image::thumb($tmpFile, $newTmpFile, 'jpg', 250, 250);
-            unlink($tmpFile);
-            return $newTmpFile;
+        if ($compress) {
+            $filesize = filesize($tmpFile);
+            if ($filesize > 512000) {
+                import('ORG.Util.Image');
+                $newTmpFile = APP_PATH.'Upload/'.uniqid().'.jpg';
+                Image::thumb($tmpFile, $newTmpFile, 'jpg', 250, 250);
+                unlink($tmpFile);
+                return $newTmpFile;
+            }
         }
         return $tmpFile;
     }

@@ -642,7 +642,7 @@ class UploadAction extends CommonAction {
         $imgUrl = I('imgUrl');
         $pictureCategoryId = I('pictureCategoryId');
         $imgTitle = substr($imgUrl, strrpos($imgUrl, '/') + 1);
-        $imgPath = Util::downloadImage($imgUrl);
+        $imgPath = Util::downloadImage($imgUrl, false);
         $taobaoPicture = $this->checkApiResponseAjax(OpenAPI::uploadTaobaoPicture($pictureCategoryId, $imgPath, $imgTitle));
         ob_end_clean();
         unlink($imgPath);
