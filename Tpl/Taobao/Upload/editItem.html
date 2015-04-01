@@ -768,6 +768,9 @@
       /* submit */
       var pcid = '{$pcid}';
       var imgsInDesc = JSON.parse('{$imgsInDesc}');
+      var imgsInDescCount = imgsInDesc.length;
+      var movefailure = {};
+      var batch = [true, true, true, true];
       var newDesc = '';
 
       var checkTitle = function (title) {
@@ -791,10 +794,7 @@
           }, 100);
       };
 
-      var uploadTaobaoPicture = function(imgUrl) {
-          if ($('li[old-url="'+imgUrl+'"]').length === 0) {
-              $('.imgs-need-move').append('<li old-url="'+imgUrl+'">'+imgUrl+'<span class="uploading">&nbsp;上传中</span></li>');
-          }
+      var uploadTaobaoPicture = function(imgUrl, slot) {
           $.ajax({
               url: "{:U('Taobao/Upload/uploadTaobaoPicture')}",
               data: {
@@ -802,32 +802,47 @@
                   'pictureCategoryId': pcid
               },
               success: function (data) {
+                  batch[slot] = true;
                   checkResponse(data);
                   var $li = $('li[old-url="'+data['oldImgUrl']+'"]');
-                  $li.children('.uploading').remove();
                   if (data['newImgUrl']) {
+                      $li.children('.uploading').remove();
                       newDesc = newDesc.replace(data['oldImgUrl'], data['newImgUrl']);
                       $li.append('<span class="move-success" style="color:lightgreen">&nbsp;搬家成功</span>');
-                      if ($('.move-success').length === 2 * imgsInDesc.length) {
+                      if ($('.move-success').length === 2 * imgsInDescCount) {
                           $('#desc').val(newDesc);
                           $('.loading').css('display', 'none');
                           submitForm();
+                      } else {
+                          batchUploadTaobaoPicture()
                       }
                   } else {
-                      $li.append('<a href="javascript:;" class="move-failure" style="color:lightred">&nbsp;搬家失败，重试</a>');
+                      if (movefailure[imgUrl]) {
+                          movefailure[imgUrl] = movefailure[imgUrl] + 1;
+                          if (movefailure[imgUrl] > 3) {
+                              $li.children('.uploading').remove();
+                              $li.append('<span class="move-failure" style="color:red">&nbsp;多次尝试搬家失败，请刷新页面重试</span>');
+                          } else {
+                              imgsInDesc.push(imgUrl);
+                          }
+                      } else {
+                          movefailure[imgUrl] = 1;
+                          imgsInDesc.push(imgUrl);
+                      }
+                      batchUploadTaobaoPicture();
                   }
               }
           });
       };
 
-      $('.move-failure').live('click', function() {
-          var $a = $(this);
-          var $li = $(this).parent('li');
-          var $lis = $('li[old-url="'+$li.attr('old-url')+'"]');
-          $lis.children('.move-failure').remove();
-          $lis.append('<span class="uploading">&nbsp;上传中</span>')
-          uploadTaobaoPicture($li.attr('old-url'));
-      });
+      var batchUploadTaobaoPicture = function() {
+          for(var i = 0; i < batch.length; i++) {
+              if (batch[i] === true && imgsInDesc.length > 0) {
+                  var imgUrl = imgsInDesc.shift();
+                  uploadTaobaoPicture(imgUrl, i);
+              }
+          }
+      };
 
       $('.publish-btn').on('click', function (event) {
           event.preventDefault();
@@ -843,8 +858,10 @@
                       $('.loading').css('display', 'inline');
                       newDesc = $('#desc').val();
                       for(var i = 0; i < imgsInDesc.length; i++) {
-                          uploadTaobaoPicture(imgsInDesc[i]);
+                          var imgUrl = imgsInDesc[i];
+                          $('.imgs-need-move').append('<li old-url="'+imgUrl+'">'+imgUrl+'<span class="uploading">&nbsp;上传中</span></li>');
                       }
+                      batchUploadTaobaoPicture();
                   }
               } else {
                   alert('图片搬家获取相册信息失败，请刷新页面重试，或者取消勾选图片搬家');
