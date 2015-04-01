@@ -639,6 +639,7 @@ class UploadAction extends CommonAction {
     }
 
     public function uploadTaobaoPicture() {
+        session_write_close();
         $imgUrl = I('imgUrl');
         $pictureCategoryId = I('pictureCategoryId');
         $imgTitle = substr($imgUrl, strrpos($imgUrl, '/') + 1);
