@@ -651,6 +651,7 @@
           }
           return propValue;
       };
+      var propNotFound = [];
       for (var i in initSkus) {
           var sku = initSkus[i];
           if (~sku.properties_name.indexOf(';')) { // from taobao
@@ -659,11 +660,19 @@
                   var propertiesMoreParts = propertiesParts[j].split(':'),
                   prop = propertiesMoreParts[0] + ':' + propertiesMoreParts[1],
                   $checkbox = $('input[value="'+prop+'"]');
-                  $checkbox.siblings('input[type=text]').val(getPropAlias(propertiesMoreParts[1], propertiesMoreParts[3]));
-                  $checkbox.siblings('label:eq(1)').text(getPropAlias(propertiesMoreParts[1], propertiesMoreParts[3]));
-                  if (typeof($checkbox.attr('checked')) === 'undefined') {
-                      $checkbox.click();
-                      rebuildSkuTable();
+                  if ($checkbox.length === 0 && !~yaIndexOf(propNotFound, prop)) {
+                      propNotFound.push(prop);
+                      var $allCheckboxs = $('input[name=cp_'+propertiesMoreParts[0]+']');
+                      var allCheckboxsCount = $allCheckboxs.length;
+                      $checkbox = $allCheckboxs.eq(allCheckboxsCount - propNotFound.length);
+                  }
+                  if ($checkbox.length > 0) {
+                      $checkbox.siblings('input[type=text]').val(getPropAlias(propertiesMoreParts[1], propertiesMoreParts[3]));
+                      $checkbox.siblings('label:eq(1)').text(getPropAlias(propertiesMoreParts[1], propertiesMoreParts[3]));
+                      if (typeof($checkbox.attr('checked')) === 'undefined') {
+                          $checkbox.click();
+                          rebuildSkuTable();
+                      }
                   }
               }
           } else { // from ecmall database
