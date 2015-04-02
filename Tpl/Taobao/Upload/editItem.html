@@ -794,6 +794,22 @@
           }, 0);
       };
 
+      var retryUploadTaobaoPicture = function(imgUrl, $li) {
+          if (movefailure[imgUrl]) {
+              movefailure[imgUrl] = movefailure[imgUrl] + 1;
+              if (movefailure[imgUrl] > 2) {
+                  $li.children('.uploading').remove();
+                  $li.append('<span class="move-failure" style="color:red">&nbsp;多次尝试搬家失败，请刷新页面重试</span>');
+              } else {
+                  imgsInDesc.push(imgUrl);
+              }
+          } else {
+              movefailure[imgUrl] = 1;
+              imgsInDesc.push(imgUrl);
+          }
+          batchUploadTaobaoPicture();
+      };
+
       var uploadTaobaoPicture = function(imgUrl, slot) {
           $.ajax({
               url: "{:U('Taobao/Upload/uploadTaobaoPicture')}",
@@ -805,7 +821,7 @@
               success: function (data) {
                   batch[slot] = true;
                   checkResponse(data);
-                  var $li = $('li[old-url="'+data['oldImgUrl']+'"]');
+                  var $li = $('li[old-url="'+imgUrl+'"]');
                   if (data['newImgUrl']) {
                       $li.children('.uploading').remove();
                       newDesc = newDesc.replace(new RegExp(data['oldImgUrl'], 'g'), data['newImgUrl']);
@@ -818,20 +834,12 @@
                           batchUploadTaobaoPicture()
                       }
                   } else {
-                      if (movefailure[imgUrl]) {
-                          movefailure[imgUrl] = movefailure[imgUrl] + 1;
-                          if (movefailure[imgUrl] > 3) {
-                              $li.children('.uploading').remove();
-                              $li.append('<span class="move-failure" style="color:red">&nbsp;多次尝试搬家失败，请刷新页面重试</span>');
-                          } else {
-                              imgsInDesc.push(imgUrl);
-                          }
-                      } else {
-                          movefailure[imgUrl] = 1;
-                          imgsInDesc.push(imgUrl);
-                      }
-                      batchUploadTaobaoPicture();
+                      retryUploadTaobaoPicture(imgUrl, $li);
                   }
+              },
+              error: function() {
+                  var $li = $('li[old-url="'+imgUrl+'"]');
+                  retryUploadTaobaoPicture(imgUrl, $li);
               }
           });
       };
