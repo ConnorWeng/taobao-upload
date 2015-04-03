@@ -664,8 +664,9 @@ class UploadAction extends CommonAction {
     }
 
     private function parseDescImages($desc) {
+        $cleanDesc = str_replace('<img src="">', '', $desc);
         $pattern="/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.jpg]))[\'|\"].*?[\/]?>/";
-        preg_match_all($pattern, $desc, $matches);//带引号
+        preg_match_all($pattern, $cleanDesc, $matches);//带引号
         return $matches[1];
     }
 
