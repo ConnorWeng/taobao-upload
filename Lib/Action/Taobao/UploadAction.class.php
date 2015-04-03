@@ -665,9 +665,11 @@ class UploadAction extends CommonAction {
 
     private function parseDescImages($desc) {
         $cleanDesc = str_replace('<img src="">', '', $desc);
-        $pattern="/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.jpg]))[\'|\"].*?[\/]?>/";
-        preg_match_all($pattern, $cleanDesc, $matches);//带引号
-        return $matches[1];
+        $pattern = "/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.jpg]))[\'|\"].*?[\/]?>/";
+        preg_match_all($pattern, $cleanDesc, $matches1);//带引号
+        $pattern = "/background=[\'|\"](.*?(?:[\.gif|\.jpg]))[\'|\"]/";
+        preg_match_all($pattern, $cleanDesc, $matches2);
+        return array_merge($matches1[1], $matches2[1]);
     }
 
     private function makeDesc($desc, $taobaoItemId) {
