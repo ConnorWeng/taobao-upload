@@ -777,7 +777,7 @@
 
       /* submit */
       var pcid = '{$pcid}';
-      var imgsInDesc = JSON.parse('{$imgsInDesc}');
+      var imgsInDesc = $.parseJSON('{$imgsInDesc}');
       var imgsInDescCount = imgsInDesc.length;
       var movefailure = {};
       var batch = [true, true, true, true];
