@@ -780,7 +780,7 @@
       var imgsInDesc = $.parseJSON('{$imgsInDesc}');
       var imgsInDescCount = imgsInDesc.length;
       var movefailure = {};
-      var batch = [true, true, true, true];
+      var batch = [true, true, true];
       var newDesc = '';
 
       var checkTitle = function (title) {
@@ -824,7 +824,7 @@
           $.ajax({
               url: "{:U('Taobao/Upload/uploadTaobaoPicture')}",
               type: 'POST',
-              timeout: 8000,
+              timeout: 15000,
               data: {
                   'imgUrl': imgUrl,
                   'pictureCategoryId': pcid
