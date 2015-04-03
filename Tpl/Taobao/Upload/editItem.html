@@ -886,10 +886,12 @@
                       }
                       imgsInDesc = imgs;
                       imgsInDescCount = imgsInDesc.length;
+                      var appendString = '';
                       for(var j = 0; j < imgsInDesc.length; j++) {
                           var img = imgsInDesc[j];
-                          $('.imgs-need-move').append('<li old-url="'+img+'">'+img+'<span class="uploading">&nbsp;上传中</span></li>');
+                          appendString += '<li old-url="'+img+'">'+img+'<span class="uploading">&nbsp;上传中</span></li>';
                       }
+                      $('.imgs-need-move').append(appendString);
                       batchUploadTaobaoPicture();
                   }
               } else {
