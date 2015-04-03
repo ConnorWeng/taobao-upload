@@ -865,6 +865,7 @@
       };
 
       $('.publish-btn').on('click', function (event) {
+
           event.preventDefault();
           var $btn = $(this);
           var btnText = $btn.text();
@@ -893,6 +894,10 @@
                           appendString += '<li old-url="'+img+'">'+img+'<span class="uploading">&nbsp;上传中</span></li>';
                       }
                       $('.imgs-need-move').append(appendString);
+                      // 如果用户点击了页面下方的发布按钮, 则滚动到页面底部显示搬家状态
+                      if ($(this).offset().top > 1000) {
+                          window.scroll(0, 999999);
+                      }
                       batchUploadTaobaoPicture();
                   }
               } else {
