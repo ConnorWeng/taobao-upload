@@ -823,6 +823,7 @@
           $.ajax({
               url: "{:U('Taobao/Upload/uploadTaobaoPicture')}",
               type: 'POST',
+              timeout: 8000,
               data: {
                   'imgUrl': imgUrl,
                   'pictureCategoryId': pcid
@@ -840,7 +841,7 @@
                           $('.loading').css('display', 'none');
                           submitForm();
                       } else {
-                          batchUploadTaobaoPicture()
+                          batchUploadTaobaoPicture();
                       }
                   } else {
                       retryUploadTaobaoPicture(imgUrl, $li);
