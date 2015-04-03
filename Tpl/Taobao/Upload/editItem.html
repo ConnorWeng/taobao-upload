@@ -881,7 +881,7 @@
                       var imgs = [];
                       for(var i = 0; i < imgsInDesc.length; i++) {
                           var imgUrl = imgsInDesc[i];
-                          if (!~yaIndexOf(imgs, imgUrl)) {
+                          if (!~yaIndexOf(imgs, imgUrl) && imgUrl.indexOf('.webp') !== imgUrl.length - 5) {
                               imgs.push(imgUrl);
                           }
                       }
