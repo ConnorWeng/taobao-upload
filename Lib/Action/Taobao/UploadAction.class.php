@@ -99,7 +99,9 @@ class UploadAction extends CommonAction {
     public function uploadItem() {
         Util::changeDatabaseAccordingToSession();
         header("Content-type:text/html;charset=utf-8");
-        $imagePath = Util::downloadImage(I('picUrl1'));
+        $itemImages = json_decode($_REQUEST['itemImages']);
+        // $imagePath = Util::downloadImage(I('picUrl1'));
+        $imagePath = $itemImages[0];
         $image = '@'.$imagePath;
         $skuTableData = json_decode($_REQUEST['J_SKUTableData']);
         $salePropsObject = json_decode(urldecode($_REQUEST['salePropsObject']));
@@ -158,7 +160,8 @@ class UploadAction extends CommonAction {
             $uploadedItem = $this->checkApiResponse(OpenAPI::addTaobaoItem($item));
             $numIid = $uploadedItem->num_iid;
             if (isset($numIid)) {
-                $this->uploadItemImages((float)$numIid, $_REQUEST);
+                // $this->uploadItemImages((float)$numIid, $_REQUEST);
+                $this->uploadItemImagesLocal((float)$numIid, $itemImages);
                 $this->uploadPropImages((float)$numIid, json_decode(urldecode(I('propImgs'))));
             }
             foreach ($otherStoreSessions as $store) {
@@ -659,6 +662,22 @@ class UploadAction extends CommonAction {
         }
     }
 
+    public function downloadPicture() {
+        session_write_close();
+        $imgUrl = I('imgUrl');
+        $imgPath = Util::downloadImage($imgUrl);
+        $filesize = filesize($imgPath);
+        if ($filesize !== false) {
+            $data['imgUrl'] = $imgUrl;
+            $data['imgPath'] = $imgPath;
+        } else {
+            $data['error'] = true;
+            $data['imgUrl'] = $imgUrl;
+            $data['imgPath'] = '';
+        }
+        $this->ajaxReturn($data);
+    }
+
     private function caculatePrice($price, $percent, $profit) {
         return floatval($price) * (floatval($percent) / 100.00) + floatval($profit);
     }
@@ -676,6 +695,22 @@ class UploadAction extends CommonAction {
         $newDesc = $desc;
         $newDesc .= '<font color="white">welcome to my store!</font>';
         return $newDesc;
+    }
+
+    private function uploadItemImagesLocal($numIid, $itemImages, $sessionKey = null) {
+        $jumpImgCount = 0;
+        for ($i = 1; $i <= 5; $i++) {
+            $picPath = $itemImages[$i];
+            if ($picPath) {
+                $filesize = filesize($picPath);
+                if ($filesize !== false && $filesize > 10240) {
+                    $itemImg = $this->checkApiResponse(OpenAPI::uploadTaobaoItemImg($numIid, $picPath, $i - 1 - $jumpImgCount, $sessionKey));
+                } else {
+                    $jumpImgCount += 1;
+                }
+                unlink($picPath);
+            }
+        }
     }
 
     private function uploadItemImages($numIid, $request, $sessionKey = null) {

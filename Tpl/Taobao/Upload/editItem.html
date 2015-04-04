@@ -145,6 +145,7 @@
       <img src="Public/Image/4555.jpg" height="120"></img>
     </div>
     <form id="mainform" action="{:U('Taobao/Upload/uploadItem')}" method="POST">
+      <input type="hidden" name="itemImages" id="itemImages" value=""/>
       <input type="hidden" name="taobaoItemId" value="{$taobaoItemId}"/>
       <input type="hidden" name="cid" id="cid" value="{$cid}"/>
       <input type="hidden" name="propImgs" value="{$propImgs}"/>
@@ -278,23 +279,23 @@
                 <ul class="item-images">
                   <li>
                     <img style="width:90px;height:90px;" src="{$picUrl}"/>
-                    <input type="hidden" name="picUrl1" value="{$picUrl}"/>
+                    <input class="picUrl" type="hidden" name="picUrl1" value="{$picUrl}"/>
                   </li>
                   <li>
                     <img style="width:90px;height:90px;" src="{$image0}"/>
-                    <input type="hidden" name="picUrl2" value="{$image0}"/>
+                    <input class="picUrl" type="hidden" name="picUrl2" value="{$image0}"/>
                   </li>
                   <li>
                     <img style="width:90px;height:90px;" src="{$image1}"/>
-                    <input type="hidden" name="picUrl3" value="{$image1}"/>
+                    <input class="picUrl" type="hidden" name="picUrl3" value="{$image1}"/>
                   </li>
                   <li>
                     <img style="width:90px;height:90px;" src="{$image2}"/>
-                    <input type="hidden" name="picUrl4" value="{$image2}"/>
+                    <input class="picUrl" type="hidden" name="picUrl4" value="{$image2}"/>
                   </li>
                   <li>
                     <img style="width:90px;height:90px;" src="{$image3}"/>
-                    <input type="hidden" name="picUrl5" value="{$image3}"/>
+                    <input class="picUrl" type="hidden" name="picUrl5" value="{$image3}"/>
                   </li>
                 </ul>
               </div>
@@ -802,6 +803,45 @@
           }, 0);
       };
 
+      var itemImages = {};
+      var itemImagesCount = 0;
+
+      var uploadPicture = doRequest({
+          url: "{:U('Taobao/Upload/downloadPicture')}",
+          makeData: function(imgUrl) {
+              return {
+                  'imgUrl': imgUrl
+              };
+          },
+          success: function(data, tasks) {
+              var imgUrl = data['imgUrl'];
+              var imgPath = data['imgPath'];
+              itemImages[$('input[value="'+imgUrl+'"]').attr('name')] = imgPath;
+              itemImagesCount += 1;
+              if (itemImagesCount === 5) {
+                  var jsonStr = '[';
+                  for(var i = 1; i <= 5; i++) {
+                      jsonStr += '"' + itemImages['picUrl'+i] + '",';
+                  }
+                  jsonStr = jsonStr.substr(0, jsonStr.length - 1) + ']';
+                  $('#itemImages').val(jsonStr);
+                  submitForm();
+              } else {
+                  batchUploadPicture(tasks);
+              }
+          },
+          retry: function(imgUrl, tasks) {
+              retryUploadPicture(imgUrl, tasks);
+          }
+      });
+
+      var batchUploadPicture = doInBatch(uploadPicture);
+
+      var retryUploadPicture = doRetry(function(imgUrl) {
+          itemImages[$('input[value="'+imgUrl+'"]').attr('name')] = '';
+          itemImagesCount += 1;
+      }, batchUploadPicture);
+
       var uploadDescPicture = doRequest({
           url: "{:U('Taobao/Upload/uploadTaobaoPicture')}",
           makeData: function(imgUrl) {
@@ -817,7 +857,11 @@
               $li.append('<span class="move-success" style="color:lightgreen">&nbsp;搬家成功</span>');
               if ($('.move-success').length === 2 * imgsInDescCount) {
                   $('#desc').val(newDesc);
-                  submitForm();
+                  var picUrls = [];
+                  $('.picUrl').each(function() {
+                      picUrls.push($(this).val());
+                  });
+                  batchUploadPicture(picUrls);
               } else {
                   batchUploadDescPicture(tasks);
               }
