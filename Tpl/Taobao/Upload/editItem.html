@@ -802,7 +802,7 @@
           }, 0);
       };
 
-      var uploadTaobaoPicture = doRequest({
+      var uploadDescPicture = doRequest({
           url: "{:U('Taobao/Upload/uploadTaobaoPicture')}",
           makeData: function(imgUrl) {
               return {
@@ -819,21 +819,21 @@
                   $('#desc').val(newDesc);
                   submitForm();
               } else {
-                  batchUploadTaobaoPicture(tasks);
+                  batchUploadDescPicture(tasks);
               }
           },
           retry: function(imgUrl, tasks) {
-              retryUploadTaobaoPicture(imgUrl, tasks);
+              retryUploadDescPicture(imgUrl, tasks);
           }
       });
 
-      var batchUploadTaobaoPicture = doInBatch(uploadTaobaoPicture);
+      var batchUploadDescPicture = doInBatch(uploadDescPicture);
 
-      var retryUploadTaobaoPicture = doRetry(function(imgUrl) {
+      var retryUploadDescPicture = doRetry(function(imgUrl) {
           var $li = $('li[old-url="'+imgUrl+'"]');
           $li.children('.uploading').remove();
           $li.append('<span class="move-failure" style="color:red">&nbsp;多次尝试搬家失败，请刷新页面重试</span>');
-      }, batchUploadTaobaoPicture);
+      }, batchUploadDescPicture);
 
       $('.publish-btn').on('click', function (event) {
           event.preventDefault();
@@ -868,7 +868,7 @@
                       if ($(this).offset().top > 1000) {
                           window.scroll(0, 999999);
                       }
-                      batchUploadTaobaoPicture(imgsInDesc);
+                      batchUploadDescPicture(imgsInDesc);
                   }
               } else {
                   alert('图片搬家获取相册信息失败，请刷新页面重试，或者取消勾选图片搬家');
