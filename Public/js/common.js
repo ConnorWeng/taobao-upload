@@ -42,3 +42,48 @@ function html_decode(str) {
     s = s.replace(/<br>/g, "\n");
     return s;
 }
+
+/* batch request */
+var batch = [true, true, true];
+var requestTimeout = 12000;
+
+function doInBatch(action) {
+    return function(tasks) {
+        for(var i = 0; i < batch.length; i++) {
+            if (batch[i] === true && tasks.length > 0) {
+                var task = tasks.shift();
+                action(task, i, tasks);
+            }
+        }
+    };
+};
+
+function doRequest(map) {
+    var url = map.url;
+    var makeData = map.makeData;
+    var success = map.success;
+    var retry = map.retry;
+    return function(task, slot, tasks) {
+        var data = makeData(task);
+        $.ajax({
+            url: url,
+            type: 'POST',
+            timeout: requestTimeout,
+            data: data,
+            success: function (result) {
+                batch[slot] = true;
+                checkResponse(result);
+                if (!result['error']) {
+                    success(result, tasks);
+                } else {
+                    retry(data, tasks);
+                }
+            },
+            error: function() {
+                batch[slot] = true;
+                retry(data, tasks);
+            }
+        });
+    };
+};
+/* end */

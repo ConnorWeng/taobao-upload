@@ -780,7 +780,6 @@
       var imgsInDesc = $.parseJSON('{$imgsInDesc}');
       var imgsInDescCount = imgsInDesc.length;
       var movefailure = {};
-      var batch = [true, true, true];
       var newDesc = '';
 
       var checkTitle = function (title) {
@@ -804,69 +803,49 @@
           }, 0);
       };
 
-      var retryUploadTaobaoPicture = function(imgUrl, $li) {
+      var retryUploadTaobaoPicture = function(imgUrl, $li, tasks) {
           if (movefailure[imgUrl]) {
               movefailure[imgUrl] = movefailure[imgUrl] + 1;
               if (movefailure[imgUrl] > 2) {
                   $li.children('.uploading').remove();
                   $li.append('<span class="move-failure" style="color:red">&nbsp;多次尝试搬家失败，请刷新页面重试</span>');
               } else {
-                  imgsInDesc.push(imgUrl);
+                  tasks.push(imgUrl);
               }
           } else {
               movefailure[imgUrl] = 1;
-              imgsInDesc.push(imgUrl);
+              tasks.push(imgUrl);
           }
-          batchUploadTaobaoPicture();
+          batchUploadTaobaoPicture(tasks);
       };
 
-      var uploadTaobaoPicture = function(imgUrl, slot) {
-          $.ajax({
-              url: "{:U('Taobao/Upload/uploadTaobaoPicture')}",
-              type: 'POST',
-              timeout: 15000,
-              data: {
+      var uploadTaobaoPicture = doRequest({
+          url: "{:U('Taobao/Upload/uploadTaobaoPicture')}",
+          makeData: function(imgUrl) {
+              return {
                   'imgUrl': imgUrl,
                   'pictureCategoryId': pcid
-              },
-              success: function (data) {
-                  batch[slot] = true;
-                  checkResponse(data);
-                  var $li = $('li[old-url="'+imgUrl+'"]');
-                  if (data['newImgUrl']) {
-                      $li.children('.uploading').remove();
-                      newDesc = newDesc.replace(new RegExp(data['oldImgUrl'], 'g'), data['newImgUrl']);
-                      $li.append('<span class="move-success" style="color:lightgreen">&nbsp;搬家成功</span>');
-                      if ($('.move-success').length === 2 * imgsInDescCount) {
-                          $('#desc').val(newDesc);
-                          $('.loading').css('display', 'none');
-                          submitForm();
-                      } else {
-                          batchUploadTaobaoPicture();
-                      }
-                  } else {
-                      retryUploadTaobaoPicture(imgUrl, $li);
-                  }
-              },
-              error: function() {
-                  var $li = $('li[old-url="'+imgUrl+'"]');
-                  retryUploadTaobaoPicture(imgUrl, $li);
+              };
+          },
+          success: function(data, tasks) {
+              var $li = $('li[old-url="'+data['oldImgUrl']+'"]');
+              $li.children('.uploading').remove();
+              newDesc = newDesc.replace(new RegExp(data['oldImgUrl'], 'g'), data['newImgUrl']);
+              $li.append('<span class="move-success" style="color:lightgreen">&nbsp;搬家成功</span>');
+              if ($('.move-success').length === 2 * imgsInDescCount) {
+                  $('#desc').val(newDesc);
+                  submitForm();
+              } else {
+                  batchUploadTaobaoPicture(tasks);
               }
-          });
-      };
+          },
+          retry: function(data, tasks) {
+              var $li = $('li[old-url="'+data['imgUrl']+'"]');
+              retryUploadTaobaoPicture(data['imgUrl'], $li, tasks);
+          }
+      });
 
-      var doInBatch = function(tasks, action) {
-          return function() {
-              for(var i = 0; i < batch.length; i++) {
-                  if (batch[i] === true && tasks.length > 0) {
-                      var task = tasks.shift();
-                      action(task, i);
-                  }
-              }
-          };
-      };
-
-      var batchUploadTaobaoPicture = doInBatch(imgsInDesc, uploadTaobaoPicture);
+      var batchUploadTaobaoPicture = doInBatch(uploadTaobaoPicture);
 
       $('.publish-btn').on('click', function (event) {
           event.preventDefault();
@@ -901,7 +880,7 @@
                       if ($(this).offset().top > 1000) {
                           window.scroll(0, 999999);
                       }
-                      batchUploadTaobaoPicture();
+                      batchUploadTaobaoPicture(imgsInDesc);
                   }
               } else {
                   alert('图片搬家获取相册信息失败，请刷新页面重试，或者取消勾选图片搬家');
