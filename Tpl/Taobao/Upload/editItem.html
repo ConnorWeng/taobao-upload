@@ -855,17 +855,20 @@
           });
       };
 
-      var batchUploadTaobaoPicture = function() {
-          for(var i = 0; i < batch.length; i++) {
-              if (batch[i] === true && imgsInDesc.length > 0) {
-                  var imgUrl = imgsInDesc.shift();
-                  uploadTaobaoPicture(imgUrl, i);
+      var doInBatch = function(tasks, action) {
+          return function() {
+              for(var i = 0; i < batch.length; i++) {
+                  if (batch[i] === true && tasks.length > 0) {
+                      var task = tasks.shift();
+                      action(task, i);
+                  }
               }
-          }
+          };
       };
 
-      $('.publish-btn').on('click', function (event) {
+      var batchUploadTaobaoPicture = doInBatch(imgsInDesc, uploadTaobaoPicture);
 
+      $('.publish-btn').on('click', function (event) {
           event.preventDefault();
           var $btn = $(this);
           var btnText = $btn.text();
