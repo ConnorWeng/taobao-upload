@@ -779,7 +779,6 @@
       var pcid = '{$pcid}';
       var imgsInDesc = $.parseJSON('{$imgsInDesc}');
       var imgsInDescCount = imgsInDesc.length;
-      var movefailure = {};
       var newDesc = '';
 
       var checkTitle = function (title) {
@@ -803,22 +802,6 @@
           }, 0);
       };
 
-      var retryUploadTaobaoPicture = function(imgUrl, $li, tasks) {
-          if (movefailure[imgUrl]) {
-              movefailure[imgUrl] = movefailure[imgUrl] + 1;
-              if (movefailure[imgUrl] > 2) {
-                  $li.children('.uploading').remove();
-                  $li.append('<span class="move-failure" style="color:red">&nbsp;多次尝试搬家失败，请刷新页面重试</span>');
-              } else {
-                  tasks.push(imgUrl);
-              }
-          } else {
-              movefailure[imgUrl] = 1;
-              tasks.push(imgUrl);
-          }
-          batchUploadTaobaoPicture(tasks);
-      };
-
       var uploadTaobaoPicture = doRequest({
           url: "{:U('Taobao/Upload/uploadTaobaoPicture')}",
           makeData: function(imgUrl) {
@@ -839,13 +822,18 @@
                   batchUploadTaobaoPicture(tasks);
               }
           },
-          retry: function(data, tasks) {
-              var $li = $('li[old-url="'+data['imgUrl']+'"]');
-              retryUploadTaobaoPicture(data['imgUrl'], $li, tasks);
+          retry: function(imgUrl, tasks) {
+              retryUploadTaobaoPicture(imgUrl, tasks);
           }
       });
 
       var batchUploadTaobaoPicture = doInBatch(uploadTaobaoPicture);
+
+      var retryUploadTaobaoPicture = doRetry(function(imgUrl) {
+          var $li = $('li[old-url="'+imgUrl+'"]');
+          $li.children('.uploading').remove();
+          $li.append('<span class="move-failure" style="color:red">&nbsp;多次尝试搬家失败，请刷新页面重试</span>');
+      }, batchUploadTaobaoPicture);
 
       $('.publish-btn').on('click', function (event) {
           event.preventDefault();

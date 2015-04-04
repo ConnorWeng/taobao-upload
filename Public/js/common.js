@@ -45,6 +45,8 @@ function html_decode(str) {
 
 /* batch request */
 var batch = [true, true, true];
+var requestFailure = {};
+var requestMaxFailTimes = 4;
 var requestTimeout = 12000;
 
 function doInBatch(action) {
@@ -76,14 +78,31 @@ function doRequest(map) {
                 if (!result['error']) {
                     success(result, tasks);
                 } else {
-                    retry(data, tasks);
+                    retry(task, tasks);
                 }
             },
             error: function() {
                 batch[slot] = true;
-                retry(data, tasks);
+                retry(task, tasks);
             }
         });
     };
 };
+
+function doRetry(overAction, batchAction) {
+    return function(task, tasks) {
+        if (requestFailure[task]) {
+            requestFailure[task] = requestFailure[task] + 1;
+            if (requestFailure[task] > requestMaxFailTimes) {
+                overAction(task);
+            } else {
+                tasks.push(task);
+            }
+        } else {
+            requestFailure[task] = 1;
+            tasks.push(task);
+        }
+        batchAction(tasks);
+    };
+}
 /* end */
