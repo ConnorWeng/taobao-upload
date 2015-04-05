@@ -849,6 +849,9 @@
       var retryUploadPicture = doRetry(function(imgUrl) {
           itemImages[$('input[value="'+imgUrl+'"]').attr('name')] = '';
           itemImagesCount += 1;
+          if (isAllRequestComplete()) {
+              postAllRequest();
+          }
       }, batchUploadPicture);
 
       var uploadDescPicture = doRequest({
@@ -880,7 +883,11 @@
       var retryUploadDescPicture = doRetry(function(imgUrl) {
           var $li = $('li[old-url="'+imgUrl+'"]');
           $li.children('.uploading').remove();
-          $li.append('<span class="move-failure" style="color:red">&nbsp;多次尝试搬家失败，请刷新页面重试</span>');
+          newDesc = newDesc.replace(new RegExp(imgUrl, 'g'), '');
+          $li.append('<span class="move-success" style="color:red">&nbsp;多次尝试搬家失败，已忽略</span>');
+          if (isAllRequestComplete()) {
+              postAllRequest();
+          }
       }, batchUploadDescPicture);
 
       $('.publish-btn').on('click', function (event) {
@@ -900,7 +907,7 @@
                       var imgs = [];
                       for(var i = 0; i < imgsInDesc.length; i++) {
                           var imgUrl = imgsInDesc[i];
-                          if (!~yaIndexOf(imgs, imgUrl) && imgUrl.indexOf('.webp') !== imgUrl.length - 5) {
+                          if (!~yaIndexOf(imgs, imgUrl) && imgUrl.indexOf('.webp') !== imgUrl.length - 5 && ~imgUrl.indexOf('!!')) {
                               imgs.push(imgUrl);
                           }
                       }
