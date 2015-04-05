@@ -806,6 +806,21 @@
       var itemImages = {};
       var itemImagesCount = 0;
 
+      var isAllRequestComplete = function() {
+          return $('.move-success').length === 2 * imgsInDescCount && itemImagesCount === 5
+      };
+
+      var postAllRequest = function() {
+          var jsonStr = '[';
+          for(var i = 1; i <= 5; i++) {
+              jsonStr += '"' + itemImages['picUrl'+i] + '",';
+          }
+          jsonStr = jsonStr.substr(0, jsonStr.length - 1) + ']';
+          $('#itemImages').val(jsonStr);
+          $('#desc').val(newDesc);
+          submitForm();
+      };
+
       var uploadPicture = doRequest({
           url: "{:U('Taobao/Upload/downloadPicture')}",
           makeData: function(imgUrl) {
@@ -818,14 +833,8 @@
               var imgPath = data['imgPath'];
               itemImages[$('input[value="'+imgUrl+'"]').attr('name')] = imgPath;
               itemImagesCount += 1;
-              if (itemImagesCount === 5) {
-                  var jsonStr = '[';
-                  for(var i = 1; i <= 5; i++) {
-                      jsonStr += '"' + itemImages['picUrl'+i] + '",';
-                  }
-                  jsonStr = jsonStr.substr(0, jsonStr.length - 1) + ']';
-                  $('#itemImages').val(jsonStr);
-                  submitForm();
+              if (isAllRequestComplete()) {
+                  postAllRequest();
               } else {
                   batchUploadPicture(tasks);
               }
@@ -855,13 +864,8 @@
               $li.children('.uploading').remove();
               newDesc = newDesc.replace(new RegExp(data['oldImgUrl'], 'g'), data['newImgUrl']);
               $li.append('<span class="move-success" style="color:lightgreen">&nbsp;搬家成功</span>');
-              if ($('.move-success').length === 2 * imgsInDescCount) {
-                  $('#desc').val(newDesc);
-                  var picUrls = [];
-                  $('.picUrl').each(function() {
-                      picUrls.push($(this).val());
-                  });
-                  batchUploadPicture(picUrls);
+              if (isAllRequestComplete()) {
+                  postAllRequest();
               } else {
                   batchUploadDescPicture(tasks);
               }
@@ -913,6 +917,12 @@
                           window.scroll(0, 999999);
                       }
                       batchUploadDescPicture(imgsInDesc);
+                      // 并发执行上传主图
+                      var picUrls = [];
+                      $('.picUrl').each(function() {
+                          picUrls.push($(this).val());
+                      });
+                      batchUploadPicture(picUrls);
                   }
               } else {
                   alert('图片搬家获取相册信息失败，请刷新页面重试，或者取消勾选图片搬家');
