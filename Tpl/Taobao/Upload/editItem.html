@@ -804,13 +804,14 @@
       };
 
       var itemImages = {};
+      var itemImagesTotalCount = 0;
       var itemImagesCount = 0;
 
       var isAllRequestComplete = function() {
           if ($('input[name=movePic]').attr('checked') === 'checked') {
-              return $('.move-success').length === 2 * imgsInDescCount && itemImagesCount === 5;
+              return $('.move-success').length === 2 * imgsInDescCount && itemImagesCount === itemImagesTotalCount;
           } else {
-              return itemImagesCount === 5;
+              return itemImagesCount === itemImagesTotalCount;
           }
       };
 
@@ -905,8 +906,12 @@
           // 上传主图
           var picUrls = [];
           $('.picUrl').each(function() {
-              picUrls.push($(this).val());
+              var url = $(this).val();
+              if (url) {
+                  picUrls.push(url);
+              }
           });
+          itemImagesTotalCount = picUrls.length;
           batchUploadPicture(picUrls);
           if ($('input[name=movePic]').attr('checked') === 'checked') {
               if (pcid) {
