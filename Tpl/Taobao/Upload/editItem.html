@@ -807,7 +807,11 @@
       var itemImagesCount = 0;
 
       var isAllRequestComplete = function() {
-          return $('.move-success').length === 2 * imgsInDescCount && itemImagesCount === 5
+          if ($('input[name=movePic]').attr('checked') === 'checked') {
+              return $('.move-success').length === 2 * imgsInDescCount && itemImagesCount === 5;
+          } else {
+              return itemImagesCount === 5;
+          }
       };
 
       var postAllRequest = function() {
@@ -897,12 +901,18 @@
           if (btnText === '侦测到详情图片需要搬家，搬家中，请稍候...' || btnText === '正在发布中，请稍候...') {
               return false;
           }
+          newDesc = $('#desc').val();
+          // 上传主图
+          var picUrls = [];
+          $('.picUrl').each(function() {
+              picUrls.push($(this).val());
+          });
+          batchUploadPicture(picUrls);
           if ($('input[name=movePic]').attr('checked') === 'checked') {
               if (pcid) {
                   if (imgsInDesc.length > 0) {
                       $('.publish-btn').text('侦测到详情图片需要搬家，搬家中，请稍候...');
                       $('.loading').css('display', 'inline');
-                      newDesc = $('#desc').val();
                       // 去重
                       var imgs = [];
                       for(var i = 0; i < imgsInDesc.length; i++) {
@@ -924,19 +934,11 @@
                           window.scroll(0, 999999);
                       }
                       batchUploadDescPicture(imgsInDesc);
-                      // 并发执行上传主图
-                      var picUrls = [];
-                      $('.picUrl').each(function() {
-                          picUrls.push($(this).val());
-                      });
-                      batchUploadPicture(picUrls);
                   }
               } else {
                   alert('图片搬家获取相册信息失败，请刷新页面重试，或者取消勾选图片搬家');
                   return false;
               }
-          } else {
-              submitForm();
           }
       });
 
