@@ -23,12 +23,12 @@ class OpenAPI {
 
     public static function getTaobaoItemFromDatabase($goodsId) {
         $goodsModel = M('goods');
-        $rs = $goodsModel->query("select t.*, group_concat(a.attr_id separator ',') attr_ids, group_concat(a.value_id separator ',') value_ids, group_concat(a.attr_name separator ',') attr_names, group_concat(a.attr_value separator ',') attr_values from (select g.*, group_concat(s.spec_1 separator ',') spec_1s, group_concat(s.spec_vid_1 separator ',') spec_vid_1s, group_concat(s.spec_2 separator ',') spec_2s, group_concat(s.spec_vid_2 separator ',') spec_vid_2s, group_concat(s.price separator ',') prices, group_concat(s.stock separator ',') stocks from ecm_goods g, ecm_goods_spec s where g.goods_id = {$goodsId} and g.goods_id = s.goods_id group by goods_id) t, ecm_goods_attr a where t.goods_id = a.goods_id group by t.goods_id;");
+        $rs = $goodsModel->query("select t1.*, group_concat(i.image_url separator ',') image_urls from (select t.*, group_concat(a.attr_id separator ',') attr_ids, group_concat(a.value_id separator ',') value_ids, group_concat(a.attr_name separator ',') attr_names, group_concat(a.attr_value separator ',') attr_values from (select g.*, group_concat(s.spec_1 separator ',') spec_1s, group_concat(s.spec_vid_1 separator ',') spec_vid_1s, group_concat(s.spec_2 separator ',') spec_2s, group_concat(s.spec_vid_2 separator ',') spec_vid_2s, group_concat(s.price separator ',') prices, group_concat(s.stock separator ',') stocks from ecm_goods g, ecm_goods_spec s where g.goods_id = {$goodsId} and g.goods_id = s.goods_id group by goods_id) t, ecm_goods_attr a where t.goods_id = a.goods_id group by t.goods_id) t1, ecm_goods_image i where t1.goods_id = i.goods_id group by t1.goods_id order by i.sort_order;");
         $taobaoItem = new TaobaoItem;
         if (count($rs) > 0) {
             $result = $rs[0];
             $taobaoItem->setCid(self::getCategoryId($result));
-            $taobaoItem->setItemImgs(array(new ItemImg(self::parseDefaultImage($result['default_image']))));
+            $taobaoItem->setItemImgs(self::parseItemImgs($result));
             $taobaoItem->setSkus(self::parseSkus($result));
             $taobaoItem->setPropsName(self::parsePropsName($result));
             $taobaoItem->setTitle($result['goods_name']);
@@ -55,6 +55,15 @@ class OpenAPI {
             }
         }
         return $categoryId;
+    }
+
+    private static function parseItemImgs($good) {
+        $itemImgs = new ItemImgs;
+        $images = explode(',', $good['image_urls']);
+        for ($i = 0; $i < count($images); $i++) {
+            $itemImgs->addItemImg(new ItemImg($images[$i]));
+        }
+        return $itemImgs;
     }
 
     private static function parseDefaultImage($image) {

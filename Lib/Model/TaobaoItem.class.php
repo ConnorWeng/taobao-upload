@@ -45,7 +45,7 @@ class TaobaoItem {
     }
 
     public function setItemImgs($value) {
-        $this->item_imgs->setItemImg($value);
+        $this->item_imgs = $value;
     }
 
     public function setPropsName($value) {
@@ -114,6 +114,10 @@ class ItemImgs {
 
     public function setItemImg($value) {
         $this->item_img = $value;
+    }
+
+    public function addItemImg($value) {
+        $this->item_img[] = $value;
     }
 }
 
