@@ -304,8 +304,9 @@ class UploadAction extends CommonAction {
                 $originValueName = $originValueVars['0'];
                 $alias = $request['cpva_'.$prop];
                 if ($originValueName != $alias) {
-                    if (strlen($propertyAlias.$prop.':'.$alias.';') < 511) {
-                        $propertyAlias .= $prop.':'.$alias.';';
+                    $newAlias = $prop.':'.$alias.';';
+                    if (strpos($propertyAlias, $newAlias) === false) {
+                        $propertyAlias .= $newAlias;
                     }
                 }
             }
