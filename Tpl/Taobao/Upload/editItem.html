@@ -973,6 +973,13 @@
           setCity();
       });
       /* end */
+
+      /* 吊牌价必填,但是其值不知道从哪里拿,所以先写死 */
+      var $brandPrice = $('#prop_6103476');
+      if ($brandPrice.length > 0) {
+          $brandPrice.val(500);
+      }
+      /* end */
   });
   </script>
 </body>

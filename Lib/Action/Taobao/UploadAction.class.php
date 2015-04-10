@@ -106,6 +106,7 @@ class UploadAction extends CommonAction {
         $skuTableData = json_decode($_REQUEST['J_SKUTableData']);
         $salePropsObject = json_decode(urldecode($_REQUEST['salePropsObject']));
         $desc = $this->makeDesc($_REQUEST['_fma_pu__0_d'], session('current_taobao_item_id'));
+        $inputPidsStr = $this->makeInputPidsStr($_REQUEST);
         $item = array(
             'Num' => I('num'),
             'Price' => I('_fma_pu__0_m'),
@@ -132,8 +133,8 @@ class UploadAction extends CommonAction {
             'ExpressFee' => I('express_fee'),
             'EmsFee' => I('ems_fee'),
             'PropertyAlias' => $this->makePropertyAlias($skuTableData, $_REQUEST, $salePropsObject),
-            'InputStr' => I('band') == '' ? '' : I('band'),
-            'InputPids' => I('band') == '' ? '' : '20000',
+            'InputStr' => $inputPidsStr[1].(I('band') == '' ? '' : ','.I('band')),
+            'InputPids' => $inputPidsStr[0].(I('band') == '' ? '' : ',20000'),
             'SkuProperties' => $this->makeSkuProperties($skuTableData),
             'SkuQuantities' => $this->makeSkuQuantities($skuTableData),
             'SkuPrices' => $this->makeSkuPrices($skuTableData),
@@ -350,6 +351,27 @@ class UploadAction extends CommonAction {
         return $skuOuterIds = substr($skuOuterIds, 0, strlen($skuOuterIds) - 2);
     }
 
+    private function makeInputPidsStr($request) {
+        $result = array();
+        $inputPids = '';
+        $inputStr = '';
+        foreach ($request as $key => $value) {
+            if (strpos($key, 'cp_') !== false
+                && $value !== ''
+                && strpos($value, ':') === false) {
+                $inputPids .= substr($key, 3).',';
+                $inputStr .= $value.',';
+            }
+        }
+        if (strlen($inputPids) > 0) {
+            $inputPids = substr($inputPids, 0, strlen($inputPids) - 1);
+            $inputStr = substr($inputStr, 0, strlen($inputStr) - 1);
+        }
+        $result[] = $inputPids;
+        $result[] = $inputStr;
+        return $result;
+    }
+
     private function makeProps($request, $skuTableData) {
         $propsArray = array();
         $colorPid = $sizePid = 'invalidPid';
@@ -367,7 +389,9 @@ class UploadAction extends CommonAction {
             if (strpos($key, 'cp_') !== false && $value !== ''
                 && strpos($key, $colorPid) === false
                 && strpos($key, $sizePid) === false) {
-                array_push($propsArray, $value);
+                if (strpos($value, ':') !== false) {
+                    array_push($propsArray, $value);
+                }
             }
         }
         $colorArray = array();
@@ -430,47 +454,51 @@ class UploadAction extends CommonAction {
             if ($this->isSaleProp($prop) || ''.$prop->pid == '13021751') continue;
             $html .= '<li>';
             $html .= '<div><label>'.$prop->name.':</label></div>';
-            $html .= '<select name="cp_'.$prop->pid.'" id="prop_'.$prop->pid.'">';
-            $html .= '<option value=""></option>';
-            $hasSelected = false;
-            $hasChildProps = false;
-            if (isset($prop->prop_values)) {
-                $valueCount = count($prop->prop_values->prop_value);
-                for ($j = 0; $j < $valueCount; $j++) {
-                    $value = $prop->prop_values->prop_value[$j];
-                    $optionValue = $prop->pid.':'.$value->vid;
-                    if (strpos($propsName, $optionValue) !== false || ($j == $valueCount - 1 && !$hasSelected && ''.$prop->must == 'true')) {
-                        $selected = 'selected';
-                        $hasSelected = true;
+            if (''.$prop->is_enum_prop === 'true') {
+                $html .= '<select name="cp_'.$prop->pid.'" id="prop_'.$prop->pid.'">';
+                $html .= '<option value=""></option>';
+                $hasSelected = false;
+                $hasChildProps = false;
+                if (isset($prop->prop_values)) {
+                    $valueCount = count($prop->prop_values->prop_value);
+                    for ($j = 0; $j < $valueCount; $j++) {
+                        $value = $prop->prop_values->prop_value[$j];
+                        $optionValue = $prop->pid.':'.$value->vid;
+                        if (strpos($propsName, $optionValue) !== false || ($j == $valueCount - 1 && !$hasSelected && ''.$prop->must == 'true')) {
+                            $selected = 'selected';
+                            $hasSelected = true;
+                        } else {
+                            $selected = '';
+                        }
+                        $isParent = isset($value->is_parent) ? ' parent="true" vid="'.$value->vid.'"' : '';
+                        if ($isParent != '') {
+                            $hasChildProps = true;
+                        }
+                        $html .= '<option value="'.$optionValue.'" '.$selected.$isParent.'>'.$value->name.'</option>';
+                    }
+                }
+                $html .= '</select>';
+                if ($hasChildProps) {
+                    if ($needVerify) {
+                        $childProps = $this->checkApiResponse(OpenAPI::getTaobaoItemProps($cid, $prop->pid));
                     } else {
-                        $selected = '';
+                        $childProps = OpenAPI::getTaobaoItemPropsWithoutVerify($cid, $prop->pid);
                     }
-                    $isParent = isset($value->is_parent) ? ' parent="true" vid="'.$value->vid.'"' : '';
-                    if ($isParent != '') {
-                        $hasChildProps = true;
+                    $childCount = count($childProps->item_prop);
+                    for ($j = 0; $j < $childCount; $j++) {
+                        $childProp = $childProps->item_prop[$j];
+                        $html .= '<select class="child_prop" style="display:none" parent="'.$prop->pid.':'.$childProp->parent_vid.'" name="cp_'.$childProp->pid.'" id="prop_'.$childProp->pid.'">';
+                        $childValueCount = count($childProp->prop_values->prop_value);
+                        for ($k = 0; $k < $childValueCount; $k++) {
+                            $childValue = $childProp->prop_values->prop_value[$k];
+                            $childOptionValue = $childProp->pid.':'.$childValue->vid;
+                            $html .= '<option value="'.$childOptionValue.'">'.$childValue->name.'</option>';
+                        }
+                        $html .= '</select>';
                     }
-                    $html .= '<option value="'.$optionValue.'" '.$selected.$isParent.'>'.$value->name.'</option>';
                 }
-            }
-            $html .= '</select>';
-            if ($hasChildProps) {
-                if ($needVerify) {
-                    $childProps = $this->checkApiResponse(OpenAPI::getTaobaoItemProps($cid, $prop->pid));
-                } else {
-                    $childProps = OpenAPI::getTaobaoItemPropsWithoutVerify($cid, $prop->pid);
-                }
-                $childCount = count($childProps->item_prop);
-                for ($j = 0; $j < $childCount; $j++) {
-                    $childProp = $childProps->item_prop[$j];
-                    $html .= '<select class="child_prop" style="display:none" parent="'.$prop->pid.':'.$childProp->parent_vid.'" name="cp_'.$childProp->pid.'" id="prop_'.$childProp->pid.'">';
-                    $childValueCount = count($childProp->prop_values->prop_value);
-                    for ($k = 0; $k < $childValueCount; $k++) {
-                        $childValue = $childProp->prop_values->prop_value[$k];
-                        $childOptionValue = $childProp->pid.':'.$childValue->vid;
-                        $html .= '<option value="'.$childOptionValue.'">'.$childValue->name.'</option>';
-                    }
-                    $html .= '</select>';
-                }
+            } else {
+                $html .= '<input name="cp_'.$prop->pid.'" id="prop_'.$prop->pid.'" value="">';
             }
             $html .= '</li>';
         }

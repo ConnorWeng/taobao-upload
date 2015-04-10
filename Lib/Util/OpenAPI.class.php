@@ -197,7 +197,7 @@ class OpenAPI {
         $c->appkey = C('taobao_app_key');
         $c->secretKey = C('taobao_secret_key');
         $req = new ItempropsGetRequest;
-        $req->setFields("pid,name,must,multi,prop_values,is_key_prop,is_sale_prop,parent_vid");
+        $req->setFields("pid,name,must,multi,prop_values,is_key_prop,is_sale_prop,parent_vid,is_enum_prop");
         $req->setCid($cid);
         if ($parentPid) {
             $req->setParentPid($parentPid);
