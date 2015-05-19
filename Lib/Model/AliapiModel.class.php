@@ -20,20 +20,19 @@ class AliapiModel extends ApiModel {
         session('try_api_times', $times);
 
         if ($oldAppKey == null) {
-            $where['id'] = $this->getFirstId($taobaoItemId);
-            $rs = $this->where($where)->select();
+            $sql = 'SELECT * from '.C('DB_PREFIX').$this->tableName.' ORDER BY RAND() LIMIT 1';
         } else {
             $sql = 'SELECT * from '.C('DB_PREFIX').$this->tableName.' where overflow = 0 ORDER BY RAND() LIMIT 1';
-            $rs = $this->query($sql);
         }
+        $rs = $this->query($sql);
 
         if (count($rs) > 0) {
             return array('appkey' => $rs[0]['appkey'],
                          'appsecret' => $rs[0]['appscret'],
                          'id' => $rs[0]['id']);
         } else {
-            return array('appkey' => C('taobao_app_key'),
-                         'appsecret' => C('taobao_secret_key'),
+            return array('appkey' => C('stable_alibaba_app_key'),
+                         'appsecret' => C('stable_alibaba_secret_key'),
                          'id' => '');
         }
     }
