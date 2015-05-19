@@ -2105,14 +2105,26 @@ $(function () {
 
                                 $e.find('em').append(newSpecString);
                             } else {
+                                var found = false;
                                 $e.find('.pro-form span').each(function (i, e) {
                                     var $$e = $(e),
                                         allSpanText = $$e.text();
 
                                     if (allSpanText === alias) {
+                                        found = true;
                                         $$e.find('input').attr('checked', 'true');
                                     }
                                 });
+                                if (!found) {
+                                    var newSpecString = '',
+                                        fid = $e.attr('id').substr(15);
+                                    newSpecString += '<span class="span-item span-item-ipt">';
+                                    newSpecString += '<input class="ipt" type="checkbox" name="feature' + fid + '" id="pro-feature' + fid + '-' + j + '" value="' + alias + '" checked="true" />';
+                                    newSpecString += '<label for="pro-feature' + fid + '-">' + alias + '</label>';
+                                    newSpecString += '</span>';
+
+                                    $e.find('em').append(newSpecString);
+                                }
                             }
                         }
                     });
