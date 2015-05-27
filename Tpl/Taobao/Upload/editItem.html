@@ -448,6 +448,7 @@
               <label class="category">图片搬家:</label>
               <div class="input-content">
                 <label><input name="movePic" type="checkbox" {$movePic}/>是</label>
+                <label><input name="moveAllPic" type="checkbox"/>全部搬家</label>
                 <span class="tips">上传成功后,图片会在2-3分钟内更新完成,您无需等待即可上传下一个宝贝</span>
               </div>
             </li>
@@ -918,11 +919,12 @@
                   if (imgsInDesc.length > 0) {
                       $('.publish-btn').text('侦测到详情图片需要搬家，搬家中，请稍候...');
                       $('.loading').css('display', 'inline');
+                      var moveAllPic = $('input[name=moveAllPic]').attr('checked');
                       // 去重
                       var imgs = [];
                       for(var i = 0; i < imgsInDesc.length; i++) {
                           var imgUrl = imgsInDesc[i];
-                          if (!~yaIndexOf(imgs, imgUrl) && imgUrl.indexOf('.webp') !== imgUrl.length - 5 && ~imgUrl.indexOf('!!')) {
+                          if (!~yaIndexOf(imgs, imgUrl) && imgUrl.indexOf('.webp') !== imgUrl.length - 5 && (~imgUrl.indexOf('!!') || moveAllPic)) {
                               imgs.push(imgUrl);
                           }
                       }
