@@ -563,6 +563,16 @@ class OpenAPI {
         }
     }
 
+    public static function permitTaobaoTmc($sessionKey) {
+        $c = new TopClient;
+        $c->appkey = C('taobao_app_key');
+        $c->secretKey = C('taobao_secret_key');
+        $req = new TmcUserPermitRequest;
+        $req->setTopics('taobao_item_ItemAdd,taobao_item_ItemUpshelf,taobao_item_ItemDownshelf,taobao_item_ItemDelete,taobao_item_ItemUpdate');
+        $resp = $c->execute($req, $sessionKey);
+        return $resp->is_success;
+    }
+
     public static function dumpTaobaoApiError($apiName, $resp) {
         $appKey = session('taobao_app_key');
         $appSecret = session('taobao_secret_key');

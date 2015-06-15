@@ -37,6 +37,12 @@ class ApiAction extends CommonAction {
         $this->ajaxReturn($taobaoItem);
     }
 
+    public function permitTaobaoTmc() {
+        $sessionKey = I('session_key');
+        $isSuccess = OpenAPI::permitTaobaoTmc($sessionKey);
+        $this->ajaxReturn($isSuccess);
+    }
+
     private function propsNameWithoutNameAndValue($propsName) {
         $new = '';
         $propsNameAttr = explode(';', $propsName);
