@@ -28,7 +28,7 @@ $code = $_REQUEST['code'];
 $error = $_REQUEST['error'];
 $error_description = $_REQUEST['error_description'];
 $state = $_REQUEST['state'];
-$host = '121.196.142.10';
+$host = 'yjsc.51zwd.com';
 if (strpos($state, '51zwd') === 0) {
     $host = 'yjsc2.51zwd.com';
 } else if (strpos($state, 'taobaologin') === 0) {

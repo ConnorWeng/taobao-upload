@@ -2,7 +2,7 @@
 return array(
     'grant_type' => 'authorization_code',
     'need_refresh_token' => 'true',
-    'host' => 'http://121.196.142.10',
+    'host' => 'http://120.26.196.147',
     'redirect_uri' => 'Index/authBack',
     'open_url' => 'http://gw.open.1688.com/openapi',
     'title_suffix' => '- 面包西点',
