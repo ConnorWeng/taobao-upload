@@ -142,10 +142,12 @@
   </head>
   <body TOPMARGIN=0 LEFTMARGIN=0 MARGINWIDTH=0 MARGINHEIGHT=0>
     <div class="ad-left" style="position:fixed; top:10%; left: 0px;">
-      <img src="Public/Image/1.jpg"></img>
+      <div style="height:25px;cursor:pointer" onclick="$('.ad-left').remove()">关闭</div>
+      <a href="http://www.51zwd.com/shop/13778" target="_blank"><img src="Public/Image/1.jpg"></img></a>
     </div>
     <div class="ad-right" style="position:fixed; top:10%; right:0px;">
-      <img src="Public/Image/2.jpg"></img>
+      <div style="height:25px;cursor:pointer;text-align:right" onclick="$('.ad-right').remove()">关闭</div>
+      <a href="http://www.51zwd.com/shop/13778" target="_blank"><img src="Public/Image/2.jpg"></img></a>
     </div>
     <form id="mainform" action="{:U('Taobao/Upload/uploadItem')}" method="POST">
       <input type="hidden" name="itemImages" id="itemImages" value=""/>
