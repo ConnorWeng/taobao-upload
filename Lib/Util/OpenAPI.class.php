@@ -574,6 +574,20 @@ class OpenAPI {
         return $resp->is_success;
     }
 
+    public static function getTaobaoLogisticsCompanies() {
+        $c = new TopClient;
+        $c->appkey = C('taobao_app_key');
+        $c->secretKey = C('taobao_secret_key');
+        $req = new LogisticsCompaniesGetRequest;
+        $req->setFields('id,code,name,reg_mail_no');
+        $resp = $c->execute($req);
+        if (isset($resp->logistics_companies) || count($resp) == 0) {
+            return $resp->logistics_companies;
+        } else {
+            self::dumpTaobaoApiError('getTaobaoLogisticsCompanies', $resp);
+        }
+    }
+
     public static function dumpTaobaoApiError($apiName, $resp) {
         $appKey = session('taobao_app_key');
         $appSecret = session('taobao_secret_key');

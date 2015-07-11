@@ -29,7 +29,7 @@ class ApiAction extends CommonAction {
         $taobaoItem = OpenAPI::getTaobaoItemFromDatabase($goodsId);
         $upload = new UploadAction();
         $storeInfo = $upload->getStoreInfo($taobaoItem);
-        $storeInfo['see_price'] = 'Êµ¼Û';
+        $storeInfo['see_price'] = 'å®žä»·';
         $outerId = $upload->makeOuterId($taobaoItem->title, $taobaoItem->price, $storeInfo);
         $taobaoItem->setOuterId($outerId);
         $taobaoItem->setPropsName($this->propsNameWithoutNameAndValue($taobaoItem->props_name));
@@ -41,6 +41,10 @@ class ApiAction extends CommonAction {
         $sessionKey = I('session_key');
         $isSuccess = OpenAPI::permitTaobaoTmc($sessionKey);
         $this->ajaxReturn($isSuccess);
+    }
+
+    public function getTaobaoLogisticsCompanies() {
+        $this->ajaxReturn(OpenAPI::getTaobaoLogisticsCompanies());
     }
 
     private function propsNameWithoutNameAndValue($propsName) {
