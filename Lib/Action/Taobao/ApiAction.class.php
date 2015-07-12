@@ -47,6 +47,11 @@ class ApiAction extends CommonAction {
         $this->ajaxReturn(OpenAPI::getTaobaoLogisticsCompanies());
     }
 
+    public function sendTaobaoLogisticsOnline() {
+        $shipping = OpenAPI::sendTaobaoLogisticsOnline(I('tid'), I('out_sid'), I('company_code'), I('app_key'), I('secret_key'), I('session_key'));
+        $this->ajaxReturn($shipping);
+    }
+
     private function propsNameWithoutNameAndValue($propsName) {
         $new = '';
         $propsNameAttr = explode(';', $propsName);

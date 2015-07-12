@@ -588,6 +588,18 @@ class OpenAPI {
         }
     }
 
+    public static function sendTaobaoLogisticsOnline($tid, $outSid, $companyCode, $appKey, $secretKey, $sessionKey) {
+        $c = new TopClient;
+        $c->appkey = $appKey;
+        $c->secretKey = $secretKey;
+        $req = new LogisticsOnlineSendRequest;
+        $req->setTid($tid);
+        $req->setOutSid($outSid);
+        $req->setCompanyCode($companyCode);
+        $resp = $c->execute($req, $sessionKey);
+        return $resp->shipping;
+    }
+
     public static function dumpTaobaoApiError($apiName, $resp) {
         $appKey = session('taobao_app_key');
         $appSecret = session('taobao_secret_key');
