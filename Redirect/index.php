@@ -6,6 +6,15 @@
 //error_reporting(0);
 ?>
 <?php
+// paipai
+$access_token = $_GET['access_token'];
+$useruin = $_GET['useruin'];
+$sign = $_GET['sign'];
+if ($useruin) {
+    header("location: http://yjsc.51zwd.com/taobao-upload-multi-store/index.php?g=Paipai&m=Index&a=authBack&access_token={$access_token}&useruin={$useruin}&sign={$sign}");
+}
+
+// taobao
 $num_iid = $_REQUEST['num_iid'];
 $shop_id = $_REQUEST['id'];
 $top_appkey = $_GET['top_appkey'];
@@ -53,13 +62,13 @@ if($error){
             }
             $_SESSION['larger_count'] = $_SESSION['larger_count'] + 1;
             $type = 'free';
-            if ($_SESSION['larger_count'] > 1) {
+            if ($_SESSION['larger_count'] > 0) {
                 $type = 'stable';
                 unset($_SESSION['larger_count']);
             }
             header("Content-type:text/html;charset=gbk");
             $content  = '<script>';
-            $content .= 'alert("同时在线人数过多，请重试一次！");';
+            $content .= 'alert("同时在线人数过多，请重试一次！'.$_SESSION['larger_count'].'");';
             $content .= 'window.location = "http://'.$host.'/taobao-upload-multi-store/index.php?g=Taobao&m=Index&a='.$type.'";';
             $content .= '</script>';
             exit($content);
