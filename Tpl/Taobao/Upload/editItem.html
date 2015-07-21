@@ -129,7 +129,6 @@
       }
       .item-images li {
         float: left;
-        margin-right: 10px;
       }
       .editbox {
         display: none;
@@ -287,16 +286,28 @@
                     <input class="picUrl" type="hidden" name="picUrl1" value="{$picUrl}"/>
                   </li>
                   <li>
+                      <a class="exchange" href="javascript:void 0">交换</a>
+                  </li>
+                  <li>
                     <img style="width:90px;height:90px;" src="{$image0}"/>
                     <input class="picUrl" type="hidden" name="picUrl2" value="{$image0}"/>
+                  </li>
+                  <li>
+                      <a class="exchange" href="javascript:void 0">交换</a>
                   </li>
                   <li>
                     <img style="width:90px;height:90px;" src="{$image1}"/>
                     <input class="picUrl" type="hidden" name="picUrl3" value="{$image1}"/>
                   </li>
                   <li>
+                      <a class="exchange" href="javascript:void 0">交换</a>
+                  </li>
+                  <li>
                     <img style="width:90px;height:90px;" src="{$image2}"/>
                     <input class="picUrl" type="hidden" name="picUrl4" value="{$image2}"/>
+                  </li>
+                  <li>
+                      <a class="exchange" href="javascript:void 0">交换</a>
                   </li>
                   <li>
                     <img style="width:90px;height:90px;" src="{$image3}"/>
@@ -492,6 +503,18 @@
           window.location = "{:U('Taobao/Index/auth')}" + '&taobaoItemId={$taobaoItemId}&newStore=newStore&taobaoAppKey=trival';
       });
       /* end */
+
+      $('.exchange').on('click', function() {
+          var $a = $(this);
+          var $prevli = $a.closest('li').prev();
+          var $afterli = $a.closest('li').next();
+          var prevValue = $prevli.find('input').val();
+          var afterValue = $afterli.find('input').val();
+          $prevli.find('img').attr('src', afterValue);
+          $prevli.find('input').val(afterValue);
+          $afterli.find('img').attr('src', prevValue);
+          $afterli.find('input').val(prevValue);
+      });
 
       /* save user config */
       $('.saveAndEffect').on('click', function () {
