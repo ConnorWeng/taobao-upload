@@ -12,6 +12,7 @@ $useruin = $_GET['useruin'];
 $sign = $_GET['sign'];
 if ($useruin) {
     header("location: http://yjsc.51zwd.com/taobao-upload-multi-store/index.php?g=Paipai&m=Index&a=authBack&access_token={$access_token}&useruin={$useruin}&sign={$sign}");
+    exit();
 }
 
 // taobao
