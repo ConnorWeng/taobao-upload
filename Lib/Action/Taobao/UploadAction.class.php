@@ -713,7 +713,7 @@ class UploadAction extends CommonAction {
 
     private function parseDescImages($desc) {
         $cleanDesc = str_replace('<img src="">', '', $desc);
-        $pattern="/(https?:\/\/img\d*\.\w+\.com.+\.(jpg|png|gif|bmp|webp|jpeg))/Ui";
+        $pattern="/(https?:\/\/\w+\.\w+\.com.+\.(jpg|png|gif|bmp|webp|jpeg))/Ui";
         preg_match_all($pattern, $cleanDesc, $matches);
         return $matches[1];
     }
