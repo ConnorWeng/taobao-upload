@@ -130,6 +130,13 @@
       .item-images li {
         float: left;
       }
+      .item-image {
+        width: 90px;
+        text-align: center;
+      }
+      .upload-pic {
+        width: 80px;
+      }
       .editbox {
         display: none;
       }
@@ -281,35 +288,36 @@
               <div class="content">
                 <lable><span style="color:orange">注：超过400件宝贝主图不改，将会被随机投诉盗图</span> <span style="color:blue">点击主图可以进行替换</span></lable>
                 <ul class="item-images">
-                  <li>
+                  <li class="item-image">
                     <img style="width:90px;height:90px;" src="{$picUrl}"/>
+                    <input name="upload-pic-1" class="upload-pic" type="file"/>
                     <input class="picUrl" type="hidden" name="picUrl1" value="{$picUrl}"/>
                   </li>
                   <li>
                       <a class="exchange" href="javascript:void 0">交换</a>
                   </li>
-                  <li>
+                  <li class="item-image">
                     <img style="width:90px;height:90px;" src="{$image0}"/>
                     <input class="picUrl" type="hidden" name="picUrl2" value="{$image0}"/>
                   </li>
                   <li>
                       <a class="exchange" href="javascript:void 0">交换</a>
                   </li>
-                  <li>
+                  <li class="item-image">
                     <img style="width:90px;height:90px;" src="{$image1}"/>
                     <input class="picUrl" type="hidden" name="picUrl3" value="{$image1}"/>
                   </li>
                   <li>
                       <a class="exchange" href="javascript:void 0">交换</a>
                   </li>
-                  <li>
+                  <li class="item-image">
                     <img style="width:90px;height:90px;" src="{$image2}"/>
                     <input class="picUrl" type="hidden" name="picUrl4" value="{$image2}"/>
                   </li>
                   <li>
                       <a class="exchange" href="javascript:void 0">交换</a>
                   </li>
-                  <li>
+                  <li class="item-image">
                     <img style="width:90px;height:90px;" src="{$image3}"/>
                     <input class="picUrl" type="hidden" name="picUrl5" value="{$image3}"/>
                   </li>
@@ -484,6 +492,8 @@
     </div>
 
   </form>
+  <iframe id="file-frame" name="file-frame" style="display:none">
+  </iframe>
   <script>
   $(function () {
       /* init desc editor */
@@ -504,6 +514,16 @@
       });
       /* end */
 
+      $('.upload-pic').on('change', function() {
+          $('#mainform').attr('action', "{:U('Taobao/Upload/uploadFile')}");
+          $('#mainform').attr('enctype', "multipart/form-data");
+          $('#mainform').attr('target', "file-frame");
+          $('#mainform').submit();
+          $('#mainform').attr('action', "{:U('Taobao/Upload/uploadItem')}");
+          $('#mainform').attr('enctype', "application/x-www-form-urlencoded");
+          $('#mainform').attr('target', "_self");
+      });
+
       $('.exchange').on('click', function() {
           var $a = $(this);
           var $prevli = $a.closest('li').prev();
@@ -514,6 +534,16 @@
           $prevli.find('input').val(afterValue);
           $afterli.find('img').attr('src', prevValue);
           $afterli.find('input').val(prevValue);
+      });
+
+      $('#file-frame').on('load', function() {
+          var $success = $('#file-frame').contents().find('body').find('.success');
+          if ($success.length > 0) {
+              $('.item-image:eq(0) img').attr('src', $success.text());
+              $('.item-image:eq(0) .picUrl').val($success.text());
+          } else {
+              alert($('#file-frame').contents().find('body').find('.error').text());
+          }
       });
 
       /* save user config */

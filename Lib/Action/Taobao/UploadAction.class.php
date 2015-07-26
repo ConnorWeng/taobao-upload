@@ -707,6 +707,20 @@ class UploadAction extends CommonAction {
         $this->ajaxReturn($data);
     }
 
+    public function uploadFile() {
+        import('ORG.Net.UploadFile');
+        $upload = new UploadFile();
+        $upload->maxSize = 1024*1024*3; // 3MB
+        $upload->allowExts = array('jpg', 'gif', 'png', 'jpeg', 'bmp');
+        $upload->savePath = APP_PATH.'Upload/';
+        if (!$upload->upload()) {
+            $this->show('<p class="error">'.$upload->getErrorMsg().'</p>');
+        } else {
+            $info = $upload->getUploadFileInfo();
+            $this->show('<p class="success">'.str_replace(__APP__, 'index.php', '').'Upload/'.$info[0]['savename'].'</p>');
+        }
+    }
+
     private function caculatePrice($price, $percent, $profit) {
         return floatval($price) * (floatval($percent) / 100.00) + floatval($profit);
     }
