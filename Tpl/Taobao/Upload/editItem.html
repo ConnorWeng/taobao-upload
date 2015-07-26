@@ -51,6 +51,9 @@
         font-size: 16px;
         color: white;
       }
+      .disabled {
+        background: gray;
+      }
       .main-header {
         height: 28px;
         background: rgb(225, 238, 254);
@@ -189,7 +192,7 @@
 
         <div class="header-btn">
           <center>
-              <button class="publish-btn" style="margin-top: 15px">不编辑了，立刻发布</button><img class="loading" src="Public/Image/loading.gif"></img>
+              <button disabled="disabled" class="publish-btn disabled" style="margin-top: 15px">正在加载页面</button><img class="loading" src="Public/Image/loading.gif"></img>
               <div>
                   <ul class="imgs-need-move">
                   </ul>
@@ -479,7 +482,7 @@
           </ul>
 
           <center>
-              <button class="publish-btn" style="margin-top:10px">发布</button><img class="loading" src="Public/Image/loading.gif"></img>
+              <button disabled="disabled" class="publish-btn disabled" style="margin-top:10px">发布</button><img class="loading" src="Public/Image/loading.gif"></img>
               <div>
                   <ul class="imgs-need-move">
                   </ul>
@@ -1040,6 +1043,9 @@
           $brandPrice.val(500);
       }
       /* end */
+
+      $('.publish-btn').removeClass('disabled').removeAttr('disabled')
+      $('.publish-btn:eq(0)').text('不编辑了，立刻发布');
   });
   </script>
 </body>
