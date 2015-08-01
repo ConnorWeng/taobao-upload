@@ -257,7 +257,7 @@ class Util {
             $finalPrice = $rawPrice * (floatval(mb_substr($seePrice, 0, mb_strlen($seePrice, 'utf-8') - 1, 'utf-8')) / 10);
         }
         if (is_numeric($finalPrice)) {
-            return $finalPrice;
+            return floatval(sprintf("%0.2f", $finalPrice));
         } else {
             return $price;
         }
