@@ -600,8 +600,10 @@ class OpenAPI {
         $resp = $c->execute($req, $sessionKey);
         if (isset($resp->code)) {
             Log::write('sync_back_error:'.json_encode($resp).' tid:'.$tid.' outSid:'.$outSid.' companyCode:'.$companyCode.' sessionKey:'.$sessionKey, Log::ERR);
+            return $resp;
+        } else {
+            return $resp->shipping;
         }
-        return $resp->shipping;
     }
 
     public static function dumpTaobaoApiError($apiName, $resp) {
