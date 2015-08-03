@@ -502,6 +502,7 @@ class OpenAPI {
         if (isset($resp->trades) || ''.$resp->total_results == '0') {
             return $resp->trades;
         } else {
+            self::dumpTaobaoApiError('getTradesSold', $resp);
             return $resp->msg.$resp->sub_msg;
         }
     }
