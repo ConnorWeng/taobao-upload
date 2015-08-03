@@ -572,7 +572,12 @@ class OpenAPI {
         $req = new TmcUserPermitRequest;
         $req->setTopics('taobao_item_ItemAdd,taobao_item_ItemUpshelf,taobao_item_ItemDownshelf,taobao_item_ItemDelete,taobao_item_ItemUpdate');
         $resp = $c->execute($req, $sessionKey);
-        return $resp->is_success;
+        if (isset($resp->code)) {
+            self::dumpTaobaoApiError('permitTaobaoTmc', $resp);
+            return $resp;
+        } else {
+            return $resp->is_success;
+        }
     }
 
     public static function getTaobaoLogisticsCompanies() {
