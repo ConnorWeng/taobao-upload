@@ -4,7 +4,7 @@ import('@.Util.Util');
 
 class ApiAction extends CommonAction {
     public function getTradesSold() {
-        $trades = OpenAPI::getTradesSold(I('appKey'), I('secretKey'), I('sessionKey'));
+        $trades = OpenAPI::getTradesSold(I('sessionKey'));
         $this->ajaxReturn($trades);
     }
 
