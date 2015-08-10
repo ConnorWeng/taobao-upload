@@ -580,6 +580,21 @@ class OpenAPI {
         }
     }
 
+    public static function cancelTaobaoTmc($nick) {
+        $c = new TopClient;
+        $c->appkey = C('taobao_app_key');
+        $c->secretKey = C('taobao_secret_key');
+        $req = new TmcUserCancelRequest;
+        $req->setNick($nick);
+        $resp = $c->execute($req, null);
+        if (isset($resp->code)) {
+            self::dumpTaobaoApiError('cancelTaobaoTmc', $resp);
+            return $resp;
+        } else {
+            return $resp->is_success;
+        }
+    }
+
     public static function getTaobaoLogisticsCompanies() {
         $c = new TopClient;
         $c->appkey = C('taobao_app_key');

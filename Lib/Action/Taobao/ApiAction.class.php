@@ -43,6 +43,12 @@ class ApiAction extends CommonAction {
         $this->ajaxReturn($isSuccess);
     }
 
+    public function cancelTaobaoTmc() {
+        $nick = urldecode(I('nick'));
+        $resp = OpenAPI::cancelTaobaoTmc($nick);
+        $this->ajaxReturn($resp);
+    }
+
     public function getTaobaoLogisticsCompanies() {
         $this->ajaxReturn(OpenAPI::getTaobaoLogisticsCompanies());
     }
