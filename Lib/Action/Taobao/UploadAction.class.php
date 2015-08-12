@@ -43,7 +43,7 @@ class UploadAction extends CommonAction {
         $price = Util::makePrice($taobaoItem->price, $storeInfo['see_price'], $taobaoItem->title);
         $caculatedPrice = $this->caculatePrice($price, $userdata['profit0'], $userdata['profit']);
         $outerId = $this->makeOuterId($taobaoItem->title, $taobaoItem->price, $storeInfo, $taobaoItem->props_name);
-        $isUploadedBefore = $this->makeIsUploadedBefore($outerId);
+        $isUploadedBefore = false; // $this->makeIsUploadedBefore($outerId);
         $propImgs = urlencode($this->makePropImgs($taobaoItem->prop_imgs->prop_img));
         $deliveryTemplateHtml = $this->makeDeliveryTemplateHtml($deliveryTemplates, $userdata['usePostModu']);
         $sellerCatsHtml = $this->makeSellerCatsHtml($cname);
