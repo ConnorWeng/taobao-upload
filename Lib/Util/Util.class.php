@@ -234,6 +234,11 @@ class Util {
 
     public static function makePrice($price, $seePrice, $title = null) {
         $rawPrice = floatval($price);
+        return floatval(sprintf("%0.2f", $rawPrice));
+    }
+
+    public static function makePriceOld($price, $seePrice, $title = null) {
+        $rawPrice = floatval($price);
         $finalPrice = $rawPrice;
         if (strpos($seePrice, '减半') !== false) {
             $finalPrice = $rawPrice / 2;
