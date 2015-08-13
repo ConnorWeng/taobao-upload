@@ -14,14 +14,15 @@ class UploadAction extends CommonAction {
         header("Content-type:text/html;charset=utf-8");
         $taobaoItemId = session('current_taobao_item_id');
         $nick = session('taobao_user_nick');
-        $isCurrentTaobaoItemIdInSession = $this->isCurrentTaobaoItemIdInSession();
+        $isCurrentTaobaoItemIdInSession = false;
+        // $isCurrentTaobaoItemIdInSession = $this->isCurrentTaobaoItemIdInSession();
 
-        if ($isCurrentTaobaoItemIdInSession && I('continue') == '') {
-            $this->assign(array('isCurrentTaobaoItemIdInSession' => $isCurrentTaobaoItemIdInSession));
-            return $this->display();
-        } else {
-            $isCurrentTaobaoItemIdInSession = false;
-        }
+        // if ($isCurrentTaobaoItemIdInSession && I('continue') == '') {
+        //     $this->assign(array('isCurrentTaobaoItemIdInSession' => $isCurrentTaobaoItemIdInSession));
+        //     return $this->display();
+        // } else {
+        //     $isCurrentTaobaoItemIdInSession = false;
+        // }
 
         if (session('?current_goods_id')) {
             $taobaoItem = OpenAPI::getTaobaoItemFromDatabase(session('current_goods_id'));
