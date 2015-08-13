@@ -60,7 +60,7 @@ class UploadAction extends CommonAction {
             'rawPrice' => $price,
             'desc' => $taobaoItem->desc,
             'cid' => $taobaoItem->cid,
-            'picUrl' => $taobaoItem->pic_url,
+            'picUrl' => $images[0],
             'image0' => $images[1],
             'image1' => $images[2],
             'image2' => $images[3],
