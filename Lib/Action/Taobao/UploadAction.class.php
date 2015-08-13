@@ -48,7 +48,7 @@ class UploadAction extends CommonAction {
         $deliveryTemplateHtml = $this->makeDeliveryTemplateHtml($deliveryTemplates, $userdata['usePostModu']);
         $sellerCatsHtml = $this->makeSellerCatsHtml($cname);
         $movePic = $this->makeMovePic($taobaoItem->desc);
-        $isDelist = $this->makeIsDelist($taobaoItem->delist_time);
+        $isDelist = false; //$this->makeIsDelist($taobaoItem->delist_time);
         $isSubscribe = $this->isSubscribe();
         $storeSession = new StoreSession(null, null);
         $this->assign(array(
