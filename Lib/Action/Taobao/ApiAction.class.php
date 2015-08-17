@@ -4,8 +4,16 @@ import('@.Util.Util');
 
 class ApiAction extends CommonAction {
     public function getTradesSold() {
-        $trades = OpenAPI::getTradesSold(I('sessionKey'));
-        $this->ajaxReturn($trades);
+        Util::changeDatabase(I('db'));
+        $userId = I('user_id');
+        $memberAuth = M('MemberAuth');
+        $authInfo = $memberAuth->find('user_id=' + $userId);
+        if ($authInfo['access_token']) {
+            $trades = OpenAPI::getTradesSold($authInfo['access_token']);
+            $this->ajaxReturn($trades);
+        } else {
+            $this->ajaxReturn('{}');
+        }
     }
 
     public function makePropsHtml() {
