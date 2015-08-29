@@ -185,6 +185,10 @@ class UploadAction extends CommonAction {
         $itemUrls = '';
         $error = false;
         if (isset($numIid)) {
+            if (I('descForMobile') == 'on') {
+                $xmlData = $this->makeDescForMobileXmlData($this->parseDescImages($desc));
+                OpenAPI::updateItemSchema($numIid, $xmlData, session('taobao_access_token'));
+            }
             $result = session('taobao_user_nick').'发布成功！<br/>';
             $itemUrl = 'http://item.taobao.com/item.htm?spm=686.1000925.1000774.13.Odmgnd&id='.$numIid;
             $itemUrls = '<li><a href="'.$itemUrl.'">查看'.session('taobao_user_nick').'中的宝贝</a></li>';
@@ -921,5 +925,14 @@ class UploadAction extends CommonAction {
             }
         }
         return false;
+    }
+
+    private function makeDescForMobileXmlData($images) {
+        $xml = '<?xml version="1.0" encoding="utf-8"?><itemRule><field id="descForMobile" name="宝贝无线端描述" type="complex"><complex-values><field id="content" type="multiComplex">';
+        for ($i = 0; $i < 10 && $i < count($images); $i++) {
+            $xml .= '<complex-values><field id="value" type="input"><value>'.$images[$i].'</value></field><field id="type" type="singleCheck"><value>image</value></field></complex-values>';
+        }
+        $xml .= '</field></complex-values></field><field id="update_fields" name="更新字段列表" type="multiCheck"><values><value>descForMobile</value></values></field></itemRule>';
+        return $xml;
     }
 }

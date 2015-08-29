@@ -79,19 +79,6 @@ class ApiAction extends CommonAction {
         }
     }
 
-    public function updateItemSchema() {
-        Util::changeDatabase(I('db'));
-        $userId = I('user_id');
-        $memberAuth = M('MemberAuth');
-        $authInfo = $memberAuth->find('user_id=' + $userId);
-        if ($authInfo['access_token']) {
-            $result = OpenAPI::updateItemSchema(I('item_id'), I('xml_data'), $authInfo['access_token']);
-            $this->ajaxReturn($result);
-        } else {
-            $this->ajaxReturn('{}');
-        }
-    }
-
     private function propsNameWithoutNameAndValue($propsName) {
         $new = '';
         $propsNameAttr = explode(';', $propsName);

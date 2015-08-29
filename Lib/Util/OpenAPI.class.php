@@ -640,14 +640,12 @@ class OpenAPI {
     }
 
     public static function updateItemSchema($itemId, $xmlData, $sessionKey) {
-        $c = new TopClient;
-        $c->appkey = C('taobao_app_key');
-        $c->secretKey = C('taobao_secret_key');
+        $c = self::initTopClient();
         $req = new ItemSchemaIncrementUpdateRequest;
         $req->setItemId($itemId);
         $req->setParameters($xmlData);
         $resp = $c->execute($req, $sessionKey);
-        if (!isset($resp->update_result)) {
+        if (isset($resp->code)) {
             Log::write('updateItemSchema error:'.json_encode($resp).' itemId:'.$itemId.' xmlData:'.$xmlData.' sessionKey:'.$sessionKey, Log::ERR);
         }
         return $resp;
