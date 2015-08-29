@@ -639,6 +639,20 @@ class OpenAPI {
         return $resp;
     }
 
+    public static function updateItemSchema($itemId, $xmlData, $sessionKey) {
+        $c = new TopClient;
+        $c->appkey = C('taobao_app_key');
+        $c->secretKey = C('taobao_secret_key');
+        $req = new ItemSchemaIncrementUpdateRequest;
+        $req->setItemId($itemId);
+        $req->setParameters($xmlData);
+        $resp = $c->execute($req, $sessionKey);
+        if (!isset($resp->update_result)) {
+            Log::write('updateItemSchema error:'.json_encode($resp).' itemId:'.$itemId.' xmlData:'.$xmlData.' sessionKey:'.$sessionKey, Log::ERR);
+        }
+        return $resp;
+    }
+
     public static function dumpTaobaoApiError($apiName, $resp) {
         $appKey = session('taobao_app_key');
         $appSecret = session('taobao_secret_key');
