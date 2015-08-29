@@ -626,6 +626,19 @@ class OpenAPI {
         }
     }
 
+    public static function getItemIncrementUpdateSchema($itemId, $sessionKey) {
+        $c = new TopClient;
+        $c->appkey = C('taobao_app_key');
+        $c->secretKey = C('taobao_secret_key');
+        $req = new ItemIncrementUpdateSchemaGetRequest;
+        $req->setItemId($itemId);
+        $resp = $c->execute($req, $sessionKey);
+        if (!isset($resp->update_rules)) {
+            Log::write('getItemIncrementUpdateSchema error:'.json_encode($resp).' itemId:'.$itemId.' sessionKey:'.$sessionKey, Log::ERR);
+        }
+        return $resp;
+    }
+
     public static function dumpTaobaoApiError($apiName, $resp) {
         $appKey = session('taobao_app_key');
         $appSecret = session('taobao_secret_key');

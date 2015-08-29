@@ -66,6 +66,19 @@ class ApiAction extends CommonAction {
         $this->ajaxReturn($shipping);
     }
 
+    public function getItemIncrementUpdateSchema() {
+        Util::changeDatabase(I('db'));
+        $userId = I('user_id');
+        $memberAuth = M('MemberAuth');
+        $authInfo = $memberAuth->find('user_id=' + $userId);
+        if ($authInfo['access_token']) {
+            $updateItemSchema = OpenAPI::getItemIncrementUpdateSchema(I('item_id'), $authInfo['access_token']);
+            $this->ajaxReturn($updateItemSchema);
+        } else {
+            $this->ajaxReturn('{}');
+        }
+    }
+
     private function propsNameWithoutNameAndValue($propsName) {
         $new = '';
         $propsNameAttr = explode(';', $propsName);
