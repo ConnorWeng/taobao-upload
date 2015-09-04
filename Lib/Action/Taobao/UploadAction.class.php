@@ -731,9 +731,8 @@ class UploadAction extends CommonAction {
     }
 
     private function parseDescImages($desc) {
-        $cleanDesc = str_replace('<img src="">', '', $desc);
-        $pattern="/(https?:\/\/\w+\.\w+\.com[-\w!\/.]+\.(jpg|png|gif|bmp|webp|jpeg))/Ui";
-        preg_match_all($pattern, $cleanDesc, $matches);
+        $pattern = "/(https?:\/\/\w+\.\w+\.com[-\w!\/.]+\.(jpg|png|gif|bmp|webp|jpeg))/Ui";
+        preg_match_all($pattern, $desc, $matches);
         return $matches[1];
     }
 
@@ -831,11 +830,11 @@ class UploadAction extends CommonAction {
     }
 
     private function makeMovePic($desc) {
-        $pattern="/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.GIF|\.jpg|\.JPG]))[\'|\"].*?[\/]?>/";
+        $pattern = "/(https?:\/\/\w+\.\w+\.com[-\w!\/.]+\.(jpg|png|gif|bmp|webp|jpeg))/Ui";
         preg_match_all($pattern, $desc, $matches);
-        $picNum = count($matches[0]);
+        $picNum = count($matches[1]);
         $check = '';
-        for($i=0;$i< $picNum ;$i++) {
+        for ($i=0; $i< $picNum; $i++) {
             $picUrl = $matches[1][$i];
             if (strpos($picUrl, "!!") !== false || strpos($picUrl, "taobaocdn") == false) {
                 $check = 'checked';
