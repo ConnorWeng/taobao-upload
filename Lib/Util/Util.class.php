@@ -318,6 +318,10 @@ class Util {
             return -1;
         }
     }
+
+    public static function getImageExt($imgUrl) {
+        return substr($imgUrl, strrpos($imgUrl, '.') + 1);
+    }
 }
 
 ?>

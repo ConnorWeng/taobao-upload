@@ -186,7 +186,7 @@ class UploadAction extends CommonAction {
         $error = false;
         if (isset($numIid)) {
             if (I('descForMobile') == 'on') {
-                $xmlData = $this->makeDescForMobileXmlData($this->parseDescImages($desc));
+                $xmlData = $this->makeDescForMobileXmlData($this->makeDescImages($this->parseDescImages($desc), I('pcid')));
                 OpenAPI::updateItemSchema($numIid, $xmlData, session('taobao_access_token'));
             }
             $result = session('taobao_user_nick').'发布成功！<br/>';
@@ -926,10 +926,49 @@ class UploadAction extends CommonAction {
         return false;
     }
 
+    private function makeDescImages($descImages, $pictureCategoryId) {
+        $images = array();
+        for ($i = 0; $i < 6 && $i < count($descImages); $i++) {
+            $descImage = $descImages[$i].'_620x10000.'.Util::getImageExt($descImages[$i]);
+            $picture = $descImage;
+            $imageTitle = substr($descImage, strrpos($descImage, '/') + 1);
+            $imagePath = Util::downloadImage($descImage, false);
+            $size = getimagesize($imagePath);
+            $width = $size[0];
+            $height = $size[1];
+            $mime = $size['mime'];
+            if ($height > 960) {
+                switch ($mime) {
+                    case 'image/gif':
+                        $sourceImage = imagecreatefromgif($imagePath);
+                        break;
+                    case 'image/jpeg':
+                        $sourceImage = imagecreatefromjpeg($imagePath);
+                        break;
+                    case 'image/png':
+                        $sourceImage = imagecreatefrompng($imagePath);
+                        break;
+                }
+                $croppedImage = imagecreatetruecolor(620, 960);
+                imagecopy($croppedImage, $sourceImage, 0, 0, 0, 0, 620, 960);
+                $tmpFile = APP_PATH.'Upload/'.uniqid().'.jpg';
+                imagejpeg($croppedImage, $tmpFile);
+                $taobaoPicture = OpenAPI::uploadTaobaoPicture($pictureCategoryId, $tmpFile, $imageTitle);
+                if ($taobaoPicture) {
+                    $picture = $taobaoPicture->picture_path;
+                }
+                unlink($tmpFile);
+            }
+            unlink($imagePath);
+            array_push($images, $picture);
+        }
+        return $images;
+    }
+
     private function makeDescForMobileXmlData($images) {
         $xml = '<?xml version="1.0" encoding="utf-8"?><itemRule><field id="descForMobile" name="宝贝无线端描述" type="complex"><complex-values><field id="content" type="multiComplex">';
         for ($i = 0; $i < 10 && $i < count($images); $i++) {
-            $xml .= '<complex-values><field id="value" type="input"><value>'.$images[$i].'_290x10000.jpg</value></field><field id="type" type="singleCheck"><value>image</value></field></complex-values>';
+            $xml .= '<complex-values><field id="value" type="input"><value>'.$images[$i].'</value></field><field id="type" type="singleCheck"><value>image</value></field></complex-values>';
         }
         $xml .= '</field></complex-values></field><field id="update_fields" name="更新字段列表" type="multiCheck"><values><value>descForMobile</value></values></field></itemRule>';
         return $xml;

@@ -159,6 +159,7 @@
       <a href="http://www.51zwd.com/shop/13778" target="_blank"><img src="Public/Image/2.jpg"></img></a>
     </div>
     <form id="mainform" action="{:U('Taobao/Upload/uploadItem')}" method="POST">
+      <input type="hidden" name="pcid" id="pcid" value="{$pcid}"/>
       <input type="hidden" name="itemImages" id="itemImages" value=""/>
       <input type="hidden" name="taobaoItemId" value="{$taobaoItemId}"/>
       <input type="hidden" name="cid" id="cid" value="{$cid}"/>
