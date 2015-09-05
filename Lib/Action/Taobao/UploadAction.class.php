@@ -928,7 +928,7 @@ class UploadAction extends CommonAction {
 
     private function makeDescImages($descImages, $pictureCategoryId) {
         $images = array();
-        for ($i = 0; $i < 6 && $i < count($descImages); $i++) {
+        for ($i = 0; $i <= 10 && $i < count($descImages); $i++) {
             $descImage = $descImages[$i].'_620x10000.'.Util::getImageExt($descImages[$i]);
             $picture = $descImage;
             $imageTitle = substr($descImage, strrpos($descImage, '/') + 1);
