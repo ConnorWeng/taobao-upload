@@ -542,6 +542,9 @@ class OpenAPI {
             return $resp->picture_categories;
         } else {
             self::dumpTaobaoApiError('getTaobaoPictureCategory', $resp);
+            if ($resp->code == '28') {
+                return 'timeout';
+            }
         }
     }
 
