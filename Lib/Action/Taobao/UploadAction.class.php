@@ -515,7 +515,7 @@ class UploadAction extends CommonAction {
         $count = count($props->item_prop);
         for ($i = 0; $i < $count; $i++) {
             $prop = $props->item_prop[$i];
-            if ($this->isSaleProp($prop) && (''.$prop->name == '尺码' || ''.$prop->name == '尺寸')) {
+            if ($this->isSaleProp($prop) && (''.$prop->name == '尺码' || ''.$prop->name == '尺寸' || ''.$prop->name == '参考身高')) {
                 $valueCount = count($prop->prop_values->prop_value);
                 for ($j = 0; $j < $valueCount; $j++) {
                     $value = $prop->prop_values->prop_value[$j];
