@@ -5,14 +5,15 @@ import('@.Util.Util');
 class ApiAction extends CommonAction {
     public function getTradesSold() {
         Util::changeDatabase(I('db'));
+        $pageNo = intval(I('page_no'));
         $userId = I('user_id');
         $memberAuth = M('MemberAuth');
         $authInfo = $memberAuth->find('user_id=' + $userId);
         if ($authInfo['access_token']) {
-            $trades = OpenAPI::getTradesSold($authInfo['access_token']);
+            $trades = OpenAPI::getTradesSold($authInfo['access_token'], $pageNo);
             $this->ajaxReturn($trades);
         } else {
-            $this->ajaxReturn('{}');
+            $this->ajaxReturn('{"code": "5101", "msg": "no access token"}');
         }
     }
 

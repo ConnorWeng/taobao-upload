@@ -490,7 +490,7 @@ class OpenAPI {
         }
     }
 
-    public static function getTradesSold($sessionKey) {
+    public static function getTradesSold($sessionKey, $pageNo) {
         $c = new TopClient;
         $c->appkey = C('taobao_app_key');
         $c->secretKey = C('taobao_secret_key');
@@ -498,13 +498,12 @@ class OpenAPI {
         $req->setFields("tid,buyer_nick,buyer_email,receiver_name,receiver_state,receiver_city,receiver_district,receiver_mobile,receiver_phone,price,total_fee,discount_fee,created,buyer_area,receiver_address,orders.title,orders.num_iid,orders.pic_path,orders.num,orders.price,orders.sku_id,orders.outer_iid,orders.sku_properties_name,post_fee,pay_time,consign_time,send_time,end_time,receiver_zip,shipping_type,payment");
         $req->setStatus('WAIT_SELLER_SEND_GOODS');
         $req->setPageSize(100);
+        $req->setPageNo($pageNo);
         $resp = $c->execute($req, $sessionKey);
-        if (isset($resp->trades) || ''.$resp->total_results == '0') {
-            return $resp->trades;
-        } else {
-            self::dumpTaobaoApiError('getTradesSold', $resp);
-            return $resp->msg.$resp->sub_msg;
+        if (!isset($resp->trades) && !isset($resp->total_results)) {
+            self::dumpTaobaoApiError('getTradesSold', $resp, false);
         }
+        return $resp;
     }
 
     public static function addTaobaoPictureCategory($pictureCategoryName, $parentId) {
@@ -654,7 +653,7 @@ class OpenAPI {
         return $resp;
     }
 
-    public static function dumpTaobaoApiError($apiName, $resp) {
+    public static function dumpTaobaoApiError($apiName, $resp, $dump = true) {
         $appKey = session('taobao_app_key');
         $appSecret = session('taobao_secret_key');
         $sessionKey = session('taobao_access_token');
@@ -672,7 +671,7 @@ class OpenAPI {
             $taoapi = D('Taoapi');
             $taoapi->appKeyFail(session('current_taobao_app_key_id'));
             self::authWithNewAppKey();
-        } else {
+        } else if ($dump) {
             echo('<h6 style="color:red;">'.$apiName.' error:'.$resp->msg.$resp->sub_msg.'</h6>');
             dump($resp);
         }
