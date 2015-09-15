@@ -495,7 +495,7 @@ class OpenAPI {
         $c->appkey = C('taobao_app_key');
         $c->secretKey = C('taobao_secret_key');
         $req = new TradesSoldGetRequest;
-        $req->setFields("tid,buyer_nick,buyer_email,receiver_name,receiver_state,receiver_city,receiver_district,receiver_mobile,receiver_phone,price,total_fee,discount_fee,created,buyer_area,receiver_address,orders.title,orders.num_iid,orders.pic_path,orders.num,orders.price,orders.sku_id,orders.outer_iid,orders.sku_properties_name,post_fee,pay_time,consign_time,send_time,end_time,receiver_zip,shipping_type,payment");
+        $req->setFields("tid,buyer_nick,buyer_email,receiver_name,receiver_state,receiver_city,receiver_district,receiver_town,receiver_mobile,receiver_phone,price,total_fee,discount_fee,created,buyer_area,receiver_address,orders.title,orders.num_iid,orders.pic_path,orders.num,orders.price,orders.sku_id,orders.outer_iid,orders.sku_properties_name,post_fee,pay_time,consign_time,send_time,end_time,receiver_zip,shipping_type,payment");
         $req->setStatus('WAIT_SELLER_SEND_GOODS');
         $req->setPageSize(100);
         $req->setPageNo($pageNo);
