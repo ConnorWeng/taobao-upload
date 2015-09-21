@@ -937,7 +937,7 @@ class UploadAction extends CommonAction {
             $width = $size[0];
             $height = $size[1];
             $mime = $size['mime'];
-            if ($height > 960) {
+            if ($height > 790) {
                 switch ($mime) {
                     case 'image/gif':
                         $sourceImage = imagecreatefromgif($imagePath);
@@ -949,8 +949,8 @@ class UploadAction extends CommonAction {
                         $sourceImage = imagecreatefrompng($imagePath);
                         break;
                 }
-                $croppedImage = imagecreatetruecolor(620, 960);
-                imagecopy($croppedImage, $sourceImage, 0, 0, 0, 0, 620, 960);
+                $croppedImage = imagecreatetruecolor(620, 790);
+                imagecopy($croppedImage, $sourceImage, 0, 0, 0, 0, 620, 790);
                 $tmpFile = APP_PATH.'Upload/'.uniqid().'.jpg';
                 imagejpeg($croppedImage, $tmpFile);
                 $taobaoPicture = OpenAPI::uploadTaobaoPicture($pictureCategoryId, $tmpFile, $imageTitle);
