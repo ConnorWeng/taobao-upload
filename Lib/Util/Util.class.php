@@ -169,10 +169,10 @@ class Util {
                 C('DB_PWD', 'q4r5c8C4');
                 break;
             case 'dg':
-                C('DB_NAME', 'wangpi51_dg');
-                C('DB_HOST', 'rdsqr7ne2m2ifjm.mysql.rds.aliyuncs.com');
-                C('DB_USER', 'wangpicn');
-                C('DB_PWD', 'wangpicn123456');
+                C('DB_NAME', 'dg51');
+                C('DB_HOST', 'rdsj2mmznj2mmzn.mysql.rds.aliyuncs.com');
+                C('DB_USER', 'nc51');
+                C('DB_PWD', 'nc51123456');
                 break;
             case 'cs':
                 C('DB_NAME', 'wangpi51_cs');
