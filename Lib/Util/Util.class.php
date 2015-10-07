@@ -96,7 +96,7 @@ class Util {
     public static function changeTaoAppkey($taobaoItemId, $oldAppKey = null) {
         if (session('use_db') == 'catshome'
             || session('use_db') == 'catshomedemo'
-            || session('use_db') == 'ecmall'
+            || session('use_db') == 'mall'
             || session('use_db') == 'dg'
             || session('use_db') == 'cs'
             || session('use_db') == 'hz'
@@ -114,7 +114,7 @@ class Util {
     public static function changeAliAppkey($taobaoItemId, $oldAppKey = null) {
         if (session('use_db') == 'catshome'
             || session('use_db') == 'catshomedemo'
-            || session('use_db') == 'ecmall'
+            || session('use_db') == 'mall'
             || session('use_db') == 'dg'
             || session('use_db') == 'cs'
             || session('use_db') == 'hz'
@@ -153,7 +153,7 @@ class Util {
 
     public static function changeDatabase($db) {
         switch($db) {
-            case 'ecmall':
+            case 'mall':
                 C('DB_NAME', 'ecmall51_2');
                 break;
             case 'catshome':
