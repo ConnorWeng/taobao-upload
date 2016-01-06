@@ -126,9 +126,9 @@ class AlibabaOpenAPI {
             }
             $params = $params.$key.'='.$value.'&';
         }
-        $url = C('open_url').'/'.$api.'/'.session('alibaba_app_key').'?'.$params.'_aop_timestamp='.
-               $timestamp.'&access_token='.$accessToken.'&_aop_signature='.
-               Util::signDefault(C('open_url'), $api, array_merge($paramsArray, array('_aop_timestamp' => $timestamp, 'access_token' => $accessToken)));
+        $url = C('open_url').'/'.$api.'/'.session('alibaba_app_key').'?'.$params.
+               '&access_token='.$accessToken.'&_aop_signature='.
+               Util::signDefault(C('open_url'), $api, array_merge($paramsArray, array('access_token' => $accessToken)));
 
         return $url;
     }
@@ -169,9 +169,8 @@ class AlibabaOpenAPI {
     private static function makeShortUrl($api, $paramsArray) {
         $timestamp = time() * 1000;
         $accessToken = session('access_token');
-        $url = C('open_url').'/'.$api.'/'.session('alibaba_app_key').'?_aop_timestamp='.
-               $timestamp.'&access_token='.$accessToken.'&_aop_signature='.
-               Util::signDefault(C('open_url'), $api, array_merge($paramsArray, array('_aop_timestamp' => $timestamp, 'access_token' => $accessToken)));
+        $url = C('open_url').'/'.$api.'/'.session('alibaba_app_key').'?access_token='.$accessToken.'&_aop_signature='.
+               Util::signDefault(C('open_url'), $api, array_merge($paramsArray, array('access_token' => $accessToken)));
 
         return $url;
     }
