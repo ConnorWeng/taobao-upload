@@ -2182,6 +2182,11 @@ $(function () {
             if ($('#147614228').length > 0) {
                 $('<div class="err-div fd-clr"><span class="err">请填写</span></div><div class="pro-item fd-clr" id="pro-div-feature147612250" data-isspecpicattr="false"><div class="pro-t"><span class="icon-must">面料次要材质：</span></div><div class="pro-d"><em class="pro-form"><input type="text" name="feature147612250" id="147612250"></input></em><span class="pro-unit"></span></div></div>').insertAfter('#pro-div-feature147614228');
             }
+            // 解决单鞋类目下适用性别子属性风格和流行元素的问题
+            if ($('#2600').length > 0) {
+                $('<div class="err-div fd-clr"><span class="err">请填写</span></div><div class="pro-item fd-clr" id="pro-div-feature8614" data-isspecpicattr="false"><div class="pro-t"><span class="icon-must">流行元素：</span></div><div class="pro-d"><em class="pro-form"><input type="text" name="feature8614" id="8614"></input></em><span class="pro-unit"></span></div></div>').insertAfter('#pro-div-feature2600');
+                $('<div class="err-div fd-clr"><span class="err">请填写</span></div><div class="pro-item fd-clr" id="pro-div-feature973" data-isspecpicattr="false"><div class="pro-t"><span class="icon-must">风格：</span></div><div class="pro-d"><em class="pro-form"><input type="text" name="feature973" id="973"></input></em><span class="pro-unit"></span></div></div>').insertAfter('#pro-div-feature2600');
+            }
         }
     });
 
