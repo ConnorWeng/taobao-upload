@@ -469,7 +469,7 @@ class UploadAction extends CommonAction {
                     for ($j = 0; $j < $valueCount; $j++) {
                         $value = $prop->prop_values->prop_value[$j];
                         $optionValue = $prop->pid.':'.$value->vid;
-                        if (strpos($propsName, $optionValue) !== false || ($j == $valueCount - 1 && !$hasSelected && ''.$prop->must == 'true')) {
+                        if (strpos($propsName, trim($value->name)) !== false || strpos($propsName, $optionValue) !== false || ($j == $valueCount - 1 && !$hasSelected && ''.$prop->must == 'true')) {
                             $selected = 'selected';
                             $hasSelected = true;
                         } else {
