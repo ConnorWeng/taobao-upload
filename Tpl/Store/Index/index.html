@@ -1,6 +1,6 @@
 <html ng-app="storeApp">
 <head>
-<title>vvic店铺调整</title>
+<title>17zwd店铺调整</title>
 <script type="text/javascript" src="http://cdn.staticfile.org/angular.js/1.2.0rc3/angular.js"></script>
 <style>
 td {
@@ -43,9 +43,9 @@ td {
   </tr>
   </table>
 </div>
-<h1>vvic店铺调整</h1>
+<h1>17zwd店铺调整</h1>
 <button ng-click="findDiff()">查询差异</button>
-<button ng-click="findUnused()">查询vvic中不存在的店铺</button>
+<button ng-click="findUnused()">查询17zwd中不存在的店铺</button>
 <div>
 <h3>{{operationName}}</h3>
 <table cellpadding="0" cellspacing="0">
@@ -69,7 +69,7 @@ td {
         <span ng-show="{{store.update}}">(<a style="color:blue" href="#" ng-click="query({{store.store_id}})">查询</a>)</span>
         <a style="color:red" href="#" ng-click="operate({{store.store_id}}, '新增')" ng-hide="{{store.update}}">新增</a>
       </span>
-      <a href="#" ng-click="operate({{store.store_id}}, '删除')" ng-show="{{deleting}}">删除</a>
+      <a href="#" ng-click="operate({{store.store_id}}, '删除')" ng-show="{{deleting}}">关闭</a>
     </td>
     <td>{{store.shop_mall}}</td>
     <td>{{store.floor}}</td>
@@ -89,30 +89,31 @@ var storeAppModule = angular.module('storeApp', []);
 storeAppModule.controller('StoreController', function StoreController($scope, $http) {
     $scope.findDiff = function () {
         $scope.deleting = false;
-        $scope.operationName = '需手工审核的店铺(vvic的数据)';
+        $scope.operationName = '需手工审核的店铺(17zwd的数据)';
         $scope.stores = [];
         $http.get("{:U('Store/Index/findDiff')}").success(function (data, status, headers, config) {
             if (status === 200) {
-                $http.get("{:U('Store/Index/findUpdate')}").success(function (data2, status2, headers2, config2) {
-                    if (status2 === 200) {
-                        for (var i = 0; i < data.length; i++) {
-                            for (var j = 0; j < data2.length; j++) {
-                                if (data[i].store_id === data2[j].store_id) {
-                                    data[i]['update'] = true;
-                                    break;
-                                }
-                            }
-                        }
-                        $scope.stores = data;
-                    }
-                });
+                /* $http.get("{:U('Store/Index/findUpdate')}").success(function (data2, status2, headers2, config2) {
+                   if (status2 === 200) {
+                   for (var i = 0; i < data.length; i++) {
+                   for (var j = 0; j < data2.length; j++) {
+                   if (data[i].store_id === data2[j].store_id) {
+                   data[i]['update'] = true;
+                   break;
+                   }
+                   }
+                   }
+                   $scope.stores = data;
+                   }
+                   }); */
+                $scope.stores = data;
             }
         });
     };
 
     $scope.findUnused = function () {
         $scope.deleting = true;
-        $scope.operationName = 'vvic中不存在的店铺';
+        $scope.operationName = '17zwd中不存在的店铺';
         $scope.stores = [];
         $scope.queryStore = {};
         $http.get("{:U('Store/Index/findUnused')}").success(function (data, status, headers, config) {
