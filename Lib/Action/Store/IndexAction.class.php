@@ -62,6 +62,8 @@ class IndexAction extends Action {
         $shopHttp = $rs[0]['shop_http'];
         $floor = $rs[0]['floor'];
         $rs2 = $store17zwd->execute("update ecm_store s set s.see_price = '{$seePrice}', s.shop_mall = '{$shopMall}', s.store_name = '{$storeName}', s.tel = '{$tel}', s.im_qq = '{$imQq}', s.shop_http = '{$shopHttp}', s.floor = '{$floor}', s.address = '{$address}', s.dangkou_address = '{$address}', s.state = 1 where s.im_ww = '{$imWw}'");
+        $nextStoreId = intval($storeId) + 1;
+        $store17zwd->execute("call build_outer_iid({$storeId}, {$nextStoreId})");
         $this->ajaxReturn($rs2);
     }
 
