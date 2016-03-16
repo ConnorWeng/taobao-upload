@@ -44,7 +44,9 @@ td {
   </table>
 </div>
 <h1>17zwd店铺调整</h1>
-<button ng-click="findDiff()">查询差异</button>
+<p>点击以下任一按钮可能需要等待1分钟</p>
+<button ng-click="findDiff()">查询需新增的店铺</button>
+<button ng-click="findUpdate()">查询需更新的店铺</button>
 <button ng-click="findUnused()">查询17zwd中不存在的店铺</button>
 <div>
 <h3>{{operationName}}</h3>
@@ -89,27 +91,28 @@ var storeAppModule = angular.module('storeApp', []);
 storeAppModule.controller('StoreController', function StoreController($scope, $http) {
     $scope.findDiff = function () {
         $scope.deleting = false;
-        $scope.operationName = '需手工审核的店铺(17zwd的数据)';
+        $scope.operationName = '需新增的店铺(17zwd的数据)';
         $scope.stores = [];
         $http.get("{:U('Store/Index/findDiff')}").success(function (data, status, headers, config) {
             if (status === 200) {
-                /* $http.get("{:U('Store/Index/findUpdate')}").success(function (data2, status2, headers2, config2) {
-                   if (status2 === 200) {
-                   for (var i = 0; i < data.length; i++) {
-                   for (var j = 0; j < data2.length; j++) {
-                   if (data[i].store_id === data2[j].store_id) {
-                   data[i]['update'] = true;
-                   break;
-                   }
-                   }
-                   }
-                   $scope.stores = data;
-                   }
-                   }); */
                 $scope.stores = data;
             }
         });
     };
+
+    $scope.findUpdate = function () {
+        $scope.deleting = false;
+        $scope.operationName = '需更新的店铺(17zwd的数据)';
+        $scope.stores = [];
+        $http.get("{:U('Store/Index/findUpdate')}").success(function (data, status, headers, config) {
+            if (status === 200) {
+                for (var i = 0; i < data.length; i++) {
+                    data[i]['update'] = true;
+                }
+                $scope.stores = data;
+            }
+        });
+    }
 
     $scope.findUnused = function () {
         $scope.deleting = true;
