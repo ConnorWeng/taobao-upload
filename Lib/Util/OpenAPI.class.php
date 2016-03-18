@@ -468,7 +468,7 @@ class OpenAPI {
         $req = new SellercatsListGetRequest;
         $req->setNick($nick);
         $resp = $c->execute($req);
-        if (isset($resp->seller_cats) || count($resp) == 0) {
+        if (isset($resp->seller_cats) || count($resp) == 0 || count($resp) == 1) {
             return $resp->seller_cats;
         } else {
             self::dumpTaobaoApiError('getTaobaoSellercatsList', $resp);
