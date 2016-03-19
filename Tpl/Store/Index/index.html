@@ -44,7 +44,7 @@ td {
   </table>
 </div>
 <h1>17zwd店铺调整</h1>
-<p>点击以下任一按钮可能需要等待1分钟</p>
+<p>点击以下任一按钮可能需要等待半分钟，并且只显示<span style="color: red">1000条结果</span>，处理完1000条重新点击查询即可处理后1000条，直至完成</p>
 <button ng-click="findDiff()">查询需新增的店铺</button>
 <button ng-click="findUpdate()">查询需更新的店铺</button>
 <button ng-click="findUnused()">查询17zwd中不存在的店铺</button>
@@ -72,6 +72,7 @@ td {
         <a style="color:red" href="#" ng-click="operate({{store.store_id}}, '新增')" ng-hide="{{store.update}}">新增</a>
       </span>
       <a href="#" ng-click="operate({{store.store_id}}, '删除')" ng-show="{{deleting}}">关闭</a>
+      <a href="#" ng-click="operate({{store.store_id}}, '保留')" ng-show="{{deleting}}">保留</a>
     </td>
     <td>{{store.shop_mall}}</td>
     <td>{{store.floor}}</td>
@@ -143,6 +144,9 @@ storeAppModule.controller('StoreController', function StoreController($scope, $h
         }
         if (operation === '删除') {
             url = "{:U('Store/Index/deleteStore')}";
+        }
+        if (operation === '保留') {
+            url = "{:U('Store/Index/keepStore')}";
         }
         $http
             .post(url, null, {params: {'store_id': storeId}})

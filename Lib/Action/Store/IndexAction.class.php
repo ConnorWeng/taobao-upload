@@ -7,7 +7,7 @@ class IndexAction extends Action {
 
     public function findDiff() {
         $store17zwd = new Model();
-        $rs = $store17zwd->query("select store_id,shop_mall,floor,address,store_name,see_price,im_qq,im_ww,tel,shop_http from ecm_store_17zwd v where not exists (select * from ecm_store s where s.im_ww = v.im_ww)");
+        $rs = $store17zwd->query("select store_id,shop_mall,floor,address,store_name,see_price,im_qq,im_ww,tel,shop_http from ecm_store_17zwd v where not exists (select * from ecm_store s where s.im_ww = v.im_ww) limit 1000");
         $this->ajaxReturn($rs);
     }
 
@@ -19,7 +19,7 @@ class IndexAction extends Action {
 
     public function findUnused() {
         $store17zwd = new Model();
-        $rs = $store17zwd->query("select store_id, shop_mall, floor, address, store_name, see_price, im_qq, im_ww, tel, shop_http from ecm_store s where not exists (select 1 from ecm_store_17zwd v where s.im_ww = v.im_ww)");
+        $rs = $store17zwd->query("select store_id, shop_mall, floor, address, store_name, see_price, im_qq, im_ww, tel, shop_http from ecm_store s where not exists (select 1 from ecm_store_17zwd v where s.im_ww = v.im_ww) and (datapack is null or datapack != 'keep') limit 1000");
         $this->ajaxReturn($rs);
     }
 
@@ -69,8 +69,15 @@ class IndexAction extends Action {
 
     public function deleteStore() {
         $storeId = $_REQUEST['store_id'];
-        $store17zwd = new Model();
-        $rs = $store17zwd->execute("update ecm_store set state = 2, close_reason = 'according to 17zwd' where store_id = {$storeId}");
+        $storeModel = new Model();
+        $rs = $storeModel->execute("update ecm_store set state = 2, close_reason = 'according to 17zwd' where store_id = {$storeId}");
+        $this->ajaxReturn($rs);
+    }
+
+    public function keepStore() {
+        $storeId = $_REQUEST['store_id'];
+        $storeModel = new Model();
+        $rs = $storeModel->execute("update ecm_store set datapack = 'keep' where store_id = {$storeId}");
         $this->ajaxReturn($rs);
     }
 }
