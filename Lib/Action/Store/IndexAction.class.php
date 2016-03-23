@@ -7,19 +7,19 @@ class IndexAction extends Action {
 
     public function findDiff() {
         $store17zwd = new Model();
-        $rs = $store17zwd->query("select store_id,shop_mall,floor,address,store_name,see_price,im_qq,im_ww,tel,shop_http from ecm_store_17zwd v where not exists (select * from ecm_store s where s.im_ww = v.im_ww) limit 1000");
+        $rs = $store17zwd->query("select store_id,shop_mall,floor,address,store_name,see_price,im_qq,im_ww,tel,shop_http from ecm_store_17zwd v where not exists (select * from ecm_store s where s.im_ww = v.im_ww) order by shop_mall, floor limit 1000");
         $this->ajaxReturn($rs);
     }
 
     public function findUpdate() {
         $store17zwd = new Model();
-        $rs = $store17zwd->query("select distinct a.store_id,a.shop_mall,a.floor,a.address,a.store_name,a.see_price,a.im_qq,a.im_ww,a.tel,a.shop_http from ecm_store_17zwd a, ecm_store b where a.im_ww = b.im_ww and (a.shop_mall != b.shop_mall or a.floor != b.floor or a.address != b.address) limit 1000");
+        $rs = $store17zwd->query("select distinct a.store_id,a.shop_mall,a.floor,a.address,a.store_name,a.see_price,a.im_qq,a.im_ww,a.tel,a.shop_http from ecm_store_17zwd a, ecm_store b where a.im_ww = b.im_ww and (a.shop_mall != b.shop_mall or a.floor != b.floor or a.address != b.address) order by a.shop_mall, a.floor limit 1000");
         $this->ajaxReturn($rs);
     }
 
     public function findUnused() {
         $store17zwd = new Model();
-        $rs = $store17zwd->query("select store_id, shop_mall, floor, address, store_name, see_price, im_qq, im_ww, tel, shop_http from ecm_store s where not exists (select 1 from ecm_store_17zwd v where s.im_ww = v.im_ww) and (datapack is null or datapack != 'keep') limit 1000");
+        $rs = $store17zwd->query("select store_id, shop_mall, floor, address, store_name, see_price, im_qq, im_ww, tel, shop_http from ecm_store s where not exists (select 1 from ecm_store_17zwd v where s.im_ww = v.im_ww) and (datapack is null or datapack != 'keep') order by shop_mall, floor limit 1000");
         $this->ajaxReturn($rs);
     }
 
