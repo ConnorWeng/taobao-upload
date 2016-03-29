@@ -24,7 +24,8 @@ class IndexAction extends CommonAction {
             } else {
                 Util::changeTaoAppkey($taobaoItemId);
             }
-            header('location: https://'.C('oauth_uri').'/authorize?response_type=code&client_id='.session('taobao_app_key').'&redirect_uri=http://'.C('redirect_host').urlencode(C('redirect_path')).'&state='.I('newStore').'&view=web');
+            // TODO: remove new store functionality
+            header('location: https://'.C('oauth_uri').'/authorize?response_type=code&client_id='.session('taobao_app_key').'&redirect_uri=http://'.C('redirect_host').urlencode(C('redirect_path')).'&state='.C('jump_state').'&view=web');
         } else {
             U('Taobao/Index/authBack', null, true, true, false);
         }

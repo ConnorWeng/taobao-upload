@@ -20,10 +20,18 @@ return array(
     'gateway_uri' => 'http://gw.api.tbsandbox.com/router/rest',
     //*/
     /* production
+    'oauth_uri' => 'oauth.taobao.com',
     'redirect_host' => '120.26.196.147',
     'redirect_path' => '/index.php',
-    'oauth_uri' => 'oauth.taobao.com',
+    'jump_state' => '',
     'stable_taobao_app_key' => '21357243',
     'stable_taobao_secret_key' => '244fd3a0b1f554046a282dd9b673b386',
+
+    // other app
+    // 'redirect_host' => '112.124.54.204',
+    // 'redirect_path' => '/taobao',
+    // 'jump_state' => '51zwd'.urlencode('*yjsc'),
+    // 'stable_taobao_app_key' => '21336502',
+    // 'stable_taobao_secret_key' => '608b67adaba42db656de726b7cf2549f',
     //*/
 );
