@@ -22,7 +22,7 @@ class IndexAction extends CommonAction {
             if (I('taobaoAppKey') != '') {
                 Util::changeTaoAppkey($taobaoItemId, I('taobaoAppKey'));
             } else {
-                Util::changeTaoAppkey($taobaoItemId);
+                Util::changeTaoAppkey($taobaoItemId, 'trival');
             }
             // TODO: remove new store functionality
             header('location: https://'.C('oauth_uri').'/authorize?response_type=code&client_id='.session('taobao_app_key').'&redirect_uri=http://'.C('redirect_host').urlencode(C('redirect_path')).'&state='.C('jump_state').'&view=web');
