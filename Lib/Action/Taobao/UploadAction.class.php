@@ -503,7 +503,7 @@ class UploadAction extends CommonAction {
                     }
                 }
             } else {
-                $html .= '<input name="cp_'.$prop->pid.'" id="prop_'.$prop->pid.'" value="">';
+                $html .= '<input name="cp_'.$prop->pid.'" id="prop_'.$prop->pid.'" value="'.$this->getPropValue($propsName, ''.$prop->pid).'">';
             }
             $html .= '</li>';
         }
@@ -972,5 +972,15 @@ class UploadAction extends CommonAction {
         }
         $xml .= '</field></complex-values></field><field id="update_fields" name="更新字段列表" type="multiCheck"><values><value>descForMobile</value></values></field></itemRule>';
         return $xml;
+    }
+
+    private function getPropValue($propsName, $pid) {
+        $props = explode(';', $propsName);
+        foreach ($props as $prop) {
+            if (strpos($prop, $pid) !== false) {
+                 $parts = explode(':', $prop);
+                return $parts[3];
+            }
+        }
     }
 }
