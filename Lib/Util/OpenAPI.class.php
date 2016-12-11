@@ -525,6 +525,21 @@ class OpenAPI {
         }
     }
 
+    public static function addTaobaoPictureCategoryWithoutVerify($pictureCategoryName, $parentId) {
+        $c = new TopClient;
+        $c->appkey = C('stable_taobao_app_key');
+        $c->secretKey = C('stable_taobao_secret_key');
+        $req = new PictureCategoryAddRequest;
+        $req->setPictureCategoryName($pictureCategoryName);
+        $req->setParentId($parentId);
+        $resp = $c->execute($req, session('taobao_access_token'));
+        if (isset($resp->picture_category)) {
+            return $resp->picture_category;
+        } else {
+            self::dumpTaobaoApiError('addTaobaoPictureCategoryWithoutVerify', $resp);
+        }
+    }
+
     public static function getTaobaoPictureCategory($pictureCategoryName, $parentId) {
         if (self::needVerify()) {
             return 'verify';
@@ -533,6 +548,24 @@ class OpenAPI {
             return 'timeout';
         }
         $c = self::initTopClient();
+        $req = new PictureCategoryGetRequest;
+        $req->setPictureCategoryName($pictureCategoryName);
+        $req->setParentId($parentId);
+        $resp = $c->execute($req, session('taobao_access_token'));
+        if (isset($resp->picture_categories) || count($resp) === 0 ) {
+            return $resp->picture_categories;
+        } else {
+            self::dumpTaobaoApiError('getTaobaoPictureCategory', $resp);
+            if ($resp->code == '28') {
+                return 'timeout';
+            }
+        }
+    }
+
+    public static function getTaobaoPictureCategoryWithoutVerify($pictureCategoryName, $parentId) {
+        $c = new TopClient;
+        $c->appkey = C('stable_taobao_app_key');
+        $c->secretKey = C('stable_taobao_secret_key');
         $req = new PictureCategoryGetRequest;
         $req->setPictureCategoryName($pictureCategoryName);
         $req->setParentId($parentId);

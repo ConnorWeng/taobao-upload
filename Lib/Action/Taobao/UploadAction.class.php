@@ -651,6 +651,40 @@ class UploadAction extends CommonAction {
         return $outerId = $seller.'_P'.$price.'_'.$huoHao.'#';
     }
 
+    public function make51PictureCategoryFromAndroid() {
+        session('use_db', 'mall');
+        session('taobao_access_token', I('access_token'));
+        Util::changeDatabaseAccordingToSession();
+        $pcid = $this->make51PictureCategoryWithoutVerify();
+        $this->ajaxReturn($pcid);
+    }
+
+    public function make51PictureCategoryWithoutVerify() {
+        $rootPcid = $this->getTaobaoPictureCategoryWithoutVerify('51zwd_pics', 0);
+        if (!$rootPcid) {
+            $rootPcid = $this->addTaobaoPictureCategoryWithoutVerify('51zwd_pics', 0);
+        }
+        return $rootPcid;
+    }
+
+    public function addTaobaoPictureCategoryWithoutVerify($pictureCategoryName, $parentId) {
+        $pictureCategory = $this->checkApiResponse(OpenAPI::addTaobaoPictureCategoryWithoutVerify($pictureCategoryName, $parentId));
+        if ($pictureCategory) {
+            return ''.$pictureCategory->picture_category_id;
+        } else {
+            return '';
+        }
+    }
+
+    public function getTaobaoPictureCategoryWithoutVerify($pictureCategoryName, $parentId) {
+        $pictureCategory = $this->checkApiResponse(OpenAPI::getTaobaoPictureCategoryWithoutVerify($pictureCategoryName, $parentId));
+        if ($pictureCategory) {
+            return ''.$pictureCategory->picture_category->picture_category_id;
+        } else {
+            return '';
+        }
+    }
+
     public function make51PictureCategory() {
         $rootPcid = $this->getTaobaoPictureCategory('51zwd_pics', 0);
         if (!$rootPcid) {
