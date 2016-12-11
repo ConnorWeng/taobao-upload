@@ -219,8 +219,10 @@ class UploadAction extends CommonAction {
     }
 
     public function uploadItemFromAndroid() {
+        session('use_db', 'mall');
+        Util::changeDatabaseAccordingToSession();
         $taobaoItemId = I('taobaoItemId');
-        $taobaoItem = $this->checkApiResponse(OpenAPI::getTaobaoItemWithoutVerify($taobaoItemId));
+        $taobaoItem = OpenAPI::getTaobaoItemFromDatabase($taobaoItemId);
         $imagePath = Util::downloadImage($taobaoItem->pic_url);
         $image = '@'.$imagePath;
         $skuProperties = '';
