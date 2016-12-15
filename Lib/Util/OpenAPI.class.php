@@ -588,6 +588,17 @@ class OpenAPI {
             return 'timeout';
         }
         $c = self::initTopClient();
+        return self::_uploadTaobaoPicture($c, $pictureCategoryId, $img, $imageInputTitle);
+    }
+
+    public static function uploadTaobaoPictureWithoutVerify($pictureCategoryId, $img, $imageInputTitle) {
+        $c = new TopClient;
+        $c->appkey = C('stable_taobao_app_key');
+        $c->secretKey = C('stable_taobao_secret_key');
+        return self::_uploadTaobaoPicture($c, $pictureCategoryId, $img, $imageInputTitle);
+    }
+
+    public static function _uploadTaobaoPicture($c, $pictureCategoryId, $img, $imageInputTitle) {
         $req = new PictureUploadRequest;
         $req->setPictureCategoryId($pictureCategoryId);
         $req->setImg('@'.$img);

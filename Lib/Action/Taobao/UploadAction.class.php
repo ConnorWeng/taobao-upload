@@ -732,6 +732,30 @@ class UploadAction extends CommonAction {
         }
     }
 
+    public function uploadTaobaoPictureFromAndroid() {
+        session('use_db', 'mall');
+        session('taobao_access_token', I('access_token'));
+        Util::changeDatabaseAccordingToSession();
+        session_write_close();
+        $imgUrl = I('imgUrl');
+        $pictureCategoryId = I('pictureCategoryId');
+        $imgTitle = substr($imgUrl, strrpos($imgUrl, '/') + 1);
+        $imgPath = Util::downloadImage($imgUrl, false);
+        $taobaoPicture = $this->checkApiResponseAjax(OpenAPI::uploadTaobaoPictureWithoutVerify($pictureCategoryId, $imgPath, $imgTitle));
+        ob_end_clean();
+        unlink($imgPath);
+        if ($taobaoPicture) {
+            $data['newImgUrl'] = ''.$taobaoPicture->picture_path;
+            $data['oldImgUrl'] = $imgUrl;
+            return $this->ajaxReturn($data, 'JSON');
+        } else {
+            $data['error'] = true;
+            $data['newImgUrl'] = '';
+            $data['oldImgUrl'] = $imgUrl;
+            return $this->ajaxReturn($data, 'JSON');
+        }
+    }
+
     public function downloadPicture() {
         session_write_close();
         $imgUrl = I('imgUrl');
