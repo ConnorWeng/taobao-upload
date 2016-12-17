@@ -249,7 +249,7 @@ class UploadAction extends CommonAction {
             'Type' => 'fixed',
             'StuffStatus' => 'new',
             'Title' => $taobaoItem->title,
-            'Desc' => $taobaoItem->desc,
+            'Desc' => $_REQUEST['desc'],
             'LocationState' => '广东',
             'LocationCity' => '广州',
             'Cid' => intval($taobaoItem->cid),
