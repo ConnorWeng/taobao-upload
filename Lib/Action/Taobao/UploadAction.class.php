@@ -222,6 +222,7 @@ class UploadAction extends CommonAction {
         session('use_db', 'mall');
         Util::changeDatabaseAccordingToSession();
         $taobaoItemId = I('taobaoItemId');
+        $price = I('price');
         $taobaoItem = OpenAPI::getTaobaoItemFromDatabase($taobaoItemId);
         $imagePath = Util::downloadImage($taobaoItem->pic_url);
         $image = '@'.$imagePath;
@@ -234,7 +235,7 @@ class UploadAction extends CommonAction {
             $sku = $taobaoItem->skus->sku[$i];
             $skuProperties .= $sku->properties.',';
             $skuQuantities .= $sku->quantity.',';
-            $skuPrices .= $sku->price.',';
+            $skuPrices .= $price.',';
             $skuOuterIds .= ',';
         }
         if (strlen($skuProperties) > 0) {
@@ -245,10 +246,10 @@ class UploadAction extends CommonAction {
         }
         $item = array(
             'Num' => '30',
-            'Price' => $taobaoItem->price,
+            'Price' => $price,
             'Type' => 'fixed',
             'StuffStatus' => 'new',
-            'Title' => $taobaoItem->title,
+            'Title' => I('title'),
             'Desc' => $_REQUEST['desc'],
             'LocationState' => '广东',
             'LocationCity' => '广州',
