@@ -370,10 +370,21 @@ class OpenAPI {
         if (!session('?taobao_access_token')) {
             return 'timeout';
         }
+        $c = self::initTopClient();
+        return self::_uploadTaobaoItemImg($c, $numIid, $image, $position, $sessionKey);
+    }
+
+    public static function uploadTaobaoItemImgWithoutVerify($numIid, $image, $position, $sessionKey = null) {
+        $c = new TopClient;
+        $c->appkey = C('stable_taobao_app_key');
+        $c->secretKey = C('stable_taobao_secret_key');
+        return self::_uploadTaobaoItemImg($c, $numIid, $image, $position, $sessionKey);
+    }
+
+    public static function _uploadTaobaoItemImg($c, $numIid, $image, $position, $sessionKey = null) {
         if ($sessionKey == null) {
             $sessionKey = session('taobao_access_token');
         }
-        $c = self::initTopClient();
         $req = new ItemImgUploadRequest;
         $req->setNumIid($numIid);
         $req->setImage('@'.$image);

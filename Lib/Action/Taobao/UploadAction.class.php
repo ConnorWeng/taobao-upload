@@ -271,6 +271,7 @@ class UploadAction extends CommonAction {
         $uploadedItem = OpenAPI::addTaobaoItemWithoutVerify($item, I('access_token'));
         unlink($imagePath);
         if (isset($uploadedItem->num_iid)) {
+            $this->uploadItemImagesFromAndroid((float)$uploadedItem->num_iid, $taobaoItem->item_imgs);
             $this->ajaxReturn('true');
         } else {
             $this->ajaxReturn('false');
@@ -832,6 +833,26 @@ class UploadAction extends CommonAction {
                 }
                 unlink($picPath);
             }
+        }
+    }
+
+    private function uploadItemImagesFromAndroid($numIid, $itemImgs, $sessionKey = null) {
+        $itemImgsArray = $itemImgs->item_img;
+        $jumpImgCount = 0;
+        $i = 2;
+        foreach ($itemImgsArray as $itemImg) {
+            $picUrl = $itemImg->url;
+            if ($picUrl != '') {
+                $picPath = Util::downloadImage($picUrl);
+                $filesize = filesize($picPath);
+                if ($filesize !== false && $filesize > 10240) {
+                    $itemImg = $this->checkApiResponse(OpenAPI::uploadTaobaoItemImgWithoutVerify($numIid, $picPath, $i - 1 - $jumpImgCount, $sessionKey));
+                } else {
+                    $jumpImgCount += 1;
+                }
+                unlink($picPath);
+            }
+            $i++;
         }
     }
 
