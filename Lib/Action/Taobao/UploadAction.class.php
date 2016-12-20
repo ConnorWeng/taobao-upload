@@ -272,7 +272,7 @@ class UploadAction extends CommonAction {
         $uploadedItem = OpenAPI::addTaobaoItemWithoutVerify($item, I('access_token'));
         unlink($imagePath);
         if (isset($uploadedItem->num_iid)) {
-            $this->uploadItemImagesFromAndroid((float)$uploadedItem->num_iid, $taobaoItem->item_imgs);
+            $this->uploadItemImagesFromAndroid((float)$uploadedItem->num_iid, $taobaoItem->item_imgs, I('access_token'));
             $this->ajaxReturn('true');
         } else {
             $this->ajaxReturn('false');

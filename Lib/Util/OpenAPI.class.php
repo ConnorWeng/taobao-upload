@@ -41,6 +41,7 @@ class OpenAPI {
             $taobaoItem->setDelistTime('2099-12-10 00:00:00');
             $taobaoItem->setStoreId($result['store_id']);
             $taobaoItem->setGoodHttp($result['good_http']);
+            $taobaoItem->setProps(self::parseProps($result));
         }
         return $taobaoItem;
     }
@@ -55,6 +56,20 @@ class OpenAPI {
             }
         }
         return $categoryId;
+    }
+
+    private static function parseProps($good) {
+        $props = '';
+        $attrIds = split(',', $good['attr_ids']);
+        if (count($attrIds) > 0) {
+            $valueIds = split(',', $good['value_ids']);
+            for ($i = 0; $i < count($attrIds); $i++) {
+                if ($attrIds[$i] != '1') {
+                    $props .= $attrIds[$i].':'.$valueIds[$i].';';
+                }
+            }
+        }
+        return $props;
     }
 
     private static function parseItemImgs($good) {

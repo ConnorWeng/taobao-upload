@@ -20,6 +20,7 @@ class TaobaoItem {
     public $outer_id;
     public $num_iid;
     public $good_http;
+    public $props;
 
     public function __construct() {
         $this->cid = '50000671';
@@ -38,6 +39,7 @@ class TaobaoItem {
         $this->outer_id = -1;
         $this->num_iid = -1;
         $this->good_http = '';
+        $this->props = '';
     }
 
     public function setCid($value) {
@@ -102,6 +104,10 @@ class TaobaoItem {
 
     public function setGoodHttp($goodHttp) {
         $this->good_http = $goodHttp;
+    }
+
+    public function setProps($props) {
+        $this->props = $props;
     }
 }
 
