@@ -224,6 +224,8 @@ class UploadAction extends CommonAction {
         $taobaoItemId = I('taobaoItemId');
         $price = I('price');
         $taobaoItem = OpenAPI::getTaobaoItemFromDatabase($taobaoItemId);
+        $props = OpenAPI::getTaobaoItemPropsWithoutVerify($taobaoItem->cid);
+        $newProps = $this->makeSureAllPropsExists($taobaoItem->props, $props);
         $imagePath = Util::downloadImage($taobaoItem->pic_url);
         $image = '@'.$imagePath;
         $skuProperties = '';
@@ -255,7 +257,7 @@ class UploadAction extends CommonAction {
             'LocationCity' => '广州',
             'Cid' => intval($taobaoItem->cid),
             'ApproveStatus' => 'onsale',
-            'Props' => $taobaoItem->props,
+            'Props' => $newProps,
             'FreightPayer' => 'seller',
             'ValidThru' => '14',
             'HasInvoice' => 'true',
@@ -277,6 +279,20 @@ class UploadAction extends CommonAction {
         } else {
             $this->ajaxReturn('false');
         }
+    }
+
+    private function makeSureAllPropsExists($nowProps, $taobaoProps) {
+        $newProps = $nowProps;
+        $count = count($taobaoProps->item_prop);
+        for ($i = 0; $i < $count; $i++) {
+            $taobaoProp = $taobaoProps->item_prop[$i];
+            if (''.$taobaoProp->must === 'true' && strpos($nowProps, ''.$taobaoProp->pid) === false) {
+                $p = ''.$taobaoProp->pid;
+                $v = ''.$taobaoProp->prop_values->prop_value[0]->vid;
+                $newProps .= $p.':'.$v.';';
+            }
+        }
+        return $newProps;
     }
 
     private function recordTaobaoItemIdToSession($taobaoItemId) {
@@ -837,12 +853,13 @@ class UploadAction extends CommonAction {
         }
     }
 
-    private function uploadItemImagesFromAndroid($numIid, $itemImgs, $sessionKey = null) {
+private function uploadItemImagesFromAndroid($numIid, $itemImgs, $sessionKey = null) {
         $itemImgsArray = $itemImgs->item_img;
         $jumpImgCount = 0;
         $i = 2;
         foreach ($itemImgsArray as $itemImg) {
             $picUrl = $itemImg->url;
+            $picUrl = str_replace('460x460', '560x560', $picUrl);
             if ($picUrl != '') {
                 $picPath = Util::downloadImage($picUrl);
                 $filesize = filesize($picPath);
