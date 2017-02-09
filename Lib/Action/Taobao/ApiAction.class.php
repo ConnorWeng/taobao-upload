@@ -95,4 +95,120 @@ class ApiAction extends CommonAction {
         }
         return $new;
     }
+
+    public function getItemInfo() {
+        Util::changeDatabase('mall');
+        $goodsId = I('goodsId');
+        $taobaoItem = OpenAPI::getTaobaoItemFromDatabase($goodsId);
+        if ($taobaoItem->title === 'null') {
+            $data['error'] = 1;
+            $data['msg'] = '';
+            return $this->ajaxReturn($data);
+        }
+
+        $upload = new UploadAction();
+        $storeInfo = $upload->getStoreInfo($taobaoItem);
+        $outerId = $upload->makeOuterId($taobaoItem->title, $taobaoItem->price, $storeInfo);
+        $taobaoItem->setOuterId($outerId);
+        $taobaoItem->setPropsName($this->propsNameWithoutNameAndValue($taobaoItem->props_name));
+        $taobaoItem->setNumIid(Util::getNumIidFromUrl($taobaoItem->good_http));
+
+        $itemImages = array();
+        for ($i = 0; $i < count($taobaoItem->item_imgs->item_img); $i++) {
+            $itemImages[] = array(
+                'id' => $i,
+                'position' => $i,
+                'url' => $taobaoItem->item_imgs->item_img[$i]->url);
+        }
+
+        $propsName = array();
+        $attrNames = explode(',', $taobaoItem->detail['attr_names']);
+        $attrValues = explode(',', $taobaoItem->detail['attr_values']);
+        for ($i = 0; $i < count($attrNames); $i++) {
+            $propsName[] = array(
+                'key' => $attrNames[$i],
+                'value' => $attrValues[$i]);
+        }
+
+        $shop = array(
+            'name' => $storeInfo['store_name'],
+            'mobile' => $storeInfo['tel'],
+            'weixin' => $storeInfo['im_wx'],
+            'wangwang' => $storeInfo['im_ww'],
+            'qq' => $storeInfo['im_qq'],
+            'address' => $storeInfo['mk_name'].'-'.$storeInfo['address'],
+            'category' => $storeInfo['business_scope']);
+
+        $data['success'] = 1;
+        $data['data'] = array(
+            'goodsId' => $goodsId,
+            'title' => $taobaoItem->title,
+            'price' => $taobaoItem->price,
+            'tbPrice' => number_format($this->make_price($taobaoItem->price, $storeInfo['see_price'], $taobaoItem->title), 2, '.', ''),
+            'tbUrl' => 'http://item.taobao.com/item.htm?id='.$taobaoItem->num_iid,
+            'num_iid' => $taobaoItem->num_iid,
+            'market_id' => '',
+            'category_id' => $taobaoItem->cid,
+            'teams' => array(),
+            'goodsStatus' => 0,
+            'desc' => $taobaoItem->desc,
+            'itemImages' => $itemImages,
+            'prices' => $taobaoItem->skus->sku,
+            'shop' => $shop,
+            'propsName' => $propsName,
+            'goodsAuth' => 0,
+            'numIid' => $taobaoItem->num_iid);
+
+        $this->ajaxReturn($data);
+    }
+
+    /*根据现有价格计算出淘宝价*/
+    function make_price($price, $seePrice, $title = null) {
+        $finalPrice = $rawPrice = floatval ( $price );
+        if (strpos ( $seePrice, '减半' ) !== false)
+        {
+            $finalPrice = $rawPrice * 2;
+        }
+        else if (strpos ( $seePrice, 'P' ) !== false || $seePrice == '减P' || $seePrice == '减p')
+        {
+            $regexP = '/[Pp](\d+)/';
+            $regexF = '/[Ff](\d+)/';
+            if (preg_match ( $regexP, $title, $matches ) == 1)
+            {
+                $finalPrice = floatval ( $matches [1] );
+            }
+            else if (preg_match ( $regexF, $title, $matches ) == 1)
+            {
+                $finalPrice = floatval ( $matches [1] );
+            }
+        }
+        else if (strpos ( $seePrice, '减' ) === 0)
+        {
+            $finalPrice = $rawPrice + floatval ( mb_substr ( $seePrice, 1, mb_strlen ( $seePrice, 'utf-8' ) - 1, 'utf-8' ) );
+        }
+        else if (strpos ( $seePrice, '实价' ) !== false)
+        {
+            $finalPrice = $rawPrice;
+        }
+        else if (strpos ( $seePrice, '*' ) === 0)
+        {
+            $finalPrice = $rawPrice / floatval ( mb_substr ( $seePrice, 1, mb_strlen ( $seePrice, 'utf-8' ) - 1, 'utf-8' ) );
+        }
+        else if (strpos ( $seePrice, '打' ) === 0)
+        {
+            $finalPrice = $rawPrice / (floatval ( mb_substr ( $seePrice, 1, mb_strlen ( $seePrice, 'utf-8' ) - 1, 'utf-8' ) ) / 10);
+        }
+        else if (strpos ( $seePrice, '折' ) === mb_strlen ( $seePrice, 'utf-8' ) - 1)
+        {
+            $finalPrice = $rawPrice / (floatval ( mb_substr ( $seePrice, 0, mb_strlen ( $seePrice, 'utf-8' ) - 1, 'utf-8' ) ) / 10);
+        }
+        if (is_numeric ( $finalPrice ))
+        {
+            return $finalPrice;
+        }
+        else
+        {
+            return $price;
+        }
+    }
 }

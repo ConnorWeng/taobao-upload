@@ -21,6 +21,7 @@ class TaobaoItem {
     public $num_iid;
     public $good_http;
     public $props;
+    public $detail;
 
     public function __construct() {
         $this->cid = '50000671';
@@ -108,6 +109,10 @@ class TaobaoItem {
 
     public function setProps($props) {
         $this->props = $props;
+    }
+
+    public function setDetail($detail) {
+        $this->detail = $detail;
     }
 }
 

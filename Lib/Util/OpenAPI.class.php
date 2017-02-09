@@ -42,6 +42,7 @@ class OpenAPI {
             $taobaoItem->setStoreId($result['store_id']);
             $taobaoItem->setGoodHttp($result['good_http']);
             $taobaoItem->setProps(self::parseProps($result));
+            $taobaoItem->setDetail($result);
         }
         return $taobaoItem;
     }
