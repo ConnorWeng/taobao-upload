@@ -153,7 +153,7 @@ class ApiAction extends CommonAction {
             'goodsStatus' => 0,
             'desc' => $taobaoItem->desc,
             'itemImages' => $itemImages,
-            'prices' => $taobaoItem->skus->sku,
+            'prices' => $this->make_prices($taobaoItem->skus->sku),
             'shop' => $shop,
             'propsName' => $propsName,
             'goodsAuth' => 0,
@@ -210,5 +210,43 @@ class ApiAction extends CommonAction {
         {
             return $price;
         }
+    }
+
+    private function make_prices($skus) {
+        $array = array();
+        foreach($skus as $sku) {
+            $new = array();
+            $new['price'] = $sku->price;
+            $size = $this->get_size($sku->properties_name);
+            if ($size) {
+                $new['size'] = $size;
+            }
+            $color = $this->get_color($sku->properties_name);
+            if ($color) {
+                $new['color'] = $color;
+            }
+            array_push($array, $new);
+        }
+        return $array;
+    }
+
+    private function get_color($properties_name) {
+        return $this->get_value_in_properties_name($properties_name, '颜');
+    }
+
+    private function get_size($properties_name) {
+        return $this->get_value_in_properties_name($properties_name, '尺');
+    }
+
+    private function get_value_in_properties_name($properties_name, $key) {
+        if (strpos($properties_name, $key) !== false) {
+            $parts = explode(';', $properties_name);
+            for ($i = 0; $i < count($parts); $i++) {
+                if (strpos($parts[$i], $key) !== false) {
+                    return explode(':', $parts[$i])[3];
+                }
+            }
+        }
+        return false;
     }
 }
