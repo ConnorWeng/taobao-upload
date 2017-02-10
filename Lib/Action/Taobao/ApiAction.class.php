@@ -123,7 +123,7 @@ class ApiAction extends CommonAction {
 
         $propsName = array();
         $attrNames = explode(',', $taobaoItem->detail['attr_names']);
-        $attrValues = explode(',', $taobaoItem->detail['attr_values']);
+        $attrValues = explode('*|*', $taobaoItem->detail['attr_values']);
         for ($i = 0; $i < count($attrNames); $i++) {
             $propsName[] = array(
                 'key' => $attrNames[$i],
