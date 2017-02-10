@@ -125,8 +125,12 @@ class ApiAction extends CommonAction {
         $attrNames = explode(',', $taobaoItem->detail['attr_names']);
         $attrValues = explode('*|*', $taobaoItem->detail['attr_values']);
         for ($i = 0; $i < count($attrNames); $i++) {
+            $attrName = $attrNames[$i];
+            if (strpos($attrName, '年份季节') !== false) {
+                $attrName = '年份季节';
+            }
             $propsName[] = array(
-                'key' => $attrNames[$i],
+                'key' => $attrName,
                 'value' => $attrValues[$i]);
         }
 
