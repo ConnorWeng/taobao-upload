@@ -129,9 +129,10 @@ class ApiAction extends CommonAction {
             if (strpos($attrName, '年份季节') !== false) {
                 $attrName = '年份季节';
             }
+            $attrValue = str_replace(',', ';', $attrValues[$i]);
             $propsName[] = array(
                 'key' => $attrName,
-                'value' => $attrValues[$i]);
+                'value' => $attrValue);
         }
 
         $shop = array(
