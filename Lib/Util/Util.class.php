@@ -322,6 +322,16 @@ class Util {
     public static function getImageExt($imgUrl) {
         return substr($imgUrl, strrpos($imgUrl, '.') + 1);
     }
+
+    public static function formatItemImg($picUrl) {
+        $result = preg_match('/.+_(\d\d\dx\d\d\d)\.jpg/', $picUrl, $matches);
+        if ($result === 1) {
+            return str_replace($matches[1], '560x560', $picUrl);
+        } else {
+            return $picUrl.'_560x560.jpg';
+        }
+    }
+
 }
 
 ?>

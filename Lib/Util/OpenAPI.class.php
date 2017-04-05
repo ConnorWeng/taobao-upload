@@ -77,7 +77,7 @@ class OpenAPI {
         $itemImgs = new ItemImgs;
         $images = explode(',', $good['image_urls']);
         for ($i = 0; $i < count($images); $i++) {
-            $itemImgs->addItemImg(new ItemImg($images[$i]));
+            $itemImgs->addItemImg(new ItemImg(Util::formatItemImg($images[$i])));
         }
         return $itemImgs;
     }
@@ -86,7 +86,7 @@ class OpenAPI {
         if (strpos($image, 'data/files') !== false) {
             return 'http://mall.51zwd.com/'.$image;
         } else {
-            return $image;
+            return Util::formatItemImg($image);
         }
     }
 

@@ -856,14 +856,13 @@ class UploadAction extends CommonAction {
 private function uploadItemImagesFromAndroid($numIid, $itemImgs, $sessionKey = null) {
         $itemImgsArray = $itemImgs->item_img;
         $jumpImgCount = 0;
-        $i = 0;
+        $i = 1;
         foreach ($itemImgsArray as $itemImg) {
             $picUrl = $itemImg->url;
-            $picUrl = str_replace('460x460', '560x560', $picUrl);
-            if ($picUrl != '') {
+            if ($picUrl != '' && $i != 1) { // 第一张图片是主图，所以从第二张开始上传
                 $picPath = Util::downloadImage($picUrl);
                 $filesize = filesize($picPath);
-                if ($filesize !== false && $filesize > 10240 && $i < 4) {
+                if ($filesize !== false && $filesize > 10240 && $i < 6) {
                     $itemImg = $this->checkApiResponse(OpenAPI::uploadTaobaoItemImgWithoutVerify($numIid, $picPath, $i - $jumpImgCount, $sessionKey));
                 } else {
                     $jumpImgCount += 1;
