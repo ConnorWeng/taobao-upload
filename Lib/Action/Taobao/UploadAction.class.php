@@ -856,19 +856,21 @@ class UploadAction extends CommonAction {
 private function uploadItemImagesFromAndroid($numIid, $itemImgs, $sessionKey = null) {
         $itemImgsArray = $itemImgs->item_img;
         $jumpImgCount = 0;
-        $i = 2;
+        $i = 0;
         foreach ($itemImgsArray as $itemImg) {
             $picUrl = $itemImg->url;
             $picUrl = str_replace('460x460', '560x560', $picUrl);
             if ($picUrl != '') {
                 $picPath = Util::downloadImage($picUrl);
                 $filesize = filesize($picPath);
-                if ($filesize !== false && $filesize > 10240) {
-                    $itemImg = $this->checkApiResponse(OpenAPI::uploadTaobaoItemImgWithoutVerify($numIid, $picPath, $i - 1 - $jumpImgCount, $sessionKey));
+                if ($filesize !== false && $filesize > 10240 && $i < 4) {
+                    $itemImg = $this->checkApiResponse(OpenAPI::uploadTaobaoItemImgWithoutVerify($numIid, $picPath, $i - $jumpImgCount, $sessionKey));
                 } else {
                     $jumpImgCount += 1;
                 }
                 unlink($picPath);
+            } else {
+                $jumpImgCount += 1;
             }
             $i++;
         }

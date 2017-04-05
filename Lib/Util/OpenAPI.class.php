@@ -411,7 +411,7 @@ class OpenAPI {
             $taoapi->appKeySuccess(session('current_taobao_app_key_id'));
             return $resp->item_img;
         } else {
-            self::dumpTaobaoApiError('uploadTaobaoItemImg', $resp);
+            self::dumpTaobaoApiError('uploadTaobaoItemImg['.$position.']', $resp);
         }
     }
 
