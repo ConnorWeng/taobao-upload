@@ -486,6 +486,8 @@ class UploadAction extends CommonAction {
                 $hasChildProps = false;
                 if (isset($prop->prop_values)) {
                     $valueCount = count($prop->prop_values->prop_value);
+                    // 品牌属性会返回上万个备选项，导致循环执行需要10s左右，因为广州大部分服装都是三无产品，所以限制品牌数量为100也无所谓(大部分属性备选项都在100个以下)，在页面上也可以自己填写品牌
+                    if ($valueCount > 100) $valueCount = 100;
                     for ($j = 0; $j < $valueCount; $j++) {
                         $value = $prop->prop_values->prop_value[$j];
                         $optionValue = $prop->pid.':'.$value->vid;
